@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: A Guide to Diabetes Treatments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .details-section {
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .details-section.open {
+            max-height: 600px; /* Increased height for more content */
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-2">Understanding Your Diabetes Treatment</h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">A guide to the different types of medicines that help manage blood sugar.</p>
+        </header>
+
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-md mb-8" role="alert">
+            <p class="font-bold">Your Plan is Unique</p>
+            <p>Your doctor will create a treatment plan just for you. It may include one or more of these medicines, along with healthy eating and physical activity. This guide is for information only—always follow your doctor's advice.</p>
+        </div>
+
+        <div id="treatments-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- JS will populate this grid -->
+        </div>
+        
+        <footer class="mt-12 text-center bg-white p-6 rounded-lg shadow-md">
+            <p class="font-semibold text-slate-800">This is a simplified guide. For complete information, please visit the official page from the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK).</p>
+            <a href="https://www.niddk.nih.gov/health-information/diabetes/overview/insulin-medicines-treatments" target="_blank" class="mt-3 inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Visit NIDDK.NIH.GOV</a>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const treatmentsData = [
+            {
+                id: 'insulin',
+                title: 'Insulin',
+                icon: '💉',
+                color: 'border-blue-500',
+                brandNames: 'Lantus, Humalog, Novolog, Tresiba',
+                summary: 'The most common treatment for Type 1 diabetes, also used for Type 2. It replaces the hormone your body isn\'t making enough of.',
+                details: {
+                    'Mechanism of Action': 'Insulin acts like a key, allowing glucose from the blood to enter your body\'s cells to be used for energy. This directly lowers blood sugar levels.',
+                    'How it\'s taken': 'Usually injected with a syringe, pen, or pump. Comes in different types: rapid-, short-, intermediate-, and long-acting.',
+                    'Common Side Effects': ['Low blood sugar (hypoglycemia)', 'Weight gain', 'Skin reactions or lumps at the injection site.'],
+                    'Important Considerations': ['The main risk is hypoglycemia. It\'s crucial to know the signs (shakiness, sweating, confusion) and how to treat it.', 'Alcohol and some other medications can increase the risk of low blood sugar.']
+                }
+            },
+            {
+                id: 'metformin',
+                title: 'Metformin',
+                icon: '💊',
+                color: 'border-teal-500',
+                brandNames: 'Glucophage, Fortamet, Glumetza',
+                summary: 'Often the first pill prescribed for Type 2 diabetes. It helps your body\'s own insulin work better.',
+                details: {
+                    'Mechanism of Action': 'It works in two main ways: it reduces the amount of glucose your liver releases into the bloodstream, and it improves your cells\' sensitivity to the insulin you already make.',
+                    'How it\'s taken': 'As a pill, usually once or twice a day with meals to reduce stomach upset.',
+                    'Common Side Effects': ['Diarrhea, nausea, gas, and stomach upset are common, especially when first starting.', 'Long-term use can be associated with Vitamin B12 deficiency.'],
+                    'Important Considerations': ['Should be temporarily stopped before receiving certain imaging dyes (contrast).', 'Risk of a serious condition called lactic acidosis is very rare but increased with kidney problems or heavy alcohol use.']
+                }
+            },
+            {
+                id: 'glp1',
+                title: 'GLP-1 Receptor Agonists',
+                icon: '✍️',
+                color: 'border-purple-500',
+                brandNames: 'Ozempic, Trulicity, Rybelsus, Victoza',
+                summary: 'Injectable medicines (not insulin) that help control blood sugar and may lead to weight loss.',
+                details: {
+                    'Mechanism of Action': 'Mimics a natural gut hormone (GLP-1). It increases insulin release from the pancreas only when blood sugar is high, slows down how quickly food leaves your stomach (making you feel full), and can reduce appetite.',
+                    'How it\'s taken': 'Injectable, often taken once a week or once a day using a pen device. Some are now available as a pill.',
+                    'Common Side Effects': ['Nausea, vomiting, and diarrhea are common, but often improve over time.'],
+                    'Important Considerations': ['Because it slows digestion, it can affect how other oral medications are absorbed.', 'Has a boxed warning for a risk of thyroid C-cell tumors (seen in animal studies).']
+                }
+            },
+            {
+                id: 'sglt2',
+                title: 'SGLT2 Inhibitors',
+                icon: '💧',
+                color: 'border-sky-500',
+                brandNames: 'Jardiance, Farxiga, Invokana',
+                summary: 'Pills that help your kidneys remove sugar from the body. They also have heart and kidney benefits.',
+                details: {
+                    'Mechanism of Action': 'These drugs block a protein (SGLT2) in the kidneys, which prevents the kidneys from reabsorbing glucose back into the blood. The excess glucose is then passed out of the body in urine.',
+                    'How it\'s taken': 'As a pill, typically once a day.',
+                    'Common Side Effects': ['Increased risk of genital yeast infections and urinary tract infections (UTIs).', 'Can cause dehydration or dizziness.'],
+                    'Important Considerations': ['A rare but serious risk is diabetic ketoacidosis (DKA), which can happen even with normal blood sugar levels.', 'Increased risk of dehydration when taken with diuretics (water pills).']
+                }
+            },
+            {
+                id: 'dpp4',
+                title: 'DPP-4 Inhibitors',
+                icon: '💊',
+                color: 'border-amber-500',
+                brandNames: 'Januvia, Tradjenta, Onglyza',
+                summary: 'Pills that enhance your body\'s own system for controlling blood sugar, especially after meals.',
+                details: {
+                    'Mechanism of Action': 'They block the action of the DPP-4 enzyme. This allows the natural gut hormone GLP-1 to stay active longer, which helps the pancreas release insulin when blood sugar is high.',
+                    'How it\'s taken': 'As a pill, usually once a day.',
+                    'Common Side Effects': ['Generally well-tolerated. May include headache or cold-like symptoms.'],
+                    'Important Considerations': ['There is a rare risk of severe joint pain or pancreatitis (inflammation of the pancreas).', 'Fewer major drug interactions compared to some other classes.']
+                }
+            },
+             {
+                id: 'sulfonylureas',
+                title: 'Sulfonylureas & Glinides',
+                icon: '💊',
+                color: 'border-orange-500',
+                brandNames: 'Glucotrol, Amaryl, Glynase',
+                summary: 'Pills that stimulate your pancreas to release more insulin, regardless of your blood sugar level.',
+                details: {
+                    'Mechanism of Action': 'These medicines directly prompt the beta cells in your pancreas to produce more insulin.',
+                    'How it\'s taken': 'As a pill, taken before meals.',
+                    'Common Side Effects': ['High risk of low blood sugar (hypoglycemia).', 'Weight gain is common.'],
+                    'Important Considerations': ['The risk of hypoglycemia is increased with alcohol use, missed meals, or intense exercise.', 'Many other drugs can interact to increase this risk.']
+                }
+            }
+        ];
+
+        const grid = document.getElementById('treatments-grid');
+
+        grid.innerHTML = treatmentsData.map(item => `
+            <div class="card bg-white rounded-lg shadow-md p-6 flex flex-col border-t-4 ${item.color}">
+                <div class="flex items-start mb-2">
+                    <span class="text-4xl mr-4">${item.icon}</span>
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold text-slate-800">${item.title}</h3>
+                        <p class="text-sm text-slate-500 font-semibold">${item.brandNames}</p>
+                    </div>
+                </div>
+                <p class="text-slate-600 flex-grow">${item.summary}</p>
+                <div class="mt-4">
+                    <button class="toggle-details-btn text-blue-600 font-semibold hover:text-blue-800">Learn More ▼</button>
+                </div>
+                <div class="details-section">
+                    ${Object.entries(item.details).map(([key, value]) => {
+                        if (Array.isArray(value)) {
+                            return `<div class="mb-3">
+                                        <h4 class="font-semibold text-slate-800">${key}:</h4>
+                                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-1 mt-1">
+                                            ${value.map(point => `<li>${point}</li>`).join('')}
+                                        </ul>
+                                    </div>`;
+                        }
+                        return `<div class="mb-3">
+                                    <h4 class="font-semibold text-slate-800">${key}:</h4>
+                                    <p class="text-slate-600 text-sm mt-1">${value}</p>
+                                </div>`;
+                    }).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        grid.addEventListener('click', function(e) {
+            if (e.target.classList.contains('toggle-details-btn')) {
+                const button = e.target;
+                const details = button.parentElement.nextElementSibling;
+                
+                details.classList.toggle('open');
+                
+                if (details.classList.contains('open')) {
+                    button.textContent = 'Show Less ▲';
+                } else {
+                    button.textContent = 'Learn More ▼';
+                }
+            }
+        });
+    });
+    </script>
+</body>
+</html>
