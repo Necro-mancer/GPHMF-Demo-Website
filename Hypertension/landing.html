@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Hypertension: An Interactive Patient Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; color: #343A40; }
+        .nav-link { transition: color 0.3s, border-bottom-color 0.3s; padding-bottom: 4px; border-bottom: 2px solid transparent; }
+        .nav-link.active { color: #005F73; border-bottom-color: #005F73; font-weight: 600; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        main section { animation: fadeIn 0.5s ease-in-out; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .organ-btn { transition: transform 0.2s, box-shadow 0.2s; }
+        .organ-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+        .link-style { color: #005F73; text-decoration: underline; font-weight: 500; }
+        .link-style:hover { color: #003440; }
+        .med-card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .med-card.open .med-card-content {
+            max-height: 500px; /* Adjust as needed */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .med-card.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+        .arrow-icon {
+            transition: transform 0.3s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-[#005F73]">❤️ Your Guide to Hypertension</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#welcome" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-[#005F73]">Home</a>
+                        <a href="#numbers" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-[#005F73]">Your Numbers</a>
+                        <a href="#risks" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-[#005F73]">Complications</a>
+                        <a href="#management" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-[#005F73]">Lifestyle</a>
+                        <a href="#medication" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-[#005F73]">Medication</a>
+                         <a href="#living" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-[#005F73]">Living Well</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="welcome" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#003440]">Understanding High Blood Pressure</h1>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">This guide provides a comprehensive look at high blood pressure (hypertension), its effects on your body, and the powerful steps you can take—from lifestyle changes to understanding your medications—to manage it for a long, healthy life.</p>
+                <div class="mt-8">
+                    <a href="#numbers" class="inline-block bg-[#005F73] text-white font-bold py-3 px-8 rounded-full hover:bg-[#003440] transition duration-300">Start Learning</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="numbers" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Know Your Numbers, Know Your Risk</h2>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Understanding your blood pressure numbers is the first step toward taking control. This section helps you decode your readings and what they mean for your health, based on the latest <a href="https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings" target="_blank" rel="noopener noreferrer" class="link-style">official guidelines</a>.</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-center mb-4 text-[#003440]">Blood Pressure Categories</h3>
+                        <div class="chart-container">
+                            <canvas id="bpChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-6 md:p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#003440]">Check Your Category</h3>
+                        <p class="mb-4 text-gray-600">Enter your reading to see where you stand.</p>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="systolic" class="block text-sm font-medium text-gray-700">Systolic (Top Number)</label>
+                                <input type="number" id="systolic" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#005F73] focus:border-[#005F73]" placeholder="e.g., 120">
+                            </div>
+                            <div>
+                                <label for="diastolic" class="block text-sm font-medium text-gray-700">Diastolic (Bottom Number)</label>
+                                <input type="number" id="diastolic" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#005F73] focus:border-[#005F73]" placeholder="e.g., 80">
+                            </div>
+                            <button id="calculateBtn" class="w-full bg-[#005F73] text-white font-bold py-3 px-4 rounded-md hover:bg-[#003440] transition duration-300">Calculate</button>
+                        </div>
+                        <div id="result" class="mt-6 p-4 rounded-md bg-white min-h-[100px]">
+                            <p class="text-gray-500">Your result will appear here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="risks" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Long-Term Complications of Uncontrolled Hypertension</h2>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Uncontrolled high blood pressure silently damages arteries and vital organs over time. Click on an organ below to understand the specific risks and how HBP can affect your entire body.</p>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                     <h3 class="text-2xl font-semibold text-center mb-6 text-[#003440]">Click an Organ to Learn More</h3>
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <button class="organ-btn p-4 bg-red-100 rounded-lg" data-organ="heart">
+                            <span class="text-4xl">❤️</span>
+                            <span class="block mt-2 font-semibold text-red-800">Heart</span>
+                        </button>
+                        <button class="organ-btn p-4 bg-blue-100 rounded-lg" data-organ="brain">
+                            <span class="text-4xl">🧠</span>
+                            <span class="block mt-2 font-semibold text-blue-800">Brain</span>
+                        </button>
+                        <button class="organ-btn p-4 bg-green-100 rounded-lg" data-organ="kidneys">
+                             <span class="text-4xl">💧</span>
+                            <span class="block mt-2 font-semibold text-green-800">Kidneys</span>
+                        </button>
+                        <button class="organ-btn p-4 bg-yellow-100 rounded-lg" data-organ="eyes">
+                            <span class="text-4xl">👁️</span>
+                            <span class="block mt-2 font-semibold text-yellow-800">Eyes & More</span>
+                        </button>
+                     </div>
+                     <div id="organ-info" class="mt-6 p-4 rounded-md bg-gray-50 min-h-[150px]">
+                        <p class="text-gray-500">Details about the selected organ will appear here.</p>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="management" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Lifestyle: The Foundation of Control</h2>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Powerful, sustainable lifestyle changes are your first line of defense. This section provides detailed, actionable advice in a visual, easy-to-follow format.</p>
+                </div>
+                <div class="space-y-12">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#003440] text-center">The DASH Diet Plate</h3>
+                        <p class="mb-6 text-gray-600 text-center max-w-2xl mx-auto">The <strong>DASH (Dietary Approaches to Stop Hypertension)</strong> plan is proven to lower blood pressure. Think of your plate as a guide: fill half with vegetables, a quarter with lean protein, and a quarter with whole grains.</p>
+                        <div class="w-full max-w-md mx-auto aspect-square rounded-full border-8 border-gray-200 grid grid-cols-2 grid-rows-2 gap-1 overflow-hidden mb-6">
+                           <div class="row-span-2 bg-green-600 flex items-center justify-center p-2 text-center font-bold text-white text-lg">½<br>Veggies</div>
+                           <div class="bg-yellow-500 flex items-center justify-center p-2 text-center font-bold text-white text-lg">¼<br>Protein</div>
+                           <div class="bg-orange-500 flex items-center justify-center p-2 text-center font-bold text-white text-lg">¼<br>Grains</div>
+                        </div>
+                         <p class="mt-4 text-center"><a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="link-style">Get a full DASH guide from the NHLBI</a></p>
+                    </div>
+
+                     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <span class="text-5xl">🧂</span>
+                            <h4 class="font-semibold text-xl text-[#005F73] mt-2">Reduce Sodium</h4>
+                            <p class="mt-2 text-gray-600">Aim for less than <strong>1,500 mg</strong> per day. Most sodium is hidden in processed foods. Read labels carefully!</p>
+                             <a href="https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/shaking-the-salt-habit-to-lower-high-blood-pressure" target="_blank" rel="noopener noreferrer" class="link-style mt-2 inline-block">Learn How</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <span class="text-5xl">🏃‍♀️</span>
+                            <h4 class="font-semibold text-xl text-[#005F73] mt-2">Move More</h4>
+                            <p class="mt-2 text-gray-600">Get at least <strong>150 minutes</strong> of moderate-intensity aerobic activity each week, plus <strong>2 days</strong> of strength training.</p>
+                            <a href="https://www.cdc.gov/physicalactivity/basics/index.htm" target="_blank" rel="noopener noreferrer" class="link-style mt-2 inline-block">CDC Guidelines</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <span class="text-5xl">⚖️</span>
+                            <h4 class="font-semibold text-xl text-[#005F73] mt-2">Healthy Weight</h4>
+                            <p class="mt-2 text-gray-600">Losing even <strong>5-10 pounds</strong> can make a big difference in lowering your blood pressure.</p>
+                             <a href="https://www.cdc.gov/healthyweight/index.html" target="_blank" rel="noopener noreferrer" class="link-style mt-2 inline-block">Find Your Weight</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <span class="text-5xl">🚭</span>
+                            <h4 class="font-semibold text-xl text-[#005F73] mt-2">Limit Alcohol & Quit Smoking</h4>
+                            <p class="mt-2 text-gray-600">Limit alcohol to 1 drink/day (women) or 2 drinks/day (men). Quitting smoking is crucial.</p>
+                            <a href="https://www.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="link-style mt-2 inline-block">Get Help Quitting</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="medication" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                     <h2 class="text-3xl font-bold text-gray-800">Understanding Your Medications</h2>
+                     <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Medication is a key part of your treatment plan. Click on each card below to learn about the most common types of blood pressure medication.</p>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <!-- Diuretics Card -->
+                    <div class="med-card bg-blue-50 border-l-4 border-blue-500 rounded-r-lg shadow">
+                        <div class="med-card-header flex justify-between items-center p-4 cursor-pointer">
+                            <div>
+                                <h3 class="text-lg font-semibold text-blue-800">💧 Thiazide Diuretics</h3>
+                                <p class="text-sm text-blue-700">e.g., Microzide, Thalitone</p>
+                            </div>
+                            <span class="arrow-icon text-blue-800 text-2xl">▼</span>
+                        </div>
+                        <div class="med-card-content px-4 text-gray-700">
+                            <p><strong>How It Works:</strong> "Water pills." Help the kidneys remove excess sodium and water from the body, reducing blood volume.</p>
+                            <p class="mt-2"><strong>Common Generic Names:</strong> Hydrochlorothiazide, Chlorthalidone</p>
+                            <p class="mt-2"><strong>Potential Side Effects:</strong> Increased urination, dizziness, muscle cramps, low potassium.</p>
+                        </div>
+                    </div>
+                    <!-- ACE Inhibitors Card -->
+                    <div class="med-card bg-green-50 border-l-4 border-green-500 rounded-r-lg shadow">
+                        <div class="med-card-header flex justify-between items-center p-4 cursor-pointer">
+                            <div>
+                                <h3 class="text-lg font-semibold text-green-800">🌿 ACE Inhibitors</h3>
+                                <p class="text-sm text-green-700">e.g., Zestril, Vasotec, Altace</p>
+                            </div>
+                            <span class="arrow-icon text-green-800 text-2xl">▼</span>
+                        </div>
+                        <div class="med-card-content px-4 text-gray-700">
+                            <p><strong>How It Works:</strong> Blocks the formation of angiotensin II, a chemical that narrows blood vessels, allowing them to relax.</p>
+                            <p class="mt-2"><strong>Common Generic Names:</strong> Lisinopril, Enalapril, Ramipril</p>
+                            <p class="mt-2"><strong>Potential Side Effects:</strong> A persistent dry, hacking cough is the most distinct side effect. Dizziness. **Not for use in pregnancy.**</p>
+                        </div>
+                    </div>
+                    <!-- ARBs Card -->
+                    <div class="med-card bg-purple-50 border-l-4 border-purple-500 rounded-r-lg shadow">
+                        <div class="med-card-header flex justify-between items-center p-4 cursor-pointer">
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-800">🛡️ ARBs</h3>
+                                <p class="text-sm text-purple-700">e.g., Cozaar, Diovan, Avapro</p>
+                            </div>
+                            <span class="arrow-icon text-purple-800 text-2xl">▼</span>
+                        </div>
+                        <div class="med-card-content px-4 text-gray-700">
+                            <p><strong>How It Works:</strong> Blocks the *action* of angiotensin II at its receptors. Similar effect to ACE inhibitors but with a different mechanism.</p>
+                            <p class="mt-2"><strong>Common Generic Names:</strong> Losartan, Valsartan, Irbesartan</p>
+                            <p class="mt-2"><strong>Potential Side Effects:</strong> Dizziness, lightheadedness. Cough is much less common than with ACE inhibitors. **Not for use in pregnancy.**</p>
+                        </div>
+                    </div>
+                    <!-- Calcium Channel Blockers Card -->
+                    <div class="med-card bg-orange-50 border-l-4 border-orange-500 rounded-r-lg shadow">
+                        <div class="med-card-header flex justify-between items-center p-4 cursor-pointer">
+                            <div>
+                                <h3 class="text-lg font-semibold text-orange-800">🚦 Calcium Channel Blockers</h3>
+                                <p class="text-sm text-orange-700">e.g., Norvasc, Cardizem, Procardia</p>
+                            </div>
+                            <span class="arrow-icon text-orange-800 text-2xl">▼</span>
+                        </div>
+                        <div class="med-card-content px-4 text-gray-700">
+                            <p><strong>How It Works:</strong> Prevents calcium from entering muscle cells in the heart and blood vessels, causing them to relax and widen.</p>
+                            <p class="mt-2"><strong>Common Generic Names:</strong> Amlodipine, Diltiazem, Nifedipine</p>
+                            <p class="mt-2"><strong>Potential Side Effects:</strong> Swelling in ankles/feet (edema), headache, dizziness, flushing.</p>
+                        </div>
+                    </div>
+                    <!-- Beta-Blockers Card -->
+                    <div class="med-card bg-red-50 border-l-4 border-red-500 rounded-r-lg shadow">
+                        <div class="med-card-header flex justify-between items-center p-4 cursor-pointer">
+                            <div>
+                                <h3 class="text-lg font-semibold text-red-800">💓 Beta-Blockers</h3>
+                                <p class="text-sm text-red-700">e.g., Lopressor, Tenormin, Coreg</p>
+                            </div>
+                            <span class="arrow-icon text-red-800 text-2xl">▼</span>
+                        </div>
+                        <div class="med-card-content px-4 text-gray-700">
+                            <p><strong>How It Works:</strong> Makes the heart beat slower and with less force, which lowers blood pressure. Often used if you also have certain heart conditions.</p>
+                            <p class="mt-2"><strong>Common Generic Names:</strong> Metoprolol, Atenolol, Carvedilol</p>
+                            <p class="mt-2"><strong>Potential Side Effects:</strong> Fatigue, dizziness, slow heart rate, cold hands/feet.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="max-w-3xl mx-auto mt-12 bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#003440] text-center">How Your Doctor Chooses Your Medication</h3>
+                    <p class="mb-6 text-gray-600">Your doctor will create a personalized treatment plan based on your health profile. Here are some evidence-based guidelines they follow:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-xl text-green-600 mr-3">1️⃣</span>
+                            <div>
+                                <h4 class="font-semibold">First-Line Treatment</h4>
+                                <p class="text-gray-600">For most people, the first medication prescribed will be a thiazide diuretic, ACE inhibitor, ARB, or calcium channel blocker. These are all proven to be effective and are recommended as initial choices.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                             <span class="text-xl text-blue-600 mr-3">🧑🏾‍⚕️</span>
+                             <div>
+                                <h4 class="font-semibold">Considerations for Black Adults</h4>
+                                <p class="text-gray-600">Clinical guidelines note that for Black adults with hypertension (but without heart failure or chronic kidney disease), the most effective initial treatments are often a thiazide diuretic or a calcium channel blocker.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                             <span class="text-xl text-purple-600 mr-3">➕</span>
+                             <div>
+                                <h4 class="font-semibold">Combination Therapy</h4>
+                                <p class="text-gray-600">If one medication isn't enough to reach your blood pressure goal, the next step is often to add a second medication from a different class. Using two drugs at lower doses can be more effective and have fewer side effects than using one drug at a high dose. Sometimes, these are combined into a single pill.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <p class="text-center mt-8 text-gray-600"><strong>Important:</strong> This is a summary. Always discuss specific side effects and benefits with your doctor or pharmacist. Never stop taking your medication without your doctor's guidance.</p>
+            </div>
+        </section>
+
+        <section id="living" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Living Well with Hypertension</h2>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Managing hypertension is a lifelong partnership between you and your healthcare team. Arming yourself with accurate information is key. Test your knowledge and bust some common myths.</p>
+                </div>
+                <div class="max-w-2xl mx-auto">
+                    <div class="space-y-4">
+                        <details class="myth-fact-item bg-white p-4 rounded-lg shadow group">
+                            <summary class="cursor-pointer font-semibold text-gray-700">Myth: I'd feel it if I had high blood pressure.</summary>
+                            <p class="mt-2 text-gray-600"><strong>Fact:</strong> HBP is the "silent killer" because it usually has no symptoms. The only way to know is to get measured.</p>
+                        </details>
+                        <details class="myth-fact-item bg-white p-4 rounded-lg shadow group">
+                            <summary class="cursor-pointer font-semibold text-gray-700">Myth: It runs in my family, so I can't prevent it.</summary>
+                            <p class="mt-2 text-gray-600"><strong>Fact:</strong> While risk increases, a healthy lifestyle can often prevent or delay HBP, even with a family history.</p>
+                        </details>
+                        <details class="myth-fact-item bg-white p-4 rounded-lg shadow group">
+                            <summary class="cursor-pointer font-semibold text-gray-700">Myth: I don't use table salt, so my sodium is low.</summary>
+                            <p class="mt-2 text-gray-600"><strong>Fact:</strong> Over 70% of sodium comes from processed and restaurant foods. Reading labels is crucial.</p>
+                        </details>
+                         <details class="myth-fact-item bg-white p-4 rounded-lg shadow group">
+                            <summary class="cursor-pointer font-semibold text-gray-700">Myth: My BP is normal with medicine, so I can stop taking it.</summary>
+                            <p class="mt-2 text-gray-600"><strong>Fact:</strong> This is dangerous. Your BP is normal *because* the medicine is working. Never stop medication without your doctor's guidance.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <h3 class="text-lg font-semibold text-white mb-4">Trusted Resources</h3>
+            <div class="flex justify-center space-x-4 md:space-x-8 mb-6">
+                <a href="https://www.heart.org/en/health-topics/high-blood-pressure" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">American Heart Association</a>
+                <a href="https://www.cdc.gov/bloodpressure/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">CDC</a>
+                <a href="https://www.nhlbi.nih.gov/health-topics/high-blood-pressure" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">NHLBI</a>
+            </div>
+            <p>This information is for educational purposes only and not a substitute for professional medical advice. Always consult with your healthcare provider.</p>
+            <p class="mt-2 text-sm">&copy; 2024 Patient Education Initiative. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.3 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            const href = link.getAttribute('href').substring(1);
+                             link.classList.toggle('active', href === id);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => { observer.observe(section); });
+
+            const bpData = {
+                labels: ['Normal', 'Elevated', 'Stage 1', 'Stage 2', 'Crisis'],
+                systolic: [119, 129, 139, 180, 200],
+                diastolic: [79, 79, 89, 120, 130]
+            };
+
+            new Chart(document.getElementById('bpChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: bpData.labels,
+                    datasets: [{
+                        label: 'Systolic (Upper Limit)',
+                        data: bpData.systolic,
+                        backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                    }, {
+                        label: 'Diastolic (Upper Limit)',
+                        data: bpData.diastolic,
+                        backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'mm Hg' } } } }
+            });
+
+            const calculateBtn = document.getElementById('calculateBtn');
+            calculateBtn.addEventListener('click', () => {
+                const sys = parseInt(document.getElementById('systolic').value);
+                const dia = parseInt(document.getElementById('diastolic').value);
+                const resultDiv = document.getElementById('result');
+                let category = '', message = '', bgColor = 'bg-gray-100';
+
+                if (!sys || !dia) {
+                    category = 'Invalid Input';
+                    message = 'Please enter both systolic and diastolic values.';
+                    bgColor = 'bg-red-100';
+                } else if (sys > 180 || dia > 120) {
+                    category = 'Hypertensive Crisis';
+                    message = '<strong>EMERGENCY:</strong> Seek immediate medical attention. <a href="https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings/hypertensive-crisis-when-you-should-call-911-for-high-blood-pressure" target="_blank" rel="noopener noreferrer" class="link-style">Learn more</a>.';
+                    bgColor = 'bg-red-200';
+                } else if (sys >= 140 || dia >= 90) {
+                    category = 'Hypertension Stage 2';
+                    message = 'Your doctor will likely prescribe medication and lifestyle changes. Follow up promptly.';
+                    bgColor = 'bg-orange-200';
+                } else if (sys >= 130 || dia >= 80) {
+                    category = 'Hypertension Stage 1';
+                    message = 'Your doctor will likely recommend lifestyle changes and may discuss medication.';
+                    bgColor = 'bg-yellow-200';
+                } else if (sys >= 120) {
+                    category = 'Elevated';
+                    message = 'You are at risk for developing high blood pressure. Focus on lifestyle changes.';
+                    bgColor = 'bg-blue-100';
+                } else {
+                    category = 'Normal';
+                    message = 'Congratulations! Your blood pressure is in the healthy range. Keep up the good habits.';
+                    bgColor = 'bg-green-100';
+                }
+                resultDiv.className = `mt-6 p-4 rounded-md ${bgColor}`;
+                resultDiv.innerHTML = `<h4 class="font-bold text-lg text-gray-800">${category}</h4><p class="mt-1 text-gray-700">${message}</p>`;
+            });
+
+            const organBtns = document.querySelectorAll('.organ-btn');
+            const organInfoDiv = document.getElementById('organ-info');
+            const organData = {
+                heart: {
+                    title: "Heart Complications",
+                    text: "The heart works harder to pump against high pressure, leading to: <ul class='list-disc list-inside mt-2'><li class='mt-1'><strong>Heart Failure:</strong> The heart muscle thickens and weakens. <a href='https://www.heart.org/en/health-topics/heart-failure' target='_blank' class='link-style'>Learn more</a>.</li><li class='mt-1'><strong>Heart Attack:</strong> Damage to arteries can cause blockages. <a href='https://www.heart.org/en/health-topics/heart-attack' target='_blank' class='link-style'>Learn more</a>.</li></ul>"
+                },
+                brain: {
+                    title: "Brain Complications",
+                    text: "HBP is a leading cause of stroke and cognitive issues. <ul class='list-disc list-inside mt-2'><li class='mt-1'><strong>Stroke:</strong> A clot blocks an artery or a vessel bursts. <a href='https://www.stroke.org/en/' target='_blank' class='link-style'>Learn more</a>.</li><li class='mt-1'><strong>Vascular Dementia:</strong> Damage to small brain vessels impairs thinking.</li></ul>"
+                },
+                kidneys: {
+                    title: "Kidney Complications",
+                    text: "High pressure damages the kidneys' delicate filtering units. <ul class='list-disc list-inside mt-2'><li class='mt-1'><strong>Chronic Kidney Disease (CKD):</strong> The kidneys' filtering ability declines. <a href='https://www.niddk.nih.gov/health-information/kidney-disease/high-blood-pressure' target='_blank' class='link-style'>Learn more</a>.</li><li class='mt-1'><strong>Kidney Failure:</strong> The final stage, requiring dialysis or a transplant.</li></ul>"
+                },
+                eyes: {
+                    title: "Eye, Vascular & Other Complications",
+                    text: "Damage is systemic, affecting the whole body. <ul class='list-disc list-inside mt-2'><li class='mt-1'><strong>Eyes:</strong> Damage to retinal blood vessels (retinopathy) can cause vision loss.</li><li class='mt-1'><strong>Peripheral Artery Disease (PAD):</strong> Narrowed arteries in the legs.</li><li class='mt-1'><strong>Sexual Dysfunction:</strong> Reduced blood flow can cause issues.</li></ul>"
+                }
+            };
+            organBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const organ = btn.dataset.organ;
+                    const data = organData[organ];
+                    organInfoDiv.innerHTML = `<h4 class="font-bold text-lg text-[#005F73]">${data.title}</h4><div class="mt-1 text-gray-700">${data.text}</div>`;
+                });
+            });
+
+            const medCardHeaders = document.querySelectorAll('.med-card-header');
+            medCardHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const card = header.parentElement;
+                    card.classList.toggle('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
