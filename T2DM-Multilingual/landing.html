@@ -30,24 +30,29 @@
 <body class="text-gray-800">
 
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <div class="container mx-auto px-4 flex items-center justify-between">
-            <nav class="flex-grow">
-                <ul id="main-nav" class="flex items-center justify-center md:justify-start space-x-2 md:space-x-6 overflow-x-auto whitespace-nowrap py-3 text-sm md:text-base">
-                    <li><a href="#understanding" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_basics">The Basics</a></li>
-                    <li><a href="#risk" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_risk">Your Risk</a></li>
-                    <li><a href="#lifestyle" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_toolkit">Your Toolkit</a></li>
-                    <li><a href="#treatment" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_treatments">Treatments</a></li>
-                    <li><a href="#prevention" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_healthy">Staying Healthy</a></li>
-                    <li><a href="#support" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_support">Support</a></li>
-                </ul>
-            </nav>
-            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9m-9 9a9 9 0 00-9 9" /></svg>
-                <div class="flex rounded-lg border border-gray-300 p-0.5">
-                    <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                    <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+        <div class="container mx-auto px-4 py-2">
+            <!-- Top row for title and language selector -->
+            <div class="flex items-center justify-between mb-2">
+                <h1 class="text-xl font-bold text-slate-800" data-translate="site_title"></h1>
+                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9m-9 9a9 9 0 00-9 9" /></svg>
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
                 </div>
             </div>
+            <!-- Navigation bar -->
+            <nav class="w-full border-t border-gray-200 pt-1">
+                <ul id="main-nav" class="flex items-center space-x-2 md:space-x-6 overflow-x-auto whitespace-nowrap text-sm md:text-base">
+                    <li><a href="#understanding" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_basics"></a></li>
+                    <li><a href="#risk" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_risk"></a></li>
+                    <li><a href="#lifestyle" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_toolkit"></a></li>
+                    <li><a href="#treatment" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_treatments"></a></li>
+                    <li><a href="#prevention" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_healthy"></a></li>
+                    <li><a href="#support" class="nav-link font-semibold p-2 border-b-2 border-transparent" data-translate="nav_support"></a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
@@ -176,6 +181,7 @@
             // --- DATA & TRANSLATIONS ---
             const translations = {
                 en: {
+                    site_title: "Diabetes Health Guide",
                     nav_basics: "The Basics", nav_risk: "Your Risk", nav_toolkit: "Your Toolkit", nav_treatments: "Treatments", nav_healthy: "Staying Healthy", nav_support: "Support",
                     understanding_title: "Understanding What's Happening In Your Body", understanding_subtitle: "This section explains the gradual process that leads to Type 2 Diabetes. First, let's define the key players, then click \"Next\" to see how they interact.",
                     glucose_title: "Glucose (Sugar)", glucose_desc: "The main source of energy for your body's cells, which comes from the food you eat.",
@@ -203,6 +209,7 @@
                     link_learn_more_cdc: " Learn more at the CDC.", link_risk_test: " Take the 60-Second Risk Test.", link_plate_recipes: " Explore recipes.", link_fitness_tips: " Get fitness tips.", link_treatment_overview: " See a full overview.", link_complications: " Understand complications.", link_support_resources: " Find support resources."
                 },
                 es: {
+                    site_title: "Guía de Salud para la Diabetes",
                     nav_basics: "Lo Básico", nav_risk: "Su Riesgo", nav_toolkit: "Sus Herramientas", nav_treatments: "Tratamientos", nav_healthy: "Mantenerse Saludable", nav_support: "Apoyo",
                     understanding_title: "Entendiendo lo que Sucede en su Cuerpo", understanding_subtitle: "Esta sección explica el proceso gradual que conduce a la Diabetes Tipo 2. Primero, definamos los actores clave, luego haga clic en \"Siguiente\" para ver cómo interactúan.",
                     glucose_title: "Glucosa (Azúcar)", glucose_desc: "La principal fuente de energía para las células de su cuerpo, que proviene de los alimentos que come.",
