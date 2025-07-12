@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: The Diabetes Plate Method</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .details-section {
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .details-section.open {
+            max-height: 500px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 250px;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-xl font-bold text-slate-800" data-translate="header_title"></h2>
+             <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9m-9 9a9 9 0 00-9 9" /></svg>
+                <div class="flex rounded-lg border border-gray-300 p-0.5">
+                    <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                    <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-2" data-translate="main_title"></h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </header>
+
+        <div class="bg-white rounded-lg shadow-xl p-6 md:p-8 mb-8">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="chart-container mx-auto">
+                    <canvas id="plateChart"></canvas>
+                </div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2" data-translate="no_counting_title"></h2>
+                    <p class="text-slate-600" data-translate="no_counting_desc"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="steps-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- JS will populate this grid -->
+        </div>
+        
+        <footer class="mt-12 text-center bg-white p-6 rounded-lg shadow-md">
+            <p class="font-semibold text-slate-800" data-translate="footer_desc"></p>
+            <a href="https://www.diabetesfoodhub.org/articles/what-is-the-diabetes-plate-method.html" target="_blank" class="mt-3 inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-translate="footer_button"></a>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const translations = {
+            en: {
+                header_title: "Plate Method Guide",
+                main_title: "The Diabetes Plate Method",
+                subtitle: "The simplest way to create healthy meals that can help manage blood sugar.",
+                no_counting_title: "No Counting, No Weighing, No Measuring!",
+                no_counting_desc: "The Plate Method is a visual way to make sure you get enough non-starchy vegetables and lean protein while managing the amount of carbohydrate foods you eat. All you need is a 9-inch plate!",
+                footer_desc: "This is a simplified guide. For more detailed information, recipes, and tips, please visit the official page from the American Diabetes Association.",
+                footer_button: "Visit Diabetes Food Hub",
+                see_food_list: "See Food List ▼",
+                show_less: "Show Less ▲",
+                examples: "Examples:",
+                chart_labels: ['Non-Starchy Vegetables', 'Lean Protein', 'Carbohydrate Foods'],
+                steps_data: [
+                    { id: 'veg', title: "Fill Half Your Plate with Non-Starchy Vegetables", summary: "These veggies are low in carbs and high in vitamins, minerals, and fiber. They help you feel full and keep your blood sugar stable.", examples: ['Asparagus', 'Broccoli & Cauliflower', 'Cabbage & Kale', 'Carrots', 'Cucumber & Salad Greens', 'Mushrooms', 'Peppers', 'Tomatoes', 'Zucchini'] },
+                    { id: 'protein', title: "Fill One Quarter with Lean Protein Foods", summary: "Protein helps keep you satisfied and is important for muscle health. Choose plant-based or lean animal sources.", examples: ['Chicken or turkey (skinless)', 'Fish like salmon, tuna, cod', 'Shellfish like shrimp, scallops', 'Lean beef or pork cuts', 'Eggs', 'Tofu & Tempeh', 'Beans, lentils, and hummus', 'Nuts and nut butters'] },
+                    { id: 'carb', title: "Fill One Quarter with Carbohydrate Foods", summary: "Carbs provide energy. Choosing high-fiber, whole-grain options helps manage blood sugar better.", examples: ['Whole grains like brown rice, quinoa, oats', 'Whole wheat bread, pasta, tortillas', 'Starchy vegetables like corn, peas, sweet potatoes', 'Fruit (all types)', 'Milk and yogurt'] }
+                ]
+            },
+            es: {
+                header_title: "Guía del Método del Plato",
+                main_title: "El Método del Plato para la Diabetes",
+                subtitle: "La forma más sencilla de crear comidas saludables que pueden ayudar a controlar el azúcar en la sangre.",
+                no_counting_title: "¡Sin Contar, Sin Pesar, Sin Medir!",
+                no_counting_desc: "El Método del Plato es una forma visual de asegurarse de obtener suficientes vegetales sin almidón y proteínas magras, mientras controla la cantidad de carbohidratos que come. ¡Todo lo que necesita es un plato de 9 pulgadas!",
+                footer_desc: "Esta es una guía simplificada. Para obtener información más detallada, recetas y consejos, visite la página oficial de la Asociación Americana de Diabetes.",
+                footer_button: "Visitar Diabetes Food Hub",
+                see_food_list: "Ver Lista de Alimentos ▼",
+                show_less: "Mostrar Menos ▲",
+                examples: "Ejemplos:",
+                chart_labels: ['Vegetales sin Almidón', 'Proteínas Magras', 'Alimentos con Carbohidratos'],
+                steps_data: [
+                    { id: 'veg', title: "Llene la Mitad de su Plato con Vegetales sin Almidón", summary: "Estos vegetales son bajos en carbohidratos y ricos en vitaminas, minerales y fibra. Ayudan a sentirse lleno y a mantener estable el azúcar en la sangre.", examples: ['Espárragos', 'Brócoli y Coliflor', 'Repollo y Col Rizada', 'Zanahorias', 'Pepino y Hojas Verdes', 'Champiñones', 'Pimientos', 'Tomates', 'Calabacín'] },
+                    { id: 'protein', title: "Llene un Cuarto con Alimentos de Proteína Magra", summary: "La proteína ayuda a mantenerlo satisfecho y es importante para la salud muscular. Elija fuentes vegetales o animales magras.", examples: ['Pollo o pavo (sin piel)', 'Pescado como salmón, atún, bacalao', 'Mariscos como camarones, vieiras', 'Cortes magros de res o cerdo', 'Huevos', 'Tofu y Tempeh', 'Frijoles, lentejas y hummus', 'Nueces y mantequillas de nueces'] },
+                    { id: 'carb', title: "Llene un Cuarto con Alimentos con Carbohidratos", summary: "Los carbohidratos proporcionan energía. Elegir opciones integrales y altas en fibra ayuda a controlar mejor el azúcar en la sangre.", examples: ['Granos integrales como arroz integral, quinoa, avena', 'Pan, pasta y tortillas de trigo integral', 'Vegetales con almidón como maíz, guisantes, batatas', 'Fruta (todos los tipos)', 'Leche y yogur'] }
+                ]
+            }
+        };
+        const colors = ['border-green-500', 'border-red-500', 'border-yellow-500'];
+        const textColors = ['text-green-500', 'text-red-500', 'text-yellow-500'];
+
+        let currentLanguage = 'en';
+        const grid = document.getElementById('steps-grid');
+        let plateChart;
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            // Render static text
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            // Render steps grid
+            grid.innerHTML = t.steps_data.map((step, index) => `
+                <div class="card bg-white rounded-lg shadow-md p-6 flex flex-col ${colors[index]}">
+                    <div class="flex items-center mb-3">
+                        <span class="text-5xl font-bold ${textColors[index]} mr-4">${index + 1}</span>
+                        <div><h3 class="text-xl font-bold text-slate-800">${step.title}</h3></div>
+                    </div>
+                    <p class="text-slate-600 flex-grow">${step.summary}</p>
+                    <div class="mt-4">
+                        <button class="toggle-details-btn text-blue-600 font-semibold hover:text-blue-800" data-target="${step.id}-details">${t.see_food_list}</button>
+                    </div>
+                    <div id="${step.id}-details" class="details-section">
+                        <h4 class="font-semibold text-slate-700">${t.examples}</h4>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-1 mt-1">
+                            ${step.examples.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update chart
+            if (plateChart) {
+                plateChart.data.labels = t.chart_labels;
+                plateChart.update();
+            }
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        // Initialize Chart
+        const ctx = document.getElementById('plateChart').getContext('2d');
+        plateChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: translations.en.chart_labels,
+                datasets: [{
+                    label: 'Plate Method',
+                    data: [50, 25, 25],
+                    backgroundColor: ['#22c55e', '#ef4444', '#eab308'],
+                    borderColor: '#ffffff',
+                    borderWidth: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { padding: 20, boxWidth: 15 } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed !== null) { label += context.parsed + '%'; }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event Listeners
+        grid.addEventListener('click', function(e) {
+            if (e.target.classList.contains('toggle-details-btn')) {
+                const button = e.target;
+                const targetId = button.dataset.target;
+                const details = document.getElementById(targetId);
+                details.classList.toggle('open');
+                button.textContent = details.classList.contains('open') ? translations[currentLanguage].show_less : translations[currentLanguage].see_food_list;
+            }
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        changeLanguage('en'); // Initial load
+    });
+    </script>
+</body>
+</html>

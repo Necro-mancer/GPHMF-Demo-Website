@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: A Guide to Diabetes Treatments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .details-section {
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .details-section.open {
+            max-height: 600px; /* Increased height for more content */
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-xl font-bold text-slate-800" data-translate="header_title"></h2>
+             <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9m-9 9a9 9 0 00-9 9" /></svg>
+                <div class="flex rounded-lg border border-gray-300 p-0.5">
+                    <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                    <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-2" data-translate="main_title"></h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </header>
+
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-md mb-8" role="alert">
+            <p class="font-bold" data-translate="alert_title"></p>
+            <p data-translate="alert_desc"></p>
+        </div>
+
+        <div id="treatments-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- JS will populate this grid -->
+        </div>
+        
+        <footer class="mt-12 text-center bg-white p-6 rounded-lg shadow-md">
+            <p class="font-semibold text-slate-800" data-translate="footer_desc"></p>
+            <a href="https://www.niddk.nih.gov/health-information/diabetes/overview/insulin-medicines-treatments" target="_blank" class="mt-3 inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-translate="footer_button"></a>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const translations = {
+            en: {
+                header_title: "Treatments Guide",
+                main_title: "Understanding Your Diabetes Treatment",
+                subtitle: "A guide to the different types of medicines that help manage blood sugar.",
+                alert_title: "Your Plan is Unique",
+                alert_desc: "Your doctor will create a treatment plan just for you. It may include one or more of these medicines, along with healthy eating and physical activity. This guide is for information only—always follow your doctor's advice.",
+                footer_desc: "This is a simplified guide. For complete information, please visit the official page from the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK).",
+                footer_button: "Visit NIDDK.NIH.GOV",
+                learn_more: "Learn More ▼",
+                show_less: "Show Less ▲",
+                treatments_data: [
+                    { id: 'insulin', title: 'Insulin', icon: '💉', color: 'border-blue-500', brandNames: 'Lantus, Humalog, Novolog, Tresiba', summary: 'The most common treatment for Type 1 diabetes, also used for Type 2. It replaces the hormone your body isn\'t making enough of.', details: { 'Mechanism of Action': 'Insulin acts like a key, allowing glucose from the blood to enter your body\'s cells to be used for energy. This directly lowers blood sugar levels.', 'How it\'s taken': 'Usually injected with a syringe, pen, or pump. Comes in different types: rapid-, short-, intermediate-, and long-acting.', 'Common Side Effects': ['Low blood sugar (hypoglycemia)', 'Weight gain', 'Skin reactions or lumps at the injection site.'], 'Important Considerations': ['The main risk is hypoglycemia. It\'s crucial to know the signs (shakiness, sweating, confusion) and how to treat it.', 'Alcohol and some other medications can increase the risk of low blood sugar.'] } },
+                    { id: 'metformin', title: 'Metformin', icon: '💊', color: 'border-teal-500', brandNames: 'Glucophage, Fortamet, Glumetza', summary: 'Often the first pill prescribed for Type 2 diabetes. It helps your body\'s own insulin work better.', details: { 'Mechanism of Action': 'It works in two main ways: it reduces the amount of glucose your liver releases into the bloodstream, and it improves your cells\' sensitivity to the insulin you already make.', 'How it\'s taken': 'As a pill, usually once or twice a day with meals to reduce stomach upset.', 'Common Side Effects': ['Diarrhea, nausea, gas, and stomach upset are common, especially when first starting.', 'Long-term use can be associated with Vitamin B12 deficiency.'], 'Important Considerations': ['Should be temporarily stopped before receiving certain imaging dyes (contrast).', 'Risk of a serious condition called lactic acidosis is very rare but increased with kidney problems or heavy alcohol use.'] } },
+                    { id: 'glp1', title: 'GLP-1 Receptor Agonists', icon: '✍️', color: 'border-purple-500', brandNames: 'Ozempic, Trulicity, Rybelsus, Victoza', summary: 'Injectable medicines (not insulin) that help control blood sugar and may lead to weight loss.', details: { 'Mechanism of Action': 'Mimics a natural gut hormone (GLP-1). It increases insulin release from the pancreas only when blood sugar is high, slows down how quickly food leaves your stomach (making you feel full), and can reduce appetite.', 'How it\'s taken': 'Injectable, often taken once a week or once a day using a pen device. Some are now available as a pill.', 'Common Side Effects': ['Nausea, vomiting, and diarrhea are common, but often improve over time.'], 'Important Considerations': ['Because it slows digestion, it can affect how other oral medications are absorbed.', 'Has a boxed warning for a risk of thyroid C-cell tumors (seen in animal studies).'] } },
+                    { id: 'sglt2', title: 'SGLT2 Inhibitors', icon: '💧', color: 'border-sky-500', brandNames: 'Jardiance, Farxiga, Invokana', summary: 'Pills that help your kidneys remove sugar from the body. They also have heart and kidney benefits.', details: { 'Mechanism of Action': 'These drugs block a protein (SGLT2) in the kidneys, which prevents the kidneys from reabsorbing glucose back into the blood. The excess glucose is then passed out of the body in urine.', 'How it\'s taken': 'As a pill, typically once a day.', 'Common Side Effects': ['Increased risk of genital yeast infections and urinary tract infections (UTIs).', 'Can cause dehydration or dizziness.'], 'Important Considerations': ['A rare but serious risk is diabetic ketoacidosis (DKA), which can happen even with normal blood sugar levels.', 'Increased risk of dehydration when taken with diuretics (water pills).'] } },
+                    { id: 'dpp4', title: 'DPP-4 Inhibitors', icon: '💊', color: 'border-amber-500', brandNames: 'Januvia, Tradjenta, Onglyza', summary: 'Pills that enhance your body\'s own system for controlling blood sugar, especially after meals.', details: { 'Mechanism of Action': 'They block the action of the DPP-4 enzyme. This allows the natural gut hormone GLP-1 to stay active longer, which helps the pancreas release insulin when blood sugar is high.', 'How it\'s taken': 'As a pill, usually once a day.', 'Common Side Effects': ['Generally well-tolerated. May include headache or cold-like symptoms.'], 'Important Considerations': ['There is a rare risk of severe joint pain or pancreatitis (inflammation of the pancreas).', 'Fewer major drug interactions compared to some other classes.'] } },
+                    { id: 'sulfonylureas', title: 'Sulfonylureas & Glinides', icon: '💊', color: 'border-orange-500', brandNames: 'Glucotrol, Amaryl, Glynase', summary: 'Pills that stimulate your pancreas to release more insulin, regardless of your blood sugar level.', details: { 'Mechanism of Action': 'These medicines directly prompt the beta cells in your pancreas to produce more insulin.', 'How it\'s taken': 'As a pill, taken before meals.', 'Common Side Effects': ['High risk of low blood sugar (hypoglycemia).', 'Weight gain is common.'], 'Important Considerations': ['The risk of hypoglycemia is increased with alcohol use, missed meals, or intense exercise.', 'Many other drugs can interact to increase this risk.'] } }
+                ]
+            },
+            es: {
+                header_title: "Guía de Tratamientos",
+                main_title: "Entendiendo su Tratamiento para la Diabetes",
+                subtitle: "Una guía sobre los diferentes tipos de medicamentos que ayudan a controlar el azúcar en la sangre.",
+                alert_title: "Su Plan es Único",
+                alert_desc: "Su médico creará un plan de tratamiento solo para usted. Puede incluir uno o más de estos medicamentos, junto con una alimentación saludable y actividad física. Esta guía es solo para información; siempre siga los consejos de su médico.",
+                footer_desc: "Esta es una guía simplificada. Para obtener información completa, visite la página oficial del Instituto Nacional de Diabetes y Enfermedades Digestivas y Renales (NIDDK).",
+                footer_button: "Visitar NIDDK.NIH.GOV",
+                learn_more: "Aprender Más ▼",
+                show_less: "Mostrar Menos ▲",
+                treatments_data: [
+                    { id: 'insulin', title: 'Insulina', icon: '💉', color: 'border-blue-500', brandNames: 'Lantus, Humalog, Novolog, Tresiba', summary: 'El tratamiento más común para la diabetes Tipo 1, también usado para la Tipo 2. Reemplaza la hormona que su cuerpo no produce en cantidad suficiente.', details: { 'Mecanismo de Acción': 'La insulina actúa como una llave, permitiendo que la glucosa de la sangre entre en las células del cuerpo para ser usada como energía. Esto reduce directamente los niveles de azúcar en la sangre.', 'Cómo se toma': 'Generalmente se inyecta con una jeringa, pluma o bomba. Viene en diferentes tipos: de acción rápida, corta, intermedia y prolongada.', 'Efectos Secundarios Comunes': ['Nivel bajo de azúcar en la sangre (hipoglucemia)', 'Aumento de peso', 'Reacciones en la piel o bultos en el lugar de la inyección.'], 'Consideraciones Importantes': ['El principal riesgo es la hipoglucemia. Es crucial conocer los signos (temblores, sudoración, confusión) y cómo tratarla.', 'El alcohol y algunos otros medicamentos pueden aumentar el riesgo de hipoglucemia.'] } },
+                    { id: 'metformin', title: 'Metformina', icon: '💊', color: 'border-teal-500', brandNames: 'Glucophage, Fortamet, Glumetza', summary: 'A menudo, la primera pastilla recetada para la diabetes Tipo 2. Ayuda a que la propia insulina de su cuerpo funcione mejor.', details: { 'Mecanismo de Acción': 'Funciona de dos maneras principales: reduce la cantidad de glucosa que su hígado libera en el torrente sanguíneo y mejora la sensibilidad de sus células a la insulina que ya produce.', 'Cómo se toma': 'Como una pastilla, generalmente una o dos veces al día con las comidas para reducir el malestar estomacal.', 'Efectos Secundarios Comunes': ['Diarrea, náuseas, gases y malestar estomacal son comunes, especialmente al principio.', 'El uso a largo plazo puede estar asociado con deficiencia de Vitamina B12.'], 'Consideraciones Importantes': ['Debe suspenderse temporalmente antes de recibir ciertos tintes de imagen (contraste).', 'El riesgo de una condición grave llamada acidosis láctica es muy raro, pero aumenta con problemas renales o consumo excesivo de alcohol.'] } },
+                    { id: 'glp1', title: 'Agonistas del Receptor de GLP-1', icon: '✍️', color: 'border-purple-500', brandNames: 'Ozempic, Trulicity, Rybelsus, Victoza', summary: 'Medicamentos inyectables (no insulínicos) que ayudan a controlar el azúcar en la sangre y pueden llevar a la pérdida de peso.', details: { 'Mecanismo de Acción': 'Imita una hormona intestinal natural (GLP-1). Aumenta la liberación de insulina del páncreas solo cuando el azúcar en la sangre es alta, retrasa la rapidez con que los alimentos salen del estómago (haciéndolo sentir lleno) y puede reducir el apetito.', 'Cómo se toma': 'Inyectable, a menudo una vez por semana o una vez al día usando un dispositivo de pluma. Algunos ya están disponibles en pastillas.', 'Efectos Secundarios Comunes': ['Náuseas, vómitos y diarrea son comunes, pero a menudo mejoran con el tiempo.'], 'Consideraciones Importantes': ['Debido a que retrasa la digestión, puede afectar cómo se absorben otros medicamentos orales.', 'Tiene una advertencia de recuadro por riesgo de tumores de células C de la tiroides (visto en estudios con animales).'] } },
+                    { id: 'sglt2', title: 'Inhibidores de SGLT2', icon: '💧', color: 'border-sky-500', brandNames: 'Jardiance, Farxiga, Invokana', summary: 'Pastillas que ayudan a sus riñones a eliminar el azúcar del cuerpo. También tienen beneficios para el corazón y los riñones.', details: { 'Mecanismo de Acción': 'Estos fármacos bloquean una proteína (SGLT2) en los riñones, lo que impide que los riñones reabsorban la glucosa a la sangre. El exceso de glucosa se elimina del cuerpo en la orina.', 'Cómo se toma': 'Como una pastilla, típicamente una vez al día.', 'Efectos Secundarios Comunes': ['Mayor riesgo de infecciones por hongos genitales e infecciones del tracto urinario (ITU).', 'Puede causar deshidratación o mareos.'], 'Consideraciones Importantes': ['Un riesgo raro pero grave es la cetoacidosis diabética (CAD), que puede ocurrir incluso con niveles normales de azúcar en la sangre.', 'Mayor riesgo de deshidratación cuando se toma con diuréticos.'] } },
+                    { id: 'dpp4', title: 'Inhibidores de DPP-4', icon: '💊', color: 'border-amber-500', brandNames: 'Januvia, Tradjenta, Onglyza', summary: 'Pastillas que mejoran el propio sistema de su cuerpo para controlar el azúcar en la sangre, especialmente después de las comidas.', details: { 'Mecanismo de Acción': 'Bloquean la acción de la enzima DPP-4. Esto permite que la hormona intestinal natural GLP-1 permanezca activa por más tiempo, lo que ayuda al páncreas a liberar insulina cuando el azúcar en la sangre es alta.', 'Cómo se toma': 'Como una pastilla, generalmente una vez al día.', 'Efectos Secundarios Comunes': ['Generalmente bien tolerado. Puede incluir dolor de cabeza o síntomas de resfriado.'], 'Consideraciones Importantes': ['Existe un riesgo raro de dolor articular severo o pancreatitis (inflamación del páncreas).', 'Menos interacciones farmacológicas importantes en comparación con otras clases.'] } },
+                    { id: 'sulfonylureas', title: 'Sulfonilureas y Glinidas', icon: '💊', color: 'border-orange-500', brandNames: 'Glucotrol, Amaryl, Glynase', summary: 'Pastillas que estimulan a su páncreas para que libere más insulina, independientemente de su nivel de azúcar en la sangre.', details: { 'Mecanismo de Acción': 'Estos medicamentos incitan directamente a las células beta de su páncreas a producir más insulina.', 'Cómo se toma': 'Como una pastilla, tomada antes de las comidas.', 'Efectos Secundarios Comunes': ['Alto riesgo de nivel bajo de azúcar en la sangre (hipoglucemia).', 'El aumento de peso es común.'], 'Consideraciones Importantes': ['El riesgo de hipoglucemia aumenta con el consumo de alcohol, saltarse comidas o ejercicio intenso.', 'Muchos otros fármacos pueden interactuar para aumentar este riesgo.'] } }
+                ]
+            }
+        };
+
+        let currentLanguage = 'en';
+        const grid = document.getElementById('treatments-grid');
+
+        function renderGrid() {
+            const t = translations[currentLanguage];
+            grid.innerHTML = t.treatments_data.map(item => `
+                <div class="card bg-white rounded-lg shadow-md p-6 flex flex-col border-t-4 ${item.color}">
+                    <div class="flex items-start mb-2">
+                        <span class="text-4xl mr-4">${item.icon}</span>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold text-slate-800">${item.title}</h3>
+                            <p class="text-sm text-slate-500 font-semibold">${item.brandNames}</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 flex-grow">${item.summary}</p>
+                    <div class="mt-4">
+                        <button class="toggle-details-btn text-blue-600 font-semibold hover:text-blue-800">${t.learn_more}</button>
+                    </div>
+                    <div class="details-section">
+                        ${Object.entries(item.details).map(([key, value]) => {
+                            if (Array.isArray(value)) {
+                                return `<div class="mb-3">
+                                            <h4 class="font-semibold text-slate-800">${key}:</h4>
+                                            <ul class="list-disc list-inside text-slate-600 text-sm space-y-1 mt-1">
+                                                ${value.map(point => `<li>${point}</li>`).join('')}
+                                            </ul>
+                                        </div>`;
+                            }
+                            return `<div class="mb-3">
+                                        <h4 class="font-semibold text-slate-800">${key}:</h4>
+                                        <p class="text-slate-600 text-sm mt-1">${value}</p>
+                                    </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderGrid();
+        }
+
+        grid.addEventListener('click', function(e) {
+            if (e.target.classList.contains('toggle-details-btn')) {
+                const button = e.target;
+                const details = button.parentElement.nextElementSibling;
+                details.classList.toggle('open');
+                button.textContent = details.classList.contains('open') ? translations[currentLanguage].show_less : translations[currentLanguage].learn_more;
+            }
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        changeLanguage('en'); // Initial load
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Your Guide to Mental Wellness with Diabetes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .details-section {
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .details-section.open {
+            max-height: 500px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-xl font-bold text-slate-800" data-translate="header_title"></h2>
+             <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9m-9 9a9 9 0 00-9 9" /></svg>
+                <div class="flex rounded-lg border border-gray-300 p-0.5">
+                    <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                    <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-2" data-translate="main_title"></h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </header>
+
+        <div class="bg-purple-100 border-l-4 border-purple-500 text-purple-800 p-4 rounded-lg shadow-md mb-8" role="alert">
+            <p class="font-bold" data-translate="alert_title"></p>
+            <p data-translate="alert_desc"></p>
+        </div>
+
+        <!-- Distress vs Depression Section -->
+        <h2 class="text-3xl font-bold text-center text-slate-800 mb-6" data-translate="distress_vs_depression_title"></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <!-- Diabetes Distress Card -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-amber-500">
+                <h3 class="text-2xl font-bold text-slate-800 mb-2" data-translate="distress_title"></h3>
+                <p class="text-slate-600 mb-4" data-translate="distress_desc"></p>
+                <ul class="list-disc list-inside space-y-2 text-slate-700" data-translate="distress_list" data-is-list></ul>
+            </div>
+            <!-- Depression Card -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-blue-500">
+                <h3 class="text-2xl font-bold text-slate-800 mb-2" data-translate="depression_title"></h3>
+                <p class="text-slate-600 mb-4" data-translate="depression_desc"></p>
+                 <ul class="list-disc list-inside space-y-2 text-slate-700" data-translate="depression_list" data-is-list></ul>
+            </div>
+        </div>
+
+        <!-- Coping Strategies -->
+        <h2 class="text-3xl font-bold text-center text-slate-800 mb-6" data-translate="coping_title"></h2>
+        <div id="coping-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <!-- JS will populate this grid -->
+        </div>
+        
+        <footer class="mt-12 text-center bg-white p-6 rounded-lg shadow-md">
+            <p class="font-semibold text-slate-800" data-translate="footer_desc"></p>
+            <a href="https://diabetes.org/health-wellness/mental-health" target="_blank" class="mt-3 inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-translate="footer_button"></a>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const translations = {
+            en: {
+                header_title: "Mental Wellness Guide",
+                main_title: "Mental Wellness and Diabetes",
+                subtitle: "Taking care of your mind is just as important as taking care of your body.",
+                alert_title: "You Are Not Alone",
+                alert_desc: "Living with diabetes is a 24/7 job that can be stressful and overwhelming. It's normal to feel this way, and there are many ways to find support.",
+                distress_vs_depression_title: "Is It Diabetes Distress or Depression?",
+                distress_title: "Diabetes Distress",
+                distress_desc: "This is the emotional toll of the daily burden of managing diabetes. It feels like frustration, worry, and burnout from the constant demands of the condition.",
+                distress_list: ["Feeling that diabetes controls your life.", "Worrying about not managing it perfectly.", "Feeling unsupported by family or friends.", "Feeling angry or discouraged about your progress."],
+                depression_title: "Depression",
+                depression_desc: "This is a serious medical illness that negatively affects how you feel, think, and act. It involves persistent sadness and a loss of interest in activities you once enjoyed.",
+                depression_list: ["Lasting sad, anxious, or \"empty\" mood.", "Loss of interest or pleasure in hobbies.", "Changes in sleep or appetite.", "Feeling hopeless, worthless, or guilty."],
+                coping_title: "Actionable Coping Strategies",
+                footer_desc: "This is a simplified guide. For more detailed information and resources, please visit the official page from the American Diabetes Association.",
+                footer_button: "Visit Diabetes.org Mental Health Page",
+                learn_how: "Learn How ▼",
+                show_less: "Show Less ▲",
+                coping_data: [
+                    { id: 'talk', icon: '💬', title: "Talk About It", summary: "Don't keep your feelings to yourself. Sharing your experience can lift a huge weight off your shoulders.", details: ["Talk to your healthcare team: They can help you problem-solve and connect you with resources.", "Lean on family and friends: Let them know how you feel and how they can help.", "Find a support group: Connecting with other people with diabetes can be incredibly validating."] },
+                    { id: 'step', icon: '👟', title: "Take It One Step at a Time", summary: "Trying to be \"perfect\" can be exhausting. Focus on small, achievable goals to avoid feeling overwhelmed.", details: ["Set one small goal: Instead of \"eat perfectly,\" try \"add a vegetable to my lunch.\"", "Celebrate small wins: Acknowledge your effort and progress, no matter how small.", "Be kind to yourself: If you have a bad day, don't see it as a failure. Just aim to get back on track with your next meal or next day."] },
+                    { id: 'healthy', icon: '🧘', title: "Practice Healthy Coping", summary: "Find healthy ways to manage stress that work for you and make them a regular part of your routine.", details: ["Move your body: Physical activity is a powerful mood booster.", "Practice mindfulness: Activities like deep breathing, meditation, or yoga can help calm your mind.", "Make time for hobbies: Do things you enjoy that have nothing to do with diabetes."] },
+                    { id: 'help', icon: '🤝', title: "Know When to Seek Help", summary: "Recognizing when you need professional support is a sign of strength. A therapist can be a key part of your care team.", details: ["If you feel persistently sad or hopeless for two weeks or more, talk to your doctor.", "Your doctor can screen you for depression and refer you to a mental health professional.", "Therapy can provide you with effective strategies for managing stress, distress, and depression."] }
+                ]
+            },
+            es: {
+                header_title: "Guía de Bienestar Mental",
+                main_title: "Bienestar Mental y Diabetes",
+                subtitle: "Cuidar su mente es tan importante como cuidar su cuerpo.",
+                alert_title: "No Está Solo",
+                alert_desc: "Vivir con diabetes es un trabajo de 24/7 que puede ser estresante y abrumador. Es normal sentirse así, y hay muchas maneras de encontrar apoyo.",
+                distress_vs_depression_title: "¿Es Angustia por la Diabetes o Depresión?",
+                distress_title: "Angustia por la Diabetes",
+                distress_desc: "Es el costo emocional de la carga diaria de manejar la diabetes. Se siente como frustración, preocupación y agotamiento por las constantes demandas de la condición.",
+                distress_list: ["Sentir que la diabetes controla su vida.", "Preocuparse por no manejarla perfectamente.", "Sentirse sin apoyo de familiares o amigos.", "Sentirse enojado o desanimado por su progreso."],
+                depression_title: "Depresión",
+                depression_desc: "Es una enfermedad médica grave que afecta negativamente cómo se siente, piensa y actúa. Implica una tristeza persistente y una pérdida de interés en actividades que antes disfrutaba.",
+                depression_list: ["Estado de ánimo triste, ansioso o \"vacío\" duradero.", "Pérdida de interés o placer en pasatiempos.", "Cambios en el sueño o el apetito.", "Sentirse sin esperanza, inútil o culpable."],
+                coping_title: "Estrategias de Afrontamiento Prácticas",
+                footer_desc: "Esta es una guía simplificada. Para obtener información más detallada y recursos, visite la página oficial de la Asociación Americana de Diabetes.",
+                footer_button: "Visitar la Página de Salud Mental de Diabetes.org",
+                learn_how: "Aprender Cómo ▼",
+                show_less: "Mostrar Menos ▲",
+                coping_data: [
+                    { id: 'talk', icon: '💬', title: "Hable de Ello", summary: "No se guarde sus sentimientos. Compartir su experiencia puede quitarle un gran peso de encima.", details: ["Hable con su equipo de atención médica: Pueden ayudarle a resolver problemas y conectarlo con recursos.", "Apóyese en familiares y amigos: Hágales saber cómo se siente y cómo pueden ayudar.", "Encuentre un grupo de apoyo: Conectarse con otras personas con diabetes puede ser increíblemente valioso."] },
+                    { id: 'step', icon: '👟', title: "Un Paso a la Vez", summary: "Intentar ser \"perfecto\" puede ser agotador. Concéntrese en metas pequeñas y alcanzables para evitar sentirse abrumado.", details: ["Establezca una meta pequeña: En lugar de \"comer perfectamente\", intente \"agregar una verdura a mi almuerzo\".", "Celebre las pequeñas victorias: Reconozca su esfuerzo y progreso, sin importar cuán pequeños sean.", "Sea amable consigo mismo: Si tiene un mal día, no lo vea como un fracaso. Simplemente intente volver al buen camino con su próxima comida o al día siguiente."] },
+                    { id: 'healthy', icon: '🧘', title: "Practique el Afrontamiento Saludable", summary: "Encuentre formas saludables de manejar el estrés que funcionen para usted y conviértalas en una parte regular de su rutina.", details: ["Mueva su cuerpo: La actividad física es un potente estimulante del estado de ánimo.", "Practique la atención plena: Actividades como la respiración profunda, la meditación o el yoga pueden ayudar a calmar su mente.", "Haga tiempo para pasatiempos: Haga cosas que disfrute y que no tengan nada que ver con la diabetes."] },
+                    { id: 'help', icon: '🤝', title: "Sepa Cuándo Buscar Ayuda", summary: "Reconocer cuándo necesita apoyo profesional es un signo de fortaleza. Un terapeuta puede ser una parte clave de su equipo de atención.", details: ["Si se siente persistentemente triste o sin esperanza durante dos semanas o más, hable con su médico.", "Su médico puede evaluarlo para detectar depresión y referirlo a un profesional de la salud mental.", "La terapia puede proporcionarle estrategias efectivas para manejar el estrés, la angustia y la depresión."] }
+                ]
+            }
+        };
+
+        let currentLanguage = 'en';
+        const copingGrid = document.getElementById('coping-grid');
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            // Render static text & lists
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    if (el.dataset.isList) {
+                        el.innerHTML = t[key].map(item => `<li>${item}</li>`).join('');
+                    } else {
+                        el.innerHTML = t[key];
+                    }
+                }
+            });
+
+            // Render coping grid
+            copingGrid.innerHTML = t.coping_data.map(item => `
+                <div class="card bg-white rounded-lg shadow-md p-6 flex flex-col">
+                    <div class="flex items-center mb-3">
+                        <span class="text-4xl mr-4">${item.icon}</span>
+                        <h3 class="text-xl font-bold text-slate-800">${item.title}</h3>
+                    </div>
+                    <p class="text-slate-600 flex-grow">${item.summary}</p>
+                    <div class="mt-4">
+                        <button class="toggle-details-btn text-blue-600 font-semibold hover:text-blue-800">${t.learn_how}</button>
+                    </div>
+                    <div class="details-section">
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2 mt-1">
+                            ${item.details.map(detail => `<li>${detail}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        copingGrid.addEventListener('click', function(e) {
+            if (e.target.classList.contains('toggle-details-btn')) {
+                const button = e.target;
+                const details = button.parentElement.nextElementSibling;
+                details.classList.toggle('open');
+                button.textContent = details.classList.contains('open') ? translations[currentLanguage].show_less : translations[currentLanguage].learn_how;
+            }
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        changeLanguage('en'); // Initial load
+    });
+    </script>
+</body>
+</html>
