@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The DASH Eating Plan: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0fdf4; color: #1e293b; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        main section { animation: fadeIn 0.6s ease-in-out; }
+        
+        .food-group-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .food-group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px var(--tw-shadow-color);
+        }
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .food-group-card.open .card-details {
+            max-height: 500px;
+            padding-top: 1rem;
+        }
+        .food-group-card.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-green-50">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-800">
+                <span class="text-green-600">🥗</span> <span data-translate="header_title">Your Guide to the DASH Plan</span>
+            </h1>
+            <div class="flex items-center gap-4">
+                 <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full NHLBI Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- What is the DASH Plan? -->
+        <section id="what-is-it" class="py-16 md:py-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_dash_title">What is the DASH Eating Plan?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="what_is_dash_p">DASH stands for <span class="font-semibold">D</span>ietary <span class="font-semibold">A</span>pproaches to <span class="font-semibold">S</span>top <span class="font-semibold">H</span>ypertension. It's not a temporary diet, but a flexible and heart-healthy eating style that's proven to help lower high blood pressure.</p>
+                </div>
+                
+                <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                    <div class="bg-green-100 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl text-green-800 flex items-center gap-2"><span class="text-3xl">⬆️</span> <span data-translate="eat_more_title">Eat More Of:</span></h3>
+                        <p class="mt-2 text-green-700" data-translate="eat_more_p">Foods rich in Potassium, Calcium, Magnesium, Fiber, and Protein.</p>
+                        <ul class="mt-3 space-y-1 font-medium">
+                            <li data-translate="eat_more_li1">Fruits & Vegetables</li>
+                            <li data-translate="eat_more_li2">Fat-Free or Low-Fat Dairy</li>
+                            <li data-translate="eat_more_li3">Whole Grains, Fish, Poultry, Beans, Seeds & Nuts</li>
+                        </ul>
+                    </div>
+                     <div class="bg-red-100 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl text-red-800 flex items-center gap-2"><span class="text-3xl">⬇️</span> <span data-translate="limit_title">Limit:</span></h3>
+                        <p class="mt-2 text-red-700" data-translate="limit_p">Foods that can raise blood pressure or harm your heart.</p>
+                        <ul class="mt-3 space-y-1 font-medium">
+                            <li data-translate="limit_li1">Sodium (Salt)</li>
+                            <li data-translate="limit_li2">Sugar-Sweetened Drinks & Sweets</li>
+                            <li data-translate="limit_li3">Foods High in Saturated Fat (like fatty meats & full-fat dairy)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Daily DASH Plan -->
+        <section id="daily-plan" class="py-16 md:py-24 bg-green-100">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="daily_plan_title">Your Daily DASH Plan</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="daily_plan_p">DASH is about balance and variety. Click each food group below to see your daily serving goals (based on a 2,000-calorie diet) and what counts as a serving.</p>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Grains -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="grains">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🌾</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="grains_title">Grains</h3>
+                                <p class="font-semibold text-orange-600" data-translate="grains_servings">6-8 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="grains_details1"><strong>1 Serving =</strong> 1 slice bread, 1 oz dry cereal, or ½ cup cooked rice/pasta.</p>
+                            <p class="mt-2" data-translate="grains_details2"><strong>Focus on:</strong> Whole grains like brown rice, oatmeal, and whole-wheat bread.</p>
+                        </div>
+                    </div>
+                    <!-- Vegetables -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="vegetables">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🥦</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="veg_title">Vegetables</h3>
+                                <p class="font-semibold text-green-600" data-translate="veg_servings">4-5 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="veg_details1"><strong>1 Serving =</strong> 1 cup raw leafy greens, or ½ cup cut-up raw/cooked veggies.</p>
+                            <p class="mt-2" data-translate="veg_details2"><strong>Focus on:</strong> Colorful veggies like spinach, carrots, and tomatoes. They are rich in vitamins and minerals.</p>
+                        </div>
+                    </div>
+                    <!-- Fruits -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="fruits">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🍓</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="fruits_title">Fruits</h3>
+                                <p class="font-semibold text-red-600" data-translate="fruits_servings">4-5 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="fruits_details1"><strong>1 Serving =</strong> 1 medium fruit, or ½ cup fresh/frozen fruit.</p>
+                            <p class="mt-2" data-translate="fruits_details2"><strong>Focus on:</strong> Whole fruits over juice to get more fiber. Berries, apples, and bananas are great choices.</p>
+                        </div>
+                    </div>
+                    <!-- Dairy -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="dairy">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🥛</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="dairy_title">Low-Fat Dairy</h3>
+                                <p class="font-semibold text-blue-600" data-translate="dairy_servings">2-3 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="dairy_details1"><strong>1 Serving =</strong> 1 cup milk or yogurt, or 1.5 oz cheese.</p>
+                            <p class="mt-2" data-translate="dairy_details2"><strong>Focus on:</strong> Fat-free or low-fat options to get calcium without the saturated fat.</p>
+                        </div>
+                    </div>
+                    <!-- Protein -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="protein">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🍗</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="protein_title">Lean Protein</h3>
+                                <p class="font-semibold text-yellow-700" data-translate="protein_servings">6 oz or less/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="protein_details1"><strong>1 Serving =</strong> 1 oz cooked meat/fish, or 1 egg.</p>
+                            <p class="mt-2" data-translate="protein_details2"><strong>Focus on:</strong> Skinless poultry, fish, beans, and lentils. Bake, broil, or grill instead of frying.</p>
+                        </div>
+                    </div>
+                     <!-- Nuts, Seeds, Legumes -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="nuts">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🥜</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="nuts_title">Nuts, Seeds, Legumes</h3>
+                                <p class="font-semibold text-amber-800" data-translate="nuts_servings">4-5 servings/WEEK</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="nuts_details1"><strong>1 Serving =</strong> ⅓ cup nuts, 2 tbsp seeds, or ½ cup cooked legumes.</p>
+                            <p class="mt-2" data-translate="nuts_details2"><strong>Focus on:</strong> Almonds, walnuts, sunflower seeds, and kidney beans for healthy fats and fiber.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sodium Section -->
+        <section id="sodium" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="sodium_title">Become a Sodium Detective</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="sodium_p">Reducing sodium is a cornerstone of the DASH plan. Most sodium comes from processed and restaurant foods, not the salt shaker.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="text-5xl">🏷️</div>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip1_title">Read the Label</h3>
+                        <p class="mt-2 text-slate-600" data-translate="sodium_tip1_p">Choose foods with a low % Daily Value (DV) for sodium. 5% or less is low, while 20% or more is high.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="text-5xl">🛒</div>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip2_title">Choose Fresh</h3>
+                        <p class="mt-2 text-slate-600" data-translate="sodium_tip2_p">Select fresh or frozen vegetables without added sauces. Pick fresh poultry and fish over cured or processed meats.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="text-5xl">🌿</div>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip3_title">Flavor with Spices</h3>
+                        <p class="mt-2 text-slate-600" data-translate="sodium_tip3_p">Use salt-free spice blends, herbs, lemon, lime, vinegar, or wine to add flavor to your food instead of salt.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the National Heart, Lung, and Blood Institute (NHLBI).</p>
+            <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link">
+                Go to the Full NHLBI DASH Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from NHLBI.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                en: {
+                    header_title: "Your Guide to the DASH Plan",
+                    full_guide_link: "Full NHLBI Guide →",
+                    what_is_dash_title: "What is the DASH Eating Plan?",
+                    what_is_dash_p: "DASH stands for <span class=\"font-semibold\">D</span>ietary <span class=\"font-semibold\">A</span>pproaches to <span class=\"font-semibold\">S</span>top <span class=\"font-semibold\">H</span>ypertension. It's not a temporary diet, but a flexible and heart-healthy eating style that's proven to help lower high blood pressure.",
+                    eat_more_title: "Eat More Of:",
+                    eat_more_p: "Foods rich in Potassium, Calcium, Magnesium, Fiber, and Protein.",
+                    eat_more_li1: "Fruits & Vegetables",
+                    eat_more_li2: "Fat-Free or Low-Fat Dairy",
+                    eat_more_li3: "Whole Grains, Fish, Poultry, Beans, Seeds & Nuts",
+                    limit_title: "Limit:",
+                    limit_p: "Foods that can raise blood pressure or harm your heart.",
+                    limit_li1: "Sodium (Salt)",
+                    limit_li2: "Sugar-Sweetened Drinks & Sweets",
+                    limit_li3: "Foods High in Saturated Fat (like fatty meats & full-fat dairy)",
+                    daily_plan_title: "Your Daily DASH Plan",
+                    daily_plan_p: "DASH is about balance and variety. Click each food group below to see your daily serving goals (based on a 2,000-calorie diet) and what counts as a serving.",
+                    grains_title: "Grains",
+                    grains_servings: "6-8 servings/day",
+                    grains_details1: "<strong>1 Serving =</strong> 1 slice bread, 1 oz dry cereal, or ½ cup cooked rice/pasta.",
+                    grains_details2: "<strong>Focus on:</strong> Whole grains like brown rice, oatmeal, and whole-wheat bread.",
+                    veg_title: "Vegetables",
+                    veg_servings: "4-5 servings/day",
+                    veg_details1: "<strong>1 Serving =</strong> 1 cup raw leafy greens, or ½ cup cut-up raw/cooked veggies.",
+                    veg_details2: "<strong>Focus on:</strong> Colorful veggies like spinach, carrots, and tomatoes. They are rich in vitamins and minerals.",
+                    fruits_title: "Fruits",
+                    fruits_servings: "4-5 servings/day",
+                    fruits_details1: "<strong>1 Serving =</strong> 1 medium fruit, or ½ cup fresh/frozen fruit.",
+                    fruits_details2: "<strong>Focus on:</strong> Whole fruits over juice to get more fiber. Berries, apples, and bananas are great choices.",
+                    dairy_title: "Low-Fat Dairy",
+                    dairy_servings: "2-3 servings/day",
+                    dairy_details1: "<strong>1 Serving =</strong> 1 cup milk or yogurt, or 1.5 oz cheese.",
+                    dairy_details2: "<strong>Focus on:</strong> Fat-free or low-fat options to get calcium without the saturated fat.",
+                    protein_title: "Lean Protein",
+                    protein_servings: "6 oz or less/day",
+                    protein_details1: "<strong>1 Serving =</strong> 1 oz cooked meat/fish, or 1 egg.",
+                    protein_details2: "<strong>Focus on:</strong> Skinless poultry, fish, beans, and lentils. Bake, broil, or grill instead of frying.",
+                    nuts_title: "Nuts, Seeds, Legumes",
+                    nuts_servings: "4-5 servings/WEEK",
+                    nuts_details1: "<strong>1 Serving =</strong> ⅓ cup nuts, 2 tbsp seeds, or ½ cup cooked legumes.",
+                    nuts_details2: "<strong>Focus on:</strong> Almonds, walnuts, sunflower seeds, and kidney beans for healthy fats and fiber.",
+                    sodium_title: "Become a Sodium Detective",
+                    sodium_p: "Reducing sodium is a cornerstone of the DASH plan. Most sodium comes from processed and restaurant foods, not the salt shaker.",
+                    sodium_tip1_title: "Read the Label",
+                    sodium_tip1_p: "Choose foods with a low % Daily Value (DV) for sodium. 5% or less is low, while 20% or more is high.",
+                    sodium_tip2_title: "Choose Fresh",
+                    sodium_tip2_p: "Select fresh or frozen vegetables without added sauces. Pick fresh poultry and fish over cured or processed meats.",
+                    sodium_tip3_title: "Flavor with Spices",
+                    sodium_tip3_p: "Use salt-free spice blends, herbs, lemon, lime, vinegar, or wine to add flavor to your food instead of salt.",
+                    footer_p1: "This guide provides a simplified overview. For complete information, please visit the National Heart, Lung, and Blood Institute (NHLBI).",
+                    footer_link: "Go to the Full NHLBI DASH Guide →",
+                    footer_p2: "This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from NHLBI."
+                },
+                es: {
+                    header_title: "Su Guía del Plan DASH",
+                    full_guide_link: "Guía Completa del NHLBI →",
+                    what_is_dash_title: "¿Qué es el Plan de Alimentación DASH?",
+                    what_is_dash_p: "DASH significa <span class=\"font-semibold\">E</span>nfoques <span class=\"font-semibold\">D</span>ietéticos para <span class=\"font-semibold\">D</span>etener la <span class=\"font-semibold\">H</span>ipertensión. No es una dieta temporal, sino un estilo de alimentación flexible y saludable para el corazón que ha demostrado ayudar a bajar la presión arterial alta.",
+                    eat_more_title: "Coma Más de:",
+                    eat_more_p: "Alimentos ricos en Potasio, Calcio, Magnesio, Fibra y Proteínas.",
+                    eat_more_li1: "Frutas y Verduras",
+                    eat_more_li2: "Lácteos sin Grasa o Bajos en Grasa",
+                    eat_more_li3: "Granos Integrales, Pescado, Aves, Frijoles, Semillas y Nueces",
+                    limit_title: "Limite:",
+                    limit_p: "Alimentos que pueden aumentar la presión arterial o dañar su corazón.",
+                    limit_li1: "Sodio (Sal)",
+                    limit_li2: "Bebidas Azucaradas y Dulces",
+                    limit_li3: "Alimentos Altos en Grasas Saturadas (como carnes grasas y lácteos enteros)",
+                    daily_plan_title: "Su Plan Diario DASH",
+                    daily_plan_p: "DASH se trata de equilibrio y variedad. Haga clic en cada grupo de alimentos a continuación para ver sus metas de porciones diarias (basado en una dieta de 2,000 calorías) y lo que cuenta como una porción.",
+                    grains_title: "Granos",
+                    grains_servings: "6-8 porciones/día",
+                    grains_details1: "<strong>1 Porción =</strong> 1 rebanada de pan, 1 oz de cereal seco, o ½ taza de arroz/pasta cocida.",
+                    grains_details2: "<strong>Enfoque en:</strong> Granos integrales como arroz integral, avena y pan de trigo integral.",
+                    veg_title: "Verduras",
+                    veg_servings: "4-5 porciones/día",
+                    veg_details1: "<strong>1 Porción =</strong> 1 taza de verduras de hoja verde crudas, o ½ taza de verduras crudas/cocidas cortadas.",
+                    veg_details2: "<strong>Enfoque en:</strong> Verduras coloridas como espinacas, zanahorias y tomates. Son ricas en vitaminas y minerales.",
+                    fruits_title: "Frutas",
+                    fruits_servings: "4-5 porciones/día",
+                    fruits_details1: "<strong>1 Porción =</strong> 1 fruta mediana, o ½ taza de fruta fresca/congelada.",
+                    fruits_details2: "<strong>Enfoque en:</strong> Frutas enteras en lugar de jugo para obtener más fibra. Las bayas, manzanas y plátanos son excelentes opciones.",
+                    dairy_title: "Lácteos Bajos en Grasa",
+                    dairy_servings: "2-3 porciones/día",
+                    dairy_details1: "<strong>1 Porción =</strong> 1 taza de leche o yogur, o 1.5 oz de queso.",
+                    dairy_details2: "<strong>Enfoque en:</strong> Opciones sin grasa o bajas en grasa para obtener calcio sin la grasa saturada.",
+                    protein_title: "Proteína Magra",
+                    protein_servings: "6 oz o menos/día",
+                    protein_details1: "<strong>1 Porción =</strong> 1 oz de carne/pescado cocido, o 1 huevo.",
+                    protein_details2: "<strong>Enfoque en:</strong> Aves sin piel, pescado, frijoles y lentejas. Hornee, ase o cocine a la parrilla en lugar de freír.",
+                    nuts_title: "Nueces, Semillas, Legumbres",
+                    nuts_servings: "4-5 porciones/SEMANA",
+                    nuts_details1: "<strong>1 Porción =</strong> ⅓ taza de nueces, 2 cdas. de semillas, o ½ taza de legumbres cocidas.",
+                    nuts_details2: "<strong>Enfoque en:</strong> Almendras, nueces, semillas de girasol y frijoles para grasas saludables y fibra.",
+                    sodium_title: "Conviértase en un Detective de Sodio",
+                    sodium_p: "Reducir el sodio es una piedra angular del plan DASH. La mayor parte del sodio proviene de alimentos procesados y de restaurantes, no del salero.",
+                    sodium_tip1_title: "Lea la Etiqueta",
+                    sodium_tip1_p: "Elija alimentos con un % de Valor Diario (VD) bajo en sodio. 5% o menos es bajo, mientras que 20% o más es alto.",
+                    sodium_tip2_title: "Elija Fresco",
+                    sodium_tip2_p: "Seleccione verduras frescas o congeladas sin salsas añadidas. Elija aves y pescado frescos en lugar de carnes curadas o procesadas.",
+                    sodium_tip3_title: "Sazone con Especias",
+                    sodium_tip3_p: "Use mezclas de especias sin sal, hierbas, limón, lima, vinagre o vino para dar sabor a su comida en lugar de sal.",
+                    footer_p1: "Esta guía proporciona una descripción simplificada. Para obtener información completa, visite el Instituto Nacional del Corazón, los Pulmones y la Sangre (NHLBI).",
+                    footer_link: "Ir a la Guía Completa de DASH del NHLBI →",
+                    footer_p2: "Este contenido es para fines informativos y no sustituye el consejo médico profesional.<br>&copy; 2024 Iniciativa de Educación para Pacientes. Información obtenida del NHLBI."
+                }
+            };
+
+            const languageSelector = document.getElementById('language-selector');
+            const translatableElements = document.querySelectorAll('[data-translate]');
+
+            function translatePage(language) {
+                translatableElements.forEach(el => {
+                    const key = el.dataset.translate;
+                    if (translations[language] && translations[language][key]) {
+                        el.innerHTML = translations[language][key];
+                    }
+                });
+            }
+
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
+            });
+
+            const foodGroupCards = document.querySelectorAll('.food-group-card');
+            foodGroupCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    foodGroupCards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.classList.remove('open');
+                        }
+                    });
+                    card.classList.toggle('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

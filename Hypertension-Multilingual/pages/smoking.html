@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Quitting Smoking: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7fee7; color: #1e293b; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        main section { animation: fadeIn 0.6s ease-in-out; }
+        
+        .timeline-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .timeline-btn.active {
+            background-color: #84cc16;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px 0 rgba(132, 204, 22, 0.38);
+        }
+        #timeline-progress {
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-lime-50">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-800">
+                <span class="text-lime-600">🚭</span> <span data-translate="header_title">Your Guide to Quitting Smoking</span>
+            </h1>
+            <div class="flex items-center gap-4">
+                <a href="https://www.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full Smokefree.gov Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Intro Section -->
+        <section id="intro" class="py-16 md:py-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2">Your Body Starts Healing in Minutes</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p">Quitting smoking is the single best thing you can do for your health. The benefits begin almost immediately. Click through the timeline below to see how your body recovers when you become smoke-free.</p>
+                </div>
+                
+                <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+                    <div class="relative w-full h-2 bg-slate-200 rounded-full mb-4">
+                        <div id="timeline-progress" class="absolute top-0 left-0 h-full bg-lime-500 rounded-full" style="width: 0%;"></div>
+                    </div>
+                    <div class="flex justify-between mb-8">
+                        <button class="timeline-btn w-10 h-10 rounded-full font-semibold" data-step="1" data-progress="0">20m</button>
+                        <button class="timeline-btn w-10 h-10 rounded-full font-semibold" data-step="2" data-progress="25">12h</button>
+                        <button class="timeline-btn w-10 h-10 rounded-full font-semibold" data-step="3" data-progress="50">1y</button>
+                        <button class="timeline-btn w-10 h-10 rounded-full font-semibold" data-step="4" data-progress="75">5y</button>
+                        <button class="timeline-btn w-10 h-10 rounded-full font-semibold" data-step="5" data-progress="100">10y</button>
+                    </div>
+                    <div id="timeline-explanation" class="min-h-[100px] text-center bg-lime-50 p-6 rounded-lg">
+                        <!-- JS will populate this -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Why is it Hard? Section -->
+        <section id="challenges" class="py-16 md:py-24 bg-lime-100">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="challenges_h2">Why is Quitting So Hard? Understanding Nicotine Addiction</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="challenges_p">Quitting is tough because nicotine is a powerful, addictive drug. Your brain gets used to it, and when you stop, you can experience withdrawal symptoms and strong cravings. Knowing what to expect is the first step to overcoming it.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-slate-800" data-translate="withdrawal_title">Common Withdrawal Symptoms</h3>
+                        <p class="mt-2 text-slate-600" data-translate="withdrawal_p">These are temporary signs that your body is healing. They usually peak in the first few days and get better over a few weeks.</p>
+                        <ul class="mt-4 grid grid-cols-2 gap-2 font-medium text-slate-700">
+                            <li class="flex items-center"><span class="text-xl mr-2">😠</span> <span data-translate="symptom1">Feeling irritable</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🧠</span> <span data-translate="symptom2">Difficulty concentrating</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🍽️</span> <span data-translate="symptom3">Increased appetite</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">😟</span> <span data-translate="symptom4">Anxiety or restlessness</span></li>
+                        </ul>
+                    </div>
+                     <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-slate-800" data-translate="craving_title">Managing Cravings</h3>
+                        <p class="mt-2 text-slate-600" data-translate="craving_p">Cravings are strong urges to smoke. They are usually short, lasting only 5-10 minutes. Having a plan to get through them is key.</p>
+                        <ul class="mt-4 grid grid-cols-2 gap-2 font-medium text-slate-700">
+                            <li class="flex items-center"><span class="text-xl mr-2">🗣️</span> <span data-translate="craving1">Talk to someone</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">💧</span> <span data-translate="craving2">Drink water</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🚶</span> <span data-translate="craving3">Go for a walk</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🧘</span> <span data-translate="craving4">Try deep breathing</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quit Plan Section -->
+        <section id="quit-plan" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="plan_h2">Your Action Plan for Quitting</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="plan_p">A good plan can make all the difference. Think through these steps to prepare yourself for success.</p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                        <div class="text-6xl">🗓️</div>
+                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan1_title">1. Set a Quit Date</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan1_p">Choose a specific date within the next two weeks. Mark it on your calendar. This makes your goal real and gives you time to prepare.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                        <div class="text-6xl">🤝</div>
+                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan2_title">2. Get Support</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan2_p">Tell friends and family about your plan. Consider using quit-smoking apps, a quitline (like 1-800-QUIT-NOW), or talking to your doctor about medications.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                        <div class="text-6xl">⚙️</div>
+                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan3_title">3. Manage Your Triggers</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan3_p">Identify the times, places, and feelings that make you want to smoke. Plan a new, healthy activity to do instead during those moments.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information and more tools, please visit Smokefree.gov.</p>
+            <a href="https://www.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link">
+                Go to the Full Smokefree.gov Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">You can quit smoking. For free support, call 1-800-QUIT-NOW.<br>&copy; 2024 Patient Education Initiative. Information sourced from Smokefree.gov.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                en: {
+                    header_title: "Your Guide to Quitting Smoking",
+                    full_guide_link: "Full Smokefree.gov Guide →",
+                    intro_h2: "Your Body Starts Healing in Minutes",
+                    intro_p: "Quitting smoking is the single best thing you can do for your health. The benefits begin almost immediately. Click through the timeline below to see how your body recovers when you become smoke-free.",
+                    timeline_step1_title: "In 20 Minutes",
+                    timeline_step1_desc: "Your heart rate and blood pressure drop.",
+                    timeline_step2_title: "In 12 Hours",
+                    timeline_step2_desc: "The carbon monoxide level in your blood drops to normal.",
+                    timeline_step3_title: "In 1 Year",
+                    timeline_step3_desc: "Your risk of heart attack drops sharply.",
+                    timeline_step4_title: "In 5 Years",
+                    timeline_step4_desc: "Your risk of stroke is reduced to that of a nonsmoker's.",
+                    timeline_step5_title: "In 10 Years",
+                    timeline_step5_desc: "Your risk of dying from lung cancer is about half that of a person who is still smoking.",
+                    challenges_h2: "Why is Quitting So Hard? Understanding Nicotine Addiction",
+                    challenges_p: "Quitting is tough because nicotine is a powerful, addictive drug. Your brain gets used to it, and when you stop, you can experience withdrawal symptoms and strong cravings. Knowing what to expect is the first step to overcoming it.",
+                    withdrawal_title: "Common Withdrawal Symptoms",
+                    withdrawal_p: "These are temporary signs that your body is healing. They usually peak in the first few days and get better over a few weeks.",
+                    symptom1: "Feeling irritable",
+                    symptom2: "Difficulty concentrating",
+                    symptom3: "Increased appetite",
+                    symptom4: "Anxiety or restlessness",
+                    craving_title: "Managing Cravings",
+                    craving_p: "Cravings are strong urges to smoke. They are usually short, lasting only 5-10 minutes. Having a plan to get through them is key.",
+                    craving1: "Talk to someone",
+                    craving2: "Drink water",
+                    craving3: "Go for a walk",
+                    craving4: "Try deep breathing",
+                    plan_h2: "Your Action Plan for Quitting",
+                    plan_p: "A good plan can make all the difference. Think through these steps to prepare yourself for success.",
+                    plan1_title: "1. Set a Quit Date",
+                    plan1_p: "Choose a specific date within the next two weeks. Mark it on your calendar. This makes your goal real and gives you time to prepare.",
+                    plan2_title: "2. Get Support",
+                    plan2_p: "Tell friends and family about your plan. Consider using quit-smoking apps, a quitline (like 1-800-QUIT-NOW), or talking to your doctor about medications.",
+                    plan3_title: "3. Manage Your Triggers",
+                    plan3_p: "Identify the times, places, and feelings that make you want to smoke. Plan a new, healthy activity to do instead during those moments.",
+                    footer_p1: "This guide provides a simplified overview. For complete information and more tools, please visit Smokefree.gov.",
+                    footer_link: "Go to the Full Smokefree.gov Guide →",
+                    footer_p2: "You can quit smoking. For free support, call 1-800-QUIT-NOW.<br>&copy; 2024 Patient Education Initiative. Information sourced from Smokefree.gov."
+                },
+                es: {
+                    header_title: "Su Guía para Dejar de Fumar",
+                    full_guide_link: "Guía Completa de Smokefree.gov →",
+                    intro_h2: "Su Cuerpo Comienza a Sanar en Minutos",
+                    intro_p: "Dejar de fumar es lo mejor que puede hacer por su salud. Los beneficios comienzan casi de inmediato. Haga clic en la línea de tiempo a continuación para ver cómo se recupera su cuerpo cuando deja de fumar.",
+                    timeline_step1_title: "En 20 Minutos",
+                    timeline_step1_desc: "Su ritmo cardíaco y presión arterial bajan.",
+                    timeline_step2_title: "En 12 Horas",
+                    timeline_step2_desc: "El nivel de monóxido de carbono en su sangre baja a la normalidad.",
+                    timeline_step3_title: "En 1 Año",
+                    timeline_step3_desc: "Su riesgo de ataque cardíaco disminuye drásticamente.",
+                    timeline_step4_title: "En 5 Años",
+                    timeline_step4_desc: "Su riesgo de ACV se reduce al de un no fumador.",
+                    timeline_step5_title: "En 10 Años",
+                    timeline_step5_desc: "Su riesgo de morir de cáncer de pulmón es aproximadamente la mitad que el de una persona que todavía fuma.",
+                    challenges_h2: "¿Por Qué es Tan Difícil Dejar de Fumar? Entendiendo la Adicción a la Nicotina",
+                    challenges_p: "Dejar de fumar es difícil porque la nicotina es una droga poderosa y adictiva. Su cerebro se acostumbra a ella, y cuando deja de consumirla, puede experimentar síntomas de abstinencia y antojos fuertes. Saber qué esperar es el primer paso para superarlo.",
+                    withdrawal_title: "Síntomas Comunes de Abstinencia",
+                    withdrawal_p: "Estas son señales temporales de que su cuerpo se está curando. Generalmente alcanzan su punto máximo en los primeros días y mejoran en unas pocas semanas.",
+                    symptom1: "Sentirse irritable",
+                    symptom2: "Dificultad para concentrarse",
+                    symptom3: "Aumento del apetito",
+                    symptom4: "Ansiedad o inquietud",
+                    craving_title: "Manejando los Antojos",
+                    craving_p: "Los antojos son impulsos fuertes de fumar. Suelen ser cortos, durando solo de 5 a 10 minutos. Tener un plan para superarlos es clave.",
+                    craving1: "Hable con alguien",
+                    craving2: "Beba agua",
+                    craving3: "Salga a caminar",
+                    craving4: "Pruebe la respiración profunda",
+                    plan_h2: "Su Plan de Acción para Dejar de Fumar",
+                    plan_p: "Un buen plan puede marcar la diferencia. Piense en estos pasos para prepararse para el éxito.",
+                    plan1_title: "1. Fije una Fecha para Dejarlo",
+                    plan1_p: "Elija una fecha específica dentro de las próximas dos semanas. Márquela en su calendario. Esto hace que su objetivo sea real y le da tiempo para prepararse.",
+                    plan2_title: "2. Busque Apoyo",
+                    plan2_p: "Cuéntele a sus amigos y familiares sobre su plan. Considere usar aplicaciones para dejar de fumar, una línea de ayuda (como 1-800-QUIT-NOW en EE. UU.) o hablar con su médico sobre medicamentos.",
+                    plan3_title: "3. Maneje sus Desencadenantes",
+                    plan3_p: "Identifique los momentos, lugares y sentimientos que le dan ganas de fumar. Planifique una nueva actividad saludable para hacer en esos momentos.",
+                    footer_p1: "Esta guía proporciona una descripción simplificada. Para obtener información completa y más herramientas, visite Smokefree.gov.",
+                    footer_link: "Ir a la Guía Completa de Smokefree.gov →",
+                    footer_p2: "Usted puede dejar de fumar. Para obtener apoyo gratuito, llame al 1-800-QUIT-NOW.<br>&copy; 2024 Iniciativa de Educación para Pacientes. Información obtenida de Smokefree.gov."
+                }
+            };
+
+            const languageSelector = document.getElementById('language-selector');
+            const translatableElements = document.querySelectorAll('[data-translate]');
+
+            function translatePage(language) {
+                translatableElements.forEach(el => {
+                    const key = el.dataset.translate;
+                    if (translations[language] && translations[language][key]) {
+                        el.innerHTML = translations[language][key];
+                    }
+                });
+                const activeTimelineBtn = document.querySelector('.timeline-btn.active');
+                if (activeTimelineBtn) {
+                    updateTimelineView(activeTimelineBtn.dataset.step, language);
+                }
+            }
+
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
+            });
+
+            // Timeline Logic
+            const timelineButtons = document.querySelectorAll('.timeline-btn');
+            const timelineExplanation = document.getElementById('timeline-explanation');
+            const timelineProgress = document.getElementById('timeline-progress');
+
+            function updateTimelineView(step, lang = 'en') {
+                const data = {
+                    title: translations[lang][`timeline_step${step}_title`],
+                    description: translations[lang][`timeline_step${step}_desc`]
+                };
+                const progress = document.querySelector(`.timeline-btn[data-step="${step}"]`).dataset.progress;
+
+                timelineExplanation.innerHTML = `
+                    <h3 class="text-xl font-bold text-slate-800">${data.title}</h3>
+                    <p class="mt-2 text-slate-600">${data.description}</p>
+                `;
+                timelineProgress.style.width = `${progress}%`;
+
+                timelineButtons.forEach(btn => {
+                    if (btn.dataset.step === step) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            timelineButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const step = button.dataset.step;
+                    const currentLang = languageSelector.value;
+                    updateTimelineView(step, currentLang);
+                });
+            });
+
+            // Initialize view
+            updateTimelineView('1', 'en');
+        });
+    </script>
+</body>
+</html>

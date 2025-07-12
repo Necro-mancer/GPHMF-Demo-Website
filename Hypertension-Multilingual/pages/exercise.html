@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Physical Activity: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f5f3ff; color: #1e293b; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        main section { animation: fadeIn 0.6s ease-in-out; }
+        
+        .activity-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+        }
+        .activity-card.active {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 20px -5px var(--tw-shadow-color);
+            border-color: var(--tw-shadow-color);
+        }
+    </style>
+</head>
+<body class="bg-violet-50">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-800">
+                <span class="text-violet-600">🏃‍♀️</span> <span data-translate="header_title">Your Guide to Physical Activity</span>
+            </h1>
+            <div class="flex items-center gap-4">
+                <a href="https://www.cdc.gov/physicalactivity/basics/index.htm" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full CDC Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Intro Section -->
+        <section id="intro" class="py-16 md:py-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2">Move More, Feel Better!</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p">Regular physical activity is one of the most important things you can do for your health. It can improve brain health, help manage weight, reduce disease risk, and strengthen bones and muscles. Let's explore what counts as activity!</p>
+                </div>
+                
+                <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+                    <div id="activity-display" class="mb-6 text-center min-h-[120px]">
+                        <!-- JS will populate this -->
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button class="activity-card p-4 rounded-xl shadow-lg border-4 border-transparent" data-activity="aerobic" style="--tw-shadow-color: #38bdf8;">
+                            <div class="text-5xl">🚶‍♂️</div>
+                            <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="aerobic_title">Aerobic Activity</h3>
+                            <p class="text-sm text-slate-500" data-translate="aerobic_subtitle">Gets your heart beating faster.</p>
+                        </button>
+                        <button class="activity-card p-4 rounded-xl shadow-lg border-4 border-transparent" data-activity="strength" style="--tw-shadow-color: #f97316;">
+                            <div class="text-5xl">💪</div>
+                            <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="strength_title">Muscle-Strengthening</h3>
+                            <p class="text-sm text-slate-500" data-translate="strength_subtitle">Makes your muscles stronger.</p>
+                        </button>
+                         <button class="activity-card p-4 rounded-xl shadow-lg border-4 border-transparent" data-activity="intensity" style="--tw-shadow-color: #ef4444;">
+                            <div class="text-5xl">🔥</div>
+                            <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="intensity_title">Understanding Intensity</h3>
+                            <p class="text-sm text-slate-500" data-translate="intensity_subtitle">Moderate vs. Vigorous.</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Weekly Goals Section -->
+        <section id="goals" class="py-16 md:py-24 bg-violet-100">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="goals_h2">Your Weekly Activity Goals</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="goals_p">For major health benefits, adults should aim for a combination of aerobic and muscle-strengthening activities each week. Here are a couple of ways to meet the CDC recommendations.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-green-500">
+                        <h3 class="text-2xl font-bold text-slate-800" data-translate="option1_title">Option 1: Moderate Mix</h3>
+                        <p class="mt-2 text-slate-600" data-translate="option1_p">A common and achievable goal for most adults.</p>
+                        <div class="mt-6 space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="text-4xl">🏃‍♀️</div>
+                                <div>
+                                    <h4 class="font-bold text-lg" data-translate="option1_aerobic_title">150 Minutes of Aerobic Activity</h4>
+                                    <p class="text-slate-600" data-translate="option1_aerobic_p">That's just 30 minutes of moderate-intensity activity (like a brisk walk) 5 days a week.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="text-4xl">🏋️</div>
+                                <div>
+                                    <h4 class="font-bold text-lg" data-translate="option1_strength_title">2 Days of Muscle-Strengthening</h4>
+                                    <p class="text-slate-600" data-translate="option1_strength_p">Work all major muscle groups (legs, hips, back, abdomen, chest, shoulders, and arms).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-red-500">
+                        <h3 class="text-2xl font-bold text-slate-800" data-translate="option2_title">Option 2: Vigorous Mix</h3>
+                        <p class="mt-2 text-slate-600" data-translate="option2_p">If you prefer more intense workouts, you can do less time.</p>
+                        <div class="mt-6 space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="text-4xl">💨</div>
+                                <div>
+                                    <h4 class="font-bold text-lg" data-translate="option2_aerobic_title">75 Minutes of Aerobic Activity</h4>
+                                    <p class="text-slate-600" data-translate="option2_aerobic_p">That's just 25 minutes of vigorous-intensity activity (like jogging or running) 3 days a week.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="text-4xl">🏋️</div>
+                                <div>
+                                    <h4 class="font-bold text-lg" data-translate="option2_strength_title">2 Days of Muscle-Strengthening</h4>
+                                    <p class="text-slate-600" data-translate="option2_strength_p">The muscle-strengthening goal remains the same.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <p class="text-center mt-8 text-slate-600" data-translate="goals_combo_p">Or you can do an equivalent mix of moderate and vigorous activity. The key is to move more and sit less!</p>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section id="tips" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="tips_h2">Your Action Plan for Getting Started</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="tips_p">Starting a new activity routine can feel challenging. Here are some tips to help you succeed.</p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                        <div class="text-6xl">👟</div>
+                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="tip1_title">Start Slow, Build Up</h3>
+                        <p class="mt-2 text-slate-600" data-translate="tip1_p">If you're new to exercise, start with shorter durations, like 5-10 minutes a day, and gradually increase your time and intensity as you get stronger.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                        <div class="text-6xl">🗓️</div>
+                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="tip2_title">Make it a Habit</h3>
+                        <p class="mt-2 text-slate-600" data-translate="tip2_p">Schedule your activity just like any other important appointment. Find a time of day that works for you and stick with it.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                        <div class="text-6xl">🎉</div>
+                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="tip3_title">Choose Activities You Enjoy</h3>
+                        <p class="mt-2 text-slate-600" data-translate="tip3_p">You're more likely to stick with something if you find it fun. Try dancing, hiking, gardening, or joining a sports team.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the Centers for Disease Control and Prevention (CDC).</p>
+            <a href="https://www.cdc.gov/physicalactivity/basics/index.htm" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link">
+                Go to the Full CDC Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from the CDC.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                en: {
+                    header_title: "Your Guide to Physical Activity",
+                    full_guide_link: "Full CDC Guide →",
+                    intro_h2: "Move More, Feel Better!",
+                    intro_p: "Regular physical activity is one of the most important things you can do for your health. It can improve brain health, help manage weight, reduce disease risk, and strengthen bones and muscles. Let's explore what counts as activity!",
+                    aerobic_title: "Aerobic Activity",
+                    aerobic_subtitle: "Gets your heart beating faster.",
+                    strength_title: "Muscle-Strengthening",
+                    strength_subtitle: "Makes your muscles stronger.",
+                    intensity_title: "Understanding Intensity",
+                    intensity_subtitle: "Moderate vs. Vigorous.",
+                    activity_display_default: "Click a card below to learn more.",
+                    activity_aerobic_desc: "This is any activity where the body's large muscles move in a rhythmic manner for a sustained period. Examples: Brisk walking, running, swimming, cycling.",
+                    activity_strength_desc: "This activity makes your muscles work harder than usual. It should work all the major muscle groups of your body. Examples: Lifting weights, using resistance bands, push-ups.",
+                    activity_intensity_desc: "<strong>Moderate:</strong> You can talk, but not sing. Your breathing and heart rate are noticeably elevated. <br><strong>Vigorous:</strong> You can only speak a few words at a time. Your breathing is deep and rapid.",
+                    goals_h2: "Your Weekly Activity Goals",
+                    goals_p: "For major health benefits, adults should aim for a combination of aerobic and muscle-strengthening activities each week. Here are a couple of ways to meet the CDC recommendations.",
+                    option1_title: "Option 1: Moderate Mix",
+                    option1_p: "A common and achievable goal for most adults.",
+                    option1_aerobic_title: "150 Minutes of Aerobic Activity",
+                    option1_aerobic_p: "That's just 30 minutes of moderate-intensity activity (like a brisk walk) 5 days a week.",
+                    option1_strength_title: "2 Days of Muscle-Strengthening",
+                    option1_strength_p: "Work all major muscle groups (legs, hips, back, abdomen, chest, shoulders, and arms).",
+                    option2_title: "Option 2: Vigorous Mix",
+                    option2_p: "If you prefer more intense workouts, you can do less time.",
+                    option2_aerobic_title: "75 Minutes of Aerobic Activity",
+                    option2_aerobic_p: "That's just 25 minutes of vigorous-intensity activity (like jogging or running) 3 days a week.",
+                    option2_strength_title: "2 Days of Muscle-Strengthening",
+                    option2_strength_p: "The muscle-strengthening goal remains the same.",
+                    goals_combo_p: "Or you can do an equivalent mix of moderate and vigorous activity. The key is to move more and sit less!",
+                    tips_h2: "Your Action Plan for Getting Started",
+                    tips_p: "Starting a new activity routine can feel challenging. Here are some tips to help you succeed.",
+                    tip1_title: "Start Slow, Build Up",
+                    tip1_p: "If you're new to exercise, start with shorter durations, like 5-10 minutes a day, and gradually increase your time and intensity as you get stronger.",
+                    tip2_title: "Make it a Habit",
+                    tip2_p: "Schedule your activity just like any other important appointment. Find a time of day that works for you and stick with it.",
+                    tip3_title: "Choose Activities You Enjoy",
+                    tip3_p: "You're more likely to stick with something if you find it fun. Try dancing, hiking, gardening, or joining a sports team.",
+                    footer_p1: "This guide provides a simplified overview. For complete information, please visit the Centers for Disease Control and Prevention (CDC).",
+                    footer_link: "Go to the Full CDC Guide →",
+                    footer_p2: "This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from the CDC."
+                },
+                es: {
+                    header_title: "Su Guía de Actividad Física",
+                    full_guide_link: "Guía Completa de los CDC →",
+                    intro_h2: "¡Muévase Más, Siéntase Mejor!",
+                    intro_p: "La actividad física regular es una de las cosas más importantes que puede hacer por su salud. Puede mejorar la salud cerebral, ayudar a controlar el peso, reducir el riesgo de enfermedades y fortalecer los huesos y los músculos. ¡Exploremos qué cuenta como actividad!",
+                    aerobic_title: "Actividad Aeróbica",
+                    aerobic_subtitle: "Hace que su corazón lata más rápido.",
+                    strength_title: "Fortalecimiento Muscular",
+                    strength_subtitle: "Fortalece sus músculos.",
+                    intensity_title: "Entendiendo la Intensidad",
+                    intensity_subtitle: "Moderada vs. Vigorosa.",
+                    activity_display_default: "Haga clic en una tarjeta de abajo para aprender más.",
+                    activity_aerobic_desc: "Es cualquier actividad en la que los músculos grandes del cuerpo se mueven de forma rítmica durante un período sostenido. Ejemplos: Caminata rápida, correr, nadar, andar en bicicleta.",
+                    activity_strength_desc: "Esta actividad hace que sus músculos trabajen más de lo habitual. Debe trabajar todos los grupos musculares principales de su cuerpo. Ejemplos: Levantar pesas, usar bandas de resistencia, flexiones.",
+                    activity_intensity_desc: "<strong>Moderada:</strong> Puede hablar, pero no cantar. Su respiración y ritmo cardíaco están notablemente elevados. <br><strong>Vigorosa:</strong> Solo puede decir unas pocas palabras a la vez. Su respiración es profunda y rápida.",
+                    goals_h2: "Sus Metas Semanales de Actividad",
+                    goals_p: "Para obtener importantes beneficios para la salud, los adultos deben aspirar a una combinación de actividades aeróbicas y de fortalecimiento muscular cada semana. Aquí hay un par de formas de cumplir con las recomendaciones de los CDC.",
+                    option1_title: "Opción 1: Mezcla Moderada",
+                    option1_p: "Un objetivo común y alcanzable para la mayoría de los adultos.",
+                    option1_aerobic_title: "150 Minutos de Actividad Aeróbica",
+                    option1_aerobic_p: "Eso es solo 30 minutos de actividad de intensidad moderada (como una caminata rápida) 5 días a la semana.",
+                    option1_strength_title: "2 Días de Fortalecimiento Muscular",
+                    option1_strength_p: "Trabaje todos los grupos musculares principales (piernas, caderas, espalda, abdomen, pecho, hombros y brazos).",
+                    option2_title: "Opción 2: Mezcla Vigorosa",
+                    option2_p: "Si prefiere entrenamientos más intensos, puede hacer menos tiempo.",
+                    option2_aerobic_title: "75 Minutos de Actividad Aeróbica",
+                    option2_aerobic_p: "Eso es solo 25 minutos de actividad de intensidad vigorosa (como trotar o correr) 3 días a la semana.",
+                    option2_strength_title: "2 Días de Fortalecimiento Muscular",
+                    option2_strength_p: "El objetivo de fortalecimiento muscular sigue siendo el mismo.",
+                    goals_combo_p: "O puede hacer una mezcla equivalente de actividad moderada y vigorosa. ¡La clave es moverse más y sentarse menos!",
+                    tips_h2: "Su Plan de Acción para Empezar",
+                    tips_p: "Comenzar una nueva rutina de actividad puede parecer un desafío. Aquí hay algunos consejos para ayudarle a tener éxito.",
+                    tip1_title: "Comience Lento, Aumente Gradualmente",
+                    tip1_p: "Si es nuevo en el ejercicio, comience con duraciones más cortas, como 5-10 minutos al día, y aumente gradualmente su tiempo e intensidad a medida que se fortalezca.",
+                    tip2_title: "Conviértalo en un Hábito",
+                    tip2_p: "Programe su actividad como cualquier otra cita importante. Encuentre un momento del día que le funcione y manténgalo.",
+                    tip3_title: "Elija Actividades que Disfrute",
+                    tip3_p: "Es más probable que se mantenga en algo si lo encuentra divertido. Pruebe bailar, caminar, hacer jardinería o unirse a un equipo deportivo.",
+                    footer_p1: "Esta guía proporciona una descripción simplificada. Para obtener información completa, visite los Centros para el Control y la Prevención de Enfermedades (CDC).",
+                    footer_link: "Ir a la Guía Completa de los CDC →",
+                    footer_p2: "Este contenido es para fines informativos y no sustituye el consejo médico profesional.<br>&copy; 2024 Iniciativa de Educación para Pacientes. Información obtenida de los CDC."
+                }
+            };
+
+            const languageSelector = document.getElementById('language-selector');
+            const translatableElements = document.querySelectorAll('[data-translate]');
+
+            function translatePage(language) {
+                translatableElements.forEach(el => {
+                    const key = el.dataset.translate;
+                    if (translations[language] && translations[language][key]) {
+                        el.innerHTML = translations[language][key];
+                    }
+                });
+                const activeActivityCard = document.querySelector('.activity-card.active');
+                if (activeActivityCard) {
+                    updateActivityDisplay(activeActivityCard.dataset.activity, language);
+                } else {
+                    updateActivityDisplay('default', language);
+                }
+            }
+
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
+            });
+
+            // Activity Card Logic
+            const activityCards = document.querySelectorAll('.activity-card');
+            const activityDisplay = document.getElementById('activity-display');
+
+            function updateActivityDisplay(key, lang = 'en') {
+                const text = translations[lang][`activity_${key}_desc`] || translations[lang]['activity_display_default'];
+                activityDisplay.innerHTML = `<p class="text-slate-600 text-lg">${text}</p>`;
+            }
+
+            activityCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    activityCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    const color = window.getComputedStyle(card).getPropertyValue('--tw-shadow-color');
+                    card.style.borderColor = color;
+
+                    const key = card.dataset.activity;
+                    const currentLang = languageSelector.value;
+                    updateActivityDisplay(key, currentLang);
+                });
+            });
+
+            // Set initial state
+            updateActivityDisplay('default', 'en');
+
+        });
+    </script>
+</body>
+</html>
