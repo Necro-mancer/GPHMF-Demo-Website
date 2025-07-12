@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Heart Failure: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; color: #1e293b; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        main section { animation: fadeIn 0.6s ease-in-out; }
+        .symptom-btn { transition: all 0.3s ease; }
+        .symptom-btn.active {
+            background-color: #0ea5e9;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.3), 0 4px 6px -2px rgba(14, 165, 233, 0.2);
+        }
+        .stage-card::before {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 2.5rem;
+            bottom: -2.5rem;
+            width: 4px;
+            background-color: #cbd5e1;
+            z-index: 0;
+        }
+        .stage-card:last-child::before {
+            display: none;
+        }
+        .stage-icon {
+            z-index: 1;
+        }
+        .comparison-btn {
+            transition: all 0.3s ease;
+            color: #475569; /* slate-600 */
+            border-bottom-width: 2px;
+            border-color: transparent;
+        }
+        .comparison-btn.active-btn {
+            color: #0284c7; /* sky-600 */
+            border-color: #0ea5e9; /* sky-500 */
+        }
+        .comparison-pane {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .comparison-pane.active-pane {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-800">
+                <span class="text-sky-600">❤️</span> <span data-translate="header_title">Your Guide to Heart Failure</span>
+            </h1>
+            <div class="flex items-center gap-4">
+                <a href="https://www.heart.org/en/health-topics/heart-failure" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-sky-600 hover:text-sky-800 transition" data-translate="full_guide_link">
+                    Full AHA Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- What is Heart Failure? -->
+        <section id="what-is-it" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_title">What is Heart Failure?</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="what_is_p">A diagnosis of heart failure can feel overwhelming, but understanding what it means is the first step. It does not mean your heart has stopped—it means your heart muscle has become weaker and needs support to pump enough blood for your body's needs.</p>
+                
+                <div class="mt-8 bg-white p-6 md:p-8 rounded-2xl shadow-lg max-w-3xl mx-auto">
+                    <div class="flex justify-center border-b border-slate-200 mb-6">
+                        <button id="healthy-btn" class="comparison-btn active-btn px-4 md:px-6 py-2 font-semibold" data-translate="healthy_heart_btn">Healthy Heart</button>
+                        <button id="hf-btn" class="comparison-btn px-4 md:px-6 py-2 font-semibold" data-translate="hf_btn">Heart Failure</button>
+                    </div>
+                    <div id="comparison-content">
+                        <!-- Healthy Heart Content -->
+                        <div id="healthy-content" class="comparison-pane active-pane">
+                            <div class="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                                <div class="text-7xl md:text-8xl">❤️</div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-slate-800" data-translate="healthy_heart_title">A Healthy, Strong Heart</h3>
+                                    <p class="mt-2 text-slate-600" data-translate="healthy_heart_p">A healthy heart is a powerful, efficient pump that supplies your entire body with the oxygen and nutrients it needs to thrive.</p>
+                                    <ul class="mt-4 space-y-2 text-slate-600 list-disc list-inside text-left">
+                                        <li data-translate="healthy_heart_li1"><strong>Strong Muscle:</strong> Pumps blood with adequate force.</li>
+                                        <li data-translate="healthy_heart_li2"><strong>Normal Size:</strong> Not enlarged or thickened.</li>
+                                        <li data-translate="healthy_heart_li3"><strong>Efficient Pumping:</strong> Ejects over half the blood from its main chamber with each beat (Ejection Fraction >50%).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Heart Failure Content -->
+                        <div id="hf-content" class="comparison-pane">
+                             <div class="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                                <div class="text-7xl md:text-8xl">💔</div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-slate-800" data-translate="hf_title">A Weakened Heart</h3>
+                                    <p class="mt-2 text-slate-600" data-translate="hf_p">In heart failure, the heart muscle is weakened or stiff and cannot pump effectively. This causes a "backup" of fluid and reduces blood flow to the body.</p>
+                                    <ul class="mt-4 space-y-2 text-slate-600 list-disc list-inside text-left">
+                                        <li data-translate="hf_li1"><strong>Weak/Stiff Muscle:</strong> Struggles to pump or fill properly.</li>
+                                        <li data-translate="hf_li2"><strong>Often Enlarged:</strong> The heart may grow bigger to try to compensate.</li>
+                                        <li data-translate="hf_li3"><strong>Reduced Pumping:</strong> Ejects less blood with each beat (Ejection Fraction often <40%), leading to symptoms.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Symptoms Section -->
+        <section id="symptoms" class="py-16 md:py-24 bg-sky-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="symptoms_h2">Know the Signs, Take Action</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="symptoms_p">Your body gives you clues when your heart is struggling. Recognizing these signs early is key to managing your condition. Click the buttons to learn about common symptoms and what to do.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    <div class="flex flex-col items-center gap-4">
+                        <button class="symptom-btn p-4 w-full bg-white rounded-lg shadow-md font-semibold text-slate-700" data-symptom="breathing">
+                            <span class="text-3xl">😮‍💨</span><br><span data-translate="symptom_breathing_btn">Shortness of Breath</span>
+                        </button>
+                        <button class="symptom-btn p-4 w-full bg-white rounded-lg shadow-md font-semibold text-slate-700" data-symptom="swelling">
+                            <span class="text-3xl">🦶</span><br><span data-translate="symptom_swelling_btn">Swelling (Edema)</span>
+                        </button>
+                         <button class="symptom-btn p-4 w-full bg-white rounded-lg shadow-md font-semibold text-slate-700" data-symptom="fatigue">
+                            <span class="text-3xl">😴</span><br><span data-translate="symptom_fatigue_btn">Fatigue & Weakness</span>
+                        </button>
+                    </div>
+                    <div id="symptom-display" class="md:col-span-2 bg-white p-8 rounded-2xl shadow-xl min-h-[300px] flex items-center justify-center">
+                        <p class="text-slate-500 text-center" data-translate="symptom_display_p">Click a symptom on the left to see details here.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stages Section -->
+        <section id="stages" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="stages_h2">Your Roadmap for Care: The Stages</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="stages_p">Your doctor uses stages to create the best treatment plan for you. Think of it as a roadmap. The goal is to help you live well and stay in the earliest stage possible for as long as possible.</p>
+                </div>
+                <div class="max-w-2xl mx-auto">
+                    <!-- Stage A -->
+                    <div class="stage-card relative flex items-start gap-6 mb-10">
+                        <div class="stage-icon w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">A</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_a_title">Stage A: At Risk</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_a_p">You are at high risk due to conditions like high blood pressure or diabetes, but have no symptoms or heart problems yet.</p>
+                            <p class="mt-2 text-sm font-semibold text-green-700" data-translate="stage_a_goal">Your Goal: Prevent heart disease with healthy lifestyle choices.</p>
+                        </div>
+                    </div>
+                    <!-- Stage B -->
+                    <div class="stage-card relative flex items-start gap-6 mb-10">
+                        <div class="stage-icon w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">B</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_b_title">Stage B: Pre-Heart Failure</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_b_p">You have a structural heart problem (like a weak pump) but have never had symptoms of heart failure.</p>
+                             <p class="mt-2 text-sm font-semibold text-yellow-700" data-translate="stage_b_goal">Your Goal: Protect your heart with medications and lifestyle to prevent symptoms from ever starting.</p>
+                        </div>
+                    </div>
+                    <!-- Stage C -->
+                    <div class="stage-card relative flex items-start gap-6 mb-10">
+                        <div class="stage-icon w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">C</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_c_title">Stage C: Symptomatic</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_c_p">You have been diagnosed with heart failure and have (or previously had) signs and symptoms.</p>
+                             <p class="mt-2 text-sm font-semibold text-orange-700" data-translate="stage_c_goal">Your Goal: Manage symptoms, improve your quality of life, and prevent hospital stays.</p>
+                        </div>
+                    </div>
+                    <!-- Stage D -->
+                    <div class="stage-card relative flex items-start gap-6">
+                        <div class="stage-icon w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">D</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_d_title">Stage D: Advanced</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_d_p">You have advanced symptoms that don't get better with treatment.</p>
+                             <p class="mt-2 text-sm font-semibold text-red-700" data-translate="stage_d_goal">Your Goal: Work with a specialized team to maintain comfort and quality of life.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Management Section -->
+        <section id="management" class="py-16 md:py-24 bg-slate-800 text-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold" data-translate="plan_h2">Your Action Plan for Living Well</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300" data-translate="plan_p">You are the most important member of your care team. Taking an active role can help you feel better and stay out of the hospital. Focus on these key areas every day.</p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Pillar 1 -->
+                    <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
+                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col1_title">1. Track Your Vitals Daily</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col1_p">This is your early warning system. Small changes can signal a problem before it becomes serious.</p>
+                        <ul class="mt-4 text-left space-y-2">
+                            <li class="flex items-center"><span class="text-2xl mr-3">⚖️</span> <span data-translate="plan_col1_li1">Weigh yourself every morning.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🦶</span> <span data-translate="plan_col1_li2">Check for new or worse swelling.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">😮‍💨</span> <span data-translate="plan_col1_li3">Note any changes in your breathing.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">⚡️</span> <span data-translate="plan_col1_li4">Monitor your energy level.</span></li>
+                        </ul>
+                    </div>
+                    <!-- Pillar 2 -->
+                    <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
+                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col2_title">2. Follow Your Lifestyle Plan</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col2_p">Your daily habits have a huge impact on how you feel and how well your heart works.</p>
+                        <ul class="mt-4 text-left space-y-2">
+                             <li class="flex items-center"><span class="text-2xl mr-3">💊</span> <span data-translate="plan_col2_li1">Take medicines exactly as prescribed.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🧂</span> <span data-translate="plan_col2_li2">Eat a low-sodium diet.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🏃</span> <span data-translate="plan_col2_li3">Stay active as advised by your doctor.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">💧</span> <span data-translate="plan_col2_li4">Follow your fluid intake guidelines.</span></li>
+                        </ul>
+                    </div>
+                    <!-- Pillar 3 -->
+                    <div class="bg-red-600 p-8 rounded-xl shadow-lg text-center ring-4 ring-offset-4 ring-offset-slate-800 ring-red-500">
+                        <h3 class="font-bold text-2xl text-white" data-translate="plan_col3_title">3. Know When to Call for Help</h3>
+                        <p class="mt-2 text-red-100" data-translate="plan_col3_p">Do not wait. Call your doctor or nurse right away if you notice any of these "Red Flag" warnings.</p>
+                        <ul class="mt-4 text-left space-y-2 text-white">
+                            <li class="flex items-center"><span class="text-2xl mr-3">⬆️</span> <span data-translate="plan_col3_li1">Gain 3+ lbs in 1 day, or 5+ lbs in 1 week.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🦶</span> <span data-translate="plan_col3_li2">Worsened swelling in your legs or feet.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">😮‍💨</span> <span data-translate="plan_col3_li3">Worsened shortness of breath.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🗣️</span> <span data-translate="plan_col3_li4">A frequent dry, hacking cough.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the American Heart Association.</p>
+            <a href="https://www.heart.org/en/health-topics/heart-failure" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-sky-500 hover:text-sky-400 font-semibold transition" data-translate="footer_link">
+                Go to the Full AHA Heart Failure Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">Remember to care for your emotional well-being, too. Talk to your support system or a professional if you feel overwhelmed.<br>&copy; 2024 Patient Education Initiative. Information sourced from the American Heart Association.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                en: {
+                    header_title: "Your Guide to Heart Failure",
+                    full_guide_link: "Full AHA Guide →",
+                    what_is_title: "What is Heart Failure?",
+                    what_is_p: "A diagnosis of heart failure can feel overwhelming, but understanding what it means is the first step. It does not mean your heart has stopped—it means your heart muscle has become weaker and needs support to pump enough blood for your body's needs.",
+                    healthy_heart_btn: "Healthy Heart",
+                    hf_btn: "Heart Failure",
+                    healthy_heart_title: "A Healthy, Strong Heart",
+                    healthy_heart_p: "A healthy heart is a powerful, efficient pump that supplies your entire body with the oxygen and nutrients it needs to thrive.",
+                    healthy_heart_li1: "<strong>Strong Muscle:</strong> Pumps blood with adequate force.",
+                    healthy_heart_li2: "<strong>Normal Size:</strong> Not enlarged or thickened.",
+                    healthy_heart_li3: "<strong>Efficient Pumping:</strong> Ejects over half the blood from its main chamber with each beat (Ejection Fraction >50%).",
+                    hf_title: "A Weakened Heart",
+                    hf_p: "In heart failure, the heart muscle is weakened or stiff and cannot pump effectively. This causes a \"backup\" of fluid and reduces blood flow to the body.",
+                    hf_li1: "<strong>Weak/Stiff Muscle:</strong> Struggles to pump or fill properly.",
+                    hf_li2: "<strong>Often Enlarged:</strong> The heart may grow bigger to try to compensate.",
+                    hf_li3: "<strong>Reduced Pumping:</strong> Ejects less blood with each beat (Ejection Fraction often <40%), leading to symptoms.",
+                    symptoms_h2: "Know the Signs, Take Action",
+                    symptoms_p: "Your body gives you clues when your heart is struggling. Recognizing these signs early is key to managing your condition. Click the buttons to learn about common symptoms and what to do.",
+                    symptom_breathing_btn: "Shortness of Breath",
+                    symptom_swelling_btn: "Swelling (Edema)",
+                    symptom_fatigue_btn: "Fatigue & Weakness",
+                    symptom_display_p: "Click a symptom on the left to see details here.",
+                    symptom_breathing_title: "Shortness of Breath",
+                    symptom_breathing_text: "Fluid can back up into the lungs (congestion), making it hard to breathe, especially when lying down or during activity.",
+                    symptom_breathing_advice: "Prop yourself up with extra pillows at night. Call your doctor if it gets worse.",
+                    symptom_swelling_title: "Swelling (Edema)",
+                    symptom_swelling_text: "Fluid can build up in your feet, ankles, legs, or abdomen. You might notice your shoes feeling tight or sudden weight gain.",
+                    symptom_swelling_advice: "Elevate your legs when resting. Weigh yourself daily to track fluid changes.",
+                    symptom_fatigue_title: "Fatigue & Weakness",
+                    symptom_fatigue_text: "Your body isn't getting enough oxygen-rich blood, leading to a constant feeling of tiredness.",
+                    symptom_fatigue_advice: "Pace yourself. Plan for rest periods between activities and don't be afraid to ask for help.",
+                    symptom_advice_title: "What You Can Do:",
+                    stages_h2: "Your Roadmap for Care: The Stages",
+                    stages_p: "Your doctor uses stages to create the best treatment plan for you. Think of it as a roadmap. The goal is to help you live well and stay in the earliest stage possible for as long as possible.",
+                    stage_a_title: "Stage A: At Risk",
+                    stage_a_p: "You are at high risk due to conditions like high blood pressure or diabetes, but have no symptoms or heart problems yet.",
+                    stage_a_goal: "Your Goal: Prevent heart disease with healthy lifestyle choices.",
+                    stage_b_title: "Stage B: Pre-Heart Failure",
+                    stage_b_p: "You have a structural heart problem (like a weak pump) but have never had symptoms of heart failure.",
+                    stage_b_goal: "Your Goal: Protect your heart with medications and lifestyle to prevent symptoms from ever starting.",
+                    stage_c_title: "Stage C: Symptomatic",
+                    stage_c_p: "You have been diagnosed with heart failure and have (or previously had) signs and symptoms.",
+                    stage_c_goal: "Your Goal: Manage symptoms, improve your quality of life, and prevent hospital stays.",
+                    stage_d_title: "Stage D: Advanced",
+                    stage_d_p: "You have advanced symptoms that don't get better with treatment.",
+                    stage_d_goal: "Your Goal: Work with a specialized team to maintain comfort and quality of life.",
+                    plan_h2: "Your Action Plan for Living Well",
+                    plan_p: "You are the most important member of your care team. Taking an active role can help you feel better and stay out of the hospital. Focus on these key areas every day.",
+                    plan_col1_title: "1. Track Your Vitals Daily",
+                    plan_col1_p: "This is your early warning system. Small changes can signal a problem before it becomes serious.",
+                    plan_col1_li1: "Weigh yourself every morning.",
+                    plan_col1_li2: "Check for new or worse swelling.",
+                    plan_col1_li3: "Note any changes in your breathing.",
+                    plan_col1_li4: "Monitor your energy level.",
+                    plan_col2_title: "2. Follow Your Lifestyle Plan",
+                    plan_col2_p: "Your daily habits have a huge impact on how you feel and how well your heart works.",
+                    plan_col2_li1: "Take medicines exactly as prescribed.",
+                    plan_col2_li2: "Eat a low-sodium diet.",
+                    plan_col2_li3: "Stay active as advised by your doctor.",
+                    plan_col2_li4: "Follow your fluid intake guidelines.",
+                    plan_col3_title: "3. Know When to Call for Help",
+                    plan_col3_p: "Do not wait. Call your doctor or nurse right away if you notice any of these \"Red Flag\" warnings.",
+                    plan_col3_li1: "Gain 3+ lbs in 1 day, or 5+ lbs in 1 week.",
+                    plan_col3_li2: "Worsened swelling in your legs or feet.",
+                    plan_col3_li3: "Worsened shortness of breath.",
+                    plan_col3_li4: "A frequent dry, hacking cough.",
+                    footer_p1: "This guide provides a simplified overview. For complete information, please visit the American Heart Association.",
+                    footer_link: "Go to the Full AHA Heart Failure Guide →",
+                    footer_p2: "Remember to care for your emotional well-being, too. Talk to your support system or a professional if you feel overwhelmed.<br>&copy; 2024 Patient Education Initiative. Information sourced from the American Heart Association."
+                },
+                es: {
+                    header_title: "Su Guía sobre la Insuficiencia Cardíaca",
+                    full_guide_link: "Guía Completa de la AHA →",
+                    what_is_title: "¿Qué es la Insuficiencia Cardíaca?",
+                    what_is_p: "Un diagnóstico de insuficiencia cardíaca puede ser abrumador, pero entender lo que significa es el primer paso. No significa que su corazón se haya detenido, significa que el músculo de su corazón se ha debilitado y necesita apoyo para bombear suficiente sangre para las necesidades de su cuerpo.",
+                    healthy_heart_btn: "Corazón Sano",
+                    hf_btn: "Insuficiencia Cardíaca",
+                    healthy_heart_title: "Un Corazón Sano y Fuerte",
+                    healthy_heart_p: "Un corazón sano es una bomba potente y eficiente que suministra a todo su cuerpo el oxígeno y los nutrientes que necesita para prosperar.",
+                    healthy_heart_li1: "<strong>Músculo Fuerte:</strong> Bombea sangre con la fuerza adecuada.",
+                    healthy_heart_li2: "<strong>Tamaño Normal:</strong> No está agrandado ni engrosado.",
+                    healthy_heart_li3: "<strong>Bombeo Eficiente:</strong> Expulsa más de la mitad de la sangre de su cámara principal con cada latido (Fracción de Eyección >50%).",
+                    hf_title: "Un Corazón Debilitado",
+                    hf_p: "En la insuficiencia cardíaca, el músculo cardíaco está debilitado o rígido y no puede bombear eficazmente. Esto provoca una \"acumulación\" de líquido y reduce el flujo sanguíneo al cuerpo.",
+                    hf_li1: "<strong>Músculo Débil/Rígido:</strong> Lucha para bombear o llenarse correctamente.",
+                    hf_li2: "<strong>A menudo Agrandado:</strong> El corazón puede crecer para intentar compensar.",
+                    hf_li3: "<strong>Bombeo Reducido:</strong> Expulsa menos sangre con cada latido (Fracción de Eyección a menudo <40%), lo que provoca síntomas.",
+                    symptoms_h2: "Conozca las Señales, Tome Medidas",
+                    symptoms_p: "Su cuerpo le da pistas cuando su corazón tiene dificultades. Reconocer estas señales a tiempo es clave para manejar su condición. Haga clic en los botones para conocer los síntomas comunes y qué hacer.",
+                    symptom_breathing_btn: "Falta de Aire",
+                    symptom_swelling_btn: "Hinchazón (Edema)",
+                    symptom_fatigue_btn: "Fatiga y Debilidad",
+                    symptom_display_p: "Haga clic en un síntoma a la izquierda para ver los detalles aquí.",
+                    symptom_breathing_title: "Falta de Aire",
+                    symptom_breathing_text: "El líquido puede acumularse en los pulmones (congestión), dificultando la respiración, especialmente al acostarse o durante la actividad.",
+                    symptom_breathing_advice: "Apóyese con almohadas adicionales por la noche. Llame a su médico si empeora.",
+                    symptom_swelling_title: "Hinchazón (Edema)",
+                    symptom_swelling_text: "El líquido también puede acumularse en su cuerpo, causando hinchazón en los pies, tobillos, piernas o abdomen. Puede notar que sus zapatos le aprietan o un aumento de peso repentino.",
+                    symptom_swelling_advice: "Eleve las piernas cuando descanse. Pésese a diario para controlar los cambios de líquidos.",
+                    symptom_fatigue_title: "Fatiga y Debilidad",
+                    symptom_fatigue_text: "Su cuerpo no recibe suficiente sangre rica en oxígeno para satisfacer las necesidades de energía, lo que provoca una sensación constante de cansancio.",
+                    symptom_fatigue_advice: "Tómese las cosas con calma. Planifique períodos de descanso entre actividades y no tema pedir ayuda.",
+                    symptom_advice_title: "Lo que puede hacer:",
+                    stages_h2: "Su Hoja de Ruta para el Cuidado: Las Etapas",
+                    stages_p: "Su médico utiliza etapas para crear el mejor plan de tratamiento para usted. Piense en ello como una hoja de ruta. El objetivo es ayudarlo a vivir bien y permanecer en la etapa más temprana posible durante el mayor tiempo posible.",
+                    stage_a_title: "Etapa A: En Riesgo",
+                    stage_a_p: "Usted tiene un alto riesgo debido a condiciones como presión arterial alta o diabetes, pero aún no tiene síntomas ni problemas cardíacos.",
+                    stage_a_goal: "Su Meta: Prevenir enfermedades cardíacas con opciones de estilo de vida saludables.",
+                    stage_b_title: "Etapa B: Pre-Insuficiencia Cardíaca",
+                    stage_b_p: "Usted tiene un problema cardíaco estructural (como un bombeo débil) pero nunca ha tenido síntomas de insuficiencia cardíaca.",
+                    stage_b_goal: "Su Meta: Proteger su corazón con medicamentos y estilo de vida para evitar que los síntomas comiencen.",
+                    stage_c_title: "Etapa C: Sintomática",
+                    stage_c_p: "Le han diagnosticado insuficiencia cardíaca y tiene (o ha tenido previamente) signos y síntomas.",
+                    stage_c_goal: "Su Meta: Manejar los síntomas, mejorar su calidad de vida y prevenir hospitalizaciones.",
+                    stage_d_title: "Etapa D: Avanzada",
+                    stage_d_p: "Usted tiene síntomas avanzados que no mejoran con el tratamiento.",
+                    stage_d_goal: "Su Meta: Trabajar con un equipo especializado para mantener la comodidad y la calidad de vida.",
+                    plan_h2: "Su Plan de Acción para Vivir Bien",
+                    plan_p: "Usted es el miembro más importante de su equipo de atención. Tomar un papel activo puede ayudarlo a sentirse mejor y a no ir al hospital. Concéntrese en estas áreas clave todos los días.",
+                    plan_col1_title: "1. Monitoree sus Signos Vitales Diariamente",
+                    plan_col1_p: "Este es su sistema de alerta temprana. Pequeños cambios pueden indicar un problema antes de que se vuelva grave.",
+                    plan_col1_li1: "Pésese todas las mañanas.",
+                    plan_col1_li2: "Revise si hay hinchazón nueva o peor.",
+                    plan_col1_li3: "Note cualquier cambio en su respiración.",
+                    plan_col1_li4: "Monitoree su nivel de energía.",
+                    plan_col2_title: "2. Siga su Plan de Estilo de Vida",
+                    plan_col2_p: "Sus hábitos diarios tienen un gran impacto en cómo se siente y qué tan bien funciona su corazón.",
+                    plan_col2_li1: "Tome los medicamentos exactamente como se los recetaron.",
+                    plan_col2_li2: "Coma una dieta baja en sodio.",
+                    plan_col2_li3: "Manténgase activo según las indicaciones de su médico.",
+                    plan_col2_li4: "Siga las pautas de ingesta de líquidos.",
+                    plan_col3_title: "3. Sepa Cuándo Pedir Ayuda",
+                    plan_col3_p: "No espere. Llame a su médico o enfermera de inmediato si nota alguna de estas advertencias de \"Bandera Roja\".",
+                    plan_col3_li1: "Aumenta más de 3 lbs en 1 día, o 5+ lbs en 1 semana.",
+                    plan_col3_li2: "Empeoramiento de la hinchazón en piernas o pies.",
+                    plan_col3_li3: "Empeoramiento de la falta de aire.",
+                    plan_col3_li4: "Una tos seca y frecuente.",
+                    footer_p1: "Esta guía proporciona una descripción simplificada. Para obtener información completa, visite la Asociación Americana del Corazón.",
+                    footer_link: "Ir a la Guía Completa de Insuficiencia Cardíaca de la AHA →",
+                    footer_p2: "Recuerde cuidar también su bienestar emocional. Hable con su sistema de apoyo o con un profesional si se siente abrumado.<br>&copy; 2024 Iniciativa de Educación para Pacientes. Información obtenida de la Asociación Americana del Corazón."
+                }
+            };
+
+            const languageSelector = document.getElementById('language-selector');
+            const translatableElements = document.querySelectorAll('[data-translate]');
+
+            function translatePage(language) {
+                translatableElements.forEach(el => {
+                    const key = el.dataset.translate;
+                    if (translations[language] && translations[language][key]) {
+                        el.innerHTML = translations[language][key];
+                    }
+                });
+                
+                // Update interactive components after translation
+                const activeSymptomBtn = document.querySelector('.symptom-btn.active');
+                if (activeSymptomBtn) {
+                    updateSymptomDisplay(activeSymptomBtn.dataset.symptom, language);
+                }
+            }
+
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
+            });
+            
+            // Symptom Logic
+            const symptomButtons = document.querySelectorAll('.symptom-btn');
+            const symptomDisplay = document.getElementById('symptom-display');
+
+            function updateSymptomDisplay(symptomKey, lang = 'en') {
+                const data = {
+                    title: translations[lang][`symptom_${symptomKey}_title`],
+                    text: translations[lang][`symptom_${symptomKey}_text`],
+                    advice: translations[lang][`symptom_${symptomKey}_advice`],
+                    advice_title: translations[lang]['symptom_advice_title']
+                };
+                const icon = { breathing: "😮‍💨", swelling: "🦶", fatigue: "😴" }[symptomKey];
+
+                symptomDisplay.innerHTML = `
+                    <div class="text-center p-4">
+                        <span class="text-5xl">${icon}</span>
+                        <h3 class="text-2xl font-bold text-slate-800 mt-4">${data.title}</h3>
+                        <p class="mt-2 text-slate-600">${data.text}</p>
+                        <div class="mt-4 pt-4 border-t border-slate-200">
+                            <h4 class="font-semibold text-sky-600">${data.advice_title}</h4>
+                            <p class="text-slate-600">${data.advice}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            symptomButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    symptomButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const symptomKey = button.dataset.symptom;
+                    const currentLang = languageSelector.value;
+                    updateSymptomDisplay(symptomKey, currentLang);
+                });
+            });
+
+            // Heart comparison interactivity
+            const healthyBtn = document.getElementById('healthy-btn');
+            const hfBtn = document.getElementById('hf-btn');
+            const healthyContent = document.getElementById('healthy-content');
+            const hfContent = document.getElementById('hf-content');
+
+            healthyBtn.addEventListener('click', () => {
+                hfContent.classList.remove('active-pane');
+                healthyContent.classList.add('active-pane');
+                hfBtn.classList.remove('active-btn');
+                healthyBtn.classList.add('active-btn');
+            });
+
+            hfBtn.addEventListener('click', () => {
+                healthyContent.classList.remove('active-pane');
+                hfContent.classList.add('active-pane');
+                healthyBtn.classList.remove('active-btn');
+                hfBtn.classList.add('active-btn');
+            });
+        });
+    </script>
+</body>
+</html>
