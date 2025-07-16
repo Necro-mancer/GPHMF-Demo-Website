@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Management & Diabetes - Healthier You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .lang-active {
+            font-weight: 700;
+            color: #10B981;
+        }
+        .hero-bg-diabetes {
+            background-image: linear-gradient(to right, #60A5FA, #3B82F6);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .accordion-button.open + .accordion-content {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-button.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .accordion-arrow {
+            transition: transform 0.3s ease-out;
+        }
+        .plate-section {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .plate-section:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="#" class="text-sm font-medium text-emerald-600 hover:underline" data-key="back_link">&larr; Back to Main Site</a>
+            </div>
+            <div class="relative flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9" />
+                </svg>
+                <button id="lang-en" class="lang-selector text-gray-600 hover:text-emerald-600 transition lang-active">EN</button>
+                <span class="mx-1 text-gray-400">|</span>
+                <button id="lang-es" class="lang-selector text-gray-600 hover:text-emerald-600 transition">ES</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg-diabetes py-20 md:py-24">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center text-center md:text-left">
+                <div class="md:w-3/5">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4" data-key="hero_title">Take Control of Your Health</h1>
+                    <p class="text-lg md:text-xl text-white max-w-2xl" data-key="hero_subtitle">Managing your weight is one of the most powerful steps you can take to manage diabetes and live a healthier, more energetic life.</p>
+                </div>
+                <div class="md:w-2/5 mt-8 md:mt-0 flex justify-center">
+                    <svg class="w-32 h-32 md:w-48 md:h-48 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,85 C20,65 20,35 50,20 C80,35 80,65 50,85 Z" fill="currentColor" fill-opacity="0.2"/>
+                        <path d="M50,80 C25,63 20,38 50,25 C80,38 75,63 50,80 Z" fill="currentColor"/>
+                        <path d="M45,45 L55,55 M55,45 L45,55" stroke="#3B82F6" stroke-width="5" stroke-linecap="round"/>
+                        <circle cx="50" cy="32" r="4" fill="white"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why It Matters Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800" data-key="why_title">Why Weight Management is Key for Diabetes</h2>
+                <p class="text-gray-600 mt-4 max-w-3xl mx-auto" data-key="why_text">When you have diabetes, carrying extra weight, especially around your waist, can make it harder for your body to use insulin effectively. This is called insulin resistance. Losing even a modest amount of weight can have a huge impact, helping your body respond better to insulin, making it easier to manage your blood sugar levels, and reducing your risk of complications.</p>
+            </div>
+        </section>
+        
+        <!-- The Diabetes Plate Method -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="plate_title">The Diabetes Plate Method</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="plate_subtitle">A simple, visual way to build healthy meals without counting or measuring. All you need is a 9-inch plate.</p>
+                </div>
+                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="plate-section bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="font-bold text-xl text-green-700 mb-2" data-key="plate1_title">1. Half with Non-Starchy Vegetables</h3>
+                        <p class="text-gray-600" data-key="plate1_text">These are low in carbs and high in nutrients and fiber. Examples: spinach, carrots, broccoli, tomatoes, and salad greens.</p>
+                    </div>
+                     <div class="plate-section bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="font-bold text-xl text-red-700 mb-2" data-key="plate2_title">2. A Quarter with Lean Protein</h3>
+                        <p class="text-gray-600" data-key="plate2_text">Protein helps keep you full and satisfied. Examples: chicken or turkey without the skin, fish like salmon, eggs, beans, and tofu.</p>
+                    </div>
+                     <div class="plate-section bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="font-bold text-xl text-yellow-700 mb-2" data-key="plate3_title">3. A Quarter with Carbohydrate Foods</h3>
+                        <p class="text-gray-600" data-key="plate3_text">These foods impact blood sugar most. Focus on whole grains and starchy vegetables. Examples: brown rice, quinoa, whole-wheat pasta, potatoes, and corn.</p>
+                    </div>
+                     <div class="plate-section bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="font-bold text-xl text-blue-700 mb-2" data-key="plate4_title">4. Add Water or a Zero-Calorie Drink</h3>
+                        <p class="text-gray-600" data-key="plate4_text">Staying hydrated is key. Water is the best choice. Unsweetened tea or coffee also work well.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keys to Success Accordion -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="keys_title">Your Path to Success</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="keys_subtitle">Lasting change comes from building healthy, sustainable habits. Explore these core strategies.</p>
+                </div>
+                <div id="accordion-container" class="max-w-3xl mx-auto space-y-4">
+                    <!-- Accordion items will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Motivational Stories Section -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="stories_title">Mindset for Success: Real Stories, Real Motivation</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="stories_subtitle">The journey is different for everyone. Find inspiration in these stories.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-blue-400">
+                        <h3 class="font-bold text-lg" data-key="story1_name">Carlos's Story: A New Family Recipe</h3>
+                        <p class="text-gray-600 italic mt-2 mb-3" data-key="story1_quote">"Food is love in my family. I was afraid I'd have to give up our traditions."</p>
+                        <p class="text-gray-700" data-key="story1_text">Instead of giving up his favorite meals, Carlos learned to adapt them. He started using brown rice in his family's rice and beans, baking chicken instead of frying it, and adding a large salad to every dinner. He discovered he could still enjoy the flavors he loved while taking control of his blood sugar.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-emerald-400">
+                        <h3 class="font-bold text-lg" data-key="story2_name">Sarah's Story: From Fear to Fitness</h3>
+                        <p class="text-gray-600 italic mt-2 mb-3" data-key="story2_quote">"I hadn't exercised in years. I didn't know where to start and was worried about my blood sugar dropping."</p>
+                        <p class="text-gray-700" data-key="story2_text">Sarah's doctor suggested she start with a 10-minute walk after her biggest meal of the day. She checked her blood sugar before and after to feel secure. Soon, 10 minutes became 20, and she found she had more energy than ever. The walks became her favorite way to de-stress and manage her health.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-6 border-t border-gray-700 pt-6">
+                <p class="text-sm text-gray-400" data-key="source_summary">This page is a summary based on information from the American Diabetes Association. For more detailed information, please <a href="https://diabetes.org/health-wellness/weight-management" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">visit their website</a>.</p>
+            </div>
+            <p data-key="footer_copyright">&copy; 2025 Healthier You Initiative. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer">This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const accordionData = {
+                en: [
+                    { title: "Set Realistic Goals", content: "Aim for a gradual, steady weight loss of 1 to 2 pounds per week. A modest goal, like losing 5% of your body weight, can dramatically improve your blood sugar control and heart health." },
+                    { title: "Get Moving", content: "Aim for at least 150 minutes of moderate-intensity activity per week. This could be 30 minutes, 5 days a week. Brisk walking, swimming, or cycling are great options. Physical activity makes your body's cells more sensitive to insulin." },
+                    { title: "Understand Emotional Eating", content: "Sometimes we eat not because we're hungry, but because we're stressed, bored, or sad. Try to identify your triggers. Before reaching for a snack, ask yourself if you're truly hungry. Find other ways to cope with feelings, like taking a walk or calling a friend." },
+                    { title: "Stay Positive and Patient", content: "Weight management is a journey with ups and downs. Don't get discouraged by setbacks. Focus on positive self-talk and celebrate small victories along the way, like having more energy or your clothes fitting better." }
+                ],
+                es: [
+                    { title: "Establece Metas Realistas", content: "Apunta a una pérdida de peso gradual y constante de 1 a 2 libras por semana. Una meta modesta, como perder el 5% de tu peso corporal, puede mejorar drásticamente tu control de azúcar en la sangre y la salud de tu corazón." },
+                    { title: "Ponte en Movimiento", content: "Intenta hacer al menos 150 minutos de actividad de intensidad moderada por semana. Esto podría ser 30 minutos, 5 días a la semana. Caminar a paso ligero, nadar o andar en bicicleta son excelentes opciones. La actividad física hace que las células de tu cuerpo sean más sensibles a la insulina." },
+                    { title: "Entiende la Alimentación Emocional", content: "A veces comemos no porque tengamos hambre, sino porque estamos estresados, aburridos o tristes. Intenta identificar tus desencadenantes. Antes de buscar un snack, pregúntate si realmente tienes hambre. Encuentra otras formas de lidiar con los sentimientos, como dar un paseo o llamar a un amigo." },
+                    { title: "Mantente Positivo y Paciente", content: "El control del peso es un viaje con altibajos. No te desanimes por los contratiempos. Concéntrate en el diálogo interno positivo y celebra las pequeñas victorias en el camino, como tener más energía o que tu ropa te quede mejor." }
+                ]
+            };
+            
+            // --- INTERACTIVITY ---
+            const accordionContainer = document.getElementById('accordion-container');
+
+            function buildAccordion(lang) {
+                accordionContainer.innerHTML = '';
+                accordionData[lang].forEach((item) => {
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'bg-white rounded-lg shadow';
+                    accordionItem.innerHTML = `
+                        <button class="accordion-button w-full flex justify-between items-center p-4 text-left font-semibold">
+                            <span>${item.title}</span>
+                            <svg class="accordion-arrow w-6 h-6 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content px-4">
+                            <p class="py-4 border-t">${item.content}</p>
+                        </div>
+                    `;
+                    accordionContainer.appendChild(accordionItem);
+                });
+                addAccordionListeners();
+            }
+
+            function addAccordionListeners() {
+                 document.querySelectorAll('.accordion-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        button.classList.toggle('open');
+                    });
+                });
+            }
+
+            // --- TRANSLATION DATA ---
+            const translations = {
+                en: {
+                    back_link: "&larr; Back to Main Site",
+                    hero_title: "Take Control of Your Health",
+                    hero_subtitle: "Managing your weight is one of the most powerful steps you can take to manage diabetes and live a healthier, more energetic life.",
+                    why_title: "Why Weight Management is Key for Diabetes",
+                    why_text: "When you have diabetes, carrying extra weight, especially around your waist, can make it harder for your body to use insulin effectively. This is called insulin resistance. Losing even a modest amount of weight can have a huge impact, helping your body respond better to insulin, making it easier to manage your blood sugar levels, and reducing your risk of complications.",
+                    plate_title: "The Diabetes Plate Method",
+                    plate_subtitle: "A simple, visual way to build healthy meals without counting or measuring. All you need is a 9-inch plate.",
+                    plate1_title: "1. Half with Non-Starchy Vegetables",
+                    plate1_text: "These are low in carbs and high in nutrients and fiber. Examples: spinach, carrots, broccoli, tomatoes, and salad greens.",
+                    plate2_title: "2. A Quarter with Lean Protein",
+                    plate2_text: "Protein helps keep you full and satisfied. Examples: chicken or turkey without the skin, fish like salmon, eggs, beans, and tofu.",
+                    plate3_title: "3. A Quarter with Carbohydrate Foods",
+                    plate3_text: "These foods impact blood sugar most. Focus on whole grains and starchy vegetables. Examples: brown rice, quinoa, whole-wheat pasta, potatoes, and corn.",
+                    plate4_title: "4. Add Water or a Zero-Calorie Drink",
+                    plate4_text: "Staying hydrated is key. Water is the best choice. Unsweetened tea or coffee also work well.",
+                    keys_title: "Your Path to Success",
+                    keys_subtitle: "Lasting change comes from building healthy, sustainable habits. Explore these core strategies.",
+                    stories_title: "Mindset for Success: Real Stories, Real Motivation",
+                    stories_subtitle: "The journey is different for everyone. Find inspiration in these stories.",
+                    story1_name: "Carlos's Story: A New Family Recipe",
+                    story1_quote: "\"Food is love in my family. I was afraid I'd have to give up our traditions.\"",
+                    story1_text: "Instead of giving up his favorite meals, Carlos learned to adapt them. He started using brown rice in his family's rice and beans, baking chicken instead of frying it, and adding a large salad to every dinner. He discovered he could still enjoy the flavors he loved while taking control of his blood sugar.",
+                    story2_name: "Sarah's Story: From Fear to Fitness",
+                    story2_quote: "\"I hadn't exercised in years. I didn't know where to start and was worried about my blood sugar dropping.\"",
+                    story2_text: "Sarah's doctor suggested she start with a 10-minute walk after her biggest meal of the day. She checked her blood sugar before and after to feel secure. Soon, 10 minutes became 20, and she found she had more energy than ever. The walks became her favorite way to de-stress and manage her health.",
+                    source_summary: "This page is a summary based on information from the American Diabetes Association. For more detailed information, please <a href='https://diabetes.org/health-wellness/weight-management' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.",
+                    footer_copyright: "&copy; 2025 Iniciativa Healthier You. Todos los derechos reservados.",
+                    footer_disclaimer: "This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor."
+                },
+                es: {
+                    back_link: "&larr; Volver al Sitio Principal",
+                    hero_title: "Toma el Control de Tu Salud",
+                    hero_subtitle: "Controlar tu peso es uno de los pasos más poderosos que puedes dar para manejar la diabetes y vivir una vida más saludable y enérgica.",
+                    why_title: "Por Qué el Control de Peso es Clave para la Diabetes",
+                    why_text: "Cuando tienes diabetes, el exceso de peso, especialmente alrededor de la cintura, puede dificultar que tu cuerpo use la insulina de manera efectiva. Esto se llama resistencia a la insulina. Perder incluso una cantidad modesta de peso puede tener un gran impacto, ayudando a tu cuerpo a responder mejor a la insulina, facilitando el manejo de tus niveles de azúcar en la sangre y reduciendo el riesgo de complicaciones.",
+                    plate_title: "El Método del Plato para la Diabetes",
+                    plate_subtitle: "Una forma simple y visual de crear comidas saludables sin contar ni medir. Todo lo que necesitas es un plato de 9 pulgadas.",
+                    plate1_title: "1. La Mitad con Vegetales sin Almidón",
+                    plate1_text: "Son bajos en carbohidratos y altos en nutrientes y fibra. Ejemplos: espinacas, zanahorias, brócoli, tomates y ensaladas verdes.",
+                    plate2_title: "2. Un Cuarto con Proteína Magra",
+                    plate2_text: "La proteína te ayuda a mantenerte lleno y satisfecho. Ejemplos: pollo o pavo sin piel, pescado como el salmón, huevos, frijoles y tofu.",
+                    plate3_title: "3. Un Cuarto con Alimentos con Carbohidratos",
+                    plate3_text: "Estos alimentos tienen el mayor impacto en el azúcar en la sangre. Concéntrate en granos integrales y vegetales con almidón. Ejemplos: arroz integral, quinua, pasta de trigo integral, papas y maíz.",
+                    plate4_title: "4. Añade Agua o una Bebida sin Calorías",
+                    plate4_text: "Mantenerse hidratado es clave. El agua es la mejor opción. El té o café sin azúcar también funcionan bien.",
+                    keys_title: "Tu Camino hacia el Éxito",
+                    keys_subtitle: "El cambio duradero proviene de la creación de hábitos saludables y sostenibles. Explora estas estrategias principales.",
+                    stories_title: "Mentalidad para el Éxito: Historias Reales, Motivación Real",
+                    stories_subtitle: "El viaje es diferente para cada persona. Encuentra inspiración en estas historias.",
+                    story1_name: "La Historia de Carlos: Una Nueva Receta Familiar",
+                    story1_quote: "\"La comida es amor en mi familia. Tenía miedo de tener que renunciar a nuestras tradiciones.\"",
+                    story1_text: "En lugar de renunciar a sus comidas favoritas, Carlos aprendió a adaptarlas. Empezó a usar arroz integral en el arroz con frijoles de su familia, a hornear el pollo en lugar de freírlo y a añadir una gran ensalada a cada cena. Descubrió que aún podía disfrutar de los sabores que amaba mientras tomaba el control de su azúcar en la sangre.",
+                    story2_name: "La Historia de Sarah: Del Miedo al Fitness",
+                    story2_quote: "\"No había hecho ejercicio en años. No sabía por dónde empezar y me preocupaba que me bajara el azúcar.\"",
+                    story2_text: "El médico de Sarah le sugirió que comenzara con una caminata de 10 minutos después de su comida más grande del día. Se medía el azúcar en la sangre antes y después para sentirse segura. Pronto, 10 minutos se convirtieron en 20, y descubrió que tenía más energía que nunca. Las caminatas se convirtieron en su forma favorita de desestresarse y cuidar su salud.",
+                    source_summary: "Esta página es un resumen basado en información de la Asociación Americana de Diabetes. Para obtener información más detallada, por favor <a href='https://diabetes.org/health-wellness/weight-management' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visita su sitio web</a>.",
+                    footer_copyright: "&copy; 2025 Iniciativa Healthier You. Todos los derechos reservados.",
+                    footer_disclaimer: "Esta información es para fines educativos y no sustituye el consejo médico profesional. Siempre consulta con tu médico."
+                }
+            };
+
+            // --- LANGUAGE SELECTOR LOGIC ---
+            const langSelectors = document.querySelectorAll('.lang-selector');
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                const translation = translations[lang];
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translation[key]) {
+                        elem.innerHTML = translation[key];
+                    }
+                });
+                buildAccordion(lang);
+            };
+
+            langSelectors.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const lang = e.target.id.split('-')[1];
+                    setLanguage(lang);
+                });
+            });
+
+            // Initial Page Load
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Losing Weight for Heart Health - Healthier You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .lang-active {
+            font-weight: 700;
+            color: #10B981;
+        }
+        .hero-bg-heart {
+            background-image: linear-gradient(to right, #F87171, #EF4444);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .accordion-button.open + .accordion-content {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-button.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .accordion-arrow {
+            transition: transform 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="#" class="text-sm font-medium text-emerald-600 hover:underline" data-key="back_link">&larr; Back to Main Site</a>
+            </div>
+            <div class="relative flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9" />
+                </svg>
+                <button id="lang-en" class="lang-selector text-gray-600 hover:text-emerald-600 transition lang-active">EN</button>
+                <span class="mx-1 text-gray-400">|</span>
+                <button id="lang-es" class="lang-selector text-gray-600 hover:text-emerald-600 transition">ES</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg-heart py-20 md:py-24">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center text-center md:text-left">
+                <div class="md:w-3/5">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4" data-key="hero_title">A Healthier Weight, A Healthier Heart</h1>
+                    <p class="text-lg md:text-xl text-white max-w-2xl" data-key="hero_subtitle">Losing weight is about more than numbers on a scale. It's about gaining energy, confidence, and a healthier future. Let's start the journey together.</p>
+                </div>
+                <div class="md:w-2/5 mt-8 md:mt-0 flex justify-center">
+                    <svg class="w-32 h-32 md:w-48 md:h-48 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,85 C20,65 20,35 50,20 C80,35 80,65 50,85 Z" fill="currentColor" fill-opacity="0.2"/>
+                        <path d="M50,80 C25,63 20,38 50,25 C80,38 75,63 50,80 Z" fill="currentColor"/>
+                        <polyline points="30,55 42,65 70,40" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why It Matters Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800" data-key="why_title">Why Losing Weight Matters</h2>
+                <p class="text-gray-600 mt-4 max-w-3xl mx-auto" data-key="why_text">Carrying excess weight can increase your risk for serious health problems, including heart disease and stroke. But the good news is that losing even a small amount of weight—just 5% to 10% of your current weight—can make a big difference for your health.</p>
+            </div>
+        </section>
+        
+        <!-- The Numbers Section -->
+        <section class="pb-16 md:pb-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <h2 class="text-3xl font-bold text-gray-800" data-key="numbers_title">Weight Loss by the Numbers</h2>
+                     <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="numbers_subtitle">Modest weight loss has a powerful, quantifiable impact on your heart health.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-blue-400">
+                        <h3 class="font-bold text-lg text-blue-800" data-key="stat1_title">Blood Pressure</h3>
+                        <p class="text-4xl font-bold text-blue-600 my-2" data-key="stat1_value">5 mmHg Drop</p>
+                        <p class="text-gray-600" data-key="stat1_text">Losing 5-10 pounds can lower systolic blood pressure by an average of 5 points.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-red-400">
+                        <h3 class="font-bold text-lg text-red-800" data-key="stat2_title">LDL (Bad) Cholesterol</h3>
+                        <p class="text-4xl font-bold text-red-600 my-2" data-key="stat2_value">Up to 15%</p>
+                        <p class="text-gray-600" data-key="stat2_text">A 5-10% weight loss can significantly reduce harmful LDL cholesterol levels.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-emerald-400">
+                        <h3 class="font-bold text-lg text-emerald-800" data-key="stat3_title">Diabetes Risk</h3>
+                        <p class="text-4xl font-bold text-emerald-600 my-2" data-key="stat3_value">Over 50%</p>
+                        <p class="text-gray-600" data-key="stat3_text">Losing a modest amount of weight can cut your risk of developing type 2 diabetes by more than half.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keys to Success Accordion -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="keys_title">Keys to Success: A Balanced Approach</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="keys_subtitle">Successful weight loss isn't about quick fixes. It's about building sustainable habits. Explore the core strategies below.</p>
+                </div>
+                <div id="accordion-container" class="max-w-3xl mx-auto space-y-4">
+                    <!-- Accordion items will be injected here -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Motivational Stories -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="stories_title">Mindset for Success: Real Stories, Real Motivation</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="stories_subtitle">The journey is different for everyone. Find inspiration in these stories.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-emerald-400">
+                        <h3 class="font-bold text-lg" data-key="story1_name">Maria's Story: Small Steps</h3>
+                        <p class="text-gray-600 italic mt-2 mb-3" data-key="story1_quote">"I used to think I had to change everything at once. It was overwhelming."</p>
+                        <p class="text-gray-700" data-key="story1_text">Maria started by swapping her afternoon soda for sparkling water and taking a 10-minute walk during her lunch break. These small, consistent changes gave her the confidence to tackle bigger goals, like cooking more meals at home.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-blue-400">
+                        <h3 class="font-bold text-lg" data-key="story2_name">David's Story: Finding Joy in Movement</h3>
+                        <p class="text-gray-600 italic mt-2 mb-3" data-key="story2_quote">"The gym felt like a chore. I dreaded it."</p>
+                        <p class="text-gray-700" data-key="story2_text">David realized he didn't have to force himself to do exercises he hated. He rediscovered his love for hiking and started exploring local trails on weekends. Finding an activity he genuinely enjoyed made exercise something to look forward to, not avoid.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-6 border-t border-gray-700 pt-6">
+                <p class="text-sm text-gray-400" data-key="source_summary">This page is a summary based on information from the Mayo Clinic. For more detailed information, please <a href="https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/weight-loss/art-20047752" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">visit their website</a>.</p>
+            </div>
+            <p data-key="footer_copyright">&copy; 2025 Healthier You Initiative. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer">This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const accordionData = {
+                en: [
+                    { title: "1. Make a Commitment", content: "Lasting weight loss requires a commitment to yourself. Write down the reasons why you want to lose weight. Whether it's for your family, a health condition, or just to feel better, keeping your motivations in sight will help you stay on track during challenging moments." },
+                    { title: "2. Set Realistic Goals", content: "Aim for a gradual, steady weight loss of 1 to 2 pounds per week. Set process goals, like 'I will walk 30 minutes, 5 days a week,' alongside outcome goals like 'I want to lose 10 pounds.' Small, achievable goals build momentum and confidence." },
+                    { title: "3. Understand Calories & Portions", content: "Weight loss comes down to using more calories than you consume. This doesn't mean starving yourself. It means making smart choices to create a modest calorie deficit. Use smaller plates, read food labels to understand serving sizes, and focus on nutrient-dense, lower-calorie foods." },
+                    { title: "4. Eat Healthier Foods", content: "Build your meals around fruits, vegetables, and whole grains. Include lean protein and healthy fats to keep you full. Plan your meals and snacks to avoid impulse decisions. And remember, an occasional treat is okay and can help you stick to your plan long-term." },
+                    { title: "5. Get Active & Stay Active", content: "Aim for at least 150 minutes of moderate-intensity exercise, like brisk walking, each week. Physical activity is crucial for burning calories and boosting metabolism. Find an activity you genuinely enjoy to make it a consistent and fun part of your routine." },
+                    { title: "6. Find Your Support System", content: "Share your goals with supportive friends or family. Having someone to share your struggles and successes with can make a huge difference. Whether it's a workout buddy or someone to talk to, don't be afraid to lean on others for encouragement." }
+                ],
+                es: [
+                    { title: "1. Haz un Compromiso", content: "La pérdida de peso duradera requiere un compromiso contigo mismo. Escribe las razones por las que quieres perder peso. Ya sea por tu familia, una condición de salud o simplemente para sentirte mejor, tener tus motivaciones a la vista te ayudará a mantenerte en el camino en los momentos difíciles." },
+                    { title: "2. Establece Metas Realistas", content: "Apunta a una pérdida de peso gradual y constante de 1 a 2 libras por semana. Establece metas de proceso, como 'Caminaré 30 minutos, 5 días a la semana', junto con metas de resultado como 'Quiero perder 10 libras'. Las metas pequeñas y alcanzables generan impulso y confianza." },
+                    { title: "3. Entiende las Calorías y Porciones", content: "La pérdida de peso se reduce a usar más calorías de las que consumes. Esto no significa pasar hambre. Significa tomar decisiones inteligentes para crear un déficit calórico modesto. Usa platos más pequeños, lee las etiquetas de los alimentos para entender los tamaños de las porciones y céntrate en alimentos densos en nutrientes y bajos en calorías." },
+                    { title: "4. Come Alimentos Más Saludables", content: "Basa tus comidas en frutas, verduras y granos integrales. Incluye proteínas magras y grasas saludables para mantenerte lleno. Planifica tus comidas y snacks para evitar decisiones impulsivas. Y recuerda, un gusto ocasional está bien y puede ayudarte a seguir tu plan a largo plazo." },
+                    { title: "5. Ponte Activo y Mantente Activo", content: "Intenta hacer al menos 150 minutos de ejercicio de intensidad moderada, como caminar a paso ligero, cada semana. La actividad física es crucial para quemar calorías y acelerar el metabolismo. Encuentra una actividad que realmente disfrutes para que sea una parte constante y divertida de tu rutina." },
+                    { title: "6. Encuentra tu Sistema de Apoyo", content: "Comparte tus metas con amigos o familiares que te apoyen. Tener a alguien con quien compartir tus luchas y éxitos puede marcar una gran diferencia. Ya sea un compañero de ejercicio o alguien con quien hablar, no temas apoyarte en los demás para recibir aliento." }
+                ]
+            };
+            
+            // --- INTERACTIVITY ---
+            const accordionContainer = document.getElementById('accordion-container');
+
+            function buildAccordion(lang) {
+                accordionContainer.innerHTML = '';
+                accordionData[lang].forEach((item) => {
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'bg-white rounded-lg shadow';
+                    accordionItem.innerHTML = `
+                        <button class="accordion-button w-full flex justify-between items-center p-4 text-left font-semibold">
+                            <span>${item.title}</span>
+                            <svg class="accordion-arrow w-6 h-6 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content px-4">
+                            <p class="py-4 border-t">${item.content}</p>
+                        </div>
+                    `;
+                    accordionContainer.appendChild(accordionItem);
+                });
+                addAccordionListeners();
+            }
+
+            function addAccordionListeners() {
+                 document.querySelectorAll('.accordion-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        button.classList.toggle('open');
+                    });
+                });
+            }
+
+            // --- TRANSLATION DATA ---
+            const translations = {
+                en: {
+                    back_link: "&larr; Back to Main Site",
+                    hero_title: "A Healthier Weight, A Healthier Heart",
+                    hero_subtitle: "Losing weight is about more than numbers on a scale. It's about gaining energy, confidence, and a healthier future. Let's start the journey together.",
+                    why_title: "Why Losing Weight Matters",
+                    why_text: "Carrying excess weight can increase your risk for serious health problems, including heart disease and stroke. But the good news is that losing even a small amount of weight—just 5% to 10% of your current weight—can make a big difference for your health.",
+                    numbers_title: "Weight Loss by the Numbers",
+                    numbers_subtitle: "Modest weight loss has a powerful, quantifiable impact on your heart health.",
+                    stat1_title: "Blood Pressure",
+                    stat1_value: "5 mmHg Drop",
+                    stat1_text: "Losing 5-10 pounds can lower systolic blood pressure by an average of 5 points.",
+                    stat2_title: "LDL (Bad) Cholesterol",
+                    stat2_value: "Up to 15%",
+                    stat2_text: "A 5-10% weight loss can significantly reduce harmful LDL cholesterol levels.",
+                    stat3_title: "Diabetes Risk",
+                    stat3_value: "Over 50%",
+                    stat3_text: "Losing a modest amount of weight can cut your risk of developing type 2 diabetes by more than half.",
+                    keys_title: "Keys to Success: A Balanced Approach",
+                    keys_subtitle: "Successful weight loss isn't about quick fixes. It's about building sustainable habits. Explore the core strategies below.",
+                    stories_title: "Mindset for Success: Real Stories, Real Motivation",
+                    stories_subtitle: "The journey is different for everyone. Find inspiration in these stories.",
+                    story1_name: "Maria's Story: Small Steps",
+                    story1_quote: "\"I used to think I had to change everything at once. It was overwhelming.\"",
+                    story1_text: "Maria started by swapping her afternoon soda for sparkling water and taking a 10-minute walk during her lunch break. These small, consistent changes gave her the confidence to tackle bigger goals, like cooking more meals at home.",
+                    story2_name: "David's Story: Finding Joy in Movement",
+                    story2_quote: "\"The gym felt like a chore. I dreaded it.\"",
+                    story2_text: "David realized he didn't have to force himself to do exercises he hated. He rediscovered his love for hiking and started exploring local trails on weekends. Finding an activity he genuinely enjoyed made exercise something to look forward to, not avoid.",
+                    source_summary: "This page is a summary based on information from the Mayo Clinic. For more detailed information, please <a href='https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/weight-loss/art-20047752' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.",
+                    footer_copyright: "&copy; 2025 Healthier You Initiative. All rights reserved.",
+                    footer_disclaimer: "This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor."
+                },
+                es: {
+                    back_link: "&larr; Volver al Sitio Principal",
+                    hero_title: "Un Peso Más Saludable, un Corazón Más Sano",
+                    hero_subtitle: "Perder peso es más que números en una báscula. Se trata de ganar energía, confianza y un futuro más saludable. Comencemos el viaje juntos.",
+                    why_title: "Por Qué Importa Perder Peso",
+                    why_text: "Tener exceso de peso puede aumentar el riesgo de problemas de salud graves, como enfermedades cardíacas y accidentes cerebrovasculares. Pero la buena noticia es que perder incluso una pequeña cantidad de peso, solo del 5% al 10% de tu peso actual, puede marcar una gran diferencia para tu salud.",
+                    numbers_title: "La Pérdida de Peso en Números",
+                    numbers_subtitle: "Una pérdida de peso modesta tiene un impacto poderoso y cuantificable en la salud de tu corazón.",
+                    stat1_title: "Presión Arterial",
+                    stat1_value: "Baja 5 mmHg",
+                    stat1_text: "Perder de 5 a 10 libras puede reducir la presión arterial sistólica en un promedio de 5 puntos.",
+                    stat2_title: "Colesterol LDL (Malo)",
+                    stat2_value: "Hasta 15%",
+                    stat2_text: "Una pérdida de peso del 5-10% puede reducir significativamente los niveles dañinos de colesterol LDL.",
+                    stat3_title: "Riesgo de Diabetes",
+                    stat3_value: "Más del 50%",
+                    stat3_text: "Perder una cantidad modesta de peso puede reducir tu riesgo de desarrollar diabetes tipo 2 en más de la mitad.",
+                    keys_title: "Claves del Éxito: un Enfoque Equilibrado",
+                    keys_subtitle: "La pérdida de peso exitosa no se trata de soluciones rápidas. Se trata de construir hábitos sostenibles. Explora las estrategias principales a continuación.",
+                    stories_title: "Mentalidad para el Éxito: Historias Reales, Motivación Real",
+                    stories_subtitle: "El viaje es diferente para cada persona. Encuentra inspiración en estas historias.",
+                    story1_name: "La Historia de María: Pequeños Pasos",
+                    story1_quote: "\"Solía pensar que tenía que cambiar todo de una vez. Era abrumador.\"",
+                    story1_text: "María comenzó cambiando su refresco de la tarde por agua con gas y dando un paseo de 10 minutos durante su hora de almuerzo. Estos pequeños y constantes cambios le dieron la confianza para abordar metas más grandes, como cocinar más comidas en casa.",
+                    story2_name: "La Historia de David: Encontrando Alegría en el Movimiento",
+                    story2_quote: "\"El gimnasio se sentía como una obligación. Lo detestaba.\"",
+                    story2_text: "David se dio cuenta de que no tenía que obligarse a hacer ejercicios que odiaba. Redescubrió su amor por el senderismo y comenzó a explorar senderos locales los fines de semana. Encontrar una actividad que realmente disfrutaba hizo que el ejercicio fuera algo que esperar, no que evitar.",
+                    source_summary: "Esta página es un resumen basado en información de la Clínica Mayo. Para obtener información más detallada, por favor <a href='https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/weight-loss/art-20047752' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visita su sitio web</a>.",
+                    footer_copyright: "&copy; 2025 Iniciativa Healthier You. Todos los derechos reservados.",
+                    footer_disclaimer: "Esta información es para fines educativos y no sustituye el consejo médico profesional. Siempre consulta con tu médico."
+                }
+            };
+
+            // --- LANGUAGE SELECTOR LOGIC ---
+            const langSelectors = document.querySelectorAll('.lang-selector');
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                const translation = translations[lang];
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translation[key]) {
+                        elem.innerHTML = translation[key];
+                    }
+                });
+                buildAccordion(lang);
+            };
+
+            langSelectors.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const lang = e.target.id.split('-')[1];
+                    setLanguage(lang);
+                });
+            });
+
+            // Initial Page Load
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>

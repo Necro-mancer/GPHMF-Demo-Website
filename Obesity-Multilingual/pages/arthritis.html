@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Loss for Joint Pain - Healthier You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .lang-active {
+            font-weight: 700;
+            color: #10B981;
+        }
+        .hero-bg-joint {
+            background-image: linear-gradient(to right, #6EE7B7, #34D399);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .accordion-button.open + .accordion-content {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-button.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .accordion-arrow {
+            transition: transform 0.3s ease-out;
+        }
+        .stat-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="#" class="text-sm font-medium text-emerald-600 hover:underline" data-key="back_link">&larr; Back to Main Site</a>
+            </div>
+            <div class="relative flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9" />
+                </svg>
+                <button id="lang-en" class="lang-selector text-gray-600 hover:text-emerald-600 transition lang-active">EN</button>
+                <span class="mx-1 text-gray-400">|</span>
+                <button id="lang-es" class="lang-selector text-gray-600 hover:text-emerald-600 transition">ES</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg-joint py-20 md:py-24">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center text-center md:text-left">
+                <div class="md:w-3/5">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4" data-key="hero_title">Lighten the Load on Your Joints</h1>
+                    <p class="text-lg md:text-xl text-white max-w-2xl" data-key="hero_subtitle">Discover how losing weight can be one of the most effective ways to ease arthritis pain, reduce inflammation, and improve your quality of life.</p>
+                </div>
+                <div class="md:w-2/5 mt-8 md:mt-0 flex justify-center">
+                    <svg class="w-32 h-32 md:w-48 md:h-48 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 20 C 65 20, 75 30, 75 50 S 65 80, 50 80 C 35 80, 25 70, 25 50 S 35 20, 50 20" stroke="currentColor" stroke-width="4" fill="none" />
+                        <path d="M50 20 C 45 30, 45 40, 50 50" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M50 80 C 55 70, 55 60, 50 50" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <circle cx="50" cy="50" r="8" fill="currentColor" fill-opacity="0.5"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Weight-Pain Connection Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800" data-key="connection_title">The Weight and Pain Connection</h2>
+                <p class="text-gray-600 mt-4 max-w-3xl mx-auto" data-key="connection_text">Excess weight puts extra stress on your joints, especially weight-bearing ones like your knees and hips. This pressure can wear down cartilage, increase pain, and worsen arthritis over time. But there's a powerful flip side: for every pound you lose, you relieve multiple pounds of pressure from your joints.</p>
+            </div>
+        </section>
+        
+        <!-- Interactive Force Multiplier Section -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800" data-key="multiplier_title">The Force Multiplier Effect</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="multiplier_subtitle">See how a small weight loss creates a big impact on your knees.</p>
+                <div class="mt-12 bg-white p-8 rounded-lg shadow-xl max-w-4xl mx-auto grid md:grid-cols-3 items-center gap-8">
+                     <div class="text-center">
+                        <p class="text-lg font-semibold" data-key="multiplier_lose">Lose</p>
+                        <p class="text-5xl font-bold text-red-500">1 lb</p>
+                     </div>
+                     <div class="text-4xl font-bold text-gray-400">&rarr;</div>
+                     <div class="text-center">
+                        <p class="text-lg font-semibold" data-key="multiplier_remove">Remove</p>
+                        <p class="text-5xl font-bold text-emerald-500">4 lbs</p>
+                        <p class="text-gray-600 font-medium" data-key="multiplier_pressure">of pressure from your knees</p>
+                     </div>
+                </div>
+                 <p class="text-gray-600 mt-8 max-w-2xl mx-auto" data-key="multiplier_example">This means losing just 10 pounds feels like taking a 40-pound backpack off your joints with every step!</p>
+            </div>
+        </section>
+
+        <!-- Two-Fold Benefit Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <h2 class="text-3xl font-bold text-gray-800" data-key="benefit_title">The Two-Fold Benefit of Weight Loss</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <h3 class="font-bold text-xl text-emerald-700 mb-2" data-key="benefit1_title">1. Less Mechanical Stress</h3>
+                        <p class="text-gray-600" data-key="benefit1_text">Reducing the physical load on your joints is the most direct benefit. Less pressure means less pain, slower cartilage degeneration, and improved mobility, allowing you to move more freely and easily.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <h3 class="font-bold text-xl text-emerald-700 mb-2" data-key="benefit2_title">2. Reduced Inflammation</h3>
+                        <p class="text-gray-600" data-key="benefit2_text">Fat tissue isn't just storage; it's metabolically active and releases inflammatory proteins called cytokines. By losing excess fat, you lower the levels of these chemicals in your body, which can help calm the inflammation that drives arthritis pain and stiffness.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Plan Accordion -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="action_title">Your Action Plan for Joint Relief</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="action_subtitle">A combination of joint-friendly exercise and an anti-inflammatory diet is the most effective approach.</p>
+                </div>
+                <div id="accordion-container" class="max-w-3xl mx-auto space-y-4">
+                    <!-- Accordion items will be injected here -->
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-6 border-t border-gray-700 pt-6">
+                <p class="text-sm text-gray-400" data-key="source_summary">This page is a summary based on information from the Arthritis Foundation. For more detailed information, please <a href="https://www.arthritis.org/health-wellness/healthy-living/nutrition/weight-loss/weight-loss-benefits-for-arthritis" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">visit their website</a>.</p>
+            </div>
+            <p data-key="footer_copyright">&copy; 2025 Healthier You Initiative. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer">This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const accordionData = {
+                en: [
+                    { title: "Focus on Low-Impact Exercise", content: "Choose activities that are gentle on your joints. Excellent options include swimming, water aerobics, cycling, and walking. These activities strengthen the muscles that support your joints without the jarring impact of running or jumping." },
+                    { title: "Build Strength", content: "Strong muscles act as shock absorbers for your joints. Work with a physical therapist or trainer to learn safe strengthening exercises. Even simple bodyweight exercises or using light resistance bands can make a big difference." },
+                    { title: "Eat an Anti-Inflammatory Diet", content: "Adopt an eating pattern rich in fruits, vegetables, nuts, whole grains, and fatty fish (like salmon). These foods are packed with antioxidants and omega-3 fatty acids that can help reduce inflammation throughout your body. Limit processed foods, sugar, and unhealthy fats." }
+                ],
+                es: [
+                    { title: "Enfócate en Ejercicio de Bajo Impacto", content: "Elige actividades que sean suaves para tus articulaciones. Excelentes opciones incluyen natación, aeróbicos acuáticos, ciclismo y caminata. Estas actividades fortalecen los músculos que sostienen tus articulaciones sin el impacto brusco de correr o saltar." },
+                    { title: "Desarrolla Fuerza", content: "Los músculos fuertes actúan como amortiguadores para tus articulaciones. Trabaja con un fisioterapeuta o entrenador para aprender ejercicios de fortalecimiento seguros. Incluso simples ejercicios con el peso corporal o el uso de bandas de resistencia ligeras pueden marcar una gran diferencia." },
+                    { title: "Adopta una Dieta Antiinflamatoria", content: "Adopta un patrón de alimentación rico en frutas, verduras, nueces, granos integrales y pescado graso (como el salmón). Estos alimentos están llenos de antioxidantes y ácidos grasos omega-3 que pueden ayudar a reducir la inflamación en todo el cuerpo. Limita los alimentos procesados, el azúcar y las grasas no saludables." }
+                ]
+            };
+            
+            // --- INTERACTIVITY ---
+            const accordionContainer = document.getElementById('accordion-container');
+
+            function buildAccordion(lang) {
+                accordionContainer.innerHTML = '';
+                accordionData[lang].forEach((item) => {
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'bg-white rounded-lg shadow';
+                    accordionItem.innerHTML = `
+                        <button class="accordion-button w-full flex justify-between items-center p-4 text-left font-semibold">
+                            <span>${item.title}</span>
+                            <svg class="accordion-arrow w-6 h-6 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content px-4">
+                            <p class="py-4 border-t">${item.content}</p>
+                        </div>
+                    `;
+                    accordionContainer.appendChild(accordionItem);
+                });
+                addAccordionListeners();
+            }
+
+            function addAccordionListeners() {
+                 document.querySelectorAll('.accordion-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        button.classList.toggle('open');
+                    });
+                });
+            }
+
+            // --- TRANSLATION DATA ---
+            const translations = {
+                en: {
+                    back_link: "&larr; Back to Main Site",
+                    hero_title: "Lighten the Load on Your Joints",
+                    hero_subtitle: "Discover how losing weight can be one of the most effective ways to ease arthritis pain, reduce inflammation, and improve your quality of life.",
+                    connection_title: "The Weight and Pain Connection",
+                    connection_text: "Excess weight puts extra stress on your joints, especially weight-bearing ones like your knees and hips. This pressure can wear down cartilage, increase pain, and worsen arthritis over time. But there's a powerful flip side: for every pound you lose, you relieve multiple pounds of pressure from your joints.",
+                    multiplier_title: "The Force Multiplier Effect",
+                    multiplier_subtitle: "See how a small weight loss creates a big impact on your knees.",
+                    multiplier_lose: "Lose",
+                    multiplier_remove: "Remove",
+                    multiplier_pressure: "of pressure from your knees",
+                    multiplier_example: "This means losing just 10 pounds feels like taking a 40-pound backpack off your joints with every step!",
+                    benefit_title: "The Two-Fold Benefit of Weight Loss",
+                    benefit1_title: "1. Less Mechanical Stress",
+                    benefit1_text: "Reducing the physical load on your joints is the most direct benefit. Less pressure means less pain, slower cartilage degeneration, and improved mobility, allowing you to move more freely and easily.",
+                    benefit2_title: "2. Reduced Inflammation",
+                    benefit2_text: "Fat tissue isn't just storage; it's metabolically active and releases inflammatory proteins called cytokines. By losing excess fat, you lower the levels of these chemicals in your body, which can help calm the inflammation that drives arthritis pain and stiffness.",
+                    action_title: "Your Action Plan for Joint Relief",
+                    action_subtitle: "A combination of joint-friendly exercise and an anti-inflammatory diet is the most effective approach.",
+                    source_summary: "This page is a summary based on information from the Arthritis Foundation. For more detailed information, please <a href='https://www.arthritis.org/health-wellness/healthy-living/nutrition/weight-loss/weight-loss-benefits-for-arthritis' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.",
+                    footer_copyright: "&copy; 2025 Healthier You Initiative. All rights reserved.",
+                    footer_disclaimer: "This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor."
+                },
+                es: {
+                    back_link: "&larr; Volver al Sitio Principal",
+                    hero_title: "Aligera la Carga de tus Articulaciones",
+                    hero_subtitle: "Descubre cómo perder peso puede ser una de las formas más efectivas de aliviar el dolor de la artritis, reducir la inflamación y mejorar tu calidad de vida.",
+                    connection_title: "La Conexión entre el Peso y el Dolor",
+                    connection_text: "El exceso de peso ejerce una presión adicional sobre las articulaciones, especialmente las que soportan peso como las rodillas y las caderas. Esta presión puede desgastar el cartílago, aumentar el dolor y empeorar la artritis con el tiempo. Pero hay un lado positivo muy potente: por cada libra que pierdes, alivias varias libras de presión de tus articulaciones.",
+                    multiplier_title: "El Efecto Multiplicador de Fuerza",
+                    multiplier_subtitle: "Mira cómo una pequeña pérdida de peso crea un gran impacto en tus rodillas.",
+                    multiplier_lose: "Pierde",
+                    multiplier_remove: "Elimina",
+                    multiplier_pressure: "de presión de tus rodillas",
+                    multiplier_example: "¡Esto significa que perder solo 10 libras se siente como quitarse una mochila de 40 libras de las articulaciones con cada paso!",
+                    benefit_title: "El Doble Beneficio de Perder Peso",
+                    benefit1_title: "1. Menos Estrés Mecánico",
+                    benefit1_text: "Reducir la carga física sobre las articulaciones es el beneficio más directo. Menos presión significa menos dolor, una degeneración más lenta del cartílago y una mejor movilidad, lo que te permite moverte con más libertad y facilidad.",
+                    benefit2_title: "2. Reducción de la Inflamación",
+                    benefit2_text: "El tejido graso no es solo almacenamiento; es metabólicamente activo y libera proteínas inflamatorias llamadas citoquinas. Al perder el exceso de grasa, reduces los niveles de estas sustancias químicas en tu cuerpo, lo que puede ayudar a calmar la inflamación que causa el dolor y la rigidez de la artritis.",
+                    action_title: "Tu Plan de Acción para el Alivio Articular",
+                    action_subtitle: "La combinación de ejercicio amigable con las articulaciones y una dieta antiinflamatoria es el enfoque más efectivo.",
+                    source_summary: "Esta página es un resumen basado en información de la Arthritis Foundation. Para obtener información más detallada, por favor <a href='https://www.arthritis.org/health-wellness/healthy-living/nutrition/weight-loss/weight-loss-benefits-for-arthritis' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visita su sitio web</a>.",
+                    footer_copyright: "&copy; 2025 Iniciativa Healthier You. Todos los derechos reservados.",
+                    footer_disclaimer: "Esta información es para fines educativos y no sustituye el consejo médico profesional. Siempre consulta con tu médico."
+                }
+            };
+
+            // --- LANGUAGE SELECTOR LOGIC ---
+            const langSelectors = document.querySelectorAll('.lang-selector');
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                const translation = translations[lang];
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translation[key]) {
+                        elem.innerHTML = translation[key];
+                    }
+                });
+                buildAccordion(lang);
+            };
+
+            langSelectors.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const lang = e.target.id.split('-')[1];
+                    setLanguage(lang);
+                });
+            });
+
+            // Initial Page Load
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>

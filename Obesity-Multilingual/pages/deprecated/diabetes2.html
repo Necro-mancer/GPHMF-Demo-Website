@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preventing Diabetes - Healthier You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .lang-active {
+            font-weight: 700;
+            color: #10B981;
+        }
+        .hero-bg-prevent {
+            background-image: linear-gradient(to right, #2DD4BF, #0D9488);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .accordion-button.open + .accordion-content {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-button.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .accordion-arrow {
+            transition: transform 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="#" class="text-sm font-medium text-emerald-600 hover:underline" data-key="back_link">&larr; Back to Main Site</a>
+            </div>
+            <div class="relative flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9" />
+                </svg>
+                <button id="lang-en" class="lang-selector text-gray-600 hover:text-emerald-600 transition lang-active">EN</button>
+                <span class="mx-1 text-gray-400">|</span>
+                <button id="lang-es" class="lang-selector text-gray-600 hover:text-emerald-600 transition">ES</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg-prevent py-20 md:py-24">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center text-center md:text-left">
+                <div class="md:w-3/5">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4" data-key="hero_title">Change Your Future, Today</h1>
+                    <p class="text-lg md:text-xl text-white max-w-2xl" data-key="hero_subtitle">You have the power to reduce your risk of type 2 diabetes. Learn how small, proven lifestyle changes can lead to a long and healthy life.</p>
+                </div>
+                <div class="md:w-2/5 mt-8 md:mt-0 flex justify-center">
+                    <svg class="w-32 h-32 md:w-48 md:h-48 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 C 20 20, 10 50, 50 90 C 90 50, 80 20, 50 10 Z" fill="currentColor" fill-opacity="0.2"/>
+                        <path d="M50 15 C 25 25, 15 50, 50 85 C 85 50, 75 25, 50 15 Z" fill="currentColor"/>
+                        <path d="M40 55 C 45 45, 55 45, 60 55" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        <path d="M45 65 C 47.5 70, 52.5 70, 55 65" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Power of Prevention Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800" data-key="prevention_title">The Power of Prevention: It's Proven</h2>
+                <p class="text-gray-600 mt-4 max-w-3xl mx-auto" data-key="prevention_text">Being overweight is a primary risk factor for type 2 diabetes. However, a landmark study called the Diabetes Prevention Program (DPP) showed that people at high risk can prevent or delay the disease by losing a modest amount of weight through diet and exercise.</p>
+            </div>
+        </section>
+        
+        <!-- Interactive Risk Reduction Section -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800" data-key="risk_title">See Your Risk Drop</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="risk_subtitle">The DPP study found that losing just 5% to 7% of body weight and getting 150 minutes of weekly exercise can have a massive impact.</p>
+                <div class="mt-12 bg-white p-8 rounded-lg shadow-xl max-w-2xl mx-auto">
+                     <div class="text-6xl md:text-8xl font-bold text-emerald-500">58%</div>
+                     <p class="text-xl md:text-2xl font-semibold text-gray-700 mt-2" data-key="risk_reduction">Reduction in Diabetes Risk</p>
+                     <p class="text-gray-600 mt-4" data-key="risk_text">That's the power of lifestyle changes. For someone weighing 200 pounds, a 7% weight loss is just 14 pounds. Small changes lead to huge results.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keys to Success Accordion -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="keys_title">Your Action Plan for Prevention</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="keys_subtitle">Ready to start? Here are the two key lifestyle changes from the DPP that you can begin today.</p>
+                </div>
+                <div id="accordion-container" class="max-w-3xl mx-auto space-y-4">
+                    <!-- Accordion items will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Motivational Stories -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="stories_title">Mindset for Success: Real Stories, Real Motivation</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="stories_subtitle">The journey is different for everyone. Find inspiration in these stories.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-emerald-400">
+                        <h3 class="font-bold text-lg" data-key="story1_name">Maria's Story: Small Steps</h3>
+                        <p class="text-gray-600 italic mt-2 mb-3" data-key="story1_quote">"I used to think I had to change everything at once. It was overwhelming."</p>
+                        <p class="text-gray-700" data-key="story1_text">Maria started by swapping her afternoon soda for sparkling water and taking a 10-minute walk during her lunch break. These small, consistent changes gave her the confidence to tackle bigger goals, like cooking more meals at home.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-blue-400">
+                        <h3 class="font-bold text-lg" data-key="story2_name">David's Story: Finding Joy in Movement</h3>
+                        <p class="text-gray-600 italic mt-2 mb-3" data-key="story2_quote">"The gym felt like a chore. I dreaded it."</p>
+                        <p class="text-gray-700" data-key="story2_text">David realized he didn't have to force himself to do exercises he hated. He rediscovered his love for hiking and started exploring local trails on weekends. Finding an activity he genuinely enjoyed made exercise something to look forward to, not avoid.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-6 border-t border-gray-700 pt-6">
+                <p class="text-sm text-gray-400" data-key="source_summary">This page is a summary based on information from the CDC's National Diabetes Prevention Program. For more detailed information, please <a href="https://www.cdc.gov/diabetes/prevention/index.html" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">visit their website</a>.</p>
+            </div>
+            <p data-key="footer_copyright">&copy; 2025 Healthier You Initiative. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer">This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const accordionData = {
+                en: [
+                    { title: "1. Focus on Healthy Eating", content: "This isn't about a restrictive diet. It's about making smarter choices. Reduce your overall calorie intake by focusing on smaller portions and choosing foods lower in fat and sugar. Use the Diabetes Plate Method as a guide: fill half your plate with non-starchy vegetables, a quarter with lean protein, and a quarter with healthy carbohydrates." },
+                    { title: "2. Get Active", content: "Aim for at least 150 minutes of moderate-intensity physical activity each week. That's just 30 minutes, 5 days a week. Brisk walking is a fantastic and accessible option. It helps your body use insulin more effectively and contributes to weight loss. Find an activity you enjoy to make it a lasting habit." }
+                ],
+                es: [
+                    { title: "1. Enfócate en una Alimentación Saludable", content: "No se trata de una dieta restrictiva. Se trata de tomar decisiones más inteligentes. Reduce tu ingesta calórica total centrándote en porciones más pequeñas y eligiendo alimentos bajos en grasa y azúcar. Usa el Método del Plato para la Diabetes como guía: llena la mitad de tu plato con vegetales sin almidón, un cuarto con proteína magra y un cuarto con carbohidratos saludables." },
+                    { title: "2. Ponte en Movimiento", content: "Intenta hacer al menos 150 minutos de actividad física de intensidad moderada cada semana. Eso es solo 30 minutos, 5 días a la semana. Caminar a paso ligero es una opción fantástica y accesible. Ayuda a tu cuerpo a usar la insulina de manera más efectiva y contribuye a la pérdida de peso. Encuentra una actividad que disfrutes para que se convierta en un hábito duradero." }
+                ]
+            };
+            
+            // --- INTERACTIVITY ---
+            const accordionContainer = document.getElementById('accordion-container');
+
+            function buildAccordion(lang) {
+                accordionContainer.innerHTML = '';
+                accordionData[lang].forEach((item) => {
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'bg-white rounded-lg shadow';
+                    accordionItem.innerHTML = `
+                        <button class="accordion-button w-full flex justify-between items-center p-4 text-left font-semibold">
+                            <span>${item.title}</span>
+                            <svg class="accordion-arrow w-6 h-6 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content px-4">
+                            <p class="py-4 border-t">${item.content}</p>
+                        </div>
+                    `;
+                    accordionContainer.appendChild(accordionItem);
+                });
+                addAccordionListeners();
+            }
+
+            function addAccordionListeners() {
+                 document.querySelectorAll('.accordion-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        button.classList.toggle('open');
+                    });
+                });
+            }
+
+            // --- TRANSLATION DATA ---
+            const translations = {
+                en: {
+                    back_link: "&larr; Back to Main Site",
+                    hero_title: "Change Your Future, Today",
+                    hero_subtitle: "You have the power to reduce your risk of type 2 diabetes. Learn how small, proven lifestyle changes can lead to a long and healthy life.",
+                    prevention_title: "The Power of Prevention: It's Proven",
+                    prevention_text: "Being overweight is a primary risk factor for type 2 diabetes. However, a landmark study called the Diabetes Prevention Program (DPP) showed that people at high risk can prevent or delay the disease by losing a modest amount of weight through diet and exercise.",
+                    risk_title: "See Your Risk Drop",
+                    risk_subtitle: "The DPP study found that losing just 5% to 7% of body weight and getting 150 minutes of weekly exercise can have a massive impact.",
+                    risk_reduction: "Reduction in Diabetes Risk",
+                    risk_text: "That's the power of lifestyle changes. For someone weighing 200 pounds, a 7% weight loss is just 14 pounds. Small changes lead to huge results.",
+                    keys_title: "Your Action Plan for Prevention",
+                    keys_subtitle: "Ready to start? Here are the two key lifestyle changes from the DPP that you can begin today.",
+                    stories_title: "Mindset for Success: Real Stories, Real Motivation",
+                    stories_subtitle: "The journey is different for everyone. Find inspiration in these stories.",
+                    story1_name: "Maria's Story: Small Steps",
+                    story1_quote: "\"I used to think I had to change everything at once. It was overwhelming.\"",
+                    story1_text: "Maria started by swapping her afternoon soda for sparkling water and taking a 10-minute walk during her lunch break. These small, consistent changes gave her the confidence to tackle bigger goals, like cooking more meals at home.",
+                    story2_name: "David's Story: Finding Joy in Movement",
+                    story2_quote: "\"The gym felt like a chore. I dreaded it.\"",
+                    story2_text: "David realized he didn't have to force himself to do exercises he hated. He rediscovered his love for hiking and started exploring local trails on weekends. Finding an activity he genuinely enjoyed made exercise something to look forward to, not avoid.",
+                    source_summary: "This page is a summary based on information from the CDC's National Diabetes Prevention Program. For more detailed information, please <a href='https://www.cdc.gov/diabetes/prevention/index.html' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.",
+                    footer_copyright: "&copy; 2025 Healthier You Initiative. All rights reserved.",
+                    footer_disclaimer: "This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor."
+                },
+                es: {
+                    back_link: "&larr; Volver al Sitio Principal",
+                    hero_title: "Cambia Tu Futuro, Hoy",
+                    hero_subtitle: "Tienes el poder de reducir tu riesgo de diabetes tipo 2. Aprende cómo pequeños cambios de estilo de vida comprobados pueden llevar a una vida larga y saludable.",
+                    prevention_title: "El Poder de la Prevención: Está Comprobado",
+                    prevention_text: "Tener sobrepeso es un factor de riesgo principal para la diabetes tipo 2. Sin embargo, un estudio histórico llamado Programa de Prevención de la Diabetes (DPP) demostró que las personas con alto riesgo pueden prevenir o retrasar la enfermedad perdiendo una cantidad modesta de peso a través de la dieta y el ejercicio.",
+                    risk_title: "Mira Cómo Disminuye Tu Riesgo",
+                    risk_subtitle: "El estudio DPP encontró que perder solo del 5% al 7% del peso corporal y hacer 150 minutos de ejercicio semanal puede tener un impacto masivo.",
+                    risk_reduction: "Reducción del Riesgo de Diabetes",
+                    risk_text: "Ese es el poder de los cambios en el estilo de vida. Para alguien que pesa 200 libras, una pérdida de peso del 7% son solo 14 libras. Pequeños cambios conducen a grandes resultados.",
+                    keys_title: "Tu Plan de Acción para la Prevención",
+                    keys_subtitle: "¿Listo para empezar? Aquí están los dos cambios clave en el estilo de vida del DPP que puedes comenzar hoy.",
+                    stories_title: "Mentalidad para el Éxito: Historias Reales, Motivación Real",
+                    stories_subtitle: "El viaje es diferente para cada persona. Encuentra inspiración en estas historias.",
+                    story1_name: "La Historia de María: Pequeños Pasos",
+                    story1_quote: "\"Solía pensar que tenía que cambiar todo de una vez. Era abrumador.\"",
+                    story1_text: "María comenzó cambiando su refresco de la tarde por agua con gas y dando un paseo de 10 minutos durante su hora de almuerzo. Estos pequeños y constantes cambios le dieron la confianza para abordar metas más grandes, como cocinar más comidas en casa.",
+                    story2_name: "La Historia de David: Encontrando Alegría en el Movimiento",
+                    story2_quote: "\"El gimnasio se sentía como una obligación. Lo detestaba.\"",
+                    story2_text: "David se dio cuenta de que no tenía que obligarse a hacer ejercicios que odiaba. Redescubrió su amor por el senderismo y comenzó a explorar senderos locales los fines de semana. Encontrar una actividad que realmente disfrutaba hizo que el ejercicio fuera algo que esperar, no que evitar.",
+                    source_summary: "Esta página es un resumen basado en información del Programa Nacional de Prevención de la Diabetes de los CDC. Para obtener información más detallada, por favor <a href='https://www.cdc.gov/diabetes/prevention/index.html' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visita su sitio web</a>.",
+                    footer_copyright: "&copy; 2025 Iniciativa Healthier You. Todos los derechos reservados.",
+                    footer_disclaimer: "Esta información es para fines educativos y no sustituye el consejo médico profesional. Siempre consulta con tu médico."
+                }
+            };
+
+            // --- LANGUAGE SELECTOR LOGIC ---
+            const langSelectors = document.querySelectorAll('.lang-selector');
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                const translation = translations[lang];
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translation[key]) {
+                        elem.innerHTML = translation[key];
+                    }
+                });
+                buildAccordion(lang);
+            };
+
+            langSelectors.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const lang = e.target.id.split('-')[1];
+                    setLanguage(lang);
+                });
+            });
+
+            // Initial Page Load
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>

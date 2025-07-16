@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The DASH Diet - Healthier You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .lang-active {
+            font-weight: 700;
+            color: #10B981;
+        }
+        .hero-bg-dash {
+            background-image: linear-gradient(to right, #34D399, #10B981);
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: all 0.3s ease;
+        }
+        .checklist-item.checked span {
+            text-decoration: line-through;
+            color: #9CA3AF;
+        }
+        .checklist-item.checked .checkbox {
+            background-color: #10B981;
+            border-color: #10B981;
+        }
+         .checklist-item.checked .checkbox::after {
+            content: '✔';
+            color: white;
+        }
+        /* Dashing person animation */
+        .runner {
+            width: 150px;
+            height: 150px;
+        }
+        @keyframes run-body {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        @keyframes run-arm-front {
+            0%, 100% { transform: rotate(45deg); }
+            50% { transform: rotate(-45deg); }
+        }
+        @keyframes run-arm-back {
+            0%, 100% { transform: rotate(-45deg); }
+            50% { transform: rotate(45deg); }
+        }
+        @keyframes run-leg-front {
+            0%, 100% { transform: rotate(35deg); }
+            50% { transform: rotate(-40deg); }
+        }
+        @keyframes run-leg-back {
+            0%, 100% { transform: rotate(-40deg); }
+            50% { transform: rotate(35deg); }
+        }
+        .runner .body {
+            animation: run-body 0.5s linear infinite;
+        }
+        .runner .arm.front {
+            animation: run-arm-front 0.5s linear infinite;
+            transform-origin: top center;
+        }
+        .runner .arm.back {
+            animation: run-arm-back 0.5s linear infinite;
+            transform-origin: top center;
+        }
+        .runner .leg.front {
+            animation: run-leg-front 0.5s linear infinite;
+            transform-origin: top center;
+        }
+        .runner .leg.back {
+            animation: run-leg-back 0.5s linear infinite;
+            transform-origin: top center;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="#" class="text-sm font-medium text-emerald-600 hover:underline" data-key="back_link">&larr; Back to Main Site</a>
+            </div>
+            <div class="relative flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9" />
+                </svg>
+                <button id="lang-en" class="lang-selector text-gray-600 hover:text-emerald-600 transition lang-active">EN</button>
+                <span class="mx-1 text-gray-400">|</span>
+                <button id="lang-es" class="lang-selector text-gray-600 hover:text-emerald-600 transition">ES</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg-dash py-20 md:py-24">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center text-center md:text-left">
+                <div class="md:w-3/5">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4" data-key="hero_title">DASH to a Healthier Heart</h1>
+                    <p class="text-lg md:text-xl text-white max-w-2xl" data-key="hero_subtitle">Discover the DASH eating plan, a flexible and balanced approach proven to lower blood pressure and improve heart health for life.</p>
+                </div>
+                <div class="md:w-2/5 mt-8 md:mt-0 flex justify-center">
+                    <!-- Animated Runner SVG -->
+                    <svg class="runner" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g class="body" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Head -->
+                            <circle cx="50" cy="20" r="8"/>
+                            <!-- Torso -->
+                            <line x1="50" y1="28" x2="50" y2="55"/>
+                             <!-- Back Arm -->
+                            <g class="arm back">
+                                <line x1="50" y1="35" x2="40" y2="50"/>
+                                <line x1="40" y1="50" x2="50" y2="65"/>
+                            </g>
+                             <!-- Back Leg -->
+                            <g class="leg back">
+                                <line x1="50" y1="55" x2="40" y2="75"/>
+                                <line x1="40" y1="75" x2="45" y2="95"/>
+                            </g>
+                             <!-- Front Leg -->
+                             <g class="leg front">
+                                <line x1="50" y1="55" x2="60" y2="75"/>
+                                <line x1="60" y1="75" x2="55" y2="95"/>
+                            </g>
+                             <!-- Front Arm -->
+                            <g class="arm front">
+                                <line x1="50" y1="35" x2="60" y2="50"/>
+                                <line x1="60" y1="50" x2="50" y2="65"/>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is DASH Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="what_is_title">A Proven Plan for Your Health</h2>
+                    <p class="text-gray-600 mt-4" data-key="what_is_text1">DASH stands for <strong>Dietary Approaches to Stop Hypertension</strong>. It's not a fad diet, but a lifelong eating plan backed by extensive research from the National Heart, Lung, and Blood Institute (NHLBI).</p>
+                    <p class="text-gray-600 mt-4" data-key="what_is_text2">The goal is to create a heart-healthy eating style that's flexible and rich in nutrients known to help lower blood pressure, such as potassium, calcium, and magnesium. It's consistently ranked as one of the best diets for overall health.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-6 text-center">
+                    <div class="bg-emerald-100 p-6 rounded-lg shadow-md">
+                        <p class="text-4xl">❤️</p>
+                        <p class="font-semibold mt-2" data-key="benefit1">Lowers Blood Pressure</p>
+                    </div>
+                     <div class="bg-emerald-100 p-6 rounded-lg shadow-md">
+                        <p class="text-4xl">📉</p>
+                        <p class="font-semibold mt-2" data-key="benefit2">Reduces Cholesterol</p>
+                    </div>
+                     <div class="bg-emerald-100 p-6 rounded-lg shadow-md">
+                        <p class="text-4xl">⚖️</p>
+                        <p class="font-semibold mt-2" data-key="benefit3">Helps Weight Management</p>
+                    </div>
+                     <div class="bg-emerald-100 p-6 rounded-lg shadow-md">
+                        <p class="text-4xl">🌱</p>
+                        <p class="font-semibold mt-2" data-key="benefit4">Decreases Diabetes Risk</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Food Group Guide -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="guide_title">The DASH Food Groups: An Interactive Guide</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="guide_subtitle">Click on each food group to learn more about daily serving goals and what to eat. Goals are based on a 2,000-calorie diet.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Food Group Cards -->
+                    <div class="food-group-card bg-green-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="grains">
+                        <p class="text-4xl">🍞</p><p class="font-bold mt-2" data-key="group_grains">Grains</p>
+                    </div>
+                    <div class="food-group-card bg-green-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="vegetables">
+                        <p class="text-4xl">🥦</p><p class="font-bold mt-2" data-key="group_veg">Vegetables</p>
+                    </div>
+                    <div class="food-group-card bg-green-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="fruits">
+                        <p class="text-4xl">🍓</p><p class="font-bold mt-2" data-key="group_fruits">Fruits</p>
+                    </div>
+                    <div class="food-group-card bg-blue-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="dairy">
+                        <p class="text-4xl">🥛</p><p class="font-bold mt-2" data-key="group_dairy">Low-Fat Dairy</p>
+                    </div>
+                    <div class="food-group-card bg-red-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="protein">
+                        <p class="text-4xl">🍗</p><p class="font-bold mt-2" data-key="group_protein">Lean Protein</p>
+                    </div>
+                    <div class="food-group-card bg-yellow-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="nuts">
+                        <p class="text-4xl">🥜</p><p class="font-bold mt-2" data-key="group_nuts">Nuts, Seeds, Legumes</p>
+                    </div>
+                    <div class="food-group-card bg-yellow-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="fats">
+                        <p class="text-4xl">🫒</p><p class="font-bold mt-2" data-key="group_fats">Fats & Oils</p>
+                    </div>
+                    <div class="food-group-card bg-purple-200 p-6 rounded-lg text-center cursor-pointer hover:shadow-xl hover:scale-105 transition-transform" data-group="sweets">
+                        <p class="text-4xl">🍬</p><p class="font-bold mt-2" data-key="group_sweets">Sweets</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sodium Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800" data-key="sodium_title">The Role of Sodium</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="sodium_text">The DASH plan offers two sodium goals. While the standard plan is effective, the lower-sodium version can have an even greater impact on blood pressure.</p>
+                <div class="mt-8 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-t-4 border-emerald-400">
+                        <h3 class="text-xl font-bold" data-key="sodium1_title">Standard DASH</h3>
+                        <p class="text-5xl font-bold text-emerald-600 my-2">2,300<span class="text-lg" data-key="sodium_mg">mg</span></p>
+                        <p class="text-gray-600" data-key="sodium1_text">The standard daily limit, which is still lower than what many people typically consume.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-t-4 border-red-400">
+                        <h3 class="text-xl font-bold" data-key="sodium2_title">Lower Sodium DASH</h3>
+                        <p class="text-5xl font-bold text-red-600 my-2">1,500<span class="text-lg" data-key="sodium_mg">mg</span></p>
+                        <p class="text-gray-600" data-key="sodium2_text">An even more effective goal for lowering blood pressure, recommended for many adults.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 7-Day Kickstart Plan -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="kickstart_title">Your 7-Day DASH Kickstart Plan</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="kickstart_text">Start with small, gradual changes. Use this checklist to build healthy habits one day at a time. Click to mark your progress!</p>
+                </div>
+                <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+                    <ul class="space-y-4">
+                        <li class="checklist-item flex items-center cursor-pointer">
+                            <div class="checkbox w-6 h-6 border-2 border-gray-300 rounded-md mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                            <span data-key="day1"><strong>Day 1:</strong> Add a serving of vegetables to your lunch and dinner.</span>
+                        </li>
+                        <li class="checklist-item flex items-center cursor-pointer">
+                            <div class="checkbox w-6 h-6 border-2 border-gray-300 rounded-md mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                            <span data-key="day2"><strong>Day 2:</strong> Switch to whole-wheat bread for your sandwiches or toast.</span>
+                        </li>
+                        <li class="checklist-item flex items-center cursor-pointer">
+                            <div class="checkbox w-6 h-6 border-2 border-gray-300 rounded-md mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                            <span data-key="day3"><strong>Day 3:</strong> Have a piece of fruit as your afternoon snack instead of chips or cookies.</span>
+                        </li>
+                        <li class="checklist-item flex items-center cursor-pointer">
+                            <div class="checkbox w-6 h-6 border-2 border-gray-300 rounded-md mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                            <span data-key="day4"><strong>Day 4:</strong> Use a salt-free seasoning blend on your food instead of reaching for the salt shaker.</span>
+                        </li>
+                        <li class="checklist-item flex items-center cursor-pointer">
+                            <div class="checkbox w-6 h-6 border-2 border-gray-300 rounded-md mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                            <span data-key="day5"><strong>Day 5:</strong> Choose low-fat or fat-free milk or yogurt.</span>
+                        </li>
+                        <li class="checklist-item flex items-center cursor-pointer">
+                            <div class="checkbox w-6 h-6 border-2 border-gray-300 rounded-md mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                             <span data-key="day6"><strong>Day 6:</strong> Have a handful of unsalted nuts as a snack.</span>
+                        </li>
+                        <li class="checklist-item flex items-center cursor-pointer">
+                            <div class="checkbox w-6 h-6 border-2 border-gray-300 rounded-md mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                            <span data-key="day7"><strong>Day 7:</strong> Take a 15-minute walk after dinner. You did it!</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-6 border-t border-gray-700 pt-6">
+                <p class="text-sm text-gray-400" data-key="source_summary">This page is a summary based on information from the National Heart, Lung, and Blood Institute (NHLBI). For more detailed information, please <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">visit their website</a>.</p>
+            </div>
+            <p data-key="footer_copyright">&copy; 2025 Healthier You Initiative. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer">This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Structure -->
+    <div id="food-group-modal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden opacity-0">
+        <div class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-lg p-8 relative scale-95">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            <div id="modal-body">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- MODAL & INTERACTIVITY ---
+            const modal = document.getElementById('food-group-modal');
+            const modalBody = document.getElementById('modal-body');
+            const closeModalBtn = document.getElementById('close-modal');
+            const foodGroupCards = document.querySelectorAll('.food-group-card');
+            
+            const modalData = {
+                en: {
+                    grains: { title: "Grains", servings: "6-8 Daily", content: "Focus on whole grains like brown rice, quinoa, oats, and whole-wheat bread. They are great sources of fiber and energy. A serving is 1 slice of bread or 1/2 cup of cooked pasta or rice." },
+                    vegetables: { title: "Vegetables", servings: "4-5 Daily", content: "Load up on a variety of colorful vegetables. They are rich in vitamins, minerals, and fiber. A serving is 1 cup of raw leafy greens or 1/2 cup of chopped veggies." },
+                    fruits: { title: "Fruits", servings: "4-5 Daily", content: "Fruits provide essential nutrients and natural sweetness. Enjoy a range of fruits like berries, apples, and bananas. A serving is 1 medium fruit or 1/2 cup of fresh/frozen fruit." },
+                    dairy: { title: "Low-Fat Dairy", servings: "2-3 Daily", content: "Choose fat-free or low-fat dairy for calcium and protein. Good choices include skim milk, low-fat yogurt, and cheese. A serving is 1 cup of milk or yogurt." },
+                    protein: { title: "Lean Protein", servings: "6 oz or less Daily", content: "Pick lean protein sources like fish, poultry without skin, and beans. Limit red meat. A serving is 1 oz of cooked meat or 1 egg." },
+                    nuts: { title: "Nuts, Seeds & Legumes", servings: "4-5 Weekly", content: "These are excellent sources of healthy fats, protein, and fiber. Enjoy almonds, sunflower seeds, kidney beans, and lentils. A serving is 1/3 cup of nuts or 1/2 cup of cooked beans." },
+                    fats: { title: "Fats & Oils", servings: "2-3 Daily", content: "Focus on healthy unsaturated fats. Use vegetable oils like olive or canola oil. A serving is 1 tsp of oil or 1 tbsp of low-fat mayonnaise." },
+                    sweets: { title: "Sweets", servings: "5 or less Weekly", content: "Limit added sugars. If you have a treat, make it small. A serving is 1 tbsp of sugar, jam, or a small cookie." }
+                },
+                es: {
+                    grains: { title: "Granos", servings: "6-8 Diarias", content: "Concéntrate en granos integrales como arroz integral, quinua, avena y pan integral. Son excelentes fuentes de fibra y energía. Una porción es 1 rebanada de pan o 1/2 taza de pasta o arroz cocido." },
+                    vegetables: { title: "Verduras", servings: "4-5 Diarias", content: "Consume una variedad de verduras coloridas. Son ricas en vitaminas, minerales y fibra. Una porción es 1 taza de hojas verdes crudas o 1/2 taza de verduras picadas." },
+                    fruits: { title: "Frutas", servings: "4-5 Diarias", content: "Las frutas proporcionan nutrientes esenciales y dulzura natural. Disfruta de una variedad de frutas como bayas, manzanas y plátanos. Una porción es 1 fruta mediana o 1/2 taza de fruta fresca/congelada." },
+                    dairy: { title: "Lácteos Bajos en Grasa", servings: "2-3 Diarias", content: "Elige lácteos sin grasa o bajos en grasa para obtener calcio y proteínas. Buenas opciones incluyen leche descremada, yogur bajo en grasa y queso. Una porción es 1 taza de leche o yogur." },
+                    protein: { title: "Proteína Magra", servings: "6 oz o menos Diarias", content: "Elige fuentes de proteína magra como pescado, aves sin piel y frijoles. Limita la carne roja. Una porción es 1 oz de carne cocida o 1 huevo." },
+                    nuts: { title: "Nueces, Semillas y Legumbres", servings: "4-5 Semanales", content: "Son excelentes fuentes de grasas saludables, proteínas y fibra. Disfruta de almendras, semillas de girasol, frijoles y lentejas. Una porción es 1/3 de taza de nueces o 1/2 taza de frijoles cocidos." },
+                    fats: { title: "Grasas y Aceites", servings: "2-3 Diarias", content: "Concéntrate en grasas insaturadas saludables. Usa aceites vegetales como el de oliva o canola. Una porción es 1 cdta. de aceite o 1 cda. de mayonesa baja en grasa." },
+                    sweets: { title: "Dulces", servings: "5 o menos Semanales", content: "Limita los azúcares añadidos. Si te das un gusto, que sea pequeño. Una porción es 1 cda. de azúcar, mermelada o una galleta pequeña." }
+                }
+            };
+
+            foodGroupCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const group = card.dataset.group;
+                    const lang = document.documentElement.lang || 'en';
+                    const data = modalData[lang][group];
+                    
+                    modalBody.innerHTML = `
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">${data.title}</h3>
+                        <p class="text-emerald-600 font-semibold mb-4">${data.servings}</p>
+                        <p class="text-gray-600">${data.content}</p>
+                    `;
+                    modal.classList.remove('hidden');
+                    setTimeout(() => modal.classList.remove('opacity-0'), 10);
+                    setTimeout(() => modal.querySelector('.modal-content').classList.remove('scale-95'), 10);
+                });
+            });
+
+            const closeModal = () => {
+                modal.classList.add('opacity-0');
+                modal.querySelector('.modal-content').classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Checklist functionality
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('checked');
+                });
+            });
+
+            // --- TRANSLATION DATA ---
+            const translations = {
+                en: {
+                    back_link: "&larr; Back to Main Site",
+                    hero_title: "DASH to a Healthier Heart",
+                    hero_subtitle: "Discover the DASH eating plan, a flexible and balanced approach proven to lower blood pressure and improve heart health for life.",
+                    what_is_title: "A Proven Plan for Your Health",
+                    what_is_text1: "DASH stands for <strong>Dietary Approaches to Stop Hypertension</strong>. It's not a fad diet, but a lifelong eating plan backed by extensive research from the National Heart, Lung, and Blood Institute (NHLBI).",
+                    what_is_text2: "The goal is to create a heart-healthy eating style that's flexible and rich in nutrients known to help lower blood pressure, such as potassium, calcium, and magnesium. It's consistently ranked as one of the best diets for overall health.",
+                    benefit1: "Lowers Blood Pressure",
+                    benefit2: "Reduces Cholesterol",
+                    benefit3: "Helps Weight Management",
+                    benefit4: "Decreases Diabetes Risk",
+                    guide_title: "The DASH Food Groups: An Interactive Guide",
+                    guide_subtitle: "Click on each food group to learn more about daily serving goals and what to eat. Goals are based on a 2,000-calorie diet.",
+                    group_grains: "Grains",
+                    group_veg: "Vegetables",
+                    group_fruits: "Fruits",
+                    group_dairy: "Low-Fat Dairy",
+                    group_protein: "Lean Protein",
+                    group_nuts: "Nuts, Seeds, Legumes",
+                    group_fats: "Fats & Oils",
+                    group_sweets: "Sweets",
+                    sodium_title: "The Role of Sodium",
+                    sodium_text: "The DASH plan offers two sodium goals. While the standard plan is effective, the lower-sodium version can have an even greater impact on blood pressure.",
+                    sodium1_title: "Standard DASH",
+                    sodium_mg: "mg",
+                    sodium1_text: "The standard daily limit, which is still lower than what many people typically consume.",
+                    sodium2_title: "Lower Sodium DASH",
+                    sodium2_text: "An even more effective goal for lowering blood pressure, recommended for many adults.",
+                    kickstart_title: "Your 7-Day DASH Kickstart Plan",
+                    kickstart_text: "Start with small, gradual changes. Use this checklist to build healthy habits one day at a time. Click to mark your progress!",
+                    day1: "<strong>Day 1:</strong> Add a serving of vegetables to your lunch and dinner.",
+                    day2: "<strong>Day 2:</strong> Switch to whole-wheat bread for your sandwiches or toast.",
+                    day3: "<strong>Day 3:</strong> Have a piece of fruit as your afternoon snack instead of chips or cookies.",
+                    day4: "<strong>Day 4:</strong> Use a salt-free seasoning blend on your food instead of reaching for the salt shaker.",
+                    day5: "<strong>Day 5:</strong> Choose low-fat or fat-free milk or yogurt.",
+                    day6: "<strong>Day 6:</strong> Have a handful of unsalted nuts as a snack.",
+                    day7: "<strong>Day 7:</strong> Take a 15-minute walk after dinner. You did it!",
+                    source_summary: "This page is a summary based on information from the National Heart, Lung, and Blood Institute (NHLBI). For more detailed information, please <a href='https://www.nhlbi.nih.gov/education/dash-eating-plan' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.",
+                    footer_copyright: "&copy; 2025 Healthier You Initiative. All rights reserved.",
+                    footer_disclaimer: "This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor."
+                },
+                es: {
+                    back_link: "&larr; Volver al Sitio Principal",
+                    hero_title: "Un Impulso DASH para un Corazón Sano",
+                    hero_subtitle: "Descubre el plan de alimentación DASH, un enfoque flexible y equilibrado probado para reducir la presión arterial y mejorar la salud del corazón de por vida.",
+                    what_is_title: "Un Plan Probado para Tu Salud",
+                    what_is_text1: "DASH significa <strong>Enfoques Dietéticos para Detener la Hipertensión</strong>. No es una dieta de moda, sino un plan de alimentación para toda la vida respaldado por una extensa investigación del Instituto Nacional del Corazón, los Pulmones y la Sangre (NHLBI).",
+                    what_is_text2: "El objetivo es crear un estilo de alimentación saludable para el corazón que sea flexible y rico en nutrientes conocidos por ayudar a reducir la presión arterial, como el potasio, el calcio y el magnesio. Se clasifica constantemente como una de las mejores dietas para la salud en general.",
+                    benefit1: "Reduce la Presión Arterial",
+                    benefit2: "Reduce el Colesterol",
+                    benefit3: "Ayuda a Controlar el Peso",
+                    benefit4: "Disminuye el Riesgo de Diabetes",
+                    guide_title: "Grupos de Alimentos DASH: Guía Interactiva",
+                    guide_subtitle: "Haz clic en cada grupo de alimentos para obtener más información sobre los objetivos de porciones diarias y qué comer. Los objetivos se basan en una dieta de 2,000 calorías.",
+                    group_grains: "Granos",
+                    group_veg: "Verduras",
+                    group_fruits: "Frutas",
+                    group_dairy: "Lácteos Bajos en Grasa",
+                    group_protein: "Proteína Magra",
+                    group_nuts: "Nueces, Semillas, Legumbres",
+                    group_fats: "Grasas y Aceites",
+                    group_sweets: "Dulces",
+                    sodium_title: "El Papel del Sodio",
+                    sodium_text: "El plan DASH ofrece dos objetivos de sodio. Si bien el plan estándar es efectivo, la versión baja en sodio puede tener un impacto aún mayor en la presión arterial.",
+                    sodium1_title: "DASH Estándar",
+                    sodium_mg: "mg",
+                    sodium1_text: "El límite diario estándar, que sigue siendo más bajo de lo que muchas personas consumen habitualmente.",
+                    sodium2_title: "DASH Bajo en Sodio",
+                    sodium2_text: "Un objetivo aún más eficaz para reducir la presión arterial, recomendado para muchos adultos.",
+                    kickstart_title: "Tu Plan de Inicio DASH de 7 Días",
+                    kickstart_text: "Comienza con cambios pequeños y graduales. Usa esta lista de verificación para desarrollar hábitos saludables un día a la vez. ¡Haz clic para marcar tu progreso!",
+                    day1: "<strong>Día 1:</strong> Agrega una porción de verduras a tu almuerzo y cena.",
+                    day2: "<strong>Día 2:</strong> Cambia a pan integral para tus sándwiches o tostadas.",
+                    day3: "<strong>Día 3:</strong> Come una fruta como merienda en lugar de papas fritas o galletas.",
+                    day4: "<strong>Día 4:</strong> Usa una mezcla de condimentos sin sal en tu comida en lugar de usar el salero.",
+                    day5: "<strong>Día 5:</strong> Elige leche o yogur bajo en grasa o sin grasa.",
+                    day6: "<strong>Día 6:</strong> Come un puñado de nueces sin sal como snack.",
+                    day7: "<strong>Día 7:</strong> Da un paseo de 15 minutos después de la cena. ¡Lo lograste!",
+                    source_summary: "Esta página es un resumen basado en información del Instituto Nacional del Corazón, los Pulmones y la Sangre (NHLBI). Para obtener información más detallada, por favor <a href='https://www.nhlbi.nih.gov/education/dash-eating-plan' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visita su sitio web</a>.",
+                    footer_copyright: "&copy; 2025 Iniciativa Healthier You. Todos los derechos reservados.",
+                    footer_disclaimer: "Esta información es para fines educativos y no sustituye el consejo médico profesional. Siempre consulta con tu médico."
+                }
+            };
+
+            // --- LANGUAGE SELECTOR LOGIC ---
+            const langSelectors = document.querySelectorAll('.lang-selector');
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                const translation = translations[lang];
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translation[key]) {
+                        elem.innerHTML = translation[key];
+                    }
+                });
+
+                langSelectors.forEach(btn => {
+                    btn.classList.remove('lang-active');
+                });
+                document.getElementById(`lang-${lang}`).classList.add('lang-active');
+            };
+
+            langSelectors.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const lang = e.target.id.split('-')[1];
+                    setLanguage(lang);
+                });
+            });
+
+            // Set initial language
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>
