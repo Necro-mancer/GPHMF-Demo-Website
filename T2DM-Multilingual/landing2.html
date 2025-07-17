@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Living Well with Type 2 Diabetes: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; }
+        .nav-link { transition: color 0.3s, border-bottom-color 0.3s; }
+        .nav-link.active { color: #588157; border-bottom-color: #588157; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .chart-container { position: relative; width: 100%; max-width: 450px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .card-flip-container { perspective: 1000px; }
+        .card-flipper { position: relative; transform-style: preserve-3d; transition: transform 0.6s; }
+        .card-flip-container.flipped .card-flipper { transform: rotateY(180deg); }
+        .card-front, .card-back { backface-visibility: hidden; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .card-back { transform: rotateY(180deg); }
+    </style>
+
+    <!-- ConveyThis Script Start -->
+    <script src="//cdn.conveythis.com/javascript/conveythis.js?api_key=pub_61cac8af5f73d0317e896aa2537f72ca"></script>
+    <!-- ConveyThis Script End -->
+
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <ul id="main-nav" class="flex items-center justify-center space-x-2 md:space-x-6 overflow-x-auto whitespace-nowrap py-3 text-sm md:text-base flex-grow">
+                    <li><a href="#understanding" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">The Basics</a></li>
+                    <li><a href="#risk" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Your Risk</a></li>
+                    <li><a href="#lifestyle" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Your Toolkit</a></li>
+                    <li><a href="#treatment" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Treatments</a></li>
+                    <li><a href="#prevention" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Staying Healthy</a></li>
+                    <li><a href="#support" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Support</a></li>
+                </ul>
+                <!-- The translation widget will appear near the corner of the page by default -->
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <div id="understanding" class="content-section">
+            <h2 class="text-3xl font-bold text-center text-[#3A5A40] mb-4">Understanding What's Happening In Your Body</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">This section explains the gradual process that leads to Type 2 Diabetes. First, let's define the key players, then click "Next" to see how they interact. <a href="https://www.cdc.gov/diabetes/about/about-type-2-diabetes.html?CDC_AAref_Val=https://www.cdc.gov/diabetes/basics/type2.html" target="_blank" class="text-[#588157] hover:underline font-semibold">Learn more at the CDC.</a></p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h4 class="font-bold text-lg text-center text-[#344E41]">Glucose (Sugar)</h4>
+                    <p class="text-sm text-gray-600 text-center">The main source of energy for your body's cells, which comes from the food you eat.</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h4 class="font-bold text-lg text-center text-[#344E41]">Insulin</h4>
+                    <p class="text-sm text-gray-600 text-center">A hormone made by your pancreas that acts like a key, allowing glucose to enter cells to be used for energy.</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h4 class="font-bold text-lg text-center text-[#344E41]">Insulin Resistance</h4>
+                    <p class="text-sm text-gray-600 text-center">When cells don't respond well to insulin and can't easily take up glucose from your blood. This is the hallmark of Type 2 Diabetes.</p>
+                </div>
+            </div>
+
+            <div id="process-flow" class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+                <div id="process-steps" class="flex items-center justify-center min-h-[150px]">
+                    </div>
+                <div class="flex justify-between items-center mt-4">
+                    <button id="process-prev" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg disabled:opacity-50">Previous</button>
+                    <div id="process-dots" class="flex space-x-2"></div>
+                    <button id="process-next" class="bg-[#A3B18A] hover:bg-[#8F9E78] text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="risk" class="content-section">
+            <h2 class="text-3xl font-bold text-center text-[#3A5A40] mb-4">Are You at Risk? Understanding the Factors</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Type 2 diabetes develops from a mix of factors. This section helps you understand your personal risk profile so you can focus your efforts where they matter most. <a href="https://diabetes.org/risk-test" target="_blank" class="text-[#588157] hover:underline font-semibold">Take the 60-Second Risk Test.</a></p>
+            <div class="text-center mb-6">
+                <button id="show-modifiable" class="bg-[#A3B18A] text-white font-bold py-2 px-6 rounded-l-lg">Factors You Can Influence</button>
+                <button id="show-non-modifiable" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-r-lg">Factors You Can't</button>
+            </div>
+            <div id="risk-content" class="bg-white rounded-lg shadow-lg p-6 max-w-3xl mx-auto min-h-[300px]">
+                </div>
+        </div>
+
+        <div id="lifestyle" class="content-section">
+            <h2 class="text-3xl font-bold text-center text-[#3A5A40] mb-4">Your Lifestyle Toolkit: Diet & Exercise</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Your daily choices are your most powerful tools. This section provides simple, actionable guides to healthy eating and physical activity. These are the cornerstones of preventing and managing diabetes effectively.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center text-[#344E41] mb-2">Your Plate, Your Power</h3>
+                    <p class="text-center text-gray-600 mb-4">Use the simple Diabetes Plate Method to build balanced meals. This visual guide helps you control portions without complicated counting. <a href="pages/Plate-Method.html" target="_blank" class="text-[#588157] hover:underline font-semibold">Explore recipes.</a></p>
+                    <div class="chart-container">
+                        <canvas id="plateMethodChart"></canvas>
+                    </div>
+                    <div id="plate-examples" class="mt-6 text-sm"></div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center">
+                    <h3 class="text-2xl font-bold text-center text-[#344E41] mb-2">Get Moving, Feel Better</h3>
+                    <p class="text-center text-gray-600 mb-6">Aim for at least 150 minutes of moderate activity per week. Exercise helps your body use insulin better and gives your pancreas a break. <a href="pages/Fitness.html" target="_blank" class="text-[#588157] hover:underline font-semibold">Get fitness tips.</a></p>
+                    <div class="text-center">
+                        <p class="text-8xl font-bold text-[#A3B18A]">150</p>
+                        <p class="text-2xl font-semibold text-gray-700">Minutes of Aerobic Activity</p>
+                        <p class="text-gray-600 mt-2">(e.g., 30 minutes, 5 days a week)</p>
+                        <p class="text-4xl mt-4">🚶‍♀️ 🚴 🏊‍♀️ 💃</p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t w-full text-center">
+                         <h4 class="text-xl font-bold text-center text-[#344E41] mb-2">Don't Forget Strength Training</h4>
+                         <p class="text-gray-600 mb-2">Aim for 2 sessions per week to build muscle, which helps your body manage blood sugar.</p>
+                         <p class="text-gray-500">Examples: Lifting weights, resistance bands, bodyweight exercises (push-ups, squats).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="treatment" class="content-section">
+            <h2 class="text-3xl font-bold text-center text-[#3A5A40] mb-4">Medical Treatment Options</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Your treatment plan is personalized. You and your doctor will decide on the best approach, which may include medication. These tools work *with* your lifestyle efforts, not instead of them. Click on a card to learn more. <a href="pages/Medications.html" target="_blank" class="text-[#588157] hover:underline font-semibold">See a full overview.</a></p>
+            <div id="medication-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </div>
+
+        <div id="prevention" class="content-section">
+            <h2 class="text-3xl font-bold text-center text-[#3A5A40] mb-4">Staying Healthy & Preventing Complications</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-6">Good diabetes management is key to preventing long-term issues. Consistently high blood sugar can, over many years, damage blood vessels and nerves, leading to complications affecting the eyes, kidneys, feet, and heart. The good news is that managing your blood sugar, blood pressure, and cholesterol dramatically reduces these risks. This checklist is your guide to proactive care. <a href="pages/Complications.html" target="_blank" class="text-[#588157] hover:underline font-semibold">Understand complications.</a></p>
+            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+                <ul id="checklist" class="space-y-4 text-lg">
+                    </ul>
+            </div>
+        </div>
+        
+        <div id="support" class="content-section">
+            <h2 class="text-3xl font-bold text-center text-[#3A5A40] mb-4">You're Not Alone: Emotional Well-being</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">Managing diabetes is a 24/7 job that has a real emotional impact. It's okay to feel overwhelmed, and it's vital to seek support. <a href="pages/Mental-Health.html" target="_blank" class="text-[#588157] hover:underline font-semibold">Learn more.</a></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                 <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-[#344E41] mb-2">Normal Feelings</h3>
+                    <p class="text-gray-600 mb-4">It's common to experience feelings like denial, anger, fear, or burnout. Recognizing these feelings is the first step to managing them.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><strong>Denial:</strong> "This isn't a big deal."</li>
+                        <li><strong>Anger:</strong> "Why did this happen to me?"</li>
+                        <li><strong>Fear:</strong> Worrying about the future.</li>
+                        <li><strong>Burnout:</strong> Feeling exhausted by the daily demands.</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-[#344E41] mb-2">Build Your Support Circle</h3>
+                    <p class="text-gray-600 mb-4">Leaning on others is a sign of strength. Connect with people who can help you on your journey.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><strong>Family & Friends:</strong> Talk openly and let them know how to help.</li>
+                        <li><strong>Peer Support:</strong> Connect with others living with diabetes.</li>
+                        <li><strong>Your Healthcare Team:</strong> Be open about your struggles. They can help.</li>
+                        <li><strong>Mental Health Professional:</strong> A therapist can provide invaluable coping strategies.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-200 text-gray-600 text-xs mt-12 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="font-bold text-sm text-gray-700 mb-2">Medical Disclaimer</h3>
+            <p class="max-w-2xl mx-auto mb-2">
+                The information on this website is for educational purposes only and is not
+ a substitute for professional medical advice, diagnosis, or treatment. 
+Always seek the advice of your physician or other qualified health 
+provider with any questions you may have regarding a medical condition.
+            </p>
+            <p>
+                Content is based on information from the CDC, American Diabetes Association, and NIDDK.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+            const mainNav = document.getElementById('main-nav');
+            
+            const processStepsData = [
+                { title: '1. Healthy State', description: 'Your pancreas releases insulin, the "key" that lets glucose (fuel) into your cells for energy. Blood sugar stays stable.' },
+                { title: '2. Insulin Resistance Begins', description: 'Your cell "locks" get sticky. Glucose has trouble getting in, so it starts to build up in the blood.' },
+                { title: '3. Pancreas Works Overtime', description: 'Sensing high blood sugar, your pancreas makes *more* insulin to force the sticky locks open. This keeps blood sugar normal for a while.' },
+                { title: '4. Pancreas Gets Tired', description: 'After years of overworking, the pancreas can\'t make enough insulin to keep up with the body\'s resistance.' },
+                { title: '5. Type 2 Diabetes Diagnosis', description: 'With not enough insulin to overcome resistance, sugar builds up in the blood to levels high enough for a diagnosis.' }
+            ];
+
+            const riskData = {
+                modifiable: [
+                    { icon: '⚖️', text: 'Being overweight or having obesity', detail: 'Excess body fat can increase insulin resistance. Losing just 5-7% of your body weight can make a significant difference.' },
+                    { icon: '🛋️', text: 'Physical inactivity', detail: 'Regular activity helps your body use insulin more effectively. Aim for 150 minutes of moderate exercise per week.' },
+                    { icon: '🩺', text: 'Having prediabetes', detail: 'This means your blood sugar is high, but not high enough for a diabetes diagnosis. It\'s a critical warning sign.' },
+                    { icon: '🩸', text: 'High blood pressure', detail: 'This often occurs alongside diabetes and increases the risk for heart disease and other complications.' },
+                    { icon: '❤️', text: 'Unhealthy cholesterol levels', detail: 'Specifically, low HDL ("good") cholesterol and high triglycerides are linked to increased risk.' },
+                ],
+                nonModifiable: [
+                    { icon: '🎂', text: 'Age (risk increases after 35-45)', detail: 'The risk of developing Type 2 Diabetes increases as you get older.' },
+                    { icon: '👪', text: 'Family history of diabetes', detail: 'Having a parent or sibling with diabetes significantly increases your risk.' },
+                    { icon: '🌍', text: 'Race and Ethnicity', detail: 'Certain groups have a higher genetic predisposition for Type 2 Diabetes.' },
+                    { icon: '🤰', text: 'History of gestational diabetes', detail: 'If you had diabetes during pregnancy, your risk of developing Type 2 later is higher.' },
+                ]
+            };
+
+            const medicationData = [
+                { name: 'Lifestyle is Key', type: 'The Foundation', front: 'Medication works best when paired with healthy eating and regular exercise.', back: 'Your daily habits are the most powerful part of your treatment plan. Medications are tools to support your efforts.', isStatic: true },
+                { name: 'Metformin', type: 'Biguanides', front: 'Lowers sugar from the liver & improves your own insulin\'s effectiveness.', back: 'Usually the first medication prescribed. It makes your body more sensitive to the insulin you already produce.' },
+                { name: 'SGLT-2 Inhibitors', type: '(e.g., Jardiance)', front: 'Helps your kidneys remove excess sugar from your body through urine.', back: 'This class of drugs also has known benefits for heart and kidney health.' },
+                { name: 'DPP-4 Inhibitors', type: '(e.g., Januvia)', front: 'Helps your natural hormones work longer to control blood sugar.', back: 'These medications work by prolonging the action of hormones that help lower blood sugar after meals.' },
+                { name: 'GLP-1 Agonists', type: '(e.g., Ozempic)', front: 'Helps pancreas release insulin when needed, slows digestion, helps with weight loss.', back: 'These are injectable (non-insulin) drugs that mimic a natural hormone.' },
+                { name: 'Insulin', type: 'Injectable', front: 'Replaces or supplements the body\'s own insulin supply.', back: 'Necessary when the pancreas can no longer produce enough insulin on its own. Comes in various forms.' },
+            ];
+
+            const checklistData = [
+                { icon: '🧪', text: 'A1C Test', frequency: 'Every 3-6 months', reason: 'Tracks average blood sugar.' },
+                { icon: '🩺', text: 'Blood Pressure Check', frequency: 'At every doctor\'s visit', reason: 'Manages heart attack/stroke risk.' },
+                { icon: '❤️', text: 'Cholesterol Panel', frequency: 'At least annually', reason: 'Manages heart disease risk.' },
+                { icon: '👁️', text: 'Dilated Eye Exam', frequency: 'Annually', reason: 'Checks for early eye damage.' },
+                { icon: '🦶', text: 'Comprehensive Foot Exam', frequency: 'Annually by doctor', reason: 'Checks nerve function. Check your own feet daily!' },
+                { icon: ' ', text: 'Kidney Function Tests', frequency: 'Annually', reason: 'Checks for early kidney damage.' },
+                { icon: '🦷', text: 'Dental Exam', frequency: 'Every 6 months', reason: 'Prevents gum disease.' },
+            ];
+
+            let currentProcessStep = 0;
+            const processContent = document.getElementById('process-steps');
+            const processPrev = document.getElementById('process-prev');
+            const processNext = document.getElementById('process-next');
+            const processDots = document.getElementById('process-dots');
+
+            function updateProcessView() {
+                const step = processStepsData[currentProcessStep];
+                processContent.innerHTML = `<div class="text-center"><h3 class="text-2xl font-bold text-[#344E41] mb-2">${step.title}</h3><p class="text-gray-600">${step.description}</p></div>`;
+                processPrev.disabled = currentProcessStep === 0;
+                processNext.disabled = currentProcessStep === processStepsData.length - 1;
+                processDots.innerHTML = '';
+                for(let i=0; i < processStepsData.length; i++){
+                    const dot = document.createElement('div');
+                    dot.className = `w-3 h-3 rounded-full ${i === currentProcessStep ? 'bg-[#588157]' : 'bg-gray-300'}`;
+                    processDots.appendChild(dot);
+                }
+            }
+            processNext.addEventListener('click', () => { if(currentProcessStep < processStepsData.length - 1) { currentProcessStep++; updateProcessView(); } });
+            processPrev.addEventListener('click', () => { if(currentProcessStep > 0) { currentProcessStep--; updateProcessView(); } });
+            
+            const riskContent = document.getElementById('risk-content');
+            const showModifiableBtn = document.getElementById('show-modifiable');
+            const showNonModifiableBtn = document.getElementById('show-non-modifiable');
+            
+            function renderRiskFactors(type) {
+                const data = riskData[type];
+                riskContent.innerHTML = `<ul class="space-y-3">${data.map(item => `<li class="flex items-start p-3 bg-gray-50 rounded-md"><span class="text-2xl mr-4 mt-1">${item.icon}</span><div><span class="text-lg">${item.text}</span><p class="text-sm text-gray-500 mt-1">${item.detail || ''}</p></div></li>`).join('')}</ul>`;
+                if(type === 'modifiable'){
+                    showModifiableBtn.className = 'bg-[#A3B18A] text-white font-bold py-2 px-6 rounded-l-lg';
+                    showNonModifiableBtn.className = 'bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-r-lg';
+                } else {
+                    showNonModifiableBtn.className = 'bg-[#A3B18A] text-white font-bold py-2 px-6 rounded-r-lg';
+                    showModifiableBtn.className = 'bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-l-lg';
+                }
+            }
+            showModifiableBtn.addEventListener('click', () => renderRiskFactors('modifiable'));
+            showNonModifiableBtn.addEventListener('click', () => renderRiskFactors('nonModifiable'));
+
+            function initMedicationGrid() {
+                const grid = document.getElementById('medication-grid');
+                grid.innerHTML = medicationData.map(med => {
+                    if (med.isStatic) {
+                        return `<div class="bg-[#3A5A40] text-white rounded-lg shadow-lg p-4 flex flex-col justify-center items-center text-center h-48">
+                                    <h4 class="text-xl font-bold">${med.name}</h4>
+                                    <p class="text-gray-300 text-sm">${med.type}</p>
+                                    <p class="mt-2 text-gray-200">${med.front}</p>
+                                </div>`;
+                    }
+                    return `<div class="card-flip-container h-48 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                                <div class="card-flipper w-full h-full">
+                                    <div class="card-front bg-white rounded-lg shadow-lg p-4 flex flex-col justify-center items-center text-center">
+                                        <h4 class="text-xl font-bold text-[#344E41]">${med.name}</h4>
+                                        <p class="text-gray-500 text-sm">${med.type}</p>
+                                        <p class="mt-2 text-gray-700">${med.front}</p>
+                                        <div class="absolute bottom-2 right-2 text-xs text-gray-400">Click to flip</div>
+                                    </div>
+                                    <div class="card-back bg-[#3A5A40] text-white rounded-lg shadow-lg p-4 flex flex-col justify-center items-center text-center">
+                                        <p>${med.back}</p>
+                                        <div class="absolute bottom-2 right-2 text-xs text-gray-300">Click to flip back</div>
+                                    </div>
+                                </div>
+                            </div>`;
+                }).join('');
+            }
+            
+            function initChecklist() {
+                 const list = document.getElementById('checklist');
+                 list.innerHTML = checklistData.map(item => `<li class="flex items-start"><span class="text-3xl mr-4 mt-1">${item.icon}</span><div><p class="font-bold">${item.text} <span class="font-normal text-gray-500">- ${item.frequency}</span></p><p class="text-gray-600 text-base">${item.reason}</p></div></li>`).join('');
+            }
+
+            function initPlateExamples() {
+                const container = document.getElementById('plate-examples');
+                container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div><h5 class="font-bold text-[#344E41]">Vegetables</h5><ul class="list-disc list-inside text-gray-600"><li>Broccoli</li><li>Spinach</li><li>Peppers</li><li>Salad Greens</li></ul></div>
+                    <div><h5 class="font-bold text-[#344E41]">Lean Proteins</h5><ul class="list-disc list-inside text-gray-600"><li>Chicken/Turkey</li><li>Fish (Salmon)</li><li>Beans & Lentils</li><li>Tofu</li></ul></div>
+                    <div><h5 class="font-bold text-[#344E41]">Carbohydrates</h5><ul class="list-disc list-inside text-gray-600"><li>Brown Rice</li><li>Quinoa</li><li>Whole Wheat Bread</li><li>Sweet Potato</li></ul></div>
+                </div>`;
+            }
+
+            function navigateToHash() {
+                const hash = window.location.hash || '#understanding';
+                navLinks.forEach(link => {
+                    const linkHash = new URL(link.href).hash;
+                    if (linkHash === hash) {
+                        link.classList.add('active');
+                        document.querySelector(linkHash).classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                        document.querySelector(linkHash).classList.remove('active');
+                    }
+                });
+            }
+
+            mainNav.addEventListener('click', function(e) { if (e.target.tagName === 'A') { window.location.hash = new URL(e.target.href).hash; navigateToHash(); } });
+            window.addEventListener('hashchange', navigateToHash);
+            
+            // Initial setup
+            navigateToHash();
+            updateProcessView();
+            renderRiskFactors('modifiable');
+            initMedicationGrid();
+            initChecklist();
+            initPlateExamples();
+
+            const defaultTooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) { return label.join(' '); }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('plateMethodChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['½ Non-Starchy Vegetables', '¼ Lean Protein', '¼ Quality Carbohydrates'],
+                    datasets: [{
+                        data: [50, 25, 25],
+                        backgroundColor: ['#588157', '#A3B18A', '#DAD7CD'],
+                        borderColor: '#F8F7F4',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: { ...defaultTooltipCallback, responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { ...defaultTooltipCallback.plugins, legend: { position: 'bottom', labels: { padding: 20, usePointStyle: true } } } }
+            });
+
+        });
+    </script>
+</body>
+</html>
