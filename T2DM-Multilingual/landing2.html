@@ -23,6 +23,8 @@
         .card-flip-container.flipped .card-flipper { transform: rotateY(180deg); }
         .card-front, .card-back { backface-visibility: hidden; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .card-back { transform: rotateY(180deg); }
+        /* Style for the GTranslate widget */
+        .gtranslate_wrapper { white-space: nowrap; }
     </style>
 
     <!-- GTranslate Website Translator BEGIN -->
@@ -35,8 +37,8 @@
 
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-4">
-            <div class="flex justify-between items-center">
-                <ul id="main-nav" class="flex items-center justify-center space-x-2 md:space-x-6 overflow-x-auto whitespace-nowrap py-3 text-sm md:text-base flex-grow">
+            <div class="flex justify-between items-center py-2">
+                <ul id="main-nav" class="flex items-center justify-center space-x-2 md:space-x-4 overflow-x-auto whitespace-nowrap text-sm md:text-base flex-grow">
                     <li><a href="#understanding" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">The Basics</a></li>
                     <li><a href="#risk" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Your Risk</a></li>
                     <li><a href="#lifestyle" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Your Toolkit</a></li>
@@ -44,7 +46,8 @@
                     <li><a href="#prevention" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Staying Healthy</a></li>
                     <li><a href="#support" class="nav-link font-semibold p-2 border-b-2 border-transparent hover:text-[#588157]">Support</a></li>
                 </ul>
-                <!-- GTranslate widget will float on the page -->
+                <!-- This div is the target for the GTranslate widget -->
+                <div class="gtranslate_wrapper ml-4"></div>
             </div>
         </nav>
     </header>
