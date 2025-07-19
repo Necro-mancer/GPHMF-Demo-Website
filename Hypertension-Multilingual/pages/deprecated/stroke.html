@@ -38,47 +38,6 @@
             0% { opacity: 0.5; transform: scale(0); }
             100% { opacity: 1; transform: scale(1); }
         }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #ea580c; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #fb923c !important; /* orange-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #c2410c !important; /* orange-700 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #fff7ed !important; /* orange-50 */
-            color: #ea580c !important; /* orange-600 */
-        }
     </style>
 </head>
 <body class="bg-slate-100">
@@ -86,23 +45,20 @@
     <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                <span class="text-orange-600">🧠</span> <span data-translate="header_title"></span>
+                <span class="text-orange-600">🧠</span> <span data-translate="header_title">Your Guide to Stroke</span>
             </h1>
             <div class="flex items-center gap-4">
-                <a href="https://www.stroke.org/en/" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link"></a>
-                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                    <div id="native-lang-toggle" class="flex items-center">
-                        <div class="flex rounded-lg border border-gray-300 p-0.5">
-                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                        </div>
-                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                        </button>
-                    </div>
-                    <div id="google-lang-toggle" class="hidden items-center">
-                        <div id="google_translate_element"></div>
-                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-orange-600 hover:underline">Back</button>
+                <a href="https://www.stroke.org/en/" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full Stroke.org Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -114,8 +70,8 @@
         <section id="what-is-it" class="py-16 md:py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_title"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="what_is_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_title">What is a Stroke?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="what_is_p">A stroke is a "brain attack." It happens when blood flow to an area of the brain is cut off, depriving brain cells of oxygen. There are two main types. Click below to see what happens.</p>
                 </div>
                 
                 <div class="mt-8 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
@@ -135,8 +91,8 @@
                                 <!-- JS will populate this -->
                             </div>
                             <div class="flex justify-center md:justify-start space-x-4 mt-4">
-                                <button id="clot-btn" class="font-semibold py-2 px-4 bg-orange-100 text-orange-700 rounded-lg shadow-sm hover:bg-orange-200 transition" data-translate="clot_btn"></button>
-                                <button id="bleed-btn" class="font-semibold py-2 px-4 bg-red-100 text-red-700 rounded-lg shadow-sm hover:bg-red-200 transition" data-translate="bleed_btn"></button>
+                                <button id="clot-btn" class="font-semibold py-2 px-4 bg-orange-100 text-orange-700 rounded-lg shadow-sm hover:bg-orange-200 transition" data-translate="clot_btn">Stroke from a Clot</button>
+                                <button id="bleed-btn" class="font-semibold py-2 px-4 bg-red-100 text-red-700 rounded-lg shadow-sm hover:bg-red-200 transition" data-translate="bleed_btn">Stroke from a Bleed</button>
                             </div>
                         </div>
                     </div>
@@ -148,11 +104,11 @@
         <section id="action" class="py-16 md:py-20 bg-red-600 text-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <div class="max-w-2xl mx-auto">
-                    <h2 class="text-4xl md:text-5xl font-extrabold" data-translate="action_h2"></h2>
-                    <p class="mt-4 text-2xl md:text-3xl font-bold text-red-100" data-translate="action_p1"></p>
+                    <h2 class="text-4xl md:text-5xl font-extrabold" data-translate="action_h2">Time is Brain. Every Second Counts.</h2>
+                    <p class="mt-4 text-2xl md:text-3xl font-bold text-red-100" data-translate="action_p1">If You See the Signs, Call 911 Immediately.</p>
                     <div class="mt-6 text-lg text-red-200 space-y-2">
-                        <p data-translate="action_p2"></p>
-                        <p data-translate="action_p3"></p>
+                        <p data-translate="action_p2">Do not wait to see if symptoms go away. Do not drive to the hospital.</p>
+                        <p data-translate="action_p3">Calling an ambulance is the fastest and safest way to get life-saving treatment.</p>
                     </div>
                 </div>
             </div>
@@ -162,27 +118,27 @@
         <section id="symptoms" class="py-16 md:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="fast_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="fast_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="fast_h2">Use F.A.S.T. to Spot a Stroke</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="fast_p">Remembering F.A.S.T. can help you recognize a stroke and take action. Click each letter to learn the simple test.</p>
                 </div>
                 
                 <div class="grid lg:grid-cols-2 gap-8 items-center">
                     <div class="grid grid-cols-2 gap-4">
                         <button class="fast-btn text-blue-600 border-blue-500 bg-white p-4 md:p-6 rounded-xl shadow-lg" data-fast="F">
-                            <span class="text-5xl md:text-7xl font-extrabold">F</span><br><span class="font-semibold text-lg" data-translate="fast_f_btn"></span>
+                            <span class="text-5xl md:text-7xl font-extrabold">F</span><br><span class="font-semibold text-lg" data-translate="fast_f_btn">Face Drooping</span>
                         </button>
                         <button class="fast-btn text-orange-600 border-orange-500 bg-white p-4 md:p-6 rounded-xl shadow-lg" data-fast="A">
-                            <span class="text-5xl md:text-7xl font-extrabold">A</span><br><span class="font-semibold text-lg" data-translate="fast_a_btn"></span>
+                            <span class="text-5xl md:text-7xl font-extrabold">A</span><br><span class="font-semibold text-lg" data-translate="fast_a_btn">Arm Weakness</span>
                         </button>
                         <button class="fast-btn text-green-600 border-green-500 bg-white p-4 md:p-6 rounded-xl shadow-lg" data-fast="S">
-                            <span class="text-5xl md:text-7xl font-extrabold">S</span><br><span class="font-semibold text-lg" data-translate="fast_s_btn"></span>
+                            <span class="text-5xl md:text-7xl font-extrabold">S</span><br><span class="font-semibold text-lg" data-translate="fast_s_btn">Speech Difficulty</span>
                         </button>
                         <button class="fast-btn text-red-600 border-red-500 bg-white p-4 md:p-6 rounded-xl shadow-lg" data-fast="T">
-                            <span class="text-5xl md:text-7xl font-extrabold">T</span><br><span class="font-semibold text-lg" data-translate="fast_t_btn"></span>
+                            <span class="text-5xl md:text-7xl font-extrabold">T</span><br><span class="font-semibold text-lg" data-translate="fast_t_btn">Time to Call 911</span>
                         </button>
                     </div>
                     <div id="fast-display" class="bg-white p-8 rounded-2xl shadow-xl min-h-[250px] flex items-center justify-center">
-                        <p class="text-slate-500 text-center" data-translate="fast_display_p"></p>
+                        <p class="text-slate-500 text-center" data-translate="fast_display_p">Click a letter on the left to see the test.</p>
                     </div>
                 </div>
             </div>
@@ -192,35 +148,35 @@
         <section id="management" class="py-16 md:py-24 bg-slate-800 text-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold" data-translate="plan_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300" data-translate="plan_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold" data-translate="plan_h2">Your Action Plan for Stroke Prevention</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300" data-translate="plan_p">Up to 80% of strokes are preventable. You have the power to protect your brain by managing your risk factors.</p>
                 </div>
                 <div class="grid lg:grid-cols-3 gap-8">
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-blue-400" data-translate="plan_col1_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col1_p"></p>
+                        <h3 class="font-bold text-2xl text-blue-400" data-translate="plan_col1_title">1. Manage Medical Conditions</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col1_p">Work with your doctor to control conditions that increase your stroke risk.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-center"><span class="text-2xl mr-3">🩺</span> <span data-translate="plan_col1_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">❤️</span> <span data-translate="plan_col1_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🍬</span> <span data-translate="plan_col1_li3"></span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🩺</span> <span data-translate="plan_col1_li1">Manage high blood pressure.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">❤️</span> <span data-translate="plan_col1_li2">Treat atrial fibrillation (AFib).</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🍬</span> <span data-translate="plan_col1_li3">Control diabetes.</span></li>
                         </ul>
                     </div>
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-blue-400" data-translate="plan_col2_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col2_p"></p>
+                        <h3 class="font-bold text-2xl text-blue-400" data-translate="plan_col2_title">2. Embrace a Healthy Lifestyle</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col2_p">Your daily choices are your best defense against stroke.</p>
                         <ul class="mt-4 text-left space-y-2">
-                             <li class="flex items-center"><span class="text-2xl mr-3">🥗</span> <span data-translate="plan_col2_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🏃‍♀️</span> <span data-translate="plan_col2_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🚭</span> <span data-translate="plan_col2_li3"></span></li>
+                             <li class="flex items-center"><span class="text-2xl mr-3">🥗</span> <span data-translate="plan_col2_li1">Eat a colorful, balanced diet.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🏃‍♀️</span> <span data-translate="plan_col2_li2">Be physically active.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🚭</span> <span data-translate="plan_col2_li3">Don't smoke.</span></li>
                         </ul>
                     </div>
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-blue-400" data-translate="plan_col3_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col3_p"></p>
+                        <h3 class="font-bold text-2xl text-blue-400" data-translate="plan_col3_title">3. Be Prepared to Help</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col3_p">You could save a life—perhaps someone you love. Knowing the signs is a skill everyone should have.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-center"><span class="text-2xl mr-3">🤝</span> <span data-translate="plan_col3_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">❓</span> <span data-translate="plan_col3_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">❤️</span> <span data-translate="plan_col3_li3"></span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🤝</span> <span data-translate="plan_col3_li1">Learn F.A.S.T.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">❓</span> <span data-translate="plan_col3_li2">Know the signs of stroke.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">❤️</span> <span data-translate="plan_col3_li3">Encourage others to learn, too.</span></li>
                         </ul>
                     </div>
                 </div>
@@ -231,26 +187,14 @@
 
     <footer class="bg-slate-900 text-slate-400">
         <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p data-translate="footer_p1"></p>
-            <a href="https://www.stroke.org/en/" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-500 hover:text-blue-400 font-semibold transition" data-translate="footer_link"></a>
-            <p class="mt-4 text-xs" data-translate="footer_p2"></p>
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the American Stroke Association.</p>
+            <a href="https://www.stroke.org/en/" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-500 hover:text-blue-400 font-semibold transition" data-translate="footer_link">
+                Go to the Full Stroke.org Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">If you think you or someone else is having a stroke, call 911 immediately.<br>&copy; 2024 Patient Education Initiative. Information sourced from the American Stroke Association.</p>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const translations = {
@@ -362,19 +306,10 @@
                 }
             };
 
-            let currentLanguage = 'en';
+            const languageSelector = document.getElementById('language-selector');
             const translatableElements = document.querySelectorAll('[data-translate]');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
 
-            function changeLanguage(language) {
-                currentLanguage = language;
-                document.documentElement.lang = language;
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-                document.getElementById('lang-es').classList.toggle('active', language === 'es');
-
+            function translatePage(language) {
                 translatableElements.forEach(el => {
                     const key = el.dataset.translate;
                     if (translations[language] && translations[language][key]) {
@@ -382,13 +317,11 @@
                     }
                 });
                 
+                // Update interactive components
                 const activeFastBtn = document.querySelector('.fast-btn.active');
                 if (activeFastBtn) {
                     updateFastDisplay(activeFastBtn.dataset.fast, language);
-                } else {
-                    updateFastDisplay('default', language);
                 }
-
                 const activeStrokeBtn = document.querySelector('#stroke-explanation h3');
                 if (activeStrokeBtn) {
                     const currentTitle = activeStrokeBtn.innerHTML;
@@ -404,20 +337,8 @@
                 }
             }
 
-            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
-
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                changeLanguage(currentLanguage);
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
             });
 
             // Stroke Type Infographic
@@ -443,36 +364,32 @@
                 clotPath.style.animation = 'none';
                 clotCircle.style.animation = 'none';
                 bleedCircle.style.animation = 'none';
-                // Force reflow to restart animation
-                void clotPath.offsetWidth;
-                void clotCircle.offsetWidth;
-                void bleedCircle.offsetWidth;
                 clotCircle.style.opacity = '0';
                 bleedCircle.style.opacity = '0';
             }
 
             clotBtn.addEventListener('click', () => {
                 resetAnimations();
-                showStrokeExplanation('clot', currentLanguage);
+                const currentLang = languageSelector.value;
+                showStrokeExplanation('clot', currentLang);
                 clotPath.style.animation = 'moveClot 1s ease-out forwards';
                 clotCircle.style.animation = 'showClotCircle 0.1s 1s forwards';
             });
 
             bleedBtn.addEventListener('click', () => {
                 resetAnimations();
-                showStrokeExplanation('bleed', currentLanguage);
+                const currentLang = languageSelector.value;
+                showStrokeExplanation('bleed', currentLang);
                 bleedCircle.style.animation = 'showBleed 0.5s ease-out forwards';
             });
             
+            showStrokeExplanation('default', 'en');
+
             // F.A.S.T. Logic
             const fastButtons = document.querySelectorAll('.fast-btn');
             const fastDisplay = document.getElementById('fast-display');
 
             function updateFastDisplay(key, lang = 'en') {
-                 if (key === 'default') {
-                    fastDisplay.innerHTML = `<p class="text-slate-500 text-center">${translations[lang]['fast_display_p']}</p>`;
-                    return;
-                }
                 const lowerKey = key.toLowerCase();
                 const data = {
                     title: translations[lang][`fast_${lowerKey}_title`],
@@ -490,15 +407,11 @@
                 button.addEventListener('click', () => {
                     fastButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
-                    const color = window.getComputedStyle(button).borderColor;
-                    button.style.setProperty('--tw-shadow-color', color);
                     const key = button.dataset.fast;
-                    updateFastDisplay(key, currentLanguage);
+                    const currentLang = languageSelector.value;
+                    updateFastDisplay(key, currentLang);
                 });
             });
-
-            // Initial Load
-            changeLanguage('en');
         });
     </script>
 </body>

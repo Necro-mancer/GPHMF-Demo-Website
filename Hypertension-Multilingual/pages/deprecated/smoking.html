@@ -26,47 +26,6 @@
         #timeline-progress {
             transition: width 0.5s ease-in-out;
         }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #65a30d; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #a3e635 !important; /* lime-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #4d7c0f !important; /* lime-700 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #f7fee7 !important; /* lime-50 */
-            color: #65a30d !important; /* lime-600 */
-        }
     </style>
 </head>
 <body class="bg-lime-50">
@@ -74,23 +33,20 @@
     <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                <span class="text-lime-600">🚭</span> <span data-translate="header_title"></span>
+                <span class="text-lime-600">🚭</span> <span data-translate="header_title">Your Guide to Quitting Smoking</span>
             </h1>
             <div class="flex items-center gap-4">
-                <a href="https://www.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link"></a>
-                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                    <div id="native-lang-toggle" class="flex items-center">
-                        <div class="flex rounded-lg border border-gray-300 p-0.5">
-                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                        </div>
-                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                        </button>
-                    </div>
-                    <div id="google-lang-toggle" class="hidden items-center">
-                        <div id="google_translate_element"></div>
-                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-lime-600 hover:underline">Back</button>
+                <a href="https://www.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full Smokefree.gov Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -102,8 +58,8 @@
         <section id="intro" class="py-16 md:py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2">Your Body Starts Healing in Minutes</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p">Quitting smoking is the single best thing you can do for your health. The benefits begin almost immediately. Click through the timeline below to see how your body recovers when you become smoke-free.</p>
                 </div>
                 
                 <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
@@ -128,28 +84,28 @@
         <section id="challenges" class="py-16 md:py-24 bg-lime-100">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="challenges_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="challenges_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="challenges_h2">Why is Quitting So Hard? Understanding Nicotine Addiction</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="challenges_p">Quitting is tough because nicotine is a powerful, addictive drug. Your brain gets used to it, and when you stop, you can experience withdrawal symptoms and strong cravings. Knowing what to expect is the first step to overcoming it.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                     <div class="bg-white p-8 rounded-xl shadow-lg">
-                        <h3 class="text-2xl font-bold text-slate-800" data-translate="withdrawal_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="withdrawal_p"></p>
+                        <h3 class="text-2xl font-bold text-slate-800" data-translate="withdrawal_title">Common Withdrawal Symptoms</h3>
+                        <p class="mt-2 text-slate-600" data-translate="withdrawal_p">These are temporary signs that your body is healing. They usually peak in the first few days and get better over a few weeks.</p>
                         <ul class="mt-4 grid grid-cols-2 gap-2 font-medium text-slate-700">
-                            <li class="flex items-center"><span class="text-xl mr-2">😠</span> <span data-translate="symptom1"></span></li>
-                            <li class="flex items-center"><span class="text-xl mr-2">🧠</span> <span data-translate="symptom2"></span></li>
-                            <li class="flex items-center"><span class="text-xl mr-2">🍽️</span> <span data-translate="symptom3"></span></li>
-                            <li class="flex items-center"><span class="text-xl mr-2">😟</span> <span data-translate="symptom4"></span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">😠</span> <span data-translate="symptom1">Feeling irritable</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🧠</span> <span data-translate="symptom2">Difficulty concentrating</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🍽️</span> <span data-translate="symptom3">Increased appetite</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">😟</span> <span data-translate="symptom4">Anxiety or restlessness</span></li>
                         </ul>
                     </div>
                      <div class="bg-white p-8 rounded-xl shadow-lg">
-                        <h3 class="text-2xl font-bold text-slate-800" data-translate="craving_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="craving_p"></p>
+                        <h3 class="text-2xl font-bold text-slate-800" data-translate="craving_title">Managing Cravings</h3>
+                        <p class="mt-2 text-slate-600" data-translate="craving_p">Cravings are strong urges to smoke. They are usually short, lasting only 5-10 minutes. Having a plan to get through them is key.</p>
                         <ul class="mt-4 grid grid-cols-2 gap-2 font-medium text-slate-700">
-                            <li class="flex items-center"><span class="text-xl mr-2">🗣️</span> <span data-translate="craving1"></span></li>
-                            <li class="flex items-center"><span class="text-xl mr-2">💧</span> <span data-translate="craving2"></span></li>
-                            <li class="flex items-center"><span class="text-xl mr-2">🚶</span> <span data-translate="craving3"></span></li>
-                            <li class="flex items-center"><span class="text-xl mr-2">🧘</span> <span data-translate="craving4"></span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🗣️</span> <span data-translate="craving1">Talk to someone</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">💧</span> <span data-translate="craving2">Drink water</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🚶</span> <span data-translate="craving3">Go for a walk</span></li>
+                            <li class="flex items-center"><span class="text-xl mr-2">🧘</span> <span data-translate="craving4">Try deep breathing</span></li>
                         </ul>
                     </div>
                 </div>
@@ -160,24 +116,24 @@
         <section id="quit-plan" class="py-16 md:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="plan_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="plan_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="plan_h2">Your Action Plan for Quitting</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="plan_p">A good plan can make all the difference. Think through these steps to prepare yourself for success.</p>
                 </div>
                 <div class="grid lg:grid-cols-3 gap-8">
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
                         <div class="text-6xl">🗓️</div>
-                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan1_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="plan1_p"></p>
+                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan1_title">1. Set a Quit Date</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan1_p">Choose a specific date within the next two weeks. Mark it on your calendar. This makes your goal real and gives you time to prepare.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
                         <div class="text-6xl">🤝</div>
-                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan2_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="plan2_p"></p>
+                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan2_title">2. Get Support</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan2_p">Tell friends and family about your plan. Consider using quit-smoking apps, a quitline (like 1-800-QUIT-NOW), or talking to your doctor about medications.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
                         <div class="text-6xl">⚙️</div>
-                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan3_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="plan3_p"></p>
+                        <h3 class="font-bold text-2xl text-lime-600 mt-4" data-translate="plan3_title">3. Manage Your Triggers</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan3_p">Identify the times, places, and feelings that make you want to smoke. Plan a new, healthy activity to do instead during those moments.</p>
                     </div>
                 </div>
             </div>
@@ -187,26 +143,14 @@
 
     <footer class="bg-slate-800 text-slate-300">
         <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p data-translate="footer_p1"></p>
-            <a href="https://www.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link"></a>
-            <p class="mt-4 text-xs" data-translate="footer_p2"></p>
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information and more tools, please visit Smokefree.gov.</p>
+            <a href="https://www.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link">
+                Go to the Full Smokefree.gov Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">You can quit smoking. For free support, call 1-800-QUIT-NOW.<br>&copy; 2024 Patient Education Initiative. Information sourced from Smokefree.gov.</p>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const translations = {
@@ -294,19 +238,10 @@
                 }
             };
 
-            let currentLanguage = 'en';
+            const languageSelector = document.getElementById('language-selector');
             const translatableElements = document.querySelectorAll('[data-translate]');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
 
-            function changeLanguage(language) {
-                currentLanguage = language;
-                document.documentElement.lang = language;
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-                document.getElementById('lang-es').classList.toggle('active', language === 'es');
-
+            function translatePage(language) {
                 translatableElements.forEach(el => {
                     const key = el.dataset.translate;
                     if (translations[language] && translations[language][key]) {
@@ -319,20 +254,8 @@
                 }
             }
 
-            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
-            
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                changeLanguage(currentLanguage);
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
             });
 
             // Timeline Logic
@@ -354,19 +277,24 @@
                 timelineProgress.style.width = `${progress}%`;
 
                 timelineButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.step === step);
+                    if (btn.dataset.step === step) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
                 });
             }
 
             timelineButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const step = button.dataset.step;
-                    updateTimelineView(step, currentLanguage);
+                    const currentLang = languageSelector.value;
+                    updateTimelineView(step, currentLang);
                 });
             });
 
             // Initialize view
-            changeLanguage('en');
+            updateTimelineView('1', 'en');
         });
     </script>
 </body>

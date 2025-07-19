@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Journey to a Healthier You</title>
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A tab-based single-page application design with a sticky top navigation for easy access to distinct, digestible sections (Assess, Nourish, Move, Protect, Inspire). This task-oriented structure was chosen over a linear blog-style layout to prevent user overwhelm and empower them to explore content relevant to their immediate needs. The central hub is the interactive BMI calculator, which provides personalized feedback and directs users to appropriate content within the other sections, creating a guided yet flexible user flow. -->
+    <!-- Visualization & Content Choices: 
+        - Causes of Obesity: Report Info -> Complex factors of weight gain. Goal -> Organize & Inform. Viz -> HTML/CSS grid with Unicode icons (⚖️, 🧬, 🧠). Interaction -> Static visual cards for scannability. Justification -> Breaks down a complex topic into easily digestible visual chunks. Method -> Tailwind CSS Grid.
+        - BMI Assessment: Report Info -> BMI calculation and categories. Goal -> Assess & Personalize. Viz -> Dynamic result card with a color-coded gauge. Interaction -> User input drives JS calculation and DOM update, with tailored advice and links to other sections. Justification -> Creates an immediate, personal connection and provides a clear, actionable starting point. Method -> Vanilla JS.
+        - Perfect Plate: Report Info -> Balanced meal composition. Goal -> Inform. Viz -> HTML/CSS diagram of a plate. Interaction -> None, simple visual guide. Justification -> A clear, universal visual metaphor for healthy eating. Method -> HTML/CSS.
+        - Diet/Exercise Plans: Report Info -> Three distinct plans for each. Goal -> Organize & Compare. Viz -> Tabbed interface. Interaction -> JS toggles content visibility on click. Justification -> Prevents a long, confusing scroll of tables and allows for easy comparison. Method -> Vanilla JS.
+        - Health Complications & 5-10% Rule: Report Info -> Risks of obesity and benefits of modest weight loss. Goal -> Show Change & Motivate. Viz -> Bar Chart (Chart.js) visualizing risk reduction. Interaction -> Static chart for impact. Justification -> A powerful visual to quantify the benefits of even small changes, making the goal feel achievable. Method -> Chart.js.
+        - Non-Scale Victories: Report Info -> List of positive changes. Goal -> Engage & Inspire. Viz -> Interactive checklist. Interaction -> User can click to check items, providing a sense of progress. Justification -> Fosters motivation by focusing on tangible, positive feelings over just numbers on a scale. Method -> Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -29,47 +40,10 @@
             max-height: 400px; 
         }
         @media (min-width: 768px) { .chart-container { height: 350px; } }
-        
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #10B981; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #34d399 !important; /* emerald-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #059669 !important; /* emerald-600 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #ecfdf5 !important; /* emerald-50 */
-            color: #10b981 !important; /* emerald-500 */
+        /* Style for active language */
+        .lang-active {
+            font-weight: 700;
+            color: #10B981;
         }
     </style>
 </head>
@@ -80,30 +54,24 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4">
                     <div class="text-xl font-bold text-emerald-600" data-key="site_title">Healthier You</div>
+                     <!-- Language Selector -->
+                    <div class="relative flex items-center">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9" />
+                        </svg>
+                        <button id="lang-en" class="lang-selector text-gray-600 hover:text-emerald-600 transition lang-active">EN</button>
+                        <span class="mx-1 text-gray-400">|</span>
+                        <button id="lang-es" class="lang-selector text-gray-600 hover:text-emerald-600 transition">ES</button>
+                        <span class="hidden md:inline ml-2 text-sm text-gray-500" data-key="lang_helper">Seleccione su idioma</span>
+                    </div>
                 </div>
-                <div class="hidden md:flex items-center space-x-8" id="main-nav">
+                <div class="hidden md:flex space-x-8" id="main-nav">
                     <a href="#welcome" class="nav-link text-gray-600 hover:text-emerald-600 transition" data-key="nav_welcome">Welcome</a>
                     <a href="#assess" class="nav-link text-gray-600 hover:text-emerald-600 transition" data-key="nav_assess">Assess Health</a>
                     <a href="#nourish" class="nav-link text-gray-600 hover:text-emerald-600 transition" data-key="nav_nourish">Nourish</a>
                     <a href="#move" class="nav-link text-gray-600 hover:text-emerald-600 transition" data-key="nav_move">Move</a>
                     <a href="#protect" class="nav-link text-gray-600 hover:text-emerald-600 transition" data-key="nav_protect">Protect</a>
                     <a href="#inspire" class="nav-link text-gray-600 hover:text-emerald-600 transition" data-key="nav_inspire">Inspire</a>
-                    <!-- Language Selector -->
-                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                        <div id="native-lang-toggle" class="flex items-center">
-                            <div class="flex rounded-lg border border-gray-300 p-0.5">
-                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                            </div>
-                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                            </button>
-                        </div>
-                        <div id="google-lang-toggle" class="hidden items-center">
-                            <div id="google_translate_element"></div>
-                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-emerald-600 hover:underline">Back</button>
-                        </div>
-                    </div>
                 </div>
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="text-gray-600 hover:text-emerald-600 focus:outline-none">
@@ -127,56 +95,56 @@
     <main>
         <section id="welcome" class="py-20 bg-emerald-50">
             <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-5xl font-bold text-emerald-800 mb-4" data-key="welcome_title"></h1>
-                <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8" data-key="welcome_subtitle"></p>
-                <a href="#assess" class="bg-emerald-500 text-white font-bold py-3 px-8 rounded-full hover:bg-emerald-600 transition duration-300 text-lg" data-key="welcome_cta"></a>
+                <h1 class="text-4xl md:text-5xl font-bold text-emerald-800 mb-4" data-key="welcome_title">Your Journey to a Healthier You Starts Now!</h1>
+                <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8" data-key="welcome_subtitle">You have the power to change your health, and we're here to help. This is your starting line for knowledge, motivation, and discovering the path to a more vibrant you. Let's begin this journey together.</p>
+                <a href="#assess" class="bg-emerald-500 text-white font-bold py-3 px-8 rounded-full hover:bg-emerald-600 transition duration-300 text-lg" data-key="welcome_cta">Take Your First Step</a>
             </div>
         </section>
 
         <section id="assess" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800" data-key="assess_title"></h2>
-                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="assess_intro"></p>
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="assess_title">Your Personal Health Snapshot</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="assess_intro">Body Mass Index (BMI) is a common tool to screen for weight categories that may lead to health problems. While not a perfect measure (it doesn't distinguish between fat and muscle), it's a useful starting point. <a href="https://www.cdc.gov/bmi/about/index.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline font-medium" data-key="assess_learn_more">Learn more about BMI from the CDC</a>. This tool will give you a snapshot of your current weight status and provide personalized advice.</p>
                 </div>
 
                 <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg grid md:grid-cols-2 gap-8 items-start">
                     <div>
-                        <h3 class="font-bold text-xl mb-4 text-emerald-700" data-key="assess_calc_title"></h3>
+                        <h3 class="font-bold text-xl mb-4 text-emerald-700" data-key="assess_calc_title">Calculate Your BMI</h3>
                         <div class="flex justify-center mb-6 space-x-2 md:space-x-4">
-                            <button id="imperial-btn" class="bmi-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-key="assess_imperial_btn"></button>
-                            <button id="metric-btn" class="bmi-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-key="assess_metric_btn"></button>
+                            <button id="imperial-btn" class="bmi-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-key="assess_imperial_btn">Imperial (lbs, ft, in)</button>
+                            <button id="metric-btn" class="bmi-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-key="assess_metric_btn">Metric (kg, m)</button>
                         </div>
                         <form id="bmi-form">
                             <div id="imperial-inputs">
                                 <div class="mb-4">
-                                    <label for="height-ft" class="block text-sm font-medium text-gray-700" data-key="assess_height_label"></label>
+                                    <label for="height-ft" class="block text-sm font-medium text-gray-700" data-key="assess_height_label">Height</label>
                                     <div class="flex space-x-2 mt-1">
                                         <input type="number" id="height-ft" placeholder="ft" class="w-full p-2 border border-gray-300 rounded-md">
                                         <input type="number" id="height-in" placeholder="in" class="w-full p-2 border border-gray-300 rounded-md">
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="weight-lbs" class="block text-sm font-medium text-gray-700" data-key="assess_weight_label_lbs"></label>
+                                    <label for="weight-lbs" class="block text-sm font-medium text-gray-700" data-key="assess_weight_label_lbs">Weight (lbs)</label>
                                     <input type="number" id="weight-lbs" placeholder="pounds" class="w-full p-2 border border-gray-300 rounded-md mt-1">
                                 </div>
                             </div>
                             <div id="metric-inputs" class="hidden">
                                 <div class="mb-4">
-                                    <label for="height-m" class="block text-sm font-medium text-gray-700" data-key="assess_height_label_m"></label>
+                                    <label for="height-m" class="block text-sm font-medium text-gray-700" data-key="assess_height_label_m">Height (m)</label>
                                     <input type="number" id="height-m" step="0.01" placeholder="meters" class="w-full p-2 border border-gray-300 rounded-md mt-1">
                                 </div>
                                 <div class="mb-4">
-                                    <label for="weight-kg" class="block text-sm font-medium text-gray-700" data-key="assess_weight_label_kg"></label>
+                                    <label for="weight-kg" class="block text-sm font-medium text-gray-700" data-key="assess_weight_label_kg">Weight (kg)</label>
                                     <input type="number" id="weight-kg" placeholder="kilograms" class="w-full p-2 border border-gray-300 rounded-md mt-1">
                                 </div>
                             </div>
-                            <button type="submit" class="w-full bg-emerald-500 text-white font-bold py-3 px-4 rounded-md hover:bg-emerald-600 transition duration-300" data-key="assess_calc_btn"></button>
+                            <button type="submit" class="w-full bg-emerald-500 text-white font-bold py-3 px-4 rounded-md hover:bg-emerald-600 transition duration-300" data-key="assess_calc_btn">Calculate My BMI</button>
                         </form>
                     </div>
                     
                     <div id="result-container" class="bg-gray-50 p-6 rounded-lg min-h-[300px] flex items-center justify-center">
-                       <p class="text-gray-500 text-center" data-key="assess_result_placeholder"></p>
+                       <p class="text-gray-500 text-center" data-key="assess_result_placeholder">Your personalized result and advice will appear here.</p>
                     </div>
                 </div>
             </div>
@@ -185,8 +153,8 @@
         <section id="nourish" class="py-20 bg-emerald-50">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800" data-key="nourish_title"></h2>
-                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="nourish_intro"></p>
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="nourish_title">The Power of Nutrition: Fueling Your Success</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="nourish_intro">Eating for weight loss doesn't mean deprivation. The best plans are delicious, satisfying, and sustainable. This section provides the core principles of healthy eating and several evidence-based plans you can choose from and adapt to your life.</p>
                 </div>
                  <div class="max-w-xl mx-auto mb-12">
                      <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col md:flex-row items-center gap-6">
@@ -195,24 +163,24 @@
                              <div class="absolute top-0 left-0 w-1/2 h-full bg-amber-400 rounded-l-full transform origin-center" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);"></div>
                              <div class="absolute top-0 right-0 w-1/2 h-1/2 bg-sky-400 rounded-tr-full transform origin-bottom-left" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);"></div>
                              <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-red-400 rounded-br-full transform origin-top-left" style="clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 100%);"></div>
-                             <div class="absolute inset-2 bg-white rounded-full flex items-center justify-center text-xs text-center font-bold" data-key="nourish_plate_center"></div>
+                             <div class="absolute inset-2 bg-white rounded-full flex items-center justify-center text-xs text-center font-bold" data-key="nourish_plate_center">Your Plate</div>
                          </div>
                          <div class="text-left">
-                             <h4 class="font-bold text-lg mb-2 text-emerald-800" data-key="nourish_plate_title"></h4>
+                             <h4 class="font-bold text-lg mb-2 text-emerald-800" data-key="nourish_plate_title">Building Your Perfect Plate</h4>
                              <ul>
-                                 <li class="flex items-start mb-2"><span class="w-3 h-3 rounded-full bg-sky-400 mt-1.5 mr-2 flex-shrink-0"></span><div data-key="nourish_plate_veg"></div></li>
-                                 <li class="flex items-start mb-2"><span class="w-3 h-3 rounded-full bg-red-400 mt-1.5 mr-2 flex-shrink-0"></span><div data-key="nourish_plate_protein"></div></li>
-                                 <li class="flex items-start"><span class="w-3 h-3 rounded-full bg-amber-400 mt-1.5 mr-2 flex-shrink-0"></span><div data-key="nourish_plate_grains"></div></li>
+                                 <li class="flex items-start mb-2"><span class="w-3 h-3 rounded-full bg-sky-400 mt-1.5 mr-2 flex-shrink-0"></span><div data-key="nourish_plate_veg"><strong class="text-sky-700">½ Plate:</strong> Vegetables & Fruits</div></li>
+                                 <li class="flex items-start mb-2"><span class="w-3 h-3 rounded-full bg-red-400 mt-1.5 mr-2 flex-shrink-0"></span><div data-key="nourish_plate_protein"><strong class="text-red-700">¼ Plate:</strong> Lean Protein</div></li>
+                                 <li class="flex items-start"><span class="w-3 h-3 rounded-full bg-amber-400 mt-1.5 mr-2 flex-shrink-0"></span><div data-key="nourish_plate_grains"><strong class="text-amber-700">¼ Plate:</strong> Whole Grains</div></li>
                              </ul>
-                              <p class="text-xs text-gray-500 mt-2" data-key="nourish_plate_inspired"></p>
+                              <p class="text-xs text-gray-500 mt-2" data-key="nourish_plate_inspired">Inspired by the <a href="pages/plate-method.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline">MyPlate method</a>.</p>
                          </div>
                      </div>
                  </div>
 
                 <div class="flex justify-center mb-6 space-x-2 md:space-x-4">
-                    <button class="plan-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-plan="mediterranean" data-key="nourish_tab_med"></button>
-                    <button class="plan-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-plan="dash" data-key="nourish_tab_dash"></button>
-                    <button class="plan-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-plan="plant" data-key="nourish_tab_plant"></button>
+                    <button class="plan-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-plan="mediterranean" data-key="nourish_tab_med">Mediterranean</button>
+                    <button class="plan-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-plan="dash" data-key="nourish_tab_dash">DASH</button>
+                    <button class="plan-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-plan="plant" data-key="nourish_tab_plant">Plant-Powered</button>
                 </div>
                 
                 <div id="plan-content" class="max-w-4xl mx-auto">
@@ -224,14 +192,14 @@
         <section id="move" class="py-20">
             <div class="container mx-auto px-6">
                  <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800" data-key="move_title"></h2>
-                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="move_intro"></p>
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="move_title">Move Your Way to a Healthier Life</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="move_intro">Exercise is about more than burning calories; it's about finding joy in movement. The <a href="https://www.who.int/news-room/fact-sheets/detail/physical-activity" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline font-medium" data-key="move_who_link">World Health Organization</a> recommends at least 150 minutes of moderate activity per week for adults. This section helps you build a sustainable habit that boosts your mood, energy, and overall well-being.</p>
                 </div>
 
                 <div class="flex justify-center mb-6 space-x-2 md:space-x-4">
-                    <button class="exercise-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-exercise="starter" data-key="move_tab_starter"></button>
-                    <button class="exercise-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-exercise="momentum" data-key="move_tab_momentum"></button>
-                    <button class="exercise-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-exercise="advanced" data-key="move_tab_advanced"></button>
+                    <button class="exercise-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-exercise="starter" data-key="move_tab_starter">Just Getting Started</button>
+                    <button class="exercise-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-exercise="momentum" data-key="move_tab_momentum">Building Momentum</button>
+                    <button class="exercise-tab px-4 py-2 rounded-full font-semibold transition bg-white text-gray-600" data-exercise="advanced" data-key="move_tab_advanced">Reaching New Heights</button>
                 </div>
 
                 <div id="exercise-content" class="max-w-4xl mx-auto">
@@ -242,15 +210,15 @@
         <section id="protect" class="py-20 bg-emerald-50">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800" data-key="protect_title"></h2>
-                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="protect_intro"></p>
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="protect_title">Protecting Your Future</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="protect_intro">Managing your weight is a powerful gift to your future self. It's not just about today; it's about actively shielding your body from serious health conditions. This section highlights the power of small, consistent changes.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8 items-center">
                     <div class="text-center md:text-left">
-                        <h3 class="text-2xl font-bold mb-4 text-emerald-800" data-key="protect_rule_title"></h3>
-                        <p class="text-gray-700 mb-4" data-key="protect_rule_p1"></p>
-                        <p class="text-gray-700" data-key="protect_rule_p2"></p>
+                        <h3 class="text-2xl font-bold mb-4 text-emerald-800" data-key="protect_rule_title">The Power of 5-10% Weight Loss</h3>
+                        <p class="text-gray-700 mb-4" data-key="protect_rule_p1">You don't need to reach a "perfect" weight to see enormous health benefits. Research shows losing just 5% to 10% of your current body weight can be life-changing. For a 200-pound person, that's just 10-20 pounds.</p>
+                        <p class="text-gray-700" data-key="protect_rule_p2">This achievable goal can dramatically reduce your risk for major health complications, improve blood pressure, and boost your overall health. <a href="https://www.cdc.gov/healthy-weight-growth/about/index.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline font-medium" data-key="protect_cdc_link">Learn about the benefits from the CDC</a>.</p>
                     </div>
                     <div class="chart-container">
                         <canvas id="riskReductionChart"></canvas>
@@ -260,18 +228,18 @@
                 <div class="mt-16 grid md:grid-cols-3 gap-8">
                     <div class="bg-white p-6 rounded-lg shadow-md text-center">
                         <div class="text-4xl mb-3">❤️</div>
-                        <h4 class="font-bold text-lg mb-2" data-key="protect_heart_title"></h4>
-                        <p class="text-sm text-gray-600" data-key="protect_heart_text"></p>
+                        <h4 class="font-bold text-lg mb-2" data-key="protect_heart_title">Your Heart</h4>
+                        <p class="text-sm text-gray-600" data-key="protect_heart_text">Losing weight lowers blood pressure and cholesterol, taking a huge burden off your heart. <a href="pages/heart.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline font-medium" data-key="protect_aha_link">Learn more</a>.</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-md text-center">
                         <div class="text-4xl mb-3">🩸</div>
-                        <h4 class="font-bold text-lg mb-2" data-key="protect_diabetes_title"></h4>
-                        <p class="text-sm text-gray-600" data-key="protect_diabetes_text"></p>
+                        <h4 class="font-bold text-lg mb-2" data-key="protect_diabetes_title">Type 2 Diabetes</h4>
+                        <p class="text-sm text-gray-600" data-key="protect_diabetes_text">Weight loss improves insulin sensitivity, cutting your risk of developing diabetes by over 50%. <a href="pages/diabetes.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline font-medium" data-key="protect_ada_link">Learn more</a>.</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-md text-center">
                         <div class="text-4xl mb-3">🦵</div>
-                        <h4 class="font-bold text-lg mb-2" data-key="protect_joints_title"></h4>
-                        <p class="text-sm text-gray-600" data-key="protect_joints_text"></p>
+                        <h4 class="font-bold text-lg mb-2" data-key="protect_joints_title">Your Joints</h4>
+                        <p class="text-sm text-gray-600" data-key="protect_joints_text">For every 1 pound you lose, you take 4 pounds of pressure off your knees, reducing pain. <a href="pages/arthritis.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline font-medium" data-key="protect_arthritis_link">Learn more</a>.</p>
                     </div>
                 </div>
             </div>
@@ -280,50 +248,50 @@
         <section id="inspire" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800" data-key="inspire_title"></h2>
-                     <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="inspire_intro"></p>
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="inspire_title">Your Motivational Toolkit</h2>
+                     <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="inspire_intro">Staying motivated is key to long-term success. This is as much a mental journey as a physical one. Use these tools to build resilience, find your "why," and celebrate every victory along the way.</p>
                 </div>
                 
                 <div class="grid md:grid-cols-2 gap-8 mb-12">
                     <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-emerald-400">
-                        <h4 class="font-bold text-lg mb-2" data-key="inspire_testimonial1_name"></h4>
-                        <p class="text-gray-600 italic mb-3" data-key="inspire_testimonial1_quote"></p>
-                        <p class="text-sm text-gray-700" data-key="inspire_testimonial1_advice"></p>
+                        <h4 class="font-bold text-lg mb-2" data-key="inspire_testimonial1_name">Samantha R.</h4>
+                        <p class="text-gray-600 italic mb-3" data-key="inspire_testimonial1_quote">"I stopped focusing on the scale and started focusing on how I felt."</p>
+                        <p class="text-sm text-gray-700" data-key="inspire_testimonial1_advice"><strong>Her Advice:</strong> "Forget quick fixes. Pick one small, positive action you can do today. Master that one thing. The success from that small habit will build the confidence you need to tackle the next one."</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-emerald-400">
-                        <h4 class="font-bold text-lg mb-2" data-key="inspire_testimonial2_name"></h4>
-                        <p class="text-gray-600 italic mb-3" data-key="inspire_testimonial2_quote"></p>
-                        <p class="text-sm text-gray-700" data-key="inspire_testimonial2_advice"></p>
+                        <h4 class="font-bold text-lg mb-2" data-key="inspire_testimonial2_name">Craig M.</h4>
+                        <p class="text-gray-600 italic mb-3" data-key="inspire_testimonial2_quote">"I started exercising for my mind, not just my body."</p>
+                        <p class="text-sm text-gray-700" data-key="inspire_testimonial2_advice"><strong>His Advice:</strong> "Reframe why you exercise. Don't make it a punishment. Find a form of movement you genuinely enjoy. When you do it for joy or stress relief, consistency becomes easy."</p>
                     </div>
                 </div>
                 
                 <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
-                    <h3 class="font-bold text-xl mb-4 text-emerald-700 text-center" data-key="inspire_victories_title"></h3>
-                    <p class="text-center text-gray-600 mb-6" data-key="inspire_victories_intro"></p>
+                    <h3 class="font-bold text-xl mb-4 text-emerald-700 text-center" data-key="inspire_victories_title">Victories That Weigh More Than Pounds!</h3>
+                    <p class="text-center text-gray-600 mb-6" data-key="inspire_victories_intro">The scale is only one measure. Celebrate all the ways your hard work is paying off. Click to check off your victories!</p>
                     <ul id="victory-list" class="space-y-3">
                        <li class="flex items-center p-3 rounded-md transition duration-200 cursor-pointer hover:bg-emerald-50">
                            <span class="w-6 h-6 mr-3 border-2 border-gray-300 rounded-md flex items-center justify-center flex-shrink-0"></span>
-                           <span data-key="victory1"></span>
+                           <span data-key="victory1">My clothes fit more comfortably.</span>
                        </li>
                        <li class="flex items-center p-3 rounded-md transition duration-200 cursor-pointer hover:bg-emerald-50">
                            <span class="w-6 h-6 mr-3 border-2 border-gray-300 rounded-md flex items-center justify-center flex-shrink-0"></span>
-                           <span data-key="victory2"></span>
+                           <span data-key="victory2">I have more energy throughout the day.</span>
                        </li>
                        <li class="flex items-center p-3 rounded-md transition duration-200 cursor-pointer hover:bg-emerald-50">
                            <span class="w-6 h-6 mr-3 border-2 border-gray-300 rounded-md flex items-center justify-center flex-shrink-0"></span>
-                           <span data-key="victory3"></span>
+                           <span data-key="victory3">I'm sleeping more soundly at night.</span>
                        </li>
                        <li class="flex items-center p-3 rounded-md transition duration-200 cursor-pointer hover:bg-emerald-50">
                            <span class="w-6 h-6 mr-3 border-2 border-gray-300 rounded-md flex items-center justify-center flex-shrink-0"></span>
-                           <span data-key="victory4"></span>
+                           <span data-key="victory4">I can walk up stairs without getting winded.</span>
                        </li>
                        <li class="flex items-center p-3 rounded-md transition duration-200 cursor-pointer hover:bg-emerald-50">
                            <span class="w-6 h-6 mr-3 border-2 border-gray-300 rounded-md flex items-center justify-center flex-shrink-0"></span>
-                           <span data-key="victory5"></span>
+                           <span data-key="victory5">My mood has improved.</span>
                        </li>
                        <li class="flex items-center p-3 rounded-md transition duration-200 cursor-pointer hover:bg-emerald-50">
                            <span class="w-6 h-6 mr-3 border-2 border-gray-300 rounded-md flex items-center justify-center flex-shrink-0"></span>
-                           <span data-key="victory6"></span>
+                           <span data-key="victory6">My joints ache less.</span>
                        </li>
                     </ul>
                 </div>
@@ -333,22 +301,10 @@
     
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p data-key="footer_copyright"></p>
-            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer"></p>
+            <p data-key="footer_copyright">&copy; 2025 Healthier You Initiative. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer">This information is for educational purposes only and is not a substitute for professional medical advice. Always consult with your doctor.</p>
         </div>
     </footer>
-
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          // Initialize Google Translate with a curated list of the 30 most common languages.
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,pt,bn,ru,ja,pa,de,jv,fr,te,mr,tr,ko,vi,ta,ur,gu,fa,bho,pl,uk,ms,ml,sw,kn,or',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -356,6 +312,7 @@
             const translations = {
                 en: {
                     site_title: "Healthier You",
+                    lang_helper: "Select your language",
                     nav_welcome: "Welcome",
                     nav_assess: "Assess Health",
                     nav_nourish: "Nourish",
@@ -430,6 +387,7 @@
                 },
                 es: {
                     site_title: "Un Tú Más Saludable",
+                    lang_helper: "Seleccione su idioma",
                     nav_welcome: "Bienvenido",
                     nav_assess: "Evaluar Salud",
                     nav_nourish: "Nutrir",
@@ -505,12 +463,7 @@
             };
             
             // --- LANGUAGE SELECTOR LOGIC ---
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
-            const langButtons = document.querySelectorAll('.lang-btn');
-
+            const langSelectors = document.querySelectorAll('.lang-selector');
             const setLanguage = (lang) => {
                 document.documentElement.lang = lang;
                 const translation = translations[lang];
@@ -521,33 +474,19 @@
                     }
                 });
 
-                langButtons.forEach(btn => btn.classList.remove('active'));
-                document.getElementById(`lang-${lang}`).classList.add('active');
-
-                // Re-render dynamic content
-                const activeDietPlan = document.querySelector('.plan-tab.active-tab')?.dataset.plan;
-                if(activeDietPlan) showDietPlan(activeDietPlan);
-                const activeExercisePlan = document.querySelector('.exercise-tab.active-tab')?.dataset.exercise;
-                if(activeExercisePlan) showExercisePlan(activeExercisePlan);
+                // Update active button style
+                langSelectors.forEach(btn => {
+                    btn.classList.remove('lang-active');
+                });
+                document.getElementById(`lang-${lang}`).classList.add('lang-active');
             };
 
-            langButtons.forEach(btn => {
+            langSelectors.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const lang = e.target.id.split('-')[1];
                     setLanguage(lang);
                 });
             });
-
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                // Revert Google Translate by reloading
-                location.reload(); 
-            });
-
 
             // Set initial language
             setLanguage('en');
@@ -876,13 +815,12 @@
                 riskChart.options.plugins.tooltip.callbacks.label = chartData[lang].tooltip;
                 riskChart.update();
                 // re-render current tabs to update language
-                const activeDietPlan = document.querySelector('.plan-tab.active-tab')?.dataset.plan;
-                if(activeDietPlan) showDietPlan(activeDietPlan);
-                const activeExercisePlan = document.querySelector('.exercise-tab.active-tab')?.dataset.exercise;
-                if(activeExercisePlan) showExercisePlan(activeExercisePlan);
+                const activeDietPlan = document.querySelector('.plan-tab.active-tab').dataset.plan;
+                showDietPlan(activeDietPlan);
+                const activeExercisePlan = document.querySelector('.exercise-tab.active-tab').dataset.exercise;
+                showExercisePlan(activeExercisePlan);
             };
-
-            langButtons.forEach(btn => {
+            langSelectors.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const lang = e.target.id.split('-')[1];
                     window.setLanguage(lang);

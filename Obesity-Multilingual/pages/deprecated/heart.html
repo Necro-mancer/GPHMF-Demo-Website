@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Losing Weight for Heart Health - Healthier You</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .lang-active {
+            font-weight: 700;
+            color: #10B981;
         }
         .hero-bg-heart {
             background-image: linear-gradient(to right, #F87171, #EF4444);
@@ -31,70 +33,22 @@
         .accordion-arrow {
             transition: transform 0.3s ease-out;
         }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #DC2626; color: white; } /* red-600 */
-
-        /* --- Google Translate Widget Styles (Red Theme) --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #EF4444 !important; /* red-500 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #B91C1C !important; /* red-700 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #FEF2F2 !important; /* red-50 */
-            color: #DC2626 !important; /* red-600 */
-        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div>
                 <a href="../landing.html" class="text-sm font-medium text-emerald-600 hover:underline" data-key="back_link">&larr; Back to Main Site</a>
             </div>
-            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                <div id="native-lang-toggle" class="flex items-center">
-                    <div class="flex rounded-lg border border-gray-300 p-0.5">
-                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                    </div>
-                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                    </button>
-                </div>
-                <div id="google-lang-toggle" class="hidden items-center">
-                    <div id="google_translate_element"></div>
-                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-red-600 hover:underline">Back</button>
-                </div>
+            <div class="relative flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9" />
+                </svg>
+                <button id="lang-en" class="lang-selector text-gray-600 hover:text-emerald-600 transition lang-active">EN</button>
+                <span class="mx-1 text-gray-400">|</span>
+                <button id="lang-es" class="lang-selector text-gray-600 hover:text-emerald-600 transition">ES</button>
             </div>
         </nav>
     </header>
@@ -199,33 +153,8 @@
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let currentLanguage = 'en';
-
-            // --- ELEMENT SELECTORS ---
-            const accordionContainer = document.getElementById('accordion-container');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
-            const langEnBtn = document.getElementById('lang-en');
-            const langEsBtn = document.getElementById('lang-es');
-
             // --- DATA ---
             const accordionData = {
                 en: [
@@ -246,6 +175,37 @@
                 ]
             };
             
+            // --- INTERACTIVITY ---
+            const accordionContainer = document.getElementById('accordion-container');
+
+            function buildAccordion(lang) {
+                accordionContainer.innerHTML = '';
+                accordionData[lang].forEach((item) => {
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'bg-white rounded-lg shadow';
+                    accordionItem.innerHTML = `
+                        <button class="accordion-button w-full flex justify-between items-center p-4 text-left font-semibold">
+                            <span>${item.title}</span>
+                            <svg class="accordion-arrow w-6 h-6 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content px-4">
+                            <p class="py-4 border-t">${item.content}</p>
+                        </div>
+                    `;
+                    accordionContainer.appendChild(accordionItem);
+                });
+                addAccordionListeners();
+            }
+
+            function addAccordionListeners() {
+                 document.querySelectorAll('.accordion-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        button.classList.toggle('open');
+                    });
+                });
+            }
+
+            // --- TRANSLATION DATA ---
             const translations = {
                 en: {
                     back_link: "&larr; Back to Main Site",
@@ -311,42 +271,10 @@
                 }
             };
 
-            // --- FUNCTIONS ---
-            function buildAccordion(lang) {
-                accordionContainer.innerHTML = '';
-                accordionData[lang].forEach((item) => {
-                    const accordionItem = document.createElement('div');
-                    accordionItem.className = 'bg-white rounded-lg shadow';
-                    accordionItem.innerHTML = `
-                        <button class="accordion-button w-full flex justify-between items-center p-4 text-left font-semibold">
-                            <span>${item.title}</span>
-                            <svg class="accordion-arrow w-6 h-6 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="accordion-content px-4">
-                            <p class="py-4 border-t">${item.content}</p>
-                        </div>
-                    `;
-                    accordionContainer.appendChild(accordionItem);
-                });
-                addAccordionListeners();
-            }
-
-            function addAccordionListeners() {
-                 document.querySelectorAll('.accordion-button').forEach(button => {
-                    button.addEventListener('click', () => {
-                        button.classList.toggle('open');
-                    });
-                });
-            }
-
             // --- LANGUAGE SELECTOR LOGIC ---
+            const langSelectors = document.querySelectorAll('.lang-selector');
             const setLanguage = (lang) => {
-                currentLanguage = lang;
                 document.documentElement.lang = lang;
-
-                langEnBtn.classList.toggle('active', lang === 'en');
-                langEsBtn.classList.toggle('active', lang === 'es');
-
                 const translation = translations[lang];
                 document.querySelectorAll('[data-key]').forEach(elem => {
                     const key = elem.dataset.key;
@@ -357,20 +285,11 @@
                 buildAccordion(lang);
             };
 
-            langEnBtn.addEventListener('click', () => setLanguage('en'));
-            langEsBtn.addEventListener('click', () => setLanguage('es'));
-
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                setLanguage(currentLanguage);
+            langSelectors.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const lang = e.target.id.split('-')[1];
+                    setLanguage(lang);
+                });
             });
 
             // Initial Page Load

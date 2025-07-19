@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The DASH Eating Plan: An Interactive Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -39,47 +38,6 @@
         .arrow-icon {
             transition: transform 0.3s ease;
         }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #16a34a; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #4ade80 !important; /* green-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #15803d !important; /* green-700 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #f0fdf4 !important; /* green-50 */
-            color: #16a34a !important; /* green-600 */
-        }
     </style>
 </head>
 <body class="bg-green-50">
@@ -87,23 +45,20 @@
     <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                <span class="text-green-600">🥗</span> <span data-translate="header_title"></span>
+                <span class="text-green-600">🥗</span> <span data-translate="header_title">Your Guide to the DASH Plan</span>
             </h1>
             <div class="flex items-center gap-4">
-                 <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link"></a>
-                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                    <div id="native-lang-toggle" class="flex items-center">
-                        <div class="flex rounded-lg border border-gray-300 p-0.5">
-                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                        </div>
-                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                        </button>
-                    </div>
-                    <div id="google-lang-toggle" class="hidden items-center">
-                        <div id="google_translate_element"></div>
-                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-green-600 hover:underline">Back</button>
+                 <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full NHLBI Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -115,27 +70,27 @@
         <section id="what-is-it" class="py-16 md:py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_dash_title"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="what_is_dash_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_dash_title">What is the DASH Eating Plan?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="what_is_dash_p">DASH stands for <span class="font-semibold">D</span>ietary <span class="font-semibold">A</span>pproaches to <span class="font-semibold">S</span>top <span class="font-semibold">H</span>ypertension. It's not a temporary diet, but a flexible and heart-healthy eating style that's proven to help lower high blood pressure.</p>
                 </div>
                 
                 <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
                     <div class="bg-green-100 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl text-green-800 flex items-center gap-2"><span class="text-3xl">⬆️</span> <span data-translate="eat_more_title"></span></h3>
-                        <p class="mt-2 text-green-700" data-translate="eat_more_p"></p>
+                        <h3 class="font-bold text-xl text-green-800 flex items-center gap-2"><span class="text-3xl">⬆️</span> <span data-translate="eat_more_title">Eat More Of:</span></h3>
+                        <p class="mt-2 text-green-700" data-translate="eat_more_p">Foods rich in Potassium, Calcium, Magnesium, Fiber, and Protein.</p>
                         <ul class="mt-3 space-y-1 font-medium">
-                            <li data-translate="eat_more_li1"></li>
-                            <li data-translate="eat_more_li2"></li>
-                            <li data-translate="eat_more_li3"></li>
+                            <li data-translate="eat_more_li1">Fruits & Vegetables</li>
+                            <li data-translate="eat_more_li2">Fat-Free or Low-Fat Dairy</li>
+                            <li data-translate="eat_more_li3">Whole Grains, Fish, Poultry, Beans, Seeds & Nuts</li>
                         </ul>
                     </div>
                      <div class="bg-red-100 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl text-red-800 flex items-center gap-2"><span class="text-3xl">⬇️</span> <span data-translate="limit_title"></span></h3>
-                        <p class="mt-2 text-red-700" data-translate="limit_p"></p>
+                        <h3 class="font-bold text-xl text-red-800 flex items-center gap-2"><span class="text-3xl">⬇️</span> <span data-translate="limit_title">Limit:</span></h3>
+                        <p class="mt-2 text-red-700" data-translate="limit_p">Foods that can raise blood pressure or harm your heart.</p>
                         <ul class="mt-3 space-y-1 font-medium">
-                            <li data-translate="limit_li1"></li>
-                            <li data-translate="limit_li2"></li>
-                            <li data-translate="limit_li3"></li>
+                            <li data-translate="limit_li1">Sodium (Salt)</li>
+                            <li data-translate="limit_li2">Sugar-Sweetened Drinks & Sweets</li>
+                            <li data-translate="limit_li3">Foods High in Saturated Fat (like fatty meats & full-fat dairy)</li>
                         </ul>
                     </div>
                 </div>
@@ -146,12 +101,101 @@
         <section id="daily-plan" class="py-16 md:py-24 bg-green-100">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="daily_plan_title"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="daily_plan_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="daily_plan_title">Your Daily DASH Plan</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="daily_plan_p">DASH is about balance and variety. Click each food group below to see your daily serving goals (based on a 2,000-calorie diet) and what counts as a serving.</p>
                 </div>
                 
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Cards will be populated by JS -->
+                    <!-- Grains -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="grains">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🌾</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="grains_title">Grains</h3>
+                                <p class="font-semibold text-orange-600" data-translate="grains_servings">6-8 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="grains_details1"><strong>1 Serving =</strong> 1 slice bread, 1 oz dry cereal, or ½ cup cooked rice/pasta.</p>
+                            <p class="mt-2" data-translate="grains_details2"><strong>Focus on:</strong> Whole grains like brown rice, oatmeal, and whole-wheat bread.</p>
+                        </div>
+                    </div>
+                    <!-- Vegetables -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="vegetables">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🥦</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="veg_title">Vegetables</h3>
+                                <p class="font-semibold text-green-600" data-translate="veg_servings">4-5 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="veg_details1"><strong>1 Serving =</strong> 1 cup raw leafy greens, or ½ cup cut-up raw/cooked veggies.</p>
+                            <p class="mt-2" data-translate="veg_details2"><strong>Focus on:</strong> Colorful veggies like spinach, carrots, and tomatoes. They are rich in vitamins and minerals.</p>
+                        </div>
+                    </div>
+                    <!-- Fruits -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="fruits">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🍓</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="fruits_title">Fruits</h3>
+                                <p class="font-semibold text-red-600" data-translate="fruits_servings">4-5 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="fruits_details1"><strong>1 Serving =</strong> 1 medium fruit, or ½ cup fresh/frozen fruit.</p>
+                            <p class="mt-2" data-translate="fruits_details2"><strong>Focus on:</strong> Whole fruits over juice to get more fiber. Berries, apples, and bananas are great choices.</p>
+                        </div>
+                    </div>
+                    <!-- Dairy -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="dairy">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🥛</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="dairy_title">Low-Fat Dairy</h3>
+                                <p class="font-semibold text-blue-600" data-translate="dairy_servings">2-3 servings/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="dairy_details1"><strong>1 Serving =</strong> 1 cup milk or yogurt, or 1.5 oz cheese.</p>
+                            <p class="mt-2" data-translate="dairy_details2"><strong>Focus on:</strong> Fat-free or low-fat options to get calcium without the saturated fat.</p>
+                        </div>
+                    </div>
+                    <!-- Protein -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="protein">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🍗</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="protein_title">Lean Protein</h3>
+                                <p class="font-semibold text-yellow-700" data-translate="protein_servings">6 oz or less/day</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="protein_details1"><strong>1 Serving =</strong> 1 oz cooked meat/fish, or 1 egg.</p>
+                            <p class="mt-2" data-translate="protein_details2"><strong>Focus on:</strong> Skinless poultry, fish, beans, and lentils. Bake, broil, or grill instead of frying.</p>
+                        </div>
+                    </div>
+                     <!-- Nuts, Seeds, Legumes -->
+                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="nuts">
+                        <div class="p-6 flex justify-between items-center">
+                            <div>
+                                <div class="text-4xl">🥜</div>
+                                <h3 class="mt-2 text-xl font-bold text-slate-800" data-translate="nuts_title">Nuts, Seeds, Legumes</h3>
+                                <p class="font-semibold text-amber-800" data-translate="nuts_servings">4-5 servings/WEEK</p>
+                            </div>
+                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
+                        </div>
+                        <div class="card-details px-6 text-slate-600">
+                            <p data-translate="nuts_details1"><strong>1 Serving =</strong> ⅓ cup nuts, 2 tbsp seeds, or ½ cup cooked legumes.</p>
+                            <p class="mt-2" data-translate="nuts_details2"><strong>Focus on:</strong> Almonds, walnuts, sunflower seeds, and kidney beans for healthy fats and fiber.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -160,24 +204,24 @@
         <section id="sodium" class="py-16 md:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="sodium_title"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="sodium_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="sodium_title">Become a Sodium Detective</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="sodium_p">Reducing sodium is a cornerstone of the DASH plan. Most sodium comes from processed and restaurant foods, not the salt shaker.</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8 text-center">
                     <div class="bg-white p-6 rounded-xl shadow-lg">
                         <div class="text-5xl">🏷️</div>
-                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip1_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="sodium_tip1_p"></p>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip1_title">Read the Label</h3>
+                        <p class="mt-2 text-slate-600" data-translate="sodium_tip1_p">Choose foods with a low % Daily Value (DV) for sodium. 5% or less is low, while 20% or more is high.</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg">
                         <div class="text-5xl">🛒</div>
-                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip2_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="sodium_tip2_p"></p>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip2_title">Choose Fresh</h3>
+                        <p class="mt-2 text-slate-600" data-translate="sodium_tip2_p">Select fresh or frozen vegetables without added sauces. Pick fresh poultry and fish over cured or processed meats.</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg">
                         <div class="text-5xl">🌿</div>
-                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip3_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="sodium_tip3_p"></p>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="sodium_tip3_title">Flavor with Spices</h3>
+                        <p class="mt-2 text-slate-600" data-translate="sodium_tip3_p">Use salt-free spice blends, herbs, lemon, lime, vinegar, or wine to add flavor to your food instead of salt.</p>
                     </div>
                 </div>
             </div>
@@ -187,26 +231,14 @@
 
     <footer class="bg-slate-800 text-slate-300">
         <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p data-translate="footer_p1"></p>
-            <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link"></a>
-            <p class="mt-4 text-xs" data-translate="footer_p2"></p>
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the National Heart, Lung, and Blood Institute (NHLBI).</p>
+            <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link">
+                Go to the Full NHLBI DASH Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from NHLBI.</p>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const translations = {
@@ -318,88 +350,33 @@
                 }
             };
 
-            let currentLanguage = 'en';
+            const languageSelector = document.getElementById('language-selector');
             const translatableElements = document.querySelectorAll('[data-translate]');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
-            const foodGroupGrid = document.querySelector('#daily-plan .grid');
 
-            function renderFoodGroups() {
-                const t = translations[currentLanguage];
-                const groups = [
-                    { id: 'grains', icon: '🌾', color: 'orange', servings: t.grains_servings, details1: t.grains_details1, details2: t.grains_details2, title: t.grains_title },
-                    { id: 'vegetables', icon: '🥦', color: 'green', servings: t.veg_servings, details1: t.veg_details1, details2: t.veg_details2, title: t.veg_title },
-                    { id: 'fruits', icon: '🍓', color: 'red', servings: t.fruits_servings, details1: t.fruits_details1, details2: t.fruits_details2, title: t.fruits_title },
-                    { id: 'dairy', icon: '🥛', color: 'blue', servings: t.dairy_servings, details1: t.dairy_details1, details2: t.dairy_details2, title: t.dairy_title },
-                    { id: 'protein', icon: '🍗', color: 'yellow', servings: t.protein_servings, details1: t.protein_details1, details2: t.protein_details2, title: t.protein_title },
-                    { id: 'nuts', icon: '🥜', color: 'amber', servings: t.nuts_servings, details1: t.nuts_details1, details2: t.nuts_details2, title: t.nuts_title }
-                ];
-                
-                foodGroupGrid.innerHTML = groups.map(group => `
-                    <div class="food-group-card bg-white rounded-xl shadow-lg" data-group="${group.id}">
-                        <div class="p-6 flex justify-between items-center">
-                            <div>
-                                <div class="text-4xl">${group.icon}</div>
-                                <h3 class="mt-2 text-xl font-bold text-slate-800">${group.title}</h3>
-                                <p class="font-semibold text-${group.color}-600">${group.servings}</p>
-                            </div>
-                            <div class="arrow-icon text-3xl text-slate-400">▼</div>
-                        </div>
-                        <div class="card-details px-6 text-slate-600">
-                            <p>${group.details1}</p>
-                            <p class="mt-2">${group.details2}</p>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            function changeLanguage(language) {
-                currentLanguage = language;
-                document.documentElement.lang = language;
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-                document.getElementById('lang-es').classList.toggle('active', language === 'es');
-
+            function translatePage(language) {
                 translatableElements.forEach(el => {
                     const key = el.dataset.translate;
                     if (translations[language] && translations[language][key]) {
                         el.innerHTML = translations[language][key];
                     }
                 });
-                renderFoodGroups();
             }
 
-            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
-
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
             });
 
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                changeLanguage(currentLanguage);
-            });
-            
-            foodGroupGrid.addEventListener('click', (e) => {
-                const card = e.target.closest('.food-group-card');
-                if (card) {
-                    document.querySelectorAll('.food-group-card').forEach(otherCard => {
+            const foodGroupCards = document.querySelectorAll('.food-group-card');
+            foodGroupCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    foodGroupCards.forEach(otherCard => {
                         if (otherCard !== card) {
                             otherCard.classList.remove('open');
                         }
                     });
                     card.classList.toggle('open');
-                }
+                });
             });
-
-            // Initial Load
-            changeLanguage('en');
         });
     </script>
 </body>

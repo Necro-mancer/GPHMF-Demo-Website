@@ -52,47 +52,6 @@
         .comparison-pane.active-pane {
             display: block;
         }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #0284c7; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #38bdf8 !important; /* sky-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #0369a1 !important; /* sky-700 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #f0f9ff !important; /* sky-50 */
-            color: #0284c7 !important; /* sky-600 */
-        }
     </style>
 </head>
 <body class="bg-slate-100">
@@ -100,23 +59,20 @@
     <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                <span class="text-sky-600">❤️</span> <span data-translate="header_title"></span>
+                <span class="text-sky-600">❤️</span> <span data-translate="header_title">Your Guide to Heart Failure</span>
             </h1>
             <div class="flex items-center gap-4">
-                <a href="https://www.heart.org/en/health-topics/heart-failure" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-sky-600 hover:text-sky-800 transition" data-translate="full_guide_link"></a>
-                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                    <div id="native-lang-toggle" class="flex items-center">
-                        <div class="flex rounded-lg border border-gray-300 p-0.5">
-                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                        </div>
-                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                        </button>
-                    </div>
-                    <div id="google-lang-toggle" class="hidden items-center">
-                        <div id="google_translate_element"></div>
-                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline">Back</button>
+                <a href="https://www.heart.org/en/health-topics/heart-failure" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-sky-600 hover:text-sky-800 transition" data-translate="full_guide_link">
+                    Full AHA Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -127,13 +83,13 @@
         <!-- What is Heart Failure? -->
         <section id="what-is-it" class="py-16 md:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_title"></h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="what_is_p"></p>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="what_is_title">What is Heart Failure?</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="what_is_p">A diagnosis of heart failure can feel overwhelming, but understanding what it means is the first step. It does not mean your heart has stopped—it means your heart muscle has become weaker and needs support to pump enough blood for your body's needs.</p>
                 
                 <div class="mt-8 bg-white p-6 md:p-8 rounded-2xl shadow-lg max-w-3xl mx-auto">
                     <div class="flex justify-center border-b border-slate-200 mb-6">
-                        <button id="healthy-btn" class="comparison-btn active-btn px-4 md:px-6 py-2 font-semibold" data-translate="healthy_heart_btn"></button>
-                        <button id="hf-btn" class="comparison-btn px-4 md:px-6 py-2 font-semibold" data-translate="hf_btn"></button>
+                        <button id="healthy-btn" class="comparison-btn active-btn px-4 md:px-6 py-2 font-semibold" data-translate="healthy_heart_btn">Healthy Heart</button>
+                        <button id="hf-btn" class="comparison-btn px-4 md:px-6 py-2 font-semibold" data-translate="hf_btn">Heart Failure</button>
                     </div>
                     <div id="comparison-content">
                         <!-- Healthy Heart Content -->
@@ -141,12 +97,12 @@
                             <div class="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
                                 <div class="text-7xl md:text-8xl">❤️</div>
                                 <div>
-                                    <h3 class="text-xl md:text-2xl font-bold text-slate-800" data-translate="healthy_heart_title"></h3>
-                                    <p class="mt-2 text-slate-600" data-translate="healthy_heart_p"></p>
+                                    <h3 class="text-xl md:text-2xl font-bold text-slate-800" data-translate="healthy_heart_title">A Healthy, Strong Heart</h3>
+                                    <p class="mt-2 text-slate-600" data-translate="healthy_heart_p">A healthy heart is a powerful, efficient pump that supplies your entire body with the oxygen and nutrients it needs to thrive.</p>
                                     <ul class="mt-4 space-y-2 text-slate-600 list-disc list-inside text-left">
-                                        <li data-translate="healthy_heart_li1"></li>
-                                        <li data-translate="healthy_heart_li2"></li>
-                                        <li data-translate="healthy_heart_li3"></li>
+                                        <li data-translate="healthy_heart_li1"><strong>Strong Muscle:</strong> Pumps blood with adequate force.</li>
+                                        <li data-translate="healthy_heart_li2"><strong>Normal Size:</strong> Not enlarged or thickened.</li>
+                                        <li data-translate="healthy_heart_li3"><strong>Efficient Pumping:</strong> Ejects over half the blood from its main chamber with each beat (Ejection Fraction >50%).</li>
                                     </ul>
                                 </div>
                             </div>
@@ -156,12 +112,12 @@
                              <div class="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
                                 <div class="text-7xl md:text-8xl">💔</div>
                                 <div>
-                                    <h3 class="text-xl md:text-2xl font-bold text-slate-800" data-translate="hf_title"></h3>
-                                    <p class="mt-2 text-slate-600" data-translate="hf_p"></p>
+                                    <h3 class="text-xl md:text-2xl font-bold text-slate-800" data-translate="hf_title">A Weakened Heart</h3>
+                                    <p class="mt-2 text-slate-600" data-translate="hf_p">In heart failure, the heart muscle is weakened or stiff and cannot pump effectively. This causes a "backup" of fluid and reduces blood flow to the body.</p>
                                     <ul class="mt-4 space-y-2 text-slate-600 list-disc list-inside text-left">
-                                        <li data-translate="hf_li1"></li>
-                                        <li data-translate="hf_li2"></li>
-                                        <li data-translate="hf_li3"></li>
+                                        <li data-translate="hf_li1"><strong>Weak/Stiff Muscle:</strong> Struggles to pump or fill properly.</li>
+                                        <li data-translate="hf_li2"><strong>Often Enlarged:</strong> The heart may grow bigger to try to compensate.</li>
+                                        <li data-translate="hf_li3"><strong>Reduced Pumping:</strong> Ejects less blood with each beat (Ejection Fraction often <40%), leading to symptoms.</li>
                                     </ul>
                                 </div>
                             </div>
@@ -175,23 +131,23 @@
         <section id="symptoms" class="py-16 md:py-24 bg-sky-50">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="symptoms_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="symptoms_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="symptoms_h2">Know the Signs, Take Action</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="symptoms_p">Your body gives you clues when your heart is struggling. Recognizing these signs early is key to managing your condition. Click the buttons to learn about common symptoms and what to do.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                     <div class="flex flex-col items-center gap-4">
                         <button class="symptom-btn p-4 w-full bg-white rounded-lg shadow-md font-semibold text-slate-700" data-symptom="breathing">
-                            <span class="text-3xl">😮‍💨</span><br><span data-translate="symptom_breathing_btn"></span>
+                            <span class="text-3xl">😮‍💨</span><br><span data-translate="symptom_breathing_btn">Shortness of Breath</span>
                         </button>
                         <button class="symptom-btn p-4 w-full bg-white rounded-lg shadow-md font-semibold text-slate-700" data-symptom="swelling">
-                            <span class="text-3xl">🦶</span><br><span data-translate="symptom_swelling_btn"></span>
+                            <span class="text-3xl">🦶</span><br><span data-translate="symptom_swelling_btn">Swelling (Edema)</span>
                         </button>
                          <button class="symptom-btn p-4 w-full bg-white rounded-lg shadow-md font-semibold text-slate-700" data-symptom="fatigue">
-                            <span class="text-3xl">😴</span><br><span data-translate="symptom_fatigue_btn"></span>
+                            <span class="text-3xl">😴</span><br><span data-translate="symptom_fatigue_btn">Fatigue & Weakness</span>
                         </button>
                     </div>
                     <div id="symptom-display" class="md:col-span-2 bg-white p-8 rounded-2xl shadow-xl min-h-[300px] flex items-center justify-center">
-                        <p class="text-slate-500 text-center" data-translate="symptom_display_p"></p>
+                        <p class="text-slate-500 text-center" data-translate="symptom_display_p">Click a symptom on the left to see details here.</p>
                     </div>
                 </div>
             </div>
@@ -201,44 +157,44 @@
         <section id="stages" class="py-16 md:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="stages_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="stages_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="stages_h2">Your Roadmap for Care: The Stages</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="stages_p">Your doctor uses stages to create the best treatment plan for you. Think of it as a roadmap. The goal is to help you live well and stay in the earliest stage possible for as long as possible.</p>
                 </div>
                 <div class="max-w-2xl mx-auto">
                     <!-- Stage A -->
                     <div class="stage-card relative flex items-start gap-6 mb-10">
                         <div class="stage-icon w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">A</div>
                         <div>
-                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_a_title"></h3>
-                            <p class="mt-1 text-slate-600" data-translate="stage_a_p"></p>
-                            <p class="mt-2 text-sm font-semibold text-green-700" data-translate="stage_a_goal"></p>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_a_title">Stage A: At Risk</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_a_p">You are at high risk due to conditions like high blood pressure or diabetes, but have no symptoms or heart problems yet.</p>
+                            <p class="mt-2 text-sm font-semibold text-green-700" data-translate="stage_a_goal">Your Goal: Prevent heart disease with healthy lifestyle choices.</p>
                         </div>
                     </div>
                     <!-- Stage B -->
                     <div class="stage-card relative flex items-start gap-6 mb-10">
                         <div class="stage-icon w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">B</div>
                         <div>
-                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_b_title"></h3>
-                            <p class="mt-1 text-slate-600" data-translate="stage_b_p"></p>
-                             <p class="mt-2 text-sm font-semibold text-yellow-700" data-translate="stage_b_goal"></p>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_b_title">Stage B: Pre-Heart Failure</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_b_p">You have a structural heart problem (like a weak pump) but have never had symptoms of heart failure.</p>
+                             <p class="mt-2 text-sm font-semibold text-yellow-700" data-translate="stage_b_goal">Your Goal: Protect your heart with medications and lifestyle to prevent symptoms from ever starting.</p>
                         </div>
                     </div>
                     <!-- Stage C -->
                     <div class="stage-card relative flex items-start gap-6 mb-10">
                         <div class="stage-icon w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">C</div>
                         <div>
-                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_c_title"></h3>
-                            <p class="mt-1 text-slate-600" data-translate="stage_c_p"></p>
-                             <p class="mt-2 text-sm font-semibold text-orange-700" data-translate="stage_c_goal"></p>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_c_title">Stage C: Symptomatic</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_c_p">You have been diagnosed with heart failure and have (or previously had) signs and symptoms.</p>
+                             <p class="mt-2 text-sm font-semibold text-orange-700" data-translate="stage_c_goal">Your Goal: Manage symptoms, improve your quality of life, and prevent hospital stays.</p>
                         </div>
                     </div>
                     <!-- Stage D -->
                     <div class="stage-card relative flex items-start gap-6">
                         <div class="stage-icon w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center font-bold text-xl flex-shrink-0">D</div>
                         <div>
-                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_d_title"></h3>
-                            <p class="mt-1 text-slate-600" data-translate="stage_d_p"></p>
-                             <p class="mt-2 text-sm font-semibold text-red-700" data-translate="stage_d_goal"></p>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="stage_d_title">Stage D: Advanced</h3>
+                            <p class="mt-1 text-slate-600" data-translate="stage_d_p">You have advanced symptoms that don't get better with treatment.</p>
+                             <p class="mt-2 text-sm font-semibold text-red-700" data-translate="stage_d_goal">Your Goal: Work with a specialized team to maintain comfort and quality of life.</p>
                         </div>
                     </div>
                 </div>
@@ -249,41 +205,41 @@
         <section id="management" class="py-16 md:py-24 bg-slate-800 text-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold" data-translate="plan_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300" data-translate="plan_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold" data-translate="plan_h2">Your Action Plan for Living Well</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300" data-translate="plan_p">You are the most important member of your care team. Taking an active role can help you feel better and stay out of the hospital. Focus on these key areas every day.</p>
                 </div>
                 <div class="grid lg:grid-cols-3 gap-8">
                     <!-- Pillar 1 -->
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col1_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col1_p"></p>
+                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col1_title">1. Track Your Vitals Daily</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col1_p">This is your early warning system. Small changes can signal a problem before it becomes serious.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-center"><span class="text-2xl mr-3">⚖️</span> <span data-translate="plan_col1_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🦶</span> <span data-translate="plan_col1_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">😮‍💨</span> <span data-translate="plan_col1_li3"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">⚡️</span> <span data-translate="plan_col1_li4"></span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">⚖️</span> <span data-translate="plan_col1_li1">Weigh yourself every morning.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🦶</span> <span data-translate="plan_col1_li2">Check for new or worse swelling.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">😮‍💨</span> <span data-translate="plan_col1_li3">Note any changes in your breathing.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">⚡️</span> <span data-translate="plan_col1_li4">Monitor your energy level.</span></li>
                         </ul>
                     </div>
                     <!-- Pillar 2 -->
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col2_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col2_p"></p>
+                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col2_title">2. Follow Your Lifestyle Plan</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col2_p">Your daily habits have a huge impact on how you feel and how well your heart works.</p>
                         <ul class="mt-4 text-left space-y-2">
-                             <li class="flex items-center"><span class="text-2xl mr-3">💊</span> <span data-translate="plan_col2_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🧂</span> <span data-translate="plan_col2_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🏃</span> <span data-translate="plan_col2_li3"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">💧</span> <span data-translate="plan_col2_li4"></span></li>
+                             <li class="flex items-center"><span class="text-2xl mr-3">💊</span> <span data-translate="plan_col2_li1">Take medicines exactly as prescribed.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🧂</span> <span data-translate="plan_col2_li2">Eat a low-sodium diet.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🏃</span> <span data-translate="plan_col2_li3">Stay active as advised by your doctor.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">💧</span> <span data-translate="plan_col2_li4">Follow your fluid intake guidelines.</span></li>
                         </ul>
                     </div>
                     <!-- Pillar 3 -->
                     <div class="bg-red-600 p-8 rounded-xl shadow-lg text-center ring-4 ring-offset-4 ring-offset-slate-800 ring-red-500">
-                        <h3 class="font-bold text-2xl text-white" data-translate="plan_col3_title"></h3>
-                        <p class="mt-2 text-red-100" data-translate="plan_col3_p"></p>
+                        <h3 class="font-bold text-2xl text-white" data-translate="plan_col3_title">3. Know When to Call for Help</h3>
+                        <p class="mt-2 text-red-100" data-translate="plan_col3_p">Do not wait. Call your doctor or nurse right away if you notice any of these "Red Flag" warnings.</p>
                         <ul class="mt-4 text-left space-y-2 text-white">
-                            <li class="flex items-center"><span class="text-2xl mr-3">⬆️</span> <span data-translate="plan_col3_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🦶</span> <span data-translate="plan_col3_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">😮‍💨</span> <span data-translate="plan_col3_li3"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🗣️</span> <span data-translate="plan_col3_li4"></span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">⬆️</span> <span data-translate="plan_col3_li1">Gain 3+ lbs in 1 day, or 5+ lbs in 1 week.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🦶</span> <span data-translate="plan_col3_li2">Worsened swelling in your legs or feet.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">😮‍💨</span> <span data-translate="plan_col3_li3">Worsened shortness of breath.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🗣️</span> <span data-translate="plan_col3_li4">A frequent dry, hacking cough.</span></li>
                         </ul>
                     </div>
                 </div>
@@ -294,26 +250,14 @@
 
     <footer class="bg-slate-900 text-slate-400">
         <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p data-translate="footer_p1"></p>
-            <a href="https://www.heart.org/en/health-topics/heart-failure" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-sky-500 hover:text-sky-400 font-semibold transition" data-translate="footer_link"></a>
-            <p class="mt-4 text-xs" data-translate="footer_p2"></p>
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the American Heart Association.</p>
+            <a href="https://www.heart.org/en/health-topics/heart-failure" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-sky-500 hover:text-sky-400 font-semibold transition" data-translate="footer_link">
+                Go to the Full AHA Heart Failure Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">Remember to care for your emotional well-being, too. Talk to your support system or a professional if you feel overwhelmed.<br>&copy; 2024 Patient Education Initiative. Information sourced from the American Heart Association.</p>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const translations = {
@@ -461,19 +405,10 @@
                 }
             };
 
-            let currentLanguage = 'en';
+            const languageSelector = document.getElementById('language-selector');
             const translatableElements = document.querySelectorAll('[data-translate]');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
 
-            function changeLanguage(language) {
-                currentLanguage = language;
-                document.documentElement.lang = language;
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-                document.getElementById('lang-es').classList.toggle('active', language === 'es');
-
+            function translatePage(language) {
                 translatableElements.forEach(el => {
                     const key = el.dataset.translate;
                     if (translations[language] && translations[language][key]) {
@@ -481,28 +416,15 @@
                     }
                 });
                 
+                // Update interactive components after translation
                 const activeSymptomBtn = document.querySelector('.symptom-btn.active');
                 if (activeSymptomBtn) {
                     updateSymptomDisplay(activeSymptomBtn.dataset.symptom, language);
-                } else {
-                    updateSymptomDisplay('default', language);
                 }
             }
 
-            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
-
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                changeLanguage(currentLanguage);
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
             });
             
             // Symptom Logic
@@ -510,11 +432,6 @@
             const symptomDisplay = document.getElementById('symptom-display');
 
             function updateSymptomDisplay(symptomKey, lang = 'en') {
-                if (symptomKey === 'default') {
-                    symptomDisplay.innerHTML = `<p class="text-slate-500 text-center">${translations[lang]['symptom_display_p']}</p>`;
-                    return;
-                }
-
                 const data = {
                     title: translations[lang][`symptom_${symptomKey}_title`],
                     text: translations[lang][`symptom_${symptomKey}_text`],
@@ -541,7 +458,8 @@
                     symptomButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     const symptomKey = button.dataset.symptom;
-                    updateSymptomDisplay(symptomKey, currentLanguage);
+                    const currentLang = languageSelector.value;
+                    updateSymptomDisplay(symptomKey, currentLang);
                 });
             });
 
@@ -564,9 +482,6 @@
                 healthyBtn.classList.remove('active-btn');
                 hfBtn.classList.add('active-btn');
             });
-
-            // Initial Load
-            changeLanguage('en');
         });
     </script>
 </body>

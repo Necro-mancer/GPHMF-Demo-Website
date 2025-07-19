@@ -20,47 +20,6 @@
             background-color: #8b5cf6;
             color: white;
         }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #8b5cf6; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #a78bfa !important; /* violet-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #7c3aed !important; /* violet-600 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #f5f3ff !important; /* violet-50 */
-            color: #8b5cf6 !important; /* violet-500 */
-        }
     </style>
 </head>
 <body class="bg-violet-50">
@@ -68,23 +27,20 @@
     <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                <span class="text-violet-600">⚖️</span> <span data-translate="header_title"></span>
+                <span class="text-violet-600">⚖️</span> <span data-translate="header_title">Your Guide to a Healthy Weight</span>
             </h1>
             <div class="flex items-center gap-4">
-                <a href="https://www.cdc.gov/healthyweight/index.html" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link"></a>
-                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                    <div id="native-lang-toggle" class="flex items-center">
-                        <div class="flex rounded-lg border border-gray-300 p-0.5">
-                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                        </div>
-                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                        </button>
-                    </div>
-                    <div id="google-lang-toggle" class="hidden items-center">
-                        <div id="google_translate_element"></div>
-                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-violet-600 hover:underline">Back</button>
+                <a href="https://www.cdc.gov/healthyweight/index.html" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full CDC Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -96,53 +52,53 @@
         <section id="intro" class="py-16 md:py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2">Finding Your Healthy Weight</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p">Achieving and maintaining a healthy weight is a journey, not a destination. It's about finding a balance that helps you feel your best and reduces your risk for chronic diseases. Let's start by understanding where you are today.</p>
                 </div>
                 
                 <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
-                    <h3 class="text-2xl font-bold text-center text-slate-800" data-translate="bmi_title"></h3>
+                    <h3 class="text-2xl font-bold text-center text-slate-800" data-translate="bmi_title">Body Mass Index (BMI) Calculator</h3>
                     <div class="grid md:grid-cols-2 gap-8 items-center mt-6">
                         <!-- Calculator Inputs -->
                         <div>
                             <div class="flex justify-center mb-4 bg-slate-100 rounded-lg p-1">
-                                <button id="imperial-btn" class="unit-toggle-btn active w-1/2 py-1 rounded-md" data-translate="imperial_btn"></button>
-                                <button id="metric-btn" class="unit-toggle-btn w-1/2 py-1 rounded-md" data-translate="metric_btn"></button>
+                                <button id="imperial-btn" class="unit-toggle-btn active w-1/2 py-1 rounded-md" data-translate="imperial_btn">Imperial (lbs, in)</button>
+                                <button id="metric-btn" class="unit-toggle-btn w-1/2 py-1 rounded-md" data-translate="metric_btn">Metric (kg, cm)</button>
                             </div>
                             <div id="imperial-inputs">
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="font-semibold text-slate-600" data-translate="height_ft_label"></label>
+                                        <label class="font-semibold text-slate-600" data-translate="height_ft_label">Height (ft)</label>
                                         <input type="number" id="height-ft" class="mt-1 block w-full p-2 border border-slate-300 rounded-md">
                                     </div>
                                     <div>
-                                        <label class="font-semibold text-slate-600" data-translate="height_in_label"></label>
+                                        <label class="font-semibold text-slate-600" data-translate="height_in_label">Height (in)</label>
                                         <input type="number" id="height-in" class="mt-1 block w-full p-2 border border-slate-300 rounded-md">
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <label class="font-semibold text-slate-600" data-translate="weight_lbs_label"></label>
+                                    <label class="font-semibold text-slate-600" data-translate="weight_lbs_label">Weight (lbs)</label>
                                     <input type="number" id="weight-lbs" class="mt-1 block w-full p-2 border border-slate-300 rounded-md">
                                 </div>
                             </div>
                             <div id="metric-inputs" class="hidden">
                                 <div>
-                                    <label class="font-semibold text-slate-600" data-translate="height_cm_label"></label>
+                                    <label class="font-semibold text-slate-600" data-translate="height_cm_label">Height (cm)</label>
                                     <input type="number" id="height-cm" class="mt-1 block w-full p-2 border border-slate-300 rounded-md">
                                 </div>
                                 <div class="mt-4">
-                                    <label class="font-semibold text-slate-600" data-translate="weight_kg_label"></label>
+                                    <label class="font-semibold text-slate-600" data-translate="weight_kg_label">Weight (kg)</label>
                                     <input type="number" id="weight-kg" class="mt-1 block w-full p-2 border border-slate-300 rounded-md">
                                 </div>
                             </div>
-                            <button id="calculate-bmi-btn" class="mt-6 w-full bg-violet-600 text-white font-bold py-3 rounded-lg hover:bg-violet-700 transition" data-translate="calculate_btn"></button>
+                            <button id="calculate-bmi-btn" class="mt-6 w-full bg-violet-600 text-white font-bold py-3 rounded-lg hover:bg-violet-700 transition" data-translate="calculate_btn">Calculate BMI</button>
                         </div>
                         <!-- Calculator Results -->
                         <div id="bmi-result-display" class="bg-slate-50 p-6 rounded-lg min-h-[250px] flex flex-col items-center justify-center text-center">
-                           <p class="text-slate-500" data-translate="bmi_result_p"></p>
+                           <p class="text-slate-500" data-translate="bmi_result_p">Your results will appear here.</p>
                         </div>
                     </div>
-                     <p class="text-xs text-slate-500 mt-4 text-center" data-translate="bmi_disclaimer"></p>
+                     <p class="text-xs text-slate-500 mt-4 text-center" data-translate="bmi_disclaimer">Note: BMI is a screening tool and doesn't account for factors like body composition. Talk to your doctor to better understand your results.</p>
                 </div>
             </div>
         </section>
@@ -151,29 +107,29 @@
         <section id="benefits" class="py-16 md:py-24 bg-violet-100">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="benefits_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="benefits_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="benefits_h2">The Benefits of a Healthy Weight</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="benefits_p">Even a small amount of weight loss (5-10% of your body weight) can lead to big health improvements. It's about feeling better and reducing your risk for many chronic diseases.</p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="bg-white p-6 rounded-xl shadow-lg text-center">
                         <div class="text-5xl">❤️</div>
-                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit1_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="benefit1_p"></p>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit1_title">Lower Disease Risk</h3>
+                        <p class="mt-2 text-slate-600" data-translate="benefit1_p">Reduces your risk for high blood pressure, type 2 diabetes, heart disease, and stroke.</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg text-center">
                         <div class="text-5xl">⚡️</div>
-                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit2_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="benefit2_p"></p>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit2_title">More Energy</h3>
+                        <p class="mt-2 text-slate-600" data-translate="benefit2_p">Carrying less excess weight means your body uses energy more efficiently, helping you feel less tired.</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg text-center">
                         <div class="text-5xl">😴</div>
-                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit3_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="benefit3_p"></p>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit3_title">Better Sleep</h3>
+                        <p class="mt-2 text-slate-600" data-translate="benefit3_p">Losing weight can improve sleep quality and reduce problems like sleep apnea.</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg text-center">
                         <div class="text-5xl">😊</div>
-                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit4_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="benefit4_p"></p>
+                        <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="benefit4_title">Improved Mood</h3>
+                        <p class="mt-2 text-slate-600" data-translate="benefit4_p">Physical activity and a healthy diet can boost your mood and self-esteem.</p>
                     </div>
                 </div>
             </div>
@@ -183,38 +139,36 @@
         <section id="action-plan" class="py-16 md:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="plan_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="plan_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="plan_h2">Your Healthy Habits Plan</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="plan_p">Weight management is about creating a healthy pattern of eating and physical activity that you can stick with for life. Focus on balance and making small, sustainable changes.</p>
                 </div>
                 <div class="grid lg:grid-cols-3 gap-8">
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
                         <div class="text-6xl">🥗</div>
-                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="plan1_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="plan1_p"></p>
+                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="plan1_title">Eat a Balanced Diet</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan1_p">Focus on nutrient-dense foods.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-start"><span class="text-xl mr-3">🍎</span> <span data-translate="plan1_li1"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🌾</span> <span data-translate="plan1_li2"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">💧</span> <span data-translate="plan1_li3"></span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🍎</span> <span data-translate="plan1_li1">Fill half your plate with fruits and vegetables.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🌾</span> <span data-translate="plan1_li2">Choose whole grains over refined grains.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">💧</span> <span data-translate="plan1_li3">Drink plenty of water instead of sugary drinks.</span></li>
                         </ul>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
-                        <div class="text-6xl">🏃‍♀️</div>
-                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="plan2_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="plan2_p"></p>
+                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="plan2_title">Move Your Body Regularly</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan2_p">Find activities you enjoy.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-start"><span class="text-xl mr-3">🎯</span> <span data-translate="plan2_li1"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">💪</span> <span data-translate="plan2_li2"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🚶</span> <span data-translate="plan2_li3"></span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🎯</span> <span data-translate="plan2_li1">Aim for 150 minutes of moderate activity per week.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">💪</span> <span data-translate="plan2_li2">Add muscle-strengthening activities 2 days a week.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🚶</span> <span data-translate="plan2_li3">Reduce sitting time by taking short activity breaks.</span></li>
                         </ul>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
-                        <div class="text-6xl">🧘</div>
-                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="plan3_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="plan3_p"></p>
+                        <h3 class="font-bold text-2xl text-violet-600 mt-4" data-translate="plan3_title">Build Healthy Habits</h3>
+                        <p class="mt-2 text-slate-600" data-translate="plan3_p">Consistency is the key to success.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-start"><span class="text-xl mr-3">📝</span> <span data-translate="plan3_li1"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">😴</span> <span data-translate="plan3_li2"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🤝</span> <span data-translate="plan3_li3"></span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">📝</span> <span data-translate="plan3_li1">Set realistic, specific goals for yourself.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🧘</span> <span data-translate="plan3_li2">Manage stress and get 7-9 hours of sleep per night.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🤝</span> <span data-translate="plan3_li3">Seek support from friends, family, or a healthcare professional.</span></li>
                         </ul>
                     </div>
                 </div>
@@ -225,26 +179,14 @@
 
     <footer class="bg-slate-800 text-slate-300">
         <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p data-translate="footer_p1"></p>
-            <a href="https://www.cdc.gov/healthyweight/index.html" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link"></a>
-            <p class="mt-4 text-xs" data-translate="footer_p2"></p>
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the Centers for Disease Control and Prevention (CDC).</p>
+            <a href="https://www.cdc.gov/healthyweight/index.html" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link">
+                Go to the Full CDC Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from the CDC.</p>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const translations = {
@@ -354,19 +296,10 @@
                 }
             };
 
-            let currentLanguage = 'en';
+            const languageSelector = document.getElementById('language-selector');
             const translatableElements = document.querySelectorAll('[data-translate]');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
 
-            function changeLanguage(language) {
-                currentLanguage = language;
-                document.documentElement.lang = language;
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-                document.getElementById('lang-es').classList.toggle('active', language === 'es');
-
+            function translatePage(language) {
                 translatableElements.forEach(el => {
                     const key = el.dataset.translate;
                     if (translations[language] && translations[language][key]) {
@@ -374,21 +307,9 @@
                     }
                 });
             }
-            
-            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
 
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                changeLanguage(currentLanguage);
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
             });
 
             // BMI Calculator Logic
@@ -434,7 +355,7 @@
                     }
                 }
 
-                const lang = currentLanguage;
+                const lang = languageSelector.value;
                 let category = '';
                 let colorClass = '';
 
@@ -461,9 +382,6 @@
                     resultDisplay.innerHTML = `<p class="text-slate-500" data-translate="bmi_result_p">${translations[lang].bmi_result_p}</p>`;
                 }
             });
-
-            // Initial Load
-            changeLanguage('en');
         });
     </script>
 </body>

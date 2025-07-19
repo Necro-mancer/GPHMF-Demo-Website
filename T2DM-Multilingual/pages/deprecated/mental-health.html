@@ -23,45 +23,6 @@
         }
         .lang-btn { transition: background-color 0.2s, color 0.2s; }
         .lang-btn.active { background-color: #0284c7; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #a78bfa !important; /* violet-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #7c3aed !important; /* violet-600 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #f5f3ff !important; /* violet-50 */
-            color: #8b5cf6 !important; /* violet-500 */
-        }
     </style>
 </head>
 <body class="text-slate-800">
@@ -70,18 +31,10 @@
         <div class="container mx-auto px-4 flex items-center justify-between py-2">
             <h2 class="text-xl font-bold text-slate-800" data-translate="header_title"></h2>
              <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                <div id="native-lang-toggle" class="flex items-center">
-                    <div class="flex rounded-lg border border-gray-300 p-0.5">
-                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                    </div>
-                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                    </button>
-                </div>
-                <div id="google-lang-toggle" class="hidden items-center">
-                    <div id="google_translate_element"></div>
-                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-violet-600 hover:underline">Back</button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 9a9 9 0 019-9m-9 9a9 9 0 00-9 9" /></svg>
+                <div class="flex rounded-lg border border-gray-300 p-0.5">
+                    <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                    <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
                 </div>
             </div>
         </div>
@@ -127,20 +80,6 @@
         </footer>
     </div>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const translations = {
@@ -198,10 +137,6 @@
 
         let currentLanguage = 'en';
         const copingGrid = document.getElementById('coping-grid');
-        const nativeLangToggle = document.getElementById('native-lang-toggle');
-        const googleLangToggle = document.getElementById('google-lang-toggle');
-        const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-        const backToNativeBtn = document.getElementById('back-to-native');
 
         function renderContent() {
             const t = translations[currentLanguage];
@@ -258,20 +193,6 @@
         document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
         document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
         
-        showGoogleTranslateBtn.addEventListener('click', () => {
-            nativeLangToggle.classList.add('hidden');
-            googleLangToggle.classList.remove('hidden');
-            googleLangToggle.classList.add('flex');
-        });
-
-        backToNativeBtn.addEventListener('click', () => {
-            nativeLangToggle.classList.remove('hidden');
-            googleLangToggle.classList.add('hidden');
-            googleLangToggle.classList.remove('flex');
-            // Revert to the last native language to clear Google's changes
-            changeLanguage(currentLanguage);
-        });
-
         changeLanguage('en'); // Initial load
     });
     </script>

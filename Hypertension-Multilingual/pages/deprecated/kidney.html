@@ -25,47 +25,6 @@
 
         #cycle-diagram-svg path { transition: fill 0.4s ease; }
         #cycle-text { transition: opacity 0.4s ease; }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #0284c7; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #38bdf8 !important; /* sky-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #0369a1 !important; /* sky-700 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #f0f9ff !important; /* sky-50 */
-            color: #0284c7 !important; /* sky-600 */
-        }
     </style>
 </head>
 <body class="bg-sky-50">
@@ -73,23 +32,20 @@
     <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                <span class="text-blue-600">💧</span> <span data-translate="header_title"></span>
+                <span class="text-blue-600">💧</span> <span data-translate="header_title">Your Kidneys & Blood Pressure</span>
             </h1>
             <div class="flex items-center gap-4">
-                <a href="https://www.niddk.nih.gov/health-information/kidney-disease/high-blood-pressure" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link"></a>
-                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                    <div id="native-lang-toggle" class="flex items-center">
-                        <div class="flex rounded-lg border border-gray-300 p-0.5">
-                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                        </div>
-                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                        </button>
-                    </div>
-                    <div id="google-lang-toggle" class="hidden items-center">
-                        <div id="google_translate_element"></div>
-                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline">Back</button>
+                <a href="https://www.niddk.nih.gov/health-information/kidney-disease/high-blood-pressure" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full NIDDK Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -101,8 +57,8 @@
         <section id="what-is-it" class="py-16 md:py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="cycle_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="cycle_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="cycle_h2">The Vicious Cycle of High Blood Pressure and Kidney Disease</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="cycle_p">Your kidneys and blood pressure have a close relationship. High blood pressure can damage your kidneys, and damaged kidneys can make your blood pressure worse. Click the buttons to see how this cycle works.</p>
                 </div>
                 
                 <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
@@ -112,11 +68,11 @@
                             <svg id="cycle-diagram-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                                 <g id="bp-group">
                                     <path fill="#e2e8f0" d="M38.1,-53.9C51.5,-49.2,65.9,-43.3,73.5,-32.4C81.1,-21.5,81.9,-5.6,76.4,7.8C70.9,21.1,59.1,31.9,47.1,42.5C35.1,53.1,22.9,63.5,8.8,67.2C-5.3,70.9,-21.3,67.9,-34.5,60.1C-47.7,52.3,-58.1,39.7,-64.8,25.2C-71.5,10.7,-74.5,-5.6,-69.5,-19.6C-64.5,-33.6,-51.5,-45.3,-37.8,-50.7C-24.1,-56.1,-9.7,-55.2,3.2,-56.3C16.1,-57.4,32.2,-60.5,38.1,-53.9Z" transform="translate(100 55)" />
-                                    <text x="100" y="60" font-family="Inter, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#1e293b" data-translate="cycle_bp_label"></text>
+                                    <text x="100" y="60" font-family="Inter, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#1e293b" data-translate="cycle_bp_label">High Blood Pressure</text>
                                 </g>
                                 <g id="kidney-group">
                                     <path fill="#e2e8f0" d="M40.1,-56.9C51.8,-49.9,61,-40.1,67.8,-28.3C74.6,-16.5,79,1.3,74.5,16.5C70,31.7,56.6,44.3,42.3,53.4C28,62.5,12.8,68.1,-2.5,69.5C-17.8,70.9,-35.7,68.1,-48.5,58.8C-61.4,49.5,-69.3,33.7,-72.5,17.1C-75.7,0.5,-74.2,-16.9,-65.7,-30.3C-57.2,-43.7,-41.7,-53.1,-27.1,-59.1C-12.5,-65.1,--2.8,-67.7,8.6,-66.1C20,-64.5,30.1,-63.9,40.1,-56.9Z" transform="translate(100 145)" />
-                                    <text x="100" y="150" font-family="Inter, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#1e293b" data-translate="cycle_kidney_label"></text>
+                                    <text x="100" y="150" font-family="Inter, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#1e293b" data-translate="cycle_kidney_label">Kidney Damage</text>
                                 </g>
                                 <path d="M 100 85 V 115" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrowhead)"/>
                                 <path d="M 130 130 A 30 30 0 0 1 130 70" stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
@@ -129,8 +85,8 @@
                                 <!-- JS will populate this -->
                             </div>
                             <div class="flex justify-center md:justify-start space-x-4 mt-4">
-                                <button id="bp-to-kidney-btn" class="font-semibold py-2 px-4 bg-blue-100 text-blue-700 rounded-lg shadow-sm hover:bg-blue-200 transition" data-translate="cycle_btn1"></button>
-                                <button id="kidney-to-bp-btn" class="font-semibold py-2 px-4 bg-blue-100 text-blue-700 rounded-lg shadow-sm hover:bg-blue-200 transition" data-translate="cycle_btn2"></button>
+                                <button id="bp-to-kidney-btn" class="font-semibold py-2 px-4 bg-blue-100 text-blue-700 rounded-lg shadow-sm hover:bg-blue-200 transition" data-translate="cycle_btn1">How BP Hurts Kidneys</button>
+                                <button id="kidney-to-bp-btn" class="font-semibold py-2 px-4 bg-blue-100 text-blue-700 rounded-lg shadow-sm hover:bg-blue-200 transition" data-translate="cycle_btn2">How Kidneys Raise BP</button>
                             </div>
                         </div>
                     </div>
@@ -142,25 +98,25 @@
         <section id="testing" class="py-16 md:py-24 bg-sky-100">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="testing_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="testing_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="testing_h2">How Do You Know If Your Kidneys Are Healthy?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="testing_p">Kidney disease, like high blood pressure, is often silent in its early stages. Simple tests ordered by your doctor can check your kidney health. Click below to learn about the two key tests.</p>
                 </div>
                 
                 <div class="grid lg:grid-cols-2 gap-8 items-center">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <button class="test-btn bg-white p-6 rounded-xl shadow-lg text-center" data-test="acr">
                             <div class="text-5xl">💧</div>
-                            <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="testing_urine_title"></h3>
-                            <p class="text-sm text-slate-500" data-translate="testing_urine_p"></p>
+                            <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="testing_urine_title">Urine Test (ACR)</h3>
+                            <p class="text-sm text-slate-500" data-translate="testing_urine_p">Checks for protein in your urine.</p>
                         </button>
                         <button class="test-btn bg-white p-6 rounded-xl shadow-lg text-center" data-test="gfr">
                             <div class="text-5xl">🩸</div>
-                            <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="testing_blood_title"></h3>
-                            <p class="text-sm text-slate-500" data-translate="testing_blood_p"></p>
+                            <h3 class="mt-2 text-xl font-bold text-slate-700" data-translate="testing_blood_title">Blood Test (eGFR)</h3>
+                            <p class="text-sm text-slate-500" data-translate="testing_blood_p">Measures how well your kidneys filter.</p>
                         </button>
                     </div>
                     <div id="test-display" class="bg-white p-8 rounded-2xl shadow-xl min-h-[200px] flex items-center justify-center">
-                        <p class="text-slate-500 text-center" data-translate="testing_display_p"></p>
+                        <p class="text-slate-500 text-center" data-translate="testing_display_p">Click a test on the left to see details.</p>
                     </div>
                 </div>
             </div>
@@ -170,35 +126,35 @@
         <section id="protection-plan" class="py-16 md:py-24 bg-slate-800 text-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold" data-translate="plan_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300" data-translate="plan_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold" data-translate="plan_h2">Your Kidney Protection Plan</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300" data-translate="plan_p">The best way to protect your kidneys is to control your blood pressure. This is a team effort between you and your doctor, focusing on these key actions.</p>
                 </div>
                 <div class="grid lg:grid-cols-3 gap-8">
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col1_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col1_p"></p>
+                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col1_title">1. Control Your Blood Pressure</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col1_p">Reaching your blood pressure goal is the most important step you can take.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-center"><span class="text-2xl mr-3">🎯</span> <span data-translate="plan_col1_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">💊</span> <span data-translate="plan_col1_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🏠</span> <span data-translate="plan_col1_li3"></span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🎯</span> <span data-translate="plan_col1_li1">Aim for your goal (often below 130/80 mmHg).</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">💊</span> <span data-translate="plan_col1_li2">Take medications as prescribed.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🏠</span> <span data-translate="plan_col1_li3">Monitor your BP at home.</span></li>
                         </ul>
                     </div>
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col2_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col2_p"></p>
+                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col2_title">2. Choose Kidney-Friendly Medicines</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col2_p">Certain blood pressure drugs offer extra protection for the kidneys.</p>
                         <ul class="mt-4 text-left space-y-2">
-                             <li class="flex items-center"><span class="text-2xl mr-3">🌿</span> <span data-translate="plan_col2_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🛡️</span> <span data-translate="plan_col2_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">⚠️</span> <span data-translate="plan_col2_li3"></span></li>
+                             <li class="flex items-center"><span class="text-2xl mr-3">🌿</span> <span data-translate="plan_col2_li1">Ask about ACE inhibitors.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🛡️</span> <span data-translate="plan_col2_li2">Ask about ARBs.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">⚠️</span> <span data-translate="plan_col2_li3">Avoid NSAIDs like ibuprofen if you have kidney disease.</span></li>
                         </ul>
                     </div>
                     <div class="bg-slate-700 p-8 rounded-xl shadow-lg text-center">
-                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col3_title"></h3>
-                        <p class="mt-2 text-slate-300" data-translate="plan_col3_p"></p>
+                        <h3 class="font-bold text-2xl text-sky-400" data-translate="plan_col3_title">3. Embrace a Healthy Lifestyle</h3>
+                        <p class="mt-2 text-slate-300" data-translate="plan_col3_p">Your daily habits support both your blood pressure and your kidney health.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-center"><span class="text-2xl mr-3">🧂</span> <span data-translate="plan_col3_li1"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🏃‍♀️</span> <span data-translate="plan_col3_li2"></span></li>
-                            <li class="flex items-center"><span class="text-2xl mr-3">🚭</span> <span data-translate="plan_col3_li3"></span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🧂</span> <span data-translate="plan_col3_li1">Reduce sodium intake.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🏃‍♀️</span> <span data-translate="plan_col3_li2">Be physically active.</span></li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🚭</span> <span data-translate="plan_col3_li3">Quit smoking.</span></li>
                         </ul>
                     </div>
                 </div>
@@ -209,26 +165,14 @@
 
     <footer class="bg-slate-900 text-slate-400">
         <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p data-translate="footer_p1"></p>
-            <a href="https://www.niddk.nih.gov/health-information/kidney-disease/high-blood-pressure" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-500 hover:text-blue-400 font-semibold transition" data-translate="footer_link"></a>
-            <p class="mt-4 text-xs" data-translate="footer_p2"></p>
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK).</p>
+            <a href="https://www.niddk.nih.gov/health-information/kidney-disease/high-blood-pressure" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-500 hover:text-blue-400 font-semibold transition" data-translate="footer_link">
+                Go to the Full NIDDK Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from NIDDK.</p>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
              const translations = {
@@ -328,33 +272,21 @@
                 }
             };
 
-            let currentLanguage = 'en';
+            const languageSelector = document.getElementById('language-selector');
             const translatableElements = document.querySelectorAll('[data-translate]');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
 
-            function changeLanguage(language) {
-                currentLanguage = language;
-                document.documentElement.lang = language;
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-                document.getElementById('lang-es').classList.toggle('active', language === 'es');
-
+            function translatePage(language) {
                 translatableElements.forEach(el => {
                     const key = el.dataset.translate;
                     if (translations[language] && translations[language][key]) {
                         el.innerHTML = translations[language][key];
                     }
                 });
-                
+                // Update interactive components
                 const activeTestBtn = document.querySelector('.test-btn.active');
                 if (activeTestBtn) {
                     updateTestDisplay(activeTestBtn.dataset.test, language);
-                } else {
-                    updateTestDisplay('default', language);
                 }
-
                  const activeCycleExp = document.querySelector('#cycle-explanation h3');
                  if(activeCycleExp) {
                      const currentTitle = activeCycleExp.innerHTML;
@@ -369,21 +301,9 @@
                      showCycleExplanation('default', language);
                  }
             }
-            
-            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
 
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                changeLanguage(currentLanguage);
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
             });
 
             // Vicious Cycle Infographic
@@ -409,26 +329,26 @@
             }
 
             bpToKidneyBtn.addEventListener('click', () => {
-                showCycleExplanation('bpToKidney', currentLanguage);
+                const currentLang = languageSelector.value;
+                showCycleExplanation('bpToKidney', currentLang);
                 bpGroup.querySelector('path').style.fill = '#f87171'; // red-400
                 kidneyGroup.querySelector('path').style.fill = '#e2e8f0'; // slate-200
             });
 
             kidneyToBpBtn.addEventListener('click', () => {
-                showCycleExplanation('kidneyToBp', currentLanguage);
+                const currentLang = languageSelector.value;
+                showCycleExplanation('kidneyToBp', currentLang);
                 kidneyGroup.querySelector('path').style.fill = '#f87171'; // red-400
                 bpGroup.querySelector('path').style.fill = '#e2e8f0'; // slate-200
             });
+
+            showCycleExplanation('default', 'en');
 
             // Testing Logic
             const testButtons = document.querySelectorAll('.test-btn');
             const testDisplay = document.getElementById('test-display');
             
             function updateTestDisplay(key, lang = 'en') {
-                if (key === 'default') {
-                    testDisplay.innerHTML = `<p class="text-slate-500 text-center">${translations[lang]['testing_display_p']}</p>`;
-                    return;
-                }
                 const data = {
                     title: translations[lang][`testing_${key}_title`],
                     text: translations[lang][`testing_${key}_text`]
@@ -446,12 +366,10 @@
                     testButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     const key = button.dataset.test;
-                    updateTestDisplay(key, currentLanguage);
+                    const currentLang = languageSelector.value;
+                    updateTestDisplay(key, currentLang);
                 });
             });
-
-            // Initial Load
-            changeLanguage('en');
         });
     </script>
 </body>

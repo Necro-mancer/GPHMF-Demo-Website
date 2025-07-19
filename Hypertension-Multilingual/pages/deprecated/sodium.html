@@ -29,47 +29,6 @@
             box-shadow: 0 10px 20px -5px var(--tw-shadow-color);
             border-color: var(--tw-shadow-color);
         }
-        .lang-btn { transition: background-color 0.2s, color 0.2s; }
-        .lang-btn.active { background-color: #2563eb; color: white; }
-
-        /* --- Google Translate Widget Styles --- */
-        .goog-te-banner-frame.skiptranslate { display: none !important; } 
-        body { top: 0px !important; }
-
-        .goog-te-gadget-simple {
-            background-color: white !important;
-            border: 1px solid #60a5fa !important; /* blue-400 */
-            border-radius: 0.375rem !important;
-            padding: 0.25rem 0.5rem !important;
-            display: inline-block;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-        }
-        
-        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #1d4ed8 !important; /* blue-700 */
-        }
-        
-        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            display: none;
-        }
-
-        .goog-te-menu-frame {
-            border-radius: 0.5rem !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-            border: 1px solid #e2e8f0 !important;
-        }
-        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
-            font-family: 'Inter', sans-serif !important;
-            background-color: white !important;
-            color: #334155 !important; /* slate-700 */
-            padding: 0.5rem 1rem !important;
-        }
-        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
-            background-color: #eff6ff !important; /* blue-50 */
-            color: #2563eb !important; /* blue-600 */
-        }
     </style>
 </head>
 <body class="bg-blue-50">
@@ -77,23 +36,20 @@
     <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                <span class="text-blue-600">🧂</span> <span data-translate="header_title"></span>
+                <span class="text-blue-600">🧂</span> <span data-translate="header_title">Shaking the Salt Habit</span>
             </h1>
             <div class="flex items-center gap-4">
-                <a href="https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/shaking-the-salt-habit-to-lower-high-blood-pressure" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link"></a>
-                <div id="lang-selector" class="flex items-center pl-4 shrink-0">
-                    <div id="native-lang-toggle" class="flex items-center">
-                        <div class="flex rounded-lg border border-gray-300 p-0.5">
-                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
-                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
-                        </div>
-                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
-                        </button>
-                    </div>
-                    <div id="google-lang-toggle" class="hidden items-center">
-                        <div id="google_translate_element"></div>
-                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-blue-600 hover:underline">Back</button>
+                <a href="https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/shaking-the-salt-habit-to-lower-high-blood-pressure" target="_blank" rel="noopener noreferrer" class="hidden sm:block text-sm font-semibold text-blue-600 hover:text-blue-800 transition" data-translate="full_guide_link">
+                    Full AHA Guide →
+                </a>
+                <div class="relative">
+                    <div class="text-right text-xs text-slate-500 mb-1">¿No entiende inglés? Lo tenemos cubierto.</div>
+                    <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg p-1 pr-2 shadow-sm">
+                        <span class="text-xl">🌐</span>
+                        <select id="language-selector" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:ring-0 cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -105,15 +61,15 @@
         <section id="sodium-intro" class="py-16 md:py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="intro_h2">Why Does Sodium Matter?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="intro_p">Eating too much sodium (salt) can cause your body to hold onto extra water, which increases your blood pressure. The American Heart Association recommends an ideal limit of 1,500 mg of sodium per day, but most people consume far more.</p>
                 </div>
                 
                 <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <!-- Visual Diagram -->
                         <div class="relative w-full max-w-xs mx-auto text-center">
-                            <h3 class="font-bold text-lg text-slate-700" data-translate="shaker_title"></h3>
+                            <h3 class="font-bold text-lg text-slate-700" data-translate="shaker_title">Daily Sodium Intake</h3>
                             <div class="relative w-32 h-48 mx-auto mt-2 border-4 border-slate-300 rounded-t-lg rounded-b-md bg-slate-100">
                                 <div class="absolute bottom-0 left-0 w-full bg-blue-300" id="salt-shaker-fill" style="height: 100%;"></div>
                                 <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-6 bg-slate-400 rounded-t-md border-2 border-slate-500"></div>
@@ -122,12 +78,12 @@
                         </div>
                         <!-- Explanations & Controls -->
                         <div class="text-center md:text-left">
-                            <h3 class="text-xl font-bold text-slate-800" data-translate="compare_title"></h3>
-                            <p class="mt-2 text-slate-600" data-translate="compare_p"></p>
+                            <h3 class="text-xl font-bold text-slate-800" data-translate="compare_title">Compare Your Intake</h3>
+                            <p class="mt-2 text-slate-600" data-translate="compare_p">Click the buttons to see how the average daily intake compares to the recommended limits.</p>
                             <div class="flex flex-col items-center md:items-start space-y-3 mt-4">
-                                <button class="sodium-btn font-semibold py-2 px-4 w-full md:w-auto bg-blue-500 text-white rounded-lg shadow-sm" data-amount="3400" data-key="avg_btn"></button>
-                                <button class="sodium-btn font-semibold py-2 px-4 w-full md:w-auto bg-yellow-500 text-white rounded-lg shadow-sm" data-amount="2300" data-key="limit_btn"></button>
-                                <button class="sodium-btn font-semibold py-2 px-4 w-full md:w-auto bg-green-500 text-white rounded-lg shadow-sm" data-amount="1500" data-key="ideal_btn"></button>
+                                <button class="sodium-btn font-semibold py-2 px-4 w-full md:w-auto bg-blue-500 text-white rounded-lg shadow-sm" data-amount="3400" data-key="avg_btn">Average American Intake</button>
+                                <button class="sodium-btn font-semibold py-2 px-4 w-full md:w-auto bg-yellow-500 text-white rounded-lg shadow-sm" data-amount="2300" data-key="limit_btn">Recommended Limit</button>
+                                <button class="sodium-btn font-semibold py-2 px-4 w-full md:w-auto bg-green-500 text-white rounded-lg shadow-sm" data-amount="1500" data-key="ideal_btn">Ideal Limit for Most Adults</button>
                             </div>
                         </div>
                     </div>
@@ -139,38 +95,38 @@
         <section id="salty-six" class="py-16 md:py-24 bg-blue-100">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="salty6_h2"></h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="salty6_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="salty6_h2">Watch Out for the "Salty Six"</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="salty6_p">More than 70% of the sodium we eat comes from packaged, processed, and restaurant foods. These six common food types are the biggest culprits. Click each one to learn more.</p>
                 </div>
                 
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
                     <div class="salty-six-card bg-white p-4 rounded-xl shadow-lg text-center border-4 border-transparent" data-salty="bread">
                         <div class="text-5xl">🍞</div>
-                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_bread"></h3>
+                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_bread">Breads & Rolls</h3>
                     </div>
                     <div class="salty-six-card bg-white p-4 rounded-xl shadow-lg text-center border-4 border-transparent" data-salty="pizza">
                         <div class="text-5xl">🍕</div>
-                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_pizza"></h3>
+                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_pizza">Pizza</h3>
                     </div>
                     <div class="salty-six-card bg-white p-4 rounded-xl shadow-lg text-center border-4 border-transparent" data-salty="sandwiches">
                         <div class="text-5xl">🥪</div>
-                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_sandwiches"></h3>
+                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_sandwiches">Sandwiches</h3>
                     </div>
                     <div class="salty-six-card bg-white p-4 rounded-xl shadow-lg text-center border-4 border-transparent" data-salty="meats">
                         <div class="text-5xl">🥓</div>
-                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_meats"></h3>
+                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_meats">Cold Cuts & Cured Meats</h3>
                     </div>
                     <div class="salty-six-card bg-white p-4 rounded-xl shadow-lg text-center border-4 border-transparent" data-salty="soup">
                         <div class="text-5xl">🥣</div>
-                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_soup"></h3>
+                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_soup">Soup</h3>
                     </div>
                     <div class="salty-six-card bg-white p-4 rounded-xl shadow-lg text-center border-4 border-transparent" data-salty="tacos">
                         <div class="text-5xl">🌮</div>
-                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_tacos"></h3>
+                        <h3 class="mt-2 font-bold text-slate-700" data-translate="salty6_tacos">Burritos & Tacos</h3>
                     </div>
                 </div>
                 <div id="salty-six-display" class="mt-8 bg-white p-6 rounded-2xl shadow-xl min-h-[100px] flex items-center justify-center max-w-3xl mx-auto">
-                     <p class="text-slate-500 text-center" data-translate="salty6_display_p"></p>
+                     <p class="text-slate-500 text-center" data-translate="salty6_display_p">Click an item above to see why it's a top source of sodium.</p>
                 </div>
             </div>
         </section>
@@ -179,38 +135,36 @@
         <section id="tips" class="py-16 md:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="tips_h2"></h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="tips_p"></p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800" data-translate="tips_h2">Your Action Plan for Cutting Sodium</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600" data-translate="tips_p">Small changes in your habits can lead to big reductions in your sodium intake. Here are three key areas to focus on.</p>
                 </div>
                 <div class="grid lg:grid-cols-3 gap-8">
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
                         <div class="text-6xl">🛒</div>
-                        <h3 class="font-bold text-2xl text-blue-600 mt-4" data-translate="tip1_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="tip1_p"></p>
+                        <h3 class="font-bold text-2xl text-blue-600 mt-4" data-translate="tip1_title">At the Grocery Store</h3>
+                        <p class="mt-2 text-slate-600" data-translate="tip1_p">Your smart choices start here.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-start"><span class="text-xl mr-3">🏷️</span> <span data-translate="tip1_li1"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🥕</span> <span data-translate="tip1_li2"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">💧</span> <span data-translate="tip1_li3"></span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🏷️</span> <span data-translate="tip1_li1">Read labels and choose items with a lower % Daily Value (DV) for sodium.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🥕</span> <span data-translate="tip1_li2">Buy fresh, frozen (no sauce), or no-salt-added canned vegetables.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">💧</span> <span data-translate="tip1_li3">Rinse canned foods like beans and tuna to wash away some of the sodium.</span></li>
                         </ul>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
-                        <div class="text-6xl">🍳</div>
-                        <h3 class="font-bold text-2xl text-blue-600 mt-4" data-translate="tip2_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="tip2_p"></p>
+                        <h3 class="font-bold text-2xl text-blue-600 mt-4" data-translate="tip2_title">In the Kitchen</h3>
+                        <p class="mt-2 text-slate-600" data-translate="tip2_p">Take control of what's in your food.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-start"><span class="text-xl mr-3">🌿</span> <span data-translate="tip2_li1"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🍋</span> <span data-translate="tip2_li2"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🥣</span> <span data-translate="tip2_li3"></span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🌿</span> <span data-translate="tip2_li1">Use herbs, spices, and salt-free seasoning blends instead of salt.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🍋</span> <span data-translate="tip2_li2">Add flavor with citrus juice, vinegar, garlic, or onions.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🥣</span> <span data-translate="tip2_li3">Make your own soups, sauces, and dressings to control the salt.</span></li>
                         </ul>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg text-center">
-                         <div class="text-6xl">🍽️</div>
-                        <h3 class="font-bold text-2xl text-blue-600 mt-4" data-translate="tip3_title"></h3>
-                        <p class="mt-2 text-slate-600" data-translate="tip3_p"></p>
+                        <h3 class="font-bold text-2xl text-blue-600 mt-4" data-translate="tip3_title">When Dining Out</h3>
+                        <p class="mt-2 text-slate-600" data-translate="tip3_p">You can still eat out smartly.</p>
                         <ul class="mt-4 text-left space-y-2">
-                            <li class="flex items-start"><span class="text-xl mr-3">🗣️</span> <span data-translate="tip3_li1"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🥗</span> <span data-translate="tip3_li2"></span></li>
-                            <li class="flex items-start"><span class="text-xl mr-3">🚫</span> <span data-translate="tip3_li3"></span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🗣️</span> <span data-translate="tip3_li1">Ask for your dish to be prepared without added salt.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🥗</span> <span data-translate="tip3_li2">Get sauces and dressings on the side so you can use less.</span></li>
+                            <li class="flex items-start"><span class="text-xl mr-3">🚫</span> <span data-translate="tip3_li3">Avoid foods described as pickled, cured, brined, or smoked.</span></li>
                         </ul>
                     </div>
                 </div>
@@ -221,26 +175,14 @@
 
     <footer class="bg-slate-800 text-slate-300">
         <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p data-translate="footer_p1"></p>
-            <a href="https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/shaking-the-salt-habit-to-lower-high-blood-pressure" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link"></a>
-            <p class="mt-4 text-xs" data-translate="footer_p2"></p>
+            <p data-translate="footer_p1">This guide provides a simplified overview. For complete information, please visit the American Heart Association.</p>
+            <a href="https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/shaking-the-salt-habit-to-lower-high-blood-pressure" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-blue-400 hover:text-blue-300 font-semibold transition" data-translate="footer_link">
+                Go to the Full AHA Guide →
+            </a>
+            <p class="mt-4 text-xs" data-translate="footer_p2">This content is for informational purposes only and not a substitute for professional medical advice.<br>&copy; 2024 Patient Education Initiative. Information sourced from the American Heart Association.</p>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Main Page Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
              const translations = {
@@ -340,19 +282,10 @@
                 }
             };
 
-            let currentLanguage = 'en';
+            const languageSelector = document.getElementById('language-selector');
             const translatableElements = document.querySelectorAll('[data-translate]');
-            const nativeLangToggle = document.getElementById('native-lang-toggle');
-            const googleLangToggle = document.getElementById('google-lang-toggle');
-            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
-            const backToNativeBtn = document.getElementById('back-to-native');
 
-            function changeLanguage(language) {
-                currentLanguage = language;
-                document.documentElement.lang = language;
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-                document.getElementById('lang-es').classList.toggle('active', language === 'es');
-
+            function translatePage(language) {
                 translatableElements.forEach(el => {
                     const key = el.dataset.translate;
                     if (translations[language] && translations[language][key]) {
@@ -362,31 +295,11 @@
                 const activeSaltyCard = document.querySelector('.salty-six-card.active');
                 if (activeSaltyCard) {
                     updateSaltySixDisplay(activeSaltyCard.dataset.salty, language);
-                } else {
-                    updateSaltySixDisplay('default', language);
                 }
-                
-                // Re-translate sodium buttons
-                const sodiumButtons = document.querySelectorAll('.sodium-btn');
-                 sodiumButtons.forEach(btn => {
-                    btn.innerHTML = translations[language][btn.dataset.key];
-                });
             }
 
-            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
-
-            showGoogleTranslateBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('flex');
-            });
-
-            backToNativeBtn.addEventListener('click', () => {
-                nativeLangToggle.classList.remove('hidden');
-                googleLangToggle.classList.add('hidden');
-                googleLangToggle.classList.remove('flex');
-                changeLanguage(currentLanguage);
+            languageSelector.addEventListener('change', (event) => {
+                translatePage(event.target.value);
             });
 
             // Sodium Shaker Logic
@@ -401,6 +314,12 @@
                     const percentage = (amount / maxIntake) * 100;
                     saltShakerFill.style.height = `${percentage}%`;
                     sodiumCounter.innerText = amount;
+                    
+                    const lang = languageSelector.value;
+                    const key = button.dataset.key;
+                    sodiumButtons.forEach(btn => {
+                        btn.innerHTML = translations[lang][btn.dataset.key];
+                    });
                 });
             });
 
@@ -409,32 +328,24 @@
             const saltySixDisplay = document.getElementById('salty-six-display');
 
             function updateSaltySixDisplay(key, lang = 'en') {
-                 if (key === 'default') {
-                    saltySixDisplay.innerHTML = `<p class="text-slate-500 text-center">${translations[lang]['salty6_display_p']}</p>`;
-                    return;
-                }
                 const text = translations[lang][`salty6_${key}_desc`];
                 saltySixDisplay.innerHTML = `<p class="text-slate-800 font-medium">${text}</p>`;
             }
 
             saltySixCards.forEach(card => {
                 card.addEventListener('click', () => {
-                    saltySixCards.forEach(c => {
-                        c.classList.remove('active');
-                        c.style.borderColor = 'transparent';
-                    });
+                    saltySixCards.forEach(c => c.classList.remove('active'));
                     card.classList.add('active');
                     const color = window.getComputedStyle(card).backgroundColor;
                     card.style.borderColor = color;
                     card.style.setProperty('--tw-shadow-color', color);
 
                     const key = card.dataset.salty;
-                    updateSaltySixDisplay(key, currentLanguage);
+                    const currentLang = languageSelector.value;
+                    updateSaltySixDisplay(key, currentLang);
                 });
             });
 
-            // Initial Load
-            changeLanguage('en');
         });
     </script>
 </body>
