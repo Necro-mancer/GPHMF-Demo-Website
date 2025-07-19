@@ -340,7 +340,12 @@
 
     <script type="text/javascript">
         function googleTranslateElementInit() {
-          new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+          // Initialize Google Translate with a curated list of the 30 most common languages.
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,pt,bn,ru,ja,pa,de,jv,fr,te,mr,tr,ko,vi,ta,ur,gu,fa,bho,pl,uk,ms,ml,sw,kn,or',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+          }, 'google_translate_element');
         }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
