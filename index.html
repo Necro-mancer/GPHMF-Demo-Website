@@ -13,62 +13,59 @@
             font-family: 'Inter', sans-serif;
             background-color: #f1f5f9; /* slate-100 */
         }
-        /* Basic styling for the Google Translate dropdown */
+        /* * Custom styles for the Google Translate widget to better match the page's theme.
+         * This makes the dropdown menu less intrusive and more visually consistent.
+        */
         .goog-te-gadget-simple {
-            background-color: white !important;
-            border-left: 1px solid #d1d5db !important;
-            border-top: 1px solid #d1d5db !important;
-            border-right: 1px solid #d1d5db !important;
-            border-bottom: 1px solid #d1d5db !important;
-            border-radius: 0.5rem !important;
-            padding: 0.5rem !important;
-            font-size: 1rem !important;
-            display: inline-block;
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: white;
+            padding: 0.25rem; /* p-1 */
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
         }
-        .goog-te-gadget-icon {
+        .goog-te-gadget-simple span {
+            color: #334155; /* slate-700 */
+        }
+        /* This removes the Google Translate branding text to keep the UI clean */
+        .goog-te-banner-frame.skiptranslate {
             display: none !important;
-        }
-        .goog-te-menu-value span {
-            color: #334155 !important; /* slate-700 */
-        }
-        /* Hide the default Google Translate banner */
-        body > .skiptranslate {
-            display: none;
-        }
+        } 
         body {
-            top: 0 !important; /* Override Google's default top positioning */
+            top: 0px !important; 
         }
     </style>
 </head>
 <body class="text-slate-700">
 
     <!-- Google Translate Widget Container -->
-    <div class="fixed top-4 right-4 z-50">
+    <!-- This div is positioned at the top-right of the page and will hold the language selector. -->
+    <div class="absolute top-4 right-4 z-10">
         <div id="google_translate_element"></div>
     </div>
+
 
     <!-- Main container to center content -->
     <div class="flex items-center justify-center h-screen">
         <div class="text-center p-4">
-            <!-- All text content that needs translation is here -->
             <h1 class="text-6xl md:text-8xl font-black text-slate-800 tracking-tighter">Oops!</h1>
             <p class="mt-4 text-lg md:text-2xl text-slate-600">You weren't supposed to see this page... yet.</p>
             <p class="mt-2 text-md text-slate-500">This corner of the universe is still under construction.</p>
         </div>
     </div>
 
-    <!-- Google Translate Script -->
+    <!-- Google Translate Scripts -->
+    <!-- These scripts are necessary to power the translation functionality. -->
     <script type="text/javascript">
+        // This function initializes the Google Translate widget when the page loads.
         function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en', // The original language of your page
-                // Included languages. You can add more language codes here.
-                includedLanguages: 'en,es,fr,de,zh-CN,ja,ar,ru,pt,hi', 
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
+          new google.translate.TranslateElement({
+            pageLanguage: 'en', // The original language of the page.
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE // Specifies a simple dropdown layout.
+          }, 'google_translate_element'); // The ID of the div where the widget will be rendered.
         }
     </script>
+    <!-- This script loads the main Google Translate API. The `cb` parameter calls our initialization function. -->
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
