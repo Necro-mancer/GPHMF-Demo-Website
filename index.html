@@ -61,6 +61,9 @@
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({
             pageLanguage: 'en', // The original language of the page.
+            // By adding includedLanguages, we can specify which languages appear in the dropdown.
+            // This expanded list includes ~22 of the most common world languages.
+            includedLanguages: 'en,es,fr,de,zh-CN,ja,ru,pt,ar,hi,it,ko,bn,ur,id,tr,vi,nl,pl,th,sv,el',
             layout: google.translate.TranslateElement.InlineLayout.SIMPLE // Specifies a simple dropdown layout.
           }, 'google_translate_element'); // The ID of the div where the widget will be rendered.
         }
