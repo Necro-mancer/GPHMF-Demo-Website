@@ -240,6 +240,10 @@
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({
             pageLanguage: 'en',
+            // Included languages: English, Spanish, Chinese (Simplified), Hindi, Arabic, French, Russian, Portuguese, 
+            // Bengali, German, Japanese, Indonesian, Turkish, Korean, Vietnamese, Italian, Polish, Dutch, Thai, 
+            // Greek, Swedish, Hebrew, Persian, Romanian, Ukrainian, Urdu, Swahili, Filipino, Malay, Hausa.
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
             layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
             autoDisplay: false
           }, 'google_translate_element');
