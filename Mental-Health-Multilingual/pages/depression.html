@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Depression: A Detailed Guide</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: This page is a deep-dive sub-page on Depression. It mirrors the successful structure of the Anxiety page for consistency. 1. An empathetic introduction defines depression. 2. An interactive tabbed section details specific types (Major Depression, Dysthymia, Postpartum, SAD) for focused exploration. 3. A "Symptoms at a Glance" section uses iconography to quickly differentiate symptom categories. 4. A new, prominent section on Suicide Risk provides critical information and resources. 5. A "Treatments" section uses content cards to explain different approaches clearly. 6. An interactive section on Antidepressants provides a deep-dive on medication classes. 7. An interactive bar chart visualizes prevalence data by age. 8. A final motivational section provides a message of hope. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Details of different depressive disorders. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs. -> Interaction: Click buttons to show/hide detailed descriptions. -> Justification: Allows users to compare complex information in a structured, non-linear way. -> Library/Method: Vanilla JS DOM manipulation.
+        2. Report Info: Details of antidepressant classes. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs/Buttons. -> Interaction: Click buttons to show detailed cards for each drug class. -> Justification: Breaks down complex medical information into digestible, user-selected chunks. -> Library/Method: Vanilla JS DOM manipulation.
+        3. Report Info: Prevalence rates of depression by age group. -> Goal: Inform/Compare. -> Viz: Vertical Bar Chart. -> Interaction: Hover for details, updates with language change. -> Justification: A clear way to compare statistical data across demographic categories. -> Library: Chart.js (Canvas).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        .tab-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-bottom: 3px solid transparent;
+            transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
+        }
+        .tab-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-bottom-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="types" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="types_title"></h3>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-2">
+                <div class="flex flex-wrap border-b border-slate-200">
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold active" data-tab="mdd" data-translate="tab_mdd"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="pdd" data-translate="tab_pdd"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="postpartum" data-translate="tab_postpartum"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="sad" data-translate="tab_sad"></button>
+                </div>
+                <div id="tab-content" class="p-6 md:p-8"></div>
+            </div>
+        </section>
+
+        <section id="symptoms" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="symptoms_title"></h3>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-teal-700" data-translate="symptoms_emotional_title"></h4>
+                    <ul class="space-y-2 text-slate-600 text-left" id="symptoms-emotional-list"></ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-teal-700" data-translate="symptoms_physical_title"></h4>
+                    <ul class="space-y-2 text-slate-600 text-left" id="symptoms-physical-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="suicide-risk" class="mb-16">
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-6 rounded-r-lg shadow-md">
+                <h3 class="font-bold text-2xl text-red-800 mb-2" data-translate="suicide_title"></h3>
+                <p class="mb-4" data-translate="suicide_subtitle"></p>
+                <h4 class="font-semibold mb-2" data-translate="suicide_warning_title"></h4>
+                <ul class="list-disc list-inside text-sm space-y-1 mb-4" id="suicide-warning-list"></ul>
+                <div class="bg-red-500 text-white text-center p-4 rounded-lg">
+                    <p class="font-bold" data-translate="suicide_action_text"></p>
+                    <a href="https://988lifeline.org/" target="_blank" class="font-bold underline">988lifeline.org</a>
+                    <p class="text-sm mt-2" data-translate="suicide_emergency_text"></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="treatments" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="treatments_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="treatments_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_therapy_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_therapy_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_meds_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_meds_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_support_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_support_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="antidepressants" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="meds_section_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="meds_section_subtitle"></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex flex-row md:flex-col md:w-1/4 flex-wrap justify-center md:justify-start">
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg active" data-med-class="ssri" data-translate="med_tab_ssri"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="snri" data-translate="med_tab_snri"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="tca" data-translate="med_tab_tca"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="atypical" data-translate="med_tab_atypical"></button>
+                </div>
+                <div class="md:w-3/4 bg-white p-6 md:p-8 rounded-xl shadow-md">
+                    <div id="med-content"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="prevalence" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="prevalence_title"></h3>
+                 <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="prevalence_subtitle"></p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <div class="chart-container">
+                    <canvas id="prevalenceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600 mb-8" data-translate="hope_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🌤️</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_1_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🌱</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_2_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🤝</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_3_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <a href="https://www.nimh.nih.gov/health/topics/depression" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors" data-translate="footer_link_text"></a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "Understanding Depression",
+                lang_back_button: "Back",
+                welcome_title: "A Deep Dive Into Depression",
+                welcome_subtitle: "Everyone feels sad sometimes, but depression is different. It's a medical condition that causes a persistent feeling of sadness and a loss of interest in activities once enjoyed. It can interfere with daily life, but it is treatable. This guide explains different types of depression, their symptoms, and paths to recovery.",
+                types_title: "Types of Depressive Disorders",
+                tab_mdd: "Major Depression",
+                tab_pdd: "Persistent Depression (Dysthymia)",
+                tab_postpartum: "Postpartum Depression",
+                tab_sad: "Seasonal Affective Disorder (SAD)",
+                symptoms_title: "Symptoms at a Glance",
+                symptoms_emotional_title: "Emotional & Cognitive",
+                symptoms_physical_title: "Physical & Behavioral",
+                suicide_title: "A Critical Note on Suicide Risk",
+                suicide_subtitle: "Thoughts of death or suicide are a serious symptom of depression and should not be ignored. It is a sign of extreme distress, not a character flaw. If you or someone you know is struggling, immediate help is available and can save a life.",
+                suicide_warning_title: "Warning Signs to Watch For:",
+                suicide_action_text: "If you are in crisis, call or text 988 immediately.",
+                suicide_emergency_text: "In a life-threatening emergency, always call 911.",
+                prevalence_title: "How Common Is Depression?",
+                prevalence_subtitle: "Depression is one of the most common mental disorders in the United States. The chart below shows the prevalence of major depressive episodes in the past year among U.S. adults, highlighting differences across age groups.",
+                treatments_title: "Paths to Feeling Better",
+                treatments_subtitle: "Recovery from depression is possible with effective treatment. The best approach is personalized and often involves a combination of the following.",
+                treatment_therapy_title: "Psychotherapy",
+                treatment_therapy_desc: "Also known as 'talk therapy,' this is a foundational treatment. Approaches like Cognitive-Behavioral Therapy (CBT) help change negative thinking patterns, while Interpersonal Therapy (IPT) focuses on improving relationships that may contribute to depression.",
+                treatment_meds_title: "Medication",
+                treatment_meds_desc: "Antidepressants can help improve the way your brain uses certain chemicals that control mood or stress. It may take a few weeks to see effects. Finding the right medication is a collaborative process with your healthcare provider.",
+                treatment_support_title: "Lifestyle & Support",
+                treatment_support_desc: "Regular exercise, a balanced diet, and consistent sleep are powerful tools. Support from family, friends, and support groups can also make a significant difference in managing symptoms and preventing relapse.",
+                meds_section_title: "A Closer Look at Antidepressants",
+                meds_section_subtitle: "There are several types of antidepressants. They all work by affecting neurotransmitters, the brain's chemical messengers. Finding the right one is a partnership between you and your doctor.",
+                med_tab_ssri: "SSRIs",
+                med_tab_snri: "SNRIs",
+                med_tab_tca: "TCAs",
+                med_tab_atypical: "Atypicals",
+                hope_title: "Finding Light in the Fog: A Message of Hope",
+                hope_subtitle: "Living with depression can feel like being under a heavy, dark cloud. It's important to know that this fog can lift. Recovery is a journey of taking small, consistent steps toward the light.",
+                hope_infographic_1_title: "Depression Can Lift",
+                hope_infographic_1_desc: "With effective treatment, the weight of depression can ease. Moments of joy and interest will return. The goal of treatment is not just to survive, but to help you feel like yourself again.",
+                hope_infographic_2_title: "Small Steps Matter",
+                hope_infographic_2_desc: "When you're depressed, even small tasks feel huge. Recovery is built on small victories. Getting out of bed, taking a short walk, or calling a friend are all significant steps forward. Be patient and compassionate with yourself.",
+                hope_infographic_3_title: "Reconnection is Healing",
+                hope_infographic_3_desc: "Depression isolates. A key part of recovery is slowly reconnecting—with loved ones, with activities you once enjoyed, and with yourself. You are not a burden, and your connections are a vital source of strength.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This page summarizes information for educational purposes and is not a substitute for professional medical advice. Always consult a healthcare provider for diagnosis and treatment.",
+                footer_sources: "Content adapted from the National Institute of Mental Health (NIMH).",
+                footer_link_text: "Visit the original NIMH page on Depression",
+                mdd_title: "Major Depressive Disorder (MDD)",
+                mdd_desc: "MDD is what most people think of as clinical depression. It's characterized by one or more major depressive episodes, which are periods of at least two weeks where a person experiences a depressed mood or a loss of interest or pleasure in daily activities, along with other symptoms.",
+                mdd_criteria_title: "Diagnostic Snapshot:",
+                mdd_criteria_text: "Five or more depressive symptoms (including either depressed mood or loss of interest/pleasure) present during the same 2-week period. These symptoms must cause clinically significant distress or impairment in social, occupational, or other important areas of functioning.",
+                pdd_title: "Persistent Depressive Disorder (Dysthymia)",
+                pdd_desc: "PDD is a chronic form of depression. The symptoms are generally less severe than major depression, but they are long-lasting, occurring on most days for at least two years. People with PDD may be seen as 'gloomy' or 'pessimistic' without realizing they have a treatable condition.",
+                pdd_criteria_title: "Diagnostic Snapshot:",
+                pdd_criteria_text: "Depressed mood for most of the day, for more days than not, for at least 2 years. During this time, the person has not been without the symptoms for more than 2 months at a time. Presence of two or more other depressive symptoms.",
+                postpartum_title: "Perinatal & Postpartum Depression",
+                postpartum_desc: "This is a major depression that occurs during pregnancy (perinatal) or after delivery (postpartum). It's far more serious than the 'baby blues.' The feelings of extreme sadness, anxiety, and exhaustion may make it difficult for new mothers to care for themselves and/or for their babies.",
+                postpartum_criteria_title: "Diagnostic Snapshot:",
+                postpartum_criteria_text: "The criteria are the same as for a major depressive episode, but the symptoms occur during pregnancy or within 4 weeks of delivery. Symptoms can include intense anxiety, panic attacks, and fears of harming the baby.",
+                sad_title: "Seasonal Affective Disorder (SAD)",
+                sad_desc: "SAD is a type of depression characterized by its recurrent seasonal pattern, with symptoms usually starting in the late fall and early winter and going away during the spring and summer. It is more than just 'winter blues' and can be very debilitating.",
+                sad_criteria_title: "Diagnostic Snapshot:",
+                sad_criteria_text: "A regular temporal relationship between the onset of major depressive episodes and a particular time of year (e.g., fall or winter). Full remissions (or a change to mania/hypomania) also occur at a characteristic time of year (e.g., spring).",
+                symptom_list_emotional: ["Persistent sad, anxious, or 'empty' mood", "Feelings of hopelessness or pessimism", "Feelings of guilt, worthlessness, or helplessness", "Loss of interest or pleasure in hobbies and activities", "Difficulty concentrating, remembering, or making decisions"],
+                symptom_list_physical: ["Decreased energy or fatigue", "Moving or talking more slowly", "Changes in appetite or weight", "Unexplained physical problems, such as headaches or back pain", "Thoughts of death or suicide, or suicide attempts"],
+                suicide_warning_list: ["Talking about wanting to die or feeling hopeless", "Increasing the use of alcohol or drugs", "Withdrawing or feeling isolated", "Talking about being a burden to others", "Giving away prized possessions"],
+                prevalence_chart_x_axis: "Age Group",
+                prevalence_chart_y_axis: "Prevalence (%)",
+                prevalence_chart_label_total: "All Adults",
+                prevalence_chart_label_18_25: "18-25",
+                prevalence_chart_label_26_49: "26-49",
+                prevalence_chart_label_50_plus: "50+",
+                med_ssri_title: "SSRIs (Selective Serotonin Reuptake Inhibitors)",
+                med_ssri_moa_title: "How They Work",
+                med_ssri_moa_text: "These increase the levels of serotonin, a key mood-regulating chemical messenger, in the brain. They are often the first choice for treatment.",
+                med_ssri_se_title: "Common Side Effects",
+                med_ssri_se_list: "Nausea, headache, insomnia or drowsiness, sexual dysfunction.",
+                med_ssri_con_title: "Key Considerations",
+                med_ssri_con_text: "Generally well-tolerated. Inform your doctor of all other medications you take, especially blood thinners or other antidepressants.",
+                med_snri_title: "SNRIs (Serotonin-Norepinephrine Reuptake Inhibitors)",
+                med_snri_moa_title: "How They Work",
+                med_snri_moa_text: "These increase levels of both serotonin and norepinephrine. Norepinephrine is involved in alertness and energy.",
+                med_snri_se_title: "Common Side Effects",
+                med_snri_se_list: "Similar to SSRIs, but may also include dry mouth, sweating, and increased blood pressure.",
+                med_snri_con_title: "Key Considerations",
+                med_snri_con_text: "May be useful if you also experience chronic pain. Blood pressure should be monitored.",
+                med_tca_title: "TCAs (Tricyclic Antidepressants)",
+                med_tca_moa_title: "How They Work",
+                med_tca_moa_text: "An older class of medication that also affects serotonin and norepinephrine. They are effective but used less often now due to more side effects.",
+                med_tca_se_title: "Common Side Effects",
+                med_tca_se_list: "Dry mouth, blurred vision, constipation, drowsiness, weight gain, dizziness.",
+                med_tca_con_title: "Key Considerations",
+                med_tca_con_text: "Can be dangerous in overdose. Not usually prescribed for people with certain heart conditions.",
+                med_atypical_title: "Atypical Antidepressants",
+                med_atypical_moa_title: "How They Work",
+                med_atypical_moa_text: "This is a diverse group of newer medications that work differently from the others. For example, some target dopamine in addition to other neurotransmitters.",
+                med_atypical_se_title: "Common Side Effects",
+                med_atypical_se_list: "Varies widely by drug. Some may have a lower risk of sexual side effects (e.g., bupropion), while others may cause significant drowsiness (e.g., mirtazapine).",
+                med_atypical_con_title: "Key Considerations",
+                med_atypical_con_text: "Often chosen based on a specific symptom profile or to avoid certain side effects. For example, bupropion is not typically used for people with seizure disorders."
+            },
+            es: {
+                page_title: "Entendiendo la Depresión",
+                lang_back_button: "Volver",
+                welcome_title: "Una Mirada Profunda a la Depresión",
+                welcome_subtitle: "Todo el mundo se siente triste a veces, pero la depresión es diferente. Es una condición médica que causa un sentimiento persistente de tristeza y una pérdida de interés en actividades que antes se disfrutaban. Puede interferir con la vida diaria, pero es tratable. Esta guía explica los diferentes tipos de depresión, sus síntomas y los caminos hacia la recuperación.",
+                types_title: "Tipos de Trastornos Depresivos",
+                tab_mdd: "Depresión Mayor",
+                tab_pdd: "Depresión Persistente (Distimia)",
+                tab_postpartum: "Depresión Posparto",
+                tab_sad: "Trastorno Afectivo Estacional (TAE)",
+                symptoms_title: "Síntomas de un Vistazo",
+                symptoms_emotional_title: "Emocionales y Cognitivos",
+                symptoms_physical_title: "Físicos y Conductuales",
+                suicide_title: "Una Nota Crítica sobre el Riesgo de Suicidio",
+                suicide_subtitle: "Los pensamientos de muerte o suicidio son un síntoma grave de la depresión y no deben ignorarse. Es una señal de angustia extrema, no un defecto de carácter. Si usted o alguien que conoce está luchando, hay ayuda inmediata disponible que puede salvar una vida.",
+                suicide_warning_title: "Señales de Advertencia a Observar:",
+                suicide_action_text: "Si está en crisis, llame o envíe un mensaje de texto al 988 de inmediato.",
+                suicide_emergency_text: "En una emergencia que ponga en peligro la vida, llame siempre al 911.",
+                prevalence_title: "¿Qué Tan Común Es la Depresión?",
+                prevalence_subtitle: "La depresión es uno de los trastornos mentales más comunes en los Estados Unidos. El siguiente gráfico muestra la prevalencia de episodios depresivos mayores en el último año entre los adultos de EE. UU., destacando las diferencias entre grupos de edad.",
+                treatments_title: "Caminos para Sentirse Mejor",
+                treatments_subtitle: "La recuperación de la depresión es posible con un tratamiento eficaz. El mejor enfoque es personalizado y a menudo implica una combinación de lo siguiente.",
+                treatment_therapy_title: "Psicoterapia",
+                treatment_therapy_desc: "También conocida como 'terapia de conversación', es un tratamiento fundamental. Enfoques como la Terapia Cognitivo-Conductual (TCC) ayudan a cambiar los patrones de pensamiento negativos, mientras que la Terapia Interpersonal (TIP) se centra en mejorar las relaciones que pueden contribuir a la depresión.",
+                treatment_meds_title: "Medicación",
+                treatment_meds_desc: "Los antidepresivos pueden ayudar a mejorar la forma en que su cerebro utiliza ciertas sustancias químicas que controlan el estado de ánimo o el estrés. Pueden pasar algunas semanas para ver los efectos. Encontrar el medicamento adecuado es un proceso de colaboración con su proveedor de atención médica.",
+                treatment_support_title: "Estilo de Vida y Apoyo",
+                treatment_support_desc: "El ejercicio regular, una dieta equilibrada y un sueño constante son herramientas poderosas. El apoyo de familiares, amigos y grupos de apoyo también puede marcar una diferencia significativa en el manejo de los síntomas y la prevención de recaídas.",
+                meds_section_title: "Una Mirada Cercana a los Antidepresivos",
+                meds_section_subtitle: "Existen varios tipos de antidepresivos. Todos funcionan afectando los neurotransmisores, los mensajeros químicos del cerebro. Encontrar el adecuado es una colaboración entre usted y su médico.",
+                med_tab_ssri: "ISRS",
+                med_tab_snri: "IRSN",
+                med_tab_tca: "ATC",
+                med_tab_atypical: "Atípicos",
+                hope_title: "Encontrando Luz en la Niebla: Un Mensaje de Esperanza",
+                hope_subtitle: "Vivir con depresión puede sentirse como estar bajo una nube pesada y oscura. Es importante saber que esta niebla puede disiparse. La recuperación es un viaje de dar pequeños y constantes pasos hacia la luz.",
+                hope_infographic_1_title: "La Depresión Puede Aliviarse",
+                hope_infographic_1_desc: "Con un tratamiento eficaz, el peso de la depresión puede disminuir. Volverán los momentos de alegría e interés. El objetivo del tratamiento no es solo sobrevivir, sino ayudarle a sentirse usted mismo/a de nuevo.",
+                hope_infographic_2_title: "Los Pequeños Pasos Importan",
+                hope_infographic_2_desc: "Cuando está deprimido/a, hasta las tareas más pequeñas parecen enormes. La recuperación se construye sobre pequeñas victorias. Salir de la cama, dar un paseo corto o llamar a un amigo son todos pasos significativos. Sea paciente y compasivo/a consigo mismo/a.",
+                hope_infographic_3_title: "Reconectar es Sanar",
+                hope_infographic_3_desc: "La depresión aísla. Una parte clave de la recuperación es reconectar lentamente con sus seres queridos, con actividades que antes disfrutaba y consigo mismo/a. Usted no es una carga, y sus conexiones son una fuente vital de fortaleza.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta página resume información con fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Consulte siempre a un proveedor de atención médica para el diagnóstico y tratamiento.",
+                footer_sources: "Contenido adaptado del Instituto Nacional de Salud Mental (NIMH).",
+                footer_link_text: "Visite la página original del NIMH sobre Depresión",
+                mdd_title: "Trastorno Depresivo Mayor (TDM)",
+                mdd_desc: "El TDM es lo que la mayoría de la gente considera como depresión clínica. Se caracteriza por uno o más episodios depresivos mayores, que son períodos de al menos dos semanas en los que una persona experimenta un estado de ánimo deprimido o una pérdida de interés o placer en las actividades diarias, junto con otros síntomas.",
+                mdd_criteria_title: "Resumen Diagnóstico:",
+                mdd_criteria_text: "Cinco o más síntomas depresivos (incluyendo estado de ánimo deprimido o pérdida de interés/placer) presentes durante el mismo período de 2 semanas. Estos síntomas deben causar malestar clínicamente significativo o deterioro en áreas importantes del funcionamiento social, laboral, etc.",
+                pdd_title: "Trastorno Depresivo Persistente (Distimia)",
+                pdd_desc: "El TDP es una forma crónica de depresión. Los síntomas son generalmente menos severos que la depresión mayor, pero son duraderos, ocurriendo la mayoría de los días durante al menos dos años. Las personas con TDP pueden ser vistas como 'sombrías' o 'pesimistas' sin darse cuenta de que tienen una condición tratable.",
+                pdd_criteria_title: "Resumen Diagnóstico:",
+                pdd_criteria_text: "Estado de ánimo deprimido durante la mayor parte del día, la mayoría de los días, durante al menos 2 años. Durante este tiempo, la persona no ha estado sin los síntomas por más de 2 meses seguidos. Presencia de dos o más otros síntomas depresivos.",
+                postpartum_title: "Depresión Perinatal y Posparto",
+                postpartum_desc: "Es una depresión mayor que ocurre durante el embarazo (perinatal) o después del parto (posparto). Es mucho más grave que la 'tristeza posparto'. Los sentimientos de tristeza extrema, ansiedad y agotamiento pueden dificultar que las nuevas madres se cuiden a sí mismas y/o a sus bebés.",
+                postpartum_criteria_title: "Resumen Diagnóstico:",
+                postpartum_criteria_text: "Los criterios son los mismos que para un episodio depresivo mayor, pero los síntomas ocurren durante el embarazo o dentro de las 4 semanas posteriores al parto. Los síntomas pueden incluir ansiedad intensa, ataques de pánico y temores de dañar al bebé.",
+                sad_title: "Trastorno Afectivo Estacional (TAE)",
+                sad_desc: "El TAE es un tipo de depresión que se caracteriza por su patrón estacional recurrente, con síntomas que generalmente comienzan a fines del otoño y principios del invierno y desaparecen durante la primavera y el verano. Es más que la 'tristeza invernal' y puede ser muy debilitante.",
+                sad_criteria_title: "Resumen Diagnóstico:",
+                sad_criteria_text: "Una relación temporal regular entre el inicio de los episodios depresivos mayores y una época particular del año (p. ej., otoño o invierno). Las remisiones completas (o un cambio a manía/hipomanía) también ocurren en una época característica del año (p. ej., primavera).",
+                symptom_list_emotional: ["Estado de ánimo persistentemente triste, ansioso o 'vacío'", "Sentimientos de desesperanza o pesimismo", "Sentimientos de culpa, inutilidad o impotencia", "Pérdida de interés o placer en pasatiempos y actividades", "Dificultad para concentrarse, recordar o tomar decisiones"],
+                symptom_list_physical: ["Disminución de la energía o fatiga", "Moverse o hablar más lentamente", "Cambios en el apetito o el peso", "Problemas físicos inexplicables, como dolores de cabeza o de espalda", "Pensamientos de muerte o suicidio, o intentos de suicidio"],
+                suicide_warning_list: ["Hablar de querer morir o sentirse sin esperanza", "Aumentar el consumo de alcohol o drogas", "Retraerse o sentirse aislado/a", "Hablar de ser una carga para los demás", "Regalar posesiones preciadas"],
+                prevalence_chart_x_axis: "Grupo de Edad",
+                prevalence_chart_y_axis: "Prevalencia (%)",
+                prevalence_chart_label_total: "Todos los Adultos",
+                prevalence_chart_label_18_25: "18-25",
+                prevalence_chart_label_26_49: "26-49",
+                prevalence_chart_label_50_plus: "50+",
+                med_ssri_title: "ISRS (Inhibidores Selectivos de la Recaptación de Serotonina)",
+                med_ssri_moa_title: "Cómo Funcionan",
+                med_ssri_moa_text: "Aumentan los niveles de serotonina, un mensajero químico clave que regula el estado de ánimo, en el cerebro. Suelen ser la primera opción de tratamiento.",
+                med_ssri_se_title: "Efectos Secundarios Comunes",
+                med_ssri_se_list: "Náuseas, dolor de cabeza, insomnio o somnolencia, disfunción sexual.",
+                med_ssri_con_title: "Consideraciones Clave",
+                med_ssri_con_text: "Generalmente bien tolerados. Informe a su médico de todos los demás medicamentos que toma, especialmente anticoagulantes u otros antidepresivos.",
+                med_snri_title: "IRSN (Inhibidores de la Recaptación de Serotonina y Norepinefrina)",
+                med_snri_moa_title: "Cómo Funcionan",
+                med_snri_moa_text: "Aumentan los niveles tanto de serotonina como de norepinefrina. La norepinefrina está involucrada en el estado de alerta y la energía.",
+                med_snri_se_title: "Efectos Secundarios Comunes",
+                med_snri_se_list: "Similares a los ISRS, pero también pueden incluir sequedad de boca, sudoración y aumento de la presión arterial.",
+                med_snri_con_title: "Consideraciones Clave",
+                med_snri_con_text: "Pueden ser útiles si también experimenta dolor crónico. Se debe monitorear la presión arterial.",
+                med_tca_title: "ATC (Antidepresivos Tricíclicos)",
+                med_tca_moa_title: "Cómo Funcionan",
+                med_tca_moa_text: "Una clase más antigua de medicamentos que también afecta la serotonina y la norepinefrina. Son efectivos pero se usan con menos frecuencia debido a más efectos secundarios.",
+                med_tca_se_title: "Efectos Secundarios Comunes",
+                med_tca_se_list: "Sequedad de boca, visión borrosa, estreñimiento, somnolencia, aumento de peso, mareos.",
+                med_tca_con_title: "Consideraciones Clave",
+                med_tca_con_text: "Pueden ser peligrosos en sobredosis. No suelen recetarse a personas con ciertas afecciones cardíacas.",
+                med_atypical_title: "Antidepresivos Atípicos",
+                med_atypical_moa_title: "Cómo Funcionan",
+                med_atypical_moa_text: "Este es un grupo diverso de medicamentos más nuevos que funcionan de manera diferente a los demás. Por ejemplo, algunos actúan sobre la dopamina además de otros neurotransmisores.",
+                med_atypical_se_title: "Efectos Secundarios Comunes",
+                med_atypical_se_list: "Varía ampliamente según el fármaco. Algunos pueden tener un menor riesgo de efectos secundarios sexuales (p. ej., bupropión), mientras que otros pueden causar somnolencia significativa (p. ej., mirtazapina).",
+                med_atypical_con_title: "Consideraciones Clave",
+                med_atypical_con_text: "A menudo se eligen en función de un perfil de síntomas específico o para evitar ciertos efectos secundarios. Por ejemplo, el bupropión no se usa típicamente en personas con trastornos convulsivos."
+            }
+        };
+
+        let currentLanguage = 'en';
+        let prevalenceChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            const tabBtns = document.querySelectorAll('#types .tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateTabContent(btn.dataset.tab);
+                });
+            });
+
+            const medTabBtns = document.querySelectorAll('#antidepressants .tab-btn');
+            medTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    medTabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateMedContent(btn.dataset.medClass);
+                });
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            updateTabContent(document.querySelector('#types .tab-btn.active').dataset.tab);
+            updateMedContent(document.querySelector('#antidepressants .tab-btn.active').dataset.medClass);
+            renderSymptomLists();
+            renderSuicideWarningList();
+            renderPrevalenceChart();
+        }
+        
+        function updateTabContent(tabKey) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('tab-content');
+            
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">${t[`${tabKey}_title`]}</h4>
+                    <p class="text-slate-600 mb-4">${t[`${tabKey}_desc`]}</p>
+                    <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-4 rounded-r-lg">
+                        <p class="font-bold text-sm mb-1">${t[`${tabKey}_criteria_title`]}</p>
+                        <p class="text-sm">${t[`${tabKey}_criteria_text`]}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateMedContent(medClass) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('med-content');
+            const sideEffectsHtml = t[`med_${medClass}_se_list`].split(',').map(item => `<li class="text-sm">${item.trim()}</li>`).join('');
+
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-4 text-slate-800">${t[`med_${medClass}_title`]}</h4>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_moa_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_moa_text`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_se_title`]}</h5>
+                        <ul class="list-disc list-inside space-y-1">${sideEffectsHtml}</ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_con_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_con_text`]}</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderSymptomLists() {
+            const t = translations[currentLanguage];
+            const emotionalListEl = document.getElementById('symptoms-emotional-list');
+            const physicalListEl = document.getElementById('symptoms-physical-list');
+
+            emotionalListEl.innerHTML = t.symptom_list_emotional.map(item => `<li class="flex items-start"><span class="mr-2 text-teal-500">💭</span><span>${item}</span></li>`).join('');
+            physicalListEl.innerHTML = t.symptom_list_physical.map(item => `<li class="flex items-start"><span class="mr-2 text-teal-500">🏃</span><span>${item}</span></li>`).join('');
+        }
+
+        function renderSuicideWarningList() {
+            const t = translations[currentLanguage];
+            const listEl = document.getElementById('suicide-warning-list');
+            listEl.innerHTML = t.suicide_warning_list.map(item => `<li>${item}</li>`).join('');
+        }
+
+        function renderPrevalenceChart() {
+            const t = translations[currentLanguage];
+            if (prevalenceChart) {
+                prevalenceChart.destroy();
+            }
+            const ctx = document.getElementById('prevalenceChart').getContext('2d');
+            prevalenceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [t.prevalence_chart_label_18_25, t.prevalence_chart_label_26_49, t.prevalence_chart_label_50_plus, t.prevalence_chart_label_total],
+                    datasets: [{
+                        label: t.prevalence_chart_y_axis,
+                        data: [15.3, 9.1, 4.8, 8.7],
+                        backgroundColor: ['#94D2BD', '#5EAAA8', '#3B8C88', '#2E6B6A'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: t.prevalence_chart_y_axis, color: '#475569' },
+                            ticks: { color: '#475569', callback: (value) => value + '%' }
+                        },
+                        x: { 
+                            title: { display: true, text: t.prevalence_chart_x_axis, color: '#475569' },
+                            ticks: { color: '#475569' } 
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}%` } }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

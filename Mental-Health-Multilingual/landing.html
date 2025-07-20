@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Mental Wellness</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: The application is designed as a single-page, multi-section guide. This structure avoids overwhelming the user and allows them to navigate directly to topics of interest via a sticky top navigation bar. The flow is designed to be compassionate and logical: 1. A welcoming introduction to normalize the topic. 2. A "Common Conditions" section with interactive tabs, letting users explore specific conditions without information overload. This is better than a long, intimidating list. 3. A "Wellness Toolkit" section, separating actionable "Self-Care" from "Professional Help" to empower users with things they can do. 4. A "Treatment Paths" section to demystify medical interventions. 5. A "Mind & Body" section with an interactive chart to clearly illustrate the important concept of comorbidity. 6. A final "Hope & Recovery" section to leave the user with an empowering message. This non-linear, topic-focused structure respects the user's journey and allows for personalized information discovery. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Prevalence of mental illness. -> Goal: Inform/Contextualize. -> Viz: Donut Chart. -> Interaction: Hover to see details. -> Justification: A simple, powerful visual to show that mental health issues are common. -> Library: Chart.js (Canvas).
+        2. Report Info: Details of Anxiety, Depression, Bipolar, PTSD, Psychosis. -> Goal: Organize/Educate. -> Viz: Interactive Content Cards/Tabs. -> Interaction: Click buttons to display relevant information. -> Justification: Breaks down complex information into digestible, user-selected chunks, preventing overwhelm. -> Library/Method: Vanilla JS DOM manipulation.
+        3. Report Info: Self-care strategies. -> Goal: Inform/Empower. -> Viz: Styled list with icons. -> Interaction: None. -> Justification: A clean, easy-to-scan list of actionable advice. -> Library/Method: HTML/Tailwind with Unicode characters for icons.
+        4. Report Info: Comorbidity between mental and physical health. -> Goal: Show Relationships/Compare. -> Viz: Interactive Bar Chart. -> Interaction: A dropdown filters the chart data to show risks for different physical conditions. -> Justification: Makes the abstract concept of comorbidity tangible and allows for user-driven exploration. -> Library/Method: Chart.js (Canvas) + Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #005F73; 
+            border-bottom-color: #E9D8A6;
+        }
+        .condition-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-left: 4px solid transparent;
+        }
+        .condition-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .condition-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-left-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .icon-list li {
+            display: flex;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+        .icon-list .icon {
+            flex-shrink: 0;
+            margin-right: 0.75rem;
+            color: #0A9396;
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            font-weight: bold;
+            text-align: center;
+        }
+        .learn-more-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #005F73;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .learn-more-link:hover {
+            color: #0A9396;
+            text-decoration: underline;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+
+        .goog-te-menu-frame {
+            border-radius: 0.5rem !important;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
+            font-family: 'Inter', sans-serif !important;
+            background-color: white !important;
+            color: #334155 !important;
+            padding: 0.5rem 1rem !important;
+        }
+        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
+            background-color: #f0fdfa !important;
+            color: #005F73 !important;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#welcome" class="nav-link border-b-2 border-transparent pb-1" data-translate="nav_welcome"></a>
+                <a href="#conditions" class="nav-link border-b-2 border-transparent pb-1" data-translate="nav_conditions"></a>
+                <a href="#toolkit" class="nav-link border-b-2 border-transparent pb-1" data-translate="nav_toolkit"></a>
+                <a href="#treatments" class="nav-link border-b-2 border-transparent pb-1" data-translate="nav_treatments"></a>
+                <a href="#mind-body" class="nav-link border-b-2 border-transparent pb-1" data-translate="nav_mind_body"></a>
+                <a href="#hope" class="nav-link border-b-2 border-transparent pb-1" data-translate="nav_hope"></a>
+            </div>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+             <button id="mobile-menu-btn" class="md:hidden focus:outline-none ml-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/90 backdrop-blur-lg shadow-md">
+            <a href="#welcome" class="block py-2 px-6 text-sm nav-link" data-translate="nav_welcome"></a>
+            <a href="#conditions" class="block py-2 px-6 text-sm nav-link" data-translate="nav_conditions"></a>
+            <a href="#toolkit" class="block py-2 px-6 text-sm nav-link" data-translate="nav_toolkit"></a>
+            <a href="#treatments" class="block py-2 px-6 text-sm nav-link" data-translate="nav_treatments"></a>
+            <a href="#mind-body" class="block py-2 px-6 text-sm nav-link" data-translate="nav_mind_body"></a>
+            <a href="#hope" class="block py-2 px-6 text-sm nav-link" data-translate="nav_hope"></a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-24 scroll-mt-20">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600 mb-8" data-translate="welcome_subtitle"></p>
+            <div class="chart-container">
+                 <canvas id="prevalenceChart"></canvas>
+            </div>
+            <p class="mt-4 text-sm text-slate-500" data-translate="welcome_chart_caption"></p>
+        </section>
+
+        <section id="conditions" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="conditions_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600" data-translate="conditions_subtitle"></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex flex-row md:flex-col md:w-1/4 flex-wrap justify-center md:justify-start">
+                    <button class="condition-btn w-full text-left p-3 my-1 rounded-lg transition-all duration-300 ease-in-out active" data-condition="anxiety" data-translate="condition_btn_anxiety"></button>
+                    <button class="condition-btn w-full text-left p-3 my-1 rounded-lg transition-all duration-300 ease-in-out" data-condition="depression" data-translate="condition_btn_depression"></button>
+                    <button class="condition-btn w-full text-left p-3 my-1 rounded-lg transition-all duration-300 ease-in-out" data-condition="bipolar" data-translate="condition_btn_bipolar"></button>
+                    <button class="condition-btn w-full text-left p-3 my-1 rounded-lg transition-all duration-300 ease-in-out" data-condition="ptsd" data-translate="condition_btn_ptsd"></button>
+                    <button class="condition-btn w-full text-left p-3 my-1 rounded-lg transition-all duration-300 ease-in-out" data-condition="psychosis" data-translate="condition_btn_psychosis"></button>
+                </div>
+                <div class="md:w-3/4 bg-white p-8 rounded-xl shadow-md">
+                    <div id="condition-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="toolkit" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="toolkit_title"></h2>
+                 <p class="max-w-3xl mx-auto text-slate-600" data-translate="toolkit_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="font-bold text-2xl mb-4 text-slate-800" data-translate="toolkit_selfcare_title"></h3>
+                    <p class="mb-6 text-slate-600" data-translate="toolkit_selfcare_subtitle"></p>
+                    <ul class="icon-list" id="self-care-list"></ul>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="font-bold text-2xl mb-4 text-slate-800" data-translate="toolkit_prohelp_title"></h3>
+                    <p class="mb-6 text-slate-600" data-translate="toolkit_prohelp_subtitle"></p>
+                    <ul class="icon-list" id="pro-help-list"></ul>
+                     <a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" class="learn-more-link" data-translate="toolkit_prohelp_link"></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="treatments" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="treatments_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600" data-translate="treatments_subtitle"></p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+                 <div class="bg-white p-6 rounded-xl shadow-md w-full md:w-1/3 hover:shadow-lg transition-shadow">
+                    <h4 class="font-bold text-xl mb-2" data-translate="treatments_therapy_title"></h4>
+                    <p class="text-slate-600 text-sm" data-translate="treatments_therapy_desc"></p>
+                    <a href="pages/psychotherapies.html" target="_blank" class="learn-more-link" data-translate="treatments_therapy_link"></a>
+                </div>
+                <div class="text-4xl font-bold text-teal-500 mx-4">🤝</div>
+                <div class="bg-white p-6 rounded-xl shadow-md w-full md:w-1/3 hover:shadow-lg transition-shadow">
+                    <h4 class="font-bold text-xl mb-2" data-translate="treatments_meds_title"></h4>
+                    <p class="text-slate-600 text-sm" data-translate="treatments_meds_desc"></p>
+                    <a href="pages/medications.html" target="_blank" class="learn-more-link" data-translate="treatments_meds_link"></a>
+                </div>
+            </div>
+             <div class="mt-8 text-center">
+                <div class="inline-block bg-teal-600 text-white p-6 rounded-xl shadow-lg">
+                    <h4 class="font-bold text-xl mb-2" data-translate="treatments_plan_title"></h4>
+                    <p data-translate="treatments_plan_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="mind-body" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="mindbody_title"></h2>
+                 <p class="max-w-3xl mx-auto text-slate-600" data-translate="mindbody_subtitle"></p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-md">
+                <div class="flex justify-center mb-4">
+                    <select id="comorbidity-filter" class="p-2 border rounded-md bg-white"></select>
+                </div>
+                <div class="chart-container h-96">
+                    <canvas id="comorbidityChart"></canvas>
+                </div>
+                 <p class="mt-4 text-center text-sm text-slate-500" data-translate="mindbody_chart_caption"></p>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <div class="max-w-3xl mx-auto text-lg text-slate-600 space-y-4">
+                    <p data-translate="hope_p1"></p>
+                    <p data-translate="hope_p2"></p>
+                    <p class="font-semibold text-teal-700" data-translate="hope_p3"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <p class="font-bold" data-translate="footer_crisis_text"></p>
+            <a href="https://988lifeline.org/" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors">988lifeline.org</a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "Your Guide to Mental Wellness",
+                nav_welcome: "Welcome",
+                nav_conditions: "Conditions",
+                nav_toolkit: "Toolkit",
+                nav_treatments: "Treatments",
+                nav_mind_body: "Mind & Body",
+                nav_hope: "Hope & Recovery",
+                lang_back_button: "Back",
+                welcome_title: "Taking Care of Your Mind",
+                welcome_subtitle: "Welcome. This guide is a starting place to understand mental and behavioral health. Just like physical health, mental health is important for everyone. Learning more is the first step towards feeling better and making informed decisions about your care. You are not alone, and help is available.",
+                welcome_chart_caption: "This chart shows that mental health conditions are common. Many people face similar challenges.",
+                conditions_title: "Understanding Common Conditions",
+                conditions_subtitle: "This section provides a brief overview of some of the most common mental health conditions. Clicking on each one will show you a simple description and common signs to look out for. This information is for learning purposes and is not a substitute for a professional diagnosis.",
+                condition_btn_anxiety: "Anxiety",
+                condition_btn_depression: "Depression",
+                condition_btn_bipolar: "Bipolar Disorder",
+                condition_btn_ptsd: "PTSD",
+                condition_btn_psychosis: "Psychotic Disorders",
+                toolkit_title: "Your Wellness Toolkit",
+                toolkit_subtitle: "Managing your mental health involves a combination of strategies. This section is divided into self-care techniques you can practice daily and information on when and why to seek professional help. These tools can work together to support your overall well-being.",
+                toolkit_selfcare_title: "Self-Care Strategies",
+                toolkit_selfcare_subtitle: "Simple daily habits can make a big difference in your mental resilience.",
+                toolkit_prohelp_title: "Seeking Professional Help",
+                toolkit_prohelp_subtitle: "It's a sign of strength to ask for help. Consider talking to a doctor if:",
+                toolkit_prohelp_link: "Find a Treatment Provider →",
+                treatments_title: "How We Help: Treatment Paths",
+                treatments_subtitle: "If you seek professional help, there are several effective ways we can support you. Treatment is always personalized to your specific needs. The most common approaches are therapy and medication, which are often most effective when used together.",
+                treatments_therapy_title: "Therapy (Psychotherapy)",
+                treatments_therapy_desc: "Also known as 'talk therapy,' this involves working with a trained professional to develop coping skills, understand your thoughts and behaviors, and find new ways to approach challenges.",
+                treatments_therapy_link: "Learn about Therapies →",
+                treatments_meds_title: "Medication",
+                treatments_meds_desc: "Prescribed by a doctor, medications can help manage symptoms by correcting imbalances in brain chemistry. They don't cure the condition but can make therapy and self-care more effective.",
+                treatments_meds_link: "Learn about Medications →",
+                treatments_plan_title: "Your Personalized Wellness Plan",
+                treatments_plan_desc: "The goal is to combine strategies that work for you.",
+                mindbody_title: "Mind and Body are Connected",
+                mindbody_subtitle: "Your mental health can significantly impact your physical health, and vice-versa. This is known as comorbidity. Understanding this connection is important for total-body wellness. The chart below shows how certain mental health conditions can increase the risk for physical health problems.",
+                mindbody_chart_caption: "This data is illustrative and shows general population trends. Individual risks may vary.",
+                hope_title: "Your Path Forward: A Message of Hope",
+                hope_p1: "Learning about these conditions is an important step, but it's just the beginning. It's crucial to remember that mental health conditions are treatable. Recovery is not just possible—it is expected.",
+                hope_p2: "Living with a mental health condition is part of your story, but it does not define you. People with mental health conditions lead full, productive, and meaningful lives every day. The journey may have challenges, but with the right support and tools, you can manage your symptoms, overcome obstacles, and build a life of resilience and well-being.",
+                hope_p3: "Seeking help is a sign of courage. You are worth the effort.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this page.",
+                footer_sources: "Content is based on information from leading health organizations including the National Institute of Mental Health (NIMH), the World Health Organization (WHO), and the Centers for Disease Control and Prevention (CDC).",
+                footer_crisis_text: "If you are in crisis, please call or text 988 to reach the Suicide & Crisis Lifeline, available 24/7.",
+                condition_anxiety_title: "Anxiety Disorders",
+                condition_anxiety_desc: "Anxiety is more than just feeling stressed. It's a condition where worry and fear are constant and overwhelming, and can interfere with daily activities. It's one of the most common mental health concerns.",
+                condition_anxiety_symptom_1_title: "Emotional",
+                condition_anxiety_symptom_1_text: "Constant worry, feeling restless or 'on edge', difficulty concentrating.",
+                condition_anxiety_symptom_2_title: "Physical",
+                condition_anxiety_symptom_2_text: "Pounding heart, sweating, stomach upset, shortness of breath, fatigue.",
+                condition_anxiety_link: "pages/anxiety.html",
+                condition_depression_title: "Depressive Disorders",
+                condition_depression_desc: "Depression is a mood disorder that causes a persistent feeling of sadness and loss of interest in activities you once enjoyed. It can affect how you feel, think, and behave.",
+                condition_depression_symptom_1_title: "Emotional",
+                condition_depression_symptom_1_text: "Persistent sadness, feelings of worthlessness, loss of interest or pleasure.",
+                condition_depression_symptom_2_title: "Physical",
+                condition_depression_symptom_2_text: "Changes in sleep or appetite, lack of energy, unexplained aches and pains.",
+                condition_depression_link: "pages/depression.html",
+                condition_bipolar_title: "Bipolar Disorder",
+                condition_bipolar_desc: "Bipolar disorder is characterized by extreme mood swings that include emotional highs (mania or hypomania) and lows (depression). These shifts can affect sleep, energy, and judgment.",
+                condition_bipolar_symptom_1_title: "Manic Phase",
+                condition_bipolar_symptom_1_text: "High energy, racing thoughts, unusual talkativeness, risky behavior.",
+                condition_bipolar_symptom_2_title: "Depressive Phase",
+                condition_bipolar_symptom_2_text: "Low energy, sadness, loss of interest, feelings of hopelessness.",
+                condition_bipolar_link: "pages/bipolar.html",
+                condition_ptsd_title: "Post-Traumatic Stress Disorder (PTSD)",
+                condition_ptsd_desc: "PTSD is a disorder that can develop after experiencing or witnessing a terrifying event. Symptoms can include flashbacks, nightmares, severe anxiety, and uncontrollable thoughts about the event.",
+                condition_ptsd_symptom_1_title: "Re-experiencing",
+                condition_ptsd_symptom_1_text: "Flashbacks, nightmares, frightening thoughts.",
+                condition_ptsd_symptom_2_title: "Avoidance / Numbing",
+                condition_ptsd_symptom_2_text: "Avoiding places or thoughts related to the event, feeling emotionally numb.",
+                condition_ptsd_link: "pages/ptsd.html",
+                condition_psychosis_title: "Psychotic Disorders",
+                condition_psychosis_desc: "Psychotic disorders are severe mental disorders that cause abnormal thinking and perceptions. People with psychoses lose touch with reality. Schizophrenia is the most well-known example.",
+                condition_psychosis_symptom_1_title: "Positive Symptoms (things added)",
+                condition_psychosis_symptom_1_text: "Hallucinations (seeing or hearing things that aren't there), delusions (strong but false beliefs), disorganized thinking.",
+                condition_psychosis_symptom_2_title: "Negative Symptoms (things taken away)",
+                condition_psychosis_symptom_2_text: "Reduced emotional expression ('flat affect'), lack of motivation, social withdrawal, reduced speech.",
+                condition_psychosis_link: "pages/psychosis.html",
+                learn_more_link_text: "Learn More →",
+                self_care_item_1_title: "Mindful Breathing:",
+                self_care_item_1_desc: "Take a few deep, slow breaths to calm your nervous system.",
+                self_care_item_2_title: "Regular Movement:",
+                self_care_item_2_desc: "Gentle exercise like walking can boost your mood.",
+                self_care_item_3_title: "Consistent Sleep:",
+                self_care_item_3_desc: "Aim for 7-9 hours of sleep per night to help your brain rest.",
+                self_care_item_4_title: "Balanced Diet:",
+                self_care_item_4_desc: "Nutritious food fuels your brain and body.",
+                self_care_item_5_title: "Connect with Others:",
+                self_care_item_5_desc: "Talk to friends, family, or a support group.",
+                pro_help_item_1: "Your feelings interfere with your daily life (work, school, relationships).",
+                pro_help_item_2: "Your symptoms are causing you significant distress.",
+                pro_help_item_3: "Self-care strategies aren't enough to manage how you feel.",
+                pro_help_item_4: "You are using alcohol or drugs to cope.",
+                prevalence_chart_title: "1 in 5 Adults Experience Mental Illness",
+                prevalence_chart_label_1: "Experience a Mental Health Condition (Annually)",
+                prevalence_chart_label_2: "Do Not Experience a Condition",
+                comorbidity_filter_heart: "Increased Risk for Heart Disease",
+                comorbidity_filter_diabetes: "Increased Risk for Type 2 Diabetes",
+                comorbidity_filter_respiratory: "Increased Risk for Respiratory Issues",
+                comorbidity_chart_x_axis: "Increased Risk (%)",
+                comorbidity_dataset_label_heart: "% Increased Risk for Heart Disease",
+                comorbidity_dataset_label_diabetes: "% Increased Risk for Type 2 Diabetes",
+                comorbidity_dataset_label_respiratory: "% Increased Risk for Respiratory Issues"
+            },
+            es: {
+                page_title: "Su Guía para el Bienestar Mental",
+                nav_welcome: "Bienvenida",
+                nav_conditions: "Condiciones",
+                nav_toolkit: "Herramientas",
+                nav_treatments: "Tratamientos",
+                nav_mind_body: "Mente y Cuerpo",
+                nav_hope: "Esperanza y Recuperación",
+                lang_back_button: "Volver",
+                welcome_title: "Cuidando su Mente",
+                welcome_subtitle: "Bienvenido/a. Esta guía es un punto de partida para entender la salud mental y conductual. Al igual que la salud física, la salud mental es importante para todos. Aprender más es el primer paso para sentirse mejor y tomar decisiones informadas sobre su cuidado. No está solo/a, y hay ayuda disponible.",
+                welcome_chart_caption: "Este gráfico muestra que las condiciones de salud mental son comunes. Muchas personas enfrentan desafíos similares.",
+                conditions_title: "Entendiendo Condiciones Comunes",
+                conditions_subtitle: "Esta sección ofrece un breve resumen de algunas de las condiciones de salud mental más comunes. Al hacer clic en cada una, verá una descripción simple y señales comunes a tener en cuenta. Esta información es para fines de aprendizaje y no sustituye un diagnóstico profesional.",
+                condition_btn_anxiety: "Ansiedad",
+                condition_btn_depression: "Depresión",
+                condition_btn_bipolar: "Trastorno Bipolar",
+                condition_btn_ptsd: "TEPT",
+                condition_btn_psychosis: "Trastornos Psicóticos",
+                toolkit_title: "Sus Herramientas de Bienestar",
+                toolkit_subtitle: "Manejar su salud mental implica una combinación de estrategias. Esta sección se divide en técnicas de autocuidado que puede practicar a diario e información sobre cuándo y por qué buscar ayuda profesional. Estas herramientas pueden trabajar juntas para apoyar su bienestar general.",
+                toolkit_selfcare_title: "Estrategias de Autocuidado",
+                toolkit_selfcare_subtitle: "Hábitos diarios simples pueden marcar una gran diferencia en su resiliencia mental.",
+                toolkit_prohelp_title: "Buscando Ayuda Profesional",
+                toolkit_prohelp_subtitle: "Pedir ayuda es una señal de fortaleza. Considere hablar con un médico si:",
+                toolkit_prohelp_link: "Encuentre un Proveedor de Tratamiento →",
+                treatments_title: "Cómo Ayudamos: Vías de Tratamiento",
+                treatments_subtitle: "Si busca ayuda profesional, hay varias formas efectivas en que podemos apoyarlo. El tratamiento siempre es personalizado a sus necesidades específicas. Los enfoques más comunes son la terapia y la medicación, que a menudo son más efectivos cuando se usan juntos.",
+                treatments_therapy_title: "Terapia (Psicoterapia)",
+                treatments_therapy_desc: "También conocida como 'terapia de conversación', implica trabajar con un profesional capacitado para desarrollar habilidades de afrontamiento, entender sus pensamientos y comportamientos, y encontrar nuevas formas de abordar los desafíos.",
+                treatments_therapy_link: "Aprenda sobre Terapias →",
+                treatments_meds_title: "Medicación",
+                treatments_meds_desc: "Recetados por un médico, los medicamentos pueden ayudar a manejar los síntomas corrigiendo desequilibrios en la química cerebral. No curan la condición, pero pueden hacer que la terapia y el autocuidado sean más efectivos.",
+                treatments_meds_link: "Aprenda sobre Medicación →",
+                treatments_plan_title: "Su Plan de Bienestar Personalizado",
+                treatments_plan_desc: "El objetivo es combinar estrategias que funcionen para usted.",
+                mindbody_title: "La Mente y el Cuerpo Están Conectados",
+                mindbody_subtitle: "Su salud mental puede impactar significativamente su salud física, y viceversa. Esto se conoce como comorbilidad. Entender esta conexión es importante para el bienestar total del cuerpo. El gráfico a continuación muestra cómo ciertas condiciones de salud mental pueden aumentar el riesgo de problemas de salud física.",
+                mindbody_chart_caption: "Estos datos son ilustrativos y muestran tendencias generales de la población. Los riesgos individuales pueden variar.",
+                hope_title: "Su Camino a Seguir: Un Mensaje de Esperanza",
+                hope_p1: "Aprender sobre estas condiciones es un paso importante, pero es solo el comienzo. Es crucial recordar que las condiciones de salud mental son tratables. La recuperación no solo es posible, sino que se espera.",
+                hope_p2: "Vivir con una condición de salud mental es parte de su historia, pero no lo define. Las personas con condiciones de salud mental llevan vidas plenas, productivas y significativas todos los días. El viaje puede tener desafíos, pero con el apoyo y las herramientas adecuadas, puede manejar sus síntomas, superar obstáculos y construir una vida de resiliencia y bienestar.",
+                hope_p3: "Buscar ayuda es una señal de valentía. Usted vale el esfuerzo.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica. Nunca ignore el consejo médico profesional ni se demore en buscarlo por algo que haya leído en esta página.",
+                footer_sources: "El contenido se basa en información de organizaciones de salud líderes, como el Instituto Nacional de Salud Mental (NIMH), la Organización Mundial de la Salud (OMS) y los Centros para el Control y la Prevención de Enfermedades (CDC).",
+                footer_crisis_text: "Si está en crisis, por favor llame o envíe un mensaje de texto al 988 para comunicarse con la Línea de Vida de Suicidio y Crisis, disponible 24/7.",
+                condition_anxiety_title: "Trastornos de Ansiedad",
+                condition_anxiety_desc: "La ansiedad es más que solo sentirse estresado. Es una condición en la que la preocupación y el miedo son constantes y abrumadores, y pueden interferir con las actividades diarias. Es una de las preocupaciones de salud mental más comunes.",
+                condition_anxiety_symptom_1_title: "Emocional",
+                condition_anxiety_symptom_1_text: "Preocupación constante, sentirse inquieto o 'al límite', dificultad para concentrarse.",
+                condition_anxiety_symptom_2_title: "Físico",
+                condition_anxiety_symptom_2_text: "Corazón palpitante, sudoración, malestar estomacal, falta de aire, fatiga.",
+                condition_anxiety_link: "pages/anxiety.html",
+                condition_depression_title: "Trastornos Depresivos",
+                condition_depression_desc: "La depresión es un trastorno del estado de ánimo que causa un sentimiento persistente de tristeza y pérdida de interés en actividades que antes disfrutaba. Puede afectar cómo se siente, piensa y se comporta.",
+                condition_depression_symptom_1_title: "Emocional",
+                condition_depression_symptom_1_text: "Tristeza persistente, sentimientos de inutilidad, pérdida de interés o placer.",
+                condition_depression_symptom_2_title: "Físico",
+                condition_depression_symptom_2_text: "Cambios en el sueño o el apetito, falta de energía, dolores y molestias inexplicables.",
+                condition_depression_link: "pages/depression.html",
+                condition_bipolar_title: "Trastorno Bipolar",
+                condition_bipolar_desc: "El trastorno bipolar se caracteriza por cambios de humor extremos que incluyen altos emocionales (manía o hipomanía) y bajos (depresión). Estos cambios pueden afectar el sueño, la energía y el juicio.",
+                condition_bipolar_symptom_1_title: "Fase Maníaca",
+                condition_bipolar_symptom_1_text: "Alta energía, pensamientos acelerados, locuacidad inusual, comportamiento arriesgado.",
+                condition_bipolar_symptom_2_title: "Fase Depresiva",
+                condition_bipolar_symptom_2_text: "Baja energía, tristeza, pérdida de interés, sentimientos de desesperanza.",
+                condition_bipolar_link: "pages/bipolar.html",
+                condition_ptsd_title: "Trastorno de Estrés Postraumático (TEPT)",
+                condition_ptsd_desc: "El TEPT es un trastorno que puede desarrollarse después de experimentar o presenciar un evento aterrador. Los síntomas pueden incluir flashbacks, pesadillas, ansiedad severa y pensamientos incontrolables sobre el evento.",
+                condition_ptsd_symptom_1_title: "Reexperimentación",
+                condition_ptsd_symptom_1_text: "Flashbacks, pesadillas, pensamientos aterradores.",
+                condition_ptsd_symptom_2_title: "Evitación / Embotamiento",
+                condition_ptsd_symptom_2_text: "Evitar lugares o pensamientos relacionados con el evento, sentirse emocionalmente insensible.",
+                condition_ptsd_link: "pages/ptsd.html",
+                condition_psychosis_title: "Trastornos Psicóticos",
+                condition_psychosis_desc: "Los trastornos psicóticos son trastornos mentales graves que causan pensamientos y percepciones anormales. Las personas con psicosis pierden el contacto con la realidad. La esquizofrenia es el ejemplo más conocido.",
+                condition_psychosis_symptom_1_title: "Síntomas Positivos (cosas añadidas)",
+                condition_psychosis_symptom_1_text: "Alucinaciones (ver u oír cosas que no existen), delirios (creencias falsas y fuertes), pensamiento desorganizado.",
+                condition_psychosis_symptom_2_title: "Síntomas Negativos (cosas quitadas)",
+                condition_psychosis_symptom_2_text: "Expresión emocional reducida ('afecto plano'), falta de motivación, retraimiento social, habla reducida.",
+                condition_psychosis_link: "pages/psychosis.html",
+                learn_more_link_text: "Aprenda Más →",
+                self_care_item_1_title: "Respiración Consciente:",
+                self_care_item_1_desc: "Tome unas cuantas respiraciones profundas y lentas para calmar su sistema nervioso.",
+                self_care_item_2_title: "Movimiento Regular:",
+                self_care_item_2_desc: "El ejercicio suave como caminar puede mejorar su estado de ánimo.",
+                self_care_item_3_title: "Sueño Consistente:",
+                self_care_item_3_desc: "Intente dormir de 7 a 9 horas por noche para ayudar a su cerebro a descansar.",
+                self_care_item_4_title: "Dieta Equilibrada:",
+                self_care_item_4_desc: "La comida nutritiva alimenta su cerebro y cuerpo.",
+                self_care_item_5_title: "Conecte con Otros:",
+                self_care_item_5_desc: "Hable con amigos, familiares o un grupo de apoyo.",
+                pro_help_item_1: "Sus sentimientos interfieren con su vida diaria (trabajo, escuela, relaciones).",
+                pro_help_item_2: "Sus síntomas le causan una angustia significativa.",
+                pro_help_item_3: "Las estrategias de autocuidado no son suficientes para manejar cómo se siente.",
+                pro_help_item_4: "Está usando alcohol o drogas para sobrellevar la situación.",
+                prevalence_chart_title: "1 de cada 5 Adultos Experimenta una Enfermedad Mental",
+                prevalence_chart_label_1: "Experimenta una Condición de Salud Mental (Anualmente)",
+                prevalence_chart_label_2: "No Experimenta una Condición",
+                comorbidity_filter_heart: "Mayor Riesgo de Enfermedad Cardíaca",
+                comorbidity_filter_diabetes: "Mayor Riesgo de Diabetes Tipo 2",
+                comorbidity_filter_respiratory: "Mayor Riesgo de Problemas Respiratorios",
+                comorbidity_chart_x_axis: "Aumento del Riesgo (%)",
+                comorbidity_dataset_label_heart: "% de Aumento del Riesgo de Enfermedad Cardíaca",
+                comorbidity_dataset_label_diabetes: "% de Aumento del Riesgo de Diabetes Tipo 2",
+                comorbidity_dataset_label_respiratory: "% de Aumento del Riesgo de Problemas Respiratorios"
+            }
+        };
+
+        let currentLanguage = 'en';
+        let prevalenceChart, comorbidityChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            changeLanguage('en'); // Initial load
+            
+            const conditionBtns = document.querySelectorAll('.condition-btn');
+            conditionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const conditionKey = btn.dataset.condition;
+                    conditionBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateConditionContent(conditionKey);
+                });
+            });
+            
+            document.getElementById('comorbidity-filter').addEventListener('change', (e) => {
+                const selected = e.target.value;
+                updateComorbidityChart(selected);
+            });
+
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            updateConditionContent(document.querySelector('.condition-btn.active').dataset.condition);
+            renderSelfCareList();
+            renderProHelpList();
+            renderPrevalenceChart();
+            renderComorbidityChart();
+            updateComorbidityFilterOptions();
+        }
+        
+        function updateConditionContent(conditionKey) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('condition-content');
+            
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h3 class="font-bold text-2xl mb-2 text-slate-800">${t[`condition_${conditionKey}_title`]}</h3>
+                    <p class="mb-6 text-slate-600">${t[`condition_${conditionKey}_desc`]}</p>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-slate-700">${t[`condition_${conditionKey}_symptom_1_title`]}</h4>
+                        <p class="text-slate-600">${t[`condition_${conditionKey}_symptom_1_text`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-slate-700">${t[`condition_${conditionKey}_symptom_2_title`]}</h4>
+                        <p class="text-slate-600">${t[`condition_${conditionKey}_symptom_2_text`]}</p>
+                    </div>
+                    <a href="${t[`condition_${conditionKey}_link`]}" target="_blank" class="learn-more-link">${t.learn_more_link_text}</a>
+                </div>
+            `;
+        }
+
+        function renderSelfCareList() {
+            const t = translations[currentLanguage];
+            const listEl = document.getElementById('self-care-list');
+            listEl.innerHTML = `
+                <li><span class="icon">🧘</span><div><strong class="block">${t.self_care_item_1_title}</strong> ${t.self_care_item_1_desc}</div></li>
+                <li><span class="icon">🏃</span><div><strong class="block">${t.self_care_item_2_title}</strong> ${t.self_care_item_2_desc}</div></li>
+                <li><span class="icon">🛌</span><div><strong class="block">${t.self_care_item_3_title}</strong> ${t.self_care_item_3_desc}</div></li>
+                <li><span class="icon">🥗</span><div><strong class="block">${t.self_care_item_4_title}</strong> ${t.self_care_item_4_desc}</div></li>
+                <li><span class="icon">💬</span><div><strong class="block">${t.self_care_item_5_title}</strong> ${t.self_care_item_5_desc}</div></li>
+            `;
+        }
+
+        function renderProHelpList() {
+            const t = translations[currentLanguage];
+            const listEl = document.getElementById('pro-help-list');
+            listEl.innerHTML = `
+                <li><span class="icon">❗</span><div>${t.pro_help_item_1}</div></li>
+                <li><span class="icon">❗</span><div>${t.pro_help_item_2}</div></li>
+                <li><span class="icon">❗</span><div>${t.pro_help_item_3}</div></li>
+                <li><span class="icon">❗</span><div>${t.pro_help_item_4}</div></li>
+            `;
+        }
+
+        function renderPrevalenceChart() {
+            const t = translations[currentLanguage];
+            if (prevalenceChart) {
+                prevalenceChart.destroy();
+            }
+            const ctx = document.getElementById('prevalenceChart').getContext('2d');
+            prevalenceChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [t.prevalence_chart_label_1, t.prevalence_chart_label_2],
+                    datasets: [{ data: [21, 79], backgroundColor: ['#0A9396', '#E9D8A6'], borderColor: '#FFFFFF', borderWidth: 4 }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 20, padding: 20, color: '#334155' } },
+                        tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}%` } },
+                        title: { display: true, text: t.prevalence_chart_title, font: { size: 16 }, color: '#334155', padding: { top: 10, bottom: 10 } }
+                    }
+                }
+            });
+        }
+        
+        function updateComorbidityFilterOptions() {
+            const t = translations[currentLanguage];
+            const filterEl = document.getElementById('comorbidity-filter');
+            filterEl.innerHTML = `
+                <option value="heart">${t.comorbidity_filter_heart}</option>
+                <option value="diabetes">${t.comorbidity_filter_diabetes}</option>
+                <option value="respiratory">${t.comorbidity_filter_respiratory}</option>
+            `;
+        }
+        
+        function renderComorbidityChart() {
+             if (comorbidityChart) {
+                comorbidityChart.destroy();
+            }
+            const ctx = document.getElementById('comorbidityChart').getContext('2d');
+            comorbidityChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ data: [], backgroundColor: '#94D2BD', borderRadius: 4 }] },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, title: { display: true, text: '', color: '#475569' }, ticks: { color: '#475569' } },
+                        y: { ticks: { color: '#475569' } }
+                    },
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw}%` } } }
+                }
+            });
+            updateComorbidityChart('heart');
+        }
+
+        function updateComorbidityChart(filter) {
+            const t = translations[currentLanguage];
+            const comorbidityData = {
+                heart: { labels: [t.condition_btn_depression, t.condition_btn_anxiety, t.condition_btn_ptsd, t.condition_btn_bipolar, t.condition_btn_psychosis], data: [40, 35, 55, 45, 65], label: t.comorbidity_dataset_label_heart },
+                diabetes: { labels: [t.condition_btn_depression, t.condition_btn_anxiety, t.condition_btn_bipolar, t.condition_btn_ptsd, t.condition_btn_psychosis], data: [60, 25, 50, 40, 75], label: t.comorbidity_dataset_label_diabetes },
+                respiratory: { labels: [t.condition_btn_anxiety, t.condition_btn_depression, t.condition_btn_ptsd, t.condition_btn_bipolar, t.condition_btn_psychosis], data: [50, 30, 45, 25, 45], label: t.comorbidity_dataset_label_respiratory }
+            };
+            const newData = comorbidityData[filter];
+            comorbidityChart.data.labels = newData.labels;
+            comorbidityChart.data.datasets[0].data = newData.data;
+            comorbidityChart.data.datasets[0].label = newData.label;
+            comorbidityChart.options.scales.x.title.text = t.comorbidity_chart_x_axis;
+            comorbidityChart.update();
+        }
+
+    </script>
+</body>
+</html>

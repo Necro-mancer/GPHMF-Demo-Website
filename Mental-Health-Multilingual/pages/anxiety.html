@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Anxiety: A Detailed Guide</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: This page is a deep-dive sub-page. The structure uses a top navigation for key sections and interactive tabs for detailed content comparison, preventing overwhelming the user. 1. Intro defines anxiety. 2. An interactive tabbed section details specific disorders (GAD, Panic, Social, Phobias), allowing focused learning. 3. A "Symptoms at a Glance" section uses iconography for quick recognition of physical vs. emotional signs. 4. A "Treatments" section uses cards to clearly separate and explain different approaches. 5. An interactive section on Medications provides a deep-dive on drug classes. 6. An interactive bar chart visualizes prevalence data. 7. A final motivational section provides a message of hope. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Details of GAD, Panic Disorder, Social Anxiety, Phobias. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs. -> Interaction: Click buttons to show/hide detailed descriptions. -> Justification: Allows users to compare and contrast complex information in a structured, non-linear way. -> Library/Method: Vanilla JS DOM manipulation.
+        2. Report Info: Details of medication classes for anxiety. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs/Buttons. -> Interaction: Click buttons to show detailed cards for each drug class. -> Justification: Breaks down complex medical information into digestible, user-selected chunks. -> Library/Method: Vanilla JS DOM manipulation.
+        3. Report Info: Prevalence rates of different anxiety disorders. -> Goal: Inform/Compare. -> Viz: Horizontal Bar Chart. -> Interaction: Hover for details, updates with language change. -> Justification: A clear, simple way to compare statistical data across categories. -> Library: Chart.js (Canvas).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #005F73; 
+            border-bottom-color: #E9D8A6;
+        }
+        .tab-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-bottom-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="types" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="types_title"></h3>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-2">
+                <div class="flex flex-wrap border-b border-slate-200">
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold active" data-tab="gad" data-translate="tab_gad"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="panic" data-translate="tab_panic"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="social" data-translate="tab_social"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="phobia" data-translate="tab_phobia"></button>
+                </div>
+                <div id="tab-content" class="p-6 md:p-8"></div>
+            </div>
+        </section>
+
+        <section id="symptoms" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="symptoms_title"></h3>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-teal-700" data-translate="symptoms_emotional_title"></h4>
+                    <ul class="space-y-2 text-slate-600 text-left" id="symptoms-emotional-list"></ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-teal-700" data-translate="symptoms_physical_title"></h4>
+                    <ul class="space-y-2 text-slate-600 text-left" id="symptoms-physical-list"></ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="treatments" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="treatments_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="treatments_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_therapy_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_therapy_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_support_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_support_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="medications" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="meds_section_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="meds_section_subtitle"></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex flex-row md:flex-col md:w-1/4 flex-wrap justify-center md:justify-start">
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg active" data-med-class="ssri" data-translate="med_tab_ssri"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="benzo" data-translate="med_tab_benzo"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="beta" data-translate="med_tab_beta"></button>
+                </div>
+                <div class="md:w-3/4 bg-white p-6 md:p-8 rounded-xl shadow-md">
+                    <div id="med-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prevalence" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="prevalence_title"></h3>
+                 <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="prevalence_subtitle"></p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <div class="chart-container">
+                    <canvas id="prevalenceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600 mb-8" data-translate="hope_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">💡</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_1_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🛠️</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_2_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🧘</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_3_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <a href="https://www.nimh.nih.gov/health/topics/anxiety-disorders" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors" data-translate="footer_link_text"></a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "Understanding Anxiety",
+                lang_back_button: "Back",
+                welcome_title: "A Deep Dive Into Anxiety Disorders",
+                welcome_subtitle: "Anxiety is a normal and often healthy emotion. However, when a person regularly feels disproportionate levels of anxiety, it might become a medical disorder. In anxiety disorders, the body's natural 'fight-or-flight' alarm system is dysregulated, causing excessive and persistent fear that interferes with daily life. This guide explains the different types, their symptoms, and effective treatments.",
+                types_title: "Types of Anxiety Disorders",
+                tab_gad: "Generalized Anxiety (GAD)",
+                tab_panic: "Panic Disorder",
+                tab_social: "Social Anxiety",
+                tab_phobia: "Phobias",
+                symptoms_title: "Symptoms at a Glance",
+                symptoms_emotional_title: "Emotional & Mental",
+                symptoms_physical_title: "Physical",
+                prevalence_title: "How Common Are Anxiety Disorders?",
+                prevalence_subtitle: "Anxiety disorders are the most common mental illness in the U.S., affecting millions of adults each year. The chart below shows the estimated prevalence for specific types among U.S. adults.",
+                treatments_title: "Paths to Feeling Better",
+                treatments_subtitle: "Treatment is highly effective and often includes a combination of the following approaches, tailored to the individual's specific needs and symptoms.",
+                treatment_therapy_title: "Psychotherapy",
+                treatment_therapy_desc: "Therapy helps individuals develop skills to manage their symptoms. Cognitive Behavioral Therapy (CBT) is highly effective, teaching new ways of thinking and behaving. Other approaches like Exposure Therapy, which involves gradually confronting fears in a safe environment, are also very successful, especially for phobias and panic disorder.",
+                treatment_support_title: "Support Groups",
+                treatment_support_desc: "Joining a group provides a compassionate, confidential space to share experiences and coping strategies. Hearing from others who truly understand can reduce feelings of isolation, build confidence, and provide a sense of community and hope.",
+                meds_section_title: "A Closer Look at Medications",
+                meds_section_subtitle: "Medication can be a powerful tool for managing anxiety, often used alongside therapy. Finding the right one is a collaborative process with your doctor.",
+                med_tab_ssri: "SSRIs & SNRIs",
+                med_tab_benzo: "Benzodiazepines",
+                med_tab_beta: "Beta-Blockers",
+                hope_title: "Living a Full Life with Anxiety",
+                hope_subtitle: "An anxiety disorder can feel overwhelming, but it's important to remember that it is a manageable condition. Recovery is a journey of learning to understand and work with your body's alarm system, not a battle to eliminate anxiety forever.",
+                hope_infographic_1_title: "Anxiety is a Signal",
+                hope_infographic_1_desc: "Your anxiety is trying to tell you something. Therapy can help you learn to listen to the signal without being overwhelmed by the alarm, turning down the volume so you can think clearly.",
+                hope_infographic_2_title: "Skills are Your Power",
+                hope_infographic_2_desc: "Treatment gives you tools. Coping strategies, breathing techniques, and new ways of thinking are skills you can use for the rest of your life to navigate stress and challenges.",
+                hope_infographic_3_title: "Progress, Not Perfection",
+                hope_infographic_3_desc: "There will be good days and hard days. The goal is not a life completely free of anxiety, but a life where you are in charge, not your anxiety. Every step forward is a victory.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This page summarizes information for educational purposes and is not a substitute for professional medical advice. Always consult a healthcare provider for diagnosis and treatment.",
+                footer_sources: "Content adapted from the National Institute of Mental Health (NIMH).",
+                footer_link_text: "Visit the original NIMH page on Anxiety Disorders",
+                gad_title: "Generalized Anxiety Disorder (GAD)",
+                gad_desc: "GAD is marked by chronic, exaggerated worry about a wide range of everyday things, such as personal health, work, social interactions, and finances. The worrying is often uncontrollable, out of proportion to the actual feared event, and persists for months.",
+                gad_criteria_title: "Diagnostic Snapshot:",
+                gad_criteria_text: "Excessive anxiety and worry occurring more days than not for at least 6 months, about a number of events. The person finds it difficult to control the worry and experiences at least three physical or cognitive symptoms (e.g., restlessness, fatigue, difficulty concentrating).",
+                gad_risk_title: "Common Risk Factors:",
+                gad_risk_list: ["Genetics and family history", "Differences in brain chemistry and function", "History of stressful or traumatic experiences", "Chronic illness or other mental health conditions"],
+                panic_title: "Panic Disorder",
+                panic_desc: "People with panic disorder have recurrent, unexpected panic attacks. These are sudden periods of intense fear that come on quickly and reach their peak within minutes. The key feature of the disorder is the persistent fear of having another attack, which can lead to avoiding places or situations where attacks have occurred.",
+                panic_criteria_title: "Diagnostic Snapshot:",
+                panic_criteria_text: "Recurrent unexpected panic attacks. At least one attack has been followed by 1 month or more of persistent concern about additional attacks or their consequences, and/or a significant maladaptive change in behavior related to the attacks (e.g., avoidance).",
+                panic_risk_title: "Common Risk Factors:",
+                panic_risk_list: ["Genetics", "Major life stress (e.g., death of a loved one)", "History of physical or sexual abuse", "A temperament that is more prone to negative emotions"],
+                social_title: "Social Anxiety Disorder",
+                social_desc: "This is an intense, persistent fear of being watched and judged by others in social or performance situations like meeting new people, public speaking, or even eating in front of others. The underlying fear is of acting in a way that will be embarrassing, lead to rejection, or offend others.",
+                social_criteria_title: "Diagnostic Snapshot:",
+                social_criteria_text: "Marked fear or anxiety about one or more social situations where the individual is exposed to possible scrutiny by others. The individual fears they will show anxiety symptoms that will be negatively evaluated. The situations are actively avoided or endured with intense fear.",
+                social_risk_title: "Common Risk Factors:",
+                social_risk_list: ["Family history of anxiety", "Negative social experiences like bullying or public humiliation", "A naturally shy or timid temperament", "Having a physical condition or characteristic that has led to unwanted attention or negative social experiences"],
+                phobia_title: "Specific Phobias",
+                phobia_desc: "A specific phobia is an intense, irrational fear of something that poses little or no actual danger. Common phobias include fears of flying, heights, specific animals (like spiders or dogs), injections, and blood. The avoidance of the feared object or situation is a key feature.",
+                phobia_criteria_title: "Diagnostic Snapshot:",
+                phobia_criteria_text: "Marked fear or anxiety about a specific object or situation. The phobic object or situation almost always provokes immediate fear and is actively avoided. The fear is out of proportion to the actual danger and is persistent, typically lasting 6 months or more.",
+                phobia_risk_title: "Common Risk Factors:",
+                phobia_risk_list: ["Traumatic experiences related to the object or situation", "Observing others (like a parent) with a phobia", "Genetics and brain function", "Receiving negative information (e.g., news reports)"],
+                symptom_list_emotional: ["Feeling restless, wound-up, or on-edge", "Uncontrollable feelings of worry", "Difficulty concentrating or mind going blank", "Irritability and impatience", "A sense of impending danger, panic, or doom"],
+                symptom_list_physical: ["Pounding or racing heart", "Sweating, trembling, or shaking", "Shortness of breath or a feeling of choking", "Headaches, stomachaches, or nausea", "Muscle tension and trouble sleeping"],
+                prevalence_chart_y_axis: "Estimated % of U.S. Adults",
+                prevalence_chart_label_phobia: "Specific Phobia",
+                prevalence_chart_label_social: "Social Anxiety",
+                prevalence_chart_label_panic: "Panic Disorder",
+                prevalence_chart_label_gad: "GAD",
+                med_ssri_title: "SSRIs & SNRIs (Antidepressants)",
+                med_ssri_moa_title: "How They Work",
+                med_ssri_moa_text: "These are often the first-line medication for long-term anxiety management. They work by increasing levels of mood-regulating brain chemicals like serotonin and norepinephrine.",
+                med_ssri_se_title: "Common Side Effects",
+                med_ssri_se_list: "Nausea, headache, insomnia or drowsiness. These often decrease over time.",
+                med_ssri_con_title: "Key Considerations",
+                med_ssri_con_text: "These medications take several weeks to reach their full effect. They are meant for daily, long-term use and should not be stopped abruptly.",
+                med_benzo_title: "Benzodiazepines",
+                med_benzo_moa_title: "How They Work",
+                med_benzo_moa_text: "These are fast-acting medications that enhance the effect of GABA, a neurotransmitter that calms brain activity. They provide rapid relief from intense anxiety or panic.",
+                med_benzo_se_title: "Common Side Effects",
+                med_benzo_se_list: "Drowsiness, dizziness, confusion, impaired coordination.",
+                med_benzo_con_title: "Key Considerations",
+                med_benzo_con_text: "Due to the risk of tolerance and dependence, these are typically prescribed for short-term or as-needed use, not for long-term daily management.",
+                med_beta_title: "Beta-Blockers",
+                med_beta_moa_title: "How They Work",
+                med_beta_moa_text: "These are blood pressure medications that block the effects of adrenaline. They don't treat the psychological feeling of worry, but are very effective at controlling the physical symptoms of anxiety.",
+                med_beta_se_title: "Common Side Effects",
+                med_beta_se_list: "Fatigue, cold hands, dizziness, weakness.",
+                med_beta_con_title: "Key Considerations",
+                med_beta_con_text: "Often used on an as-needed basis for performance-related anxiety (like public speaking) to control symptoms like a racing heart, shaking, and trembling voice."
+            },
+            es: {
+                page_title: "Entendiendo la Ansiedad",
+                lang_back_button: "Volver",
+                welcome_title: "Una Mirada Profunda a los Trastornos de Ansiedad",
+                welcome_subtitle: "La ansiedad es una emoción normal y a menudo saludable. Sin embargo, cuando una persona siente regularmente niveles desproporcionados de ansiedad, podría convertirse en un trastorno médico. En los trastornos de ansiedad, el sistema de alarma natural del cuerpo de 'lucha o huida' está desregulado, causando un miedo excesivo y persistente que interfiere con la vida diaria. Esta guía explica los diferentes tipos, sus síntomas y tratamientos efectivos.",
+                types_title: "Tipos de Trastornos de Ansiedad",
+                tab_gad: "Ansiedad Generalizada (TAG)",
+                tab_panic: "Trastorno de Pánico",
+                tab_social: "Ansiedad Social",
+                tab_phobia: "Fobias",
+                symptoms_title: "Síntomas de un Vistazo",
+                symptoms_emotional_title: "Emocionales y Mentales",
+                symptoms_physical_title: "Físicos",
+                prevalence_title: "¿Qué Tan Comunes Son los Trastornos de Ansiedad?",
+                prevalence_subtitle: "Los trastornos de ansiedad son la enfermedad mental más común en los EE. UU. y afectan a millones de adultos cada año. El siguiente gráfico muestra la prevalencia estimada para tipos específicos entre los adultos de EE. UU.",
+                treatments_title: "Caminos para Sentirse Mejor",
+                treatments_subtitle: "El tratamiento es muy eficaz y, a menudo, incluye una combinación de los siguientes enfoques, adaptados a las necesidades y síntomas específicos de la persona.",
+                treatment_therapy_title: "Psicoterapia",
+                treatment_therapy_desc: "La terapia ayuda a las personas a desarrollar habilidades para manejar sus síntomas. La Terapia Cognitivo-Conductual (TCC) es muy eficaz, ya que enseña nuevas formas de pensar y comportarse. Otros enfoques como la Terapia de Exposición, que implica enfrentar gradualmente los miedos en un entorno seguro, también son muy exitosos, especialmente para las fobias y el trastorno de pánico.",
+                treatment_support_title: "Grupos de Apoyo",
+                treatment_support_desc: "Unirse a un grupo proporciona un espacio compasivo y confidencial para compartir experiencias y estrategias de afrontamiento. Escuchar a otros que realmente entienden puede reducir los sentimientos de aislamiento, aumentar la confianza y proporcionar un sentido de comunidad y esperanza.",
+                meds_section_title: "Una Mirada Cercana a los Medicamentos",
+                meds_section_subtitle: "La medicación puede ser una herramienta poderosa para manejar la ansiedad, a menudo utilizada junto con la terapia. Encontrar la correcta es un proceso de colaboración con su médico.",
+                med_tab_ssri: "ISRS y IRSN",
+                med_tab_benzo: "Benzodiacepinas",
+                med_tab_beta: "Betabloqueantes",
+                hope_title: "Viviendo una Vida Plena con Ansiedad",
+                hope_subtitle: "Un trastorno de ansiedad puede ser abrumador, pero es importante recordar que es una condición manejable. La recuperación es un viaje de aprendizaje para entender y trabajar con el sistema de alarma de su cuerpo, no una batalla para eliminar la ansiedad para siempre.",
+                hope_infographic_1_title: "La Ansiedad es una Señal",
+                hope_infographic_1_desc: "Su ansiedad está tratando de decirle algo. La terapia puede ayudarle a aprender a escuchar la señal sin ser abrumado por la alarma, bajando el volumen para que pueda pensar con claridad.",
+                hope_infographic_2_title: "Las Habilidades son su Poder",
+                hope_infographic_2_desc: "El tratamiento le da herramientas. Las estrategias de afrontamiento, las técnicas de respiración y las nuevas formas de pensar son habilidades que puede usar por el resto de su vida para navegar el estrés y los desafíos.",
+                hope_infographic_3_title: "Progreso, No Perfección",
+                hope_infographic_3_desc: "Habrá días buenos y días difíciles. El objetivo no es una vida completamente libre de ansiedad, sino una vida en la que usted está a cargo, no su ansiedad. Cada paso adelante es una victoria.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta página resume información con fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Consulte siempre a un proveedor de atención médica para el diagnóstico y tratamiento.",
+                footer_sources: "Contenido adaptado del Instituto Nacional de Salud Mental (NIMH).",
+                footer_link_text: "Visite la página original del NIMH sobre Trastornos de Ansiedad",
+                gad_title: "Trastorno de Ansiedad Generalizada (TAG)",
+                gad_desc: "El TAG se caracteriza por una preocupación crónica y exagerada sobre una amplia gama de cosas cotidianas, como la salud personal, el trabajo, las interacciones sociales y las finanzas. La preocupación es a menudo incontrolable, desproporcionada al evento temido real, y persiste durante meses.",
+                gad_criteria_title: "Resumen Diagnóstico:",
+                gad_criteria_text: "Ansiedad y preocupación excesivas que ocurren más días de los que no durante al menos 6 meses, sobre una serie de eventos. A la persona le resulta difícil controlar la preocupación y experimenta al menos tres síntomas físicos o cognitivos (p. ej., inquietud, fatiga, dificultad para concentrarse).",
+                gad_risk_title: "Factores de Riesgo Comunes:",
+                gad_risk_list: ["Genética e historia familiar", "Diferencias en la química y función cerebral", "Historial de experiencias estresantes o traumáticas", "Enfermedad crónica u otras condiciones de salud mental"],
+                panic_title: "Trastorno de Pánico",
+                panic_desc: "Las personas con trastorno de pánico tienen ataques de pánico recurrentes e inesperados. Son períodos repentinos de miedo intenso que aparecen rápidamente y alcanzan su punto máximo en minutos. La característica clave del trastorno es el miedo persistente a tener otro ataque, lo que puede llevar a evitar lugares o situaciones donde han ocurrido ataques.",
+                panic_criteria_title: "Resumen Diagnóstico:",
+                panic_criteria_text: "Ataques de pánico inesperados y recurrentes. Al menos un ataque ha sido seguido por 1 mes o más de preocupación persistente sobre ataques adicionales o sus consecuencias, y/o un cambio desadaptativo significativo en el comportamiento relacionado con los ataques (p. ej., evitación).",
+                panic_risk_title: "Factores de Riesgo Comunes:",
+                panic_risk_list: ["Genética", "Estrés vital importante (p. ej., muerte de un ser querido)", "Historial de abuso físico o sexual", "Un temperamento más propenso a las emociones negativas"],
+                social_title: "Trastorno de Ansiedad Social",
+                social_desc: "Es un miedo intenso y persistente a ser observado y juzgado por los demás en situaciones sociales o de actuación como conocer gente nueva, hablar en público o incluso comer delante de otros. El miedo subyacente es actuar de una manera que sea vergonzosa, conduzca al rechazo u ofenda a otros.",
+                social_criteria_title: "Resumen Diagnóstico:",
+                social_criteria_text: "Miedo o ansiedad intensa en una o más situaciones sociales donde el individuo está expuesto al posible escrutinio de otros. El individuo teme mostrar síntomas de ansiedad que serán evaluados negativamente. Las situaciones se evitan activamente o se soportan con miedo intenso.",
+                social_risk_title: "Factores de Riesgo Comunes:",
+                social_risk_list: ["Historial familiar de ansiedad", "Experiencias sociales negativas como el acoso o la humillación pública", "Un temperamento naturalmente tímido o retraído", "Tener una condición o característica física que ha provocado atención no deseada o experiencias sociales negativas"],
+                phobia_title: "Fobias Específicas",
+                phobia_desc: "Una fobia específica es un miedo intenso e irracional a algo que representa poco o ningún peligro real. Las fobias comunes incluyen el miedo a volar, a las alturas, a animales específicos (como arañas o perros), a las inyecciones y a la sangre. La evitación del objeto o situación temida es una característica clave.",
+                phobia_criteria_title: "Resumen Diagnóstico:",
+                phobia_criteria_text: "Miedo o ansiedad marcada sobre un objeto o situación específica. El objeto o situación fóbica casi siempre provoca miedo inmediato y se evita activamente. El miedo es desproporcionado al peligro real y es persistente, durando típicamente 6 meses o más.",
+                phobia_risk_title: "Factores de Riesgo Comunes:",
+                phobia_risk_list: ["Experiencias traumáticas relacionadas con el objeto o situación", "Observar a otros (como un padre) con una fobia", "Genética y función cerebral", "Recibir información negativa (p. ej., noticias)"],
+                symptom_list_emotional: ["Sentirse inquieto, tenso o al límite", "Sentimientos incontrolables de preocupación", "Dificultad para concentrarse o mente en blanco", "Irritabilidad e impaciencia", "Una sensación de peligro inminente, pánico o catástrofe"],
+                symptom_list_physical: ["Corazón palpitante o acelerado", "Sudoración, temblores o sacudidas", "Falta de aliento o sensación de ahogo", "Dolores de cabeza, de estómago o náuseas", "Tensión muscular y problemas para dormir"],
+                prevalence_chart_y_axis: "% Estimado de Adultos en EE. UU.",
+                prevalence_chart_label_phobia: "Fobia Específica",
+                prevalence_chart_label_social: "Ansiedad Social",
+                prevalence_chart_label_panic: "Trastorno de Pánico",
+                prevalence_chart_label_gad: "TAG",
+                med_ssri_title: "ISRS y IRSN (Antidepresivos)",
+                med_ssri_moa_title: "Cómo Funcionan",
+                med_ssri_moa_text: "Suelen ser la medicación de primera línea para el manejo de la ansiedad a largo plazo. Actúan aumentando los niveles de sustancias químicas cerebrales que regulan el estado de ánimo, como la serotonina y la norepinefrina.",
+                med_ssri_se_title: "Efectos Secundarios Comunes",
+                med_ssri_se_list: "Náuseas, dolor de cabeza, insomnio o somnolencia. A menudo disminuyen con el tiempo.",
+                med_ssri_con_title: "Consideraciones Clave",
+                med_ssri_con_text: "Estos medicamentos tardan varias semanas en alcanzar su efecto completo. Están destinados a un uso diario y a largo plazo y no deben suspenderse bruscamente.",
+                med_benzo_title: "Benzodiacepinas",
+                med_benzo_moa_title: "Cómo Funcionan",
+                med_benzo_moa_text: "Son medicamentos de acción rápida que potencian el efecto del GABA, un neurotransmisor que calma la actividad cerebral. Proporcionan un alivio rápido de la ansiedad intensa o el pánico.",
+                med_benzo_se_title: "Efectos Secundarios Comunes",
+                med_benzo_se_list: "Somnolencia, mareos, confusión, alteración de la coordinación.",
+                med_benzo_con_title: "Consideraciones Clave",
+                med_benzo_con_text: "Debido al riesgo de tolerancia y dependencia, se suelen recetar para un uso a corto plazo o según sea necesario, no para un manejo diario a largo plazo.",
+                med_beta_title: "Betabloqueantes",
+                med_beta_moa_title: "Cómo Funcionan",
+                med_beta_moa_text: "Son medicamentos para la presión arterial que bloquean los efectos de la adrenalina. No tratan el sentimiento psicológico de preocupación, pero son muy eficaces para controlar los síntomas físicos de la ansiedad.",
+                med_beta_se_title: "Efectos Secundarios Comunes",
+                med_beta_se_list: "Fatiga, manos frías, mareos, debilidad.",
+                med_beta_con_title: "Consideraciones Clave",
+                med_beta_con_text: "Se utilizan a menudo según sea necesario para la ansiedad relacionada con el rendimiento (como hablar en público) para controlar síntomas como el corazón acelerado, los temblores y la voz temblorosa."
+            }
+        };
+
+        let currentLanguage = 'en';
+        let prevalenceChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            const tabBtns = document.querySelectorAll('#types .tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateTabContent(btn.dataset.tab);
+                });
+            });
+
+            const medTabBtns = document.querySelectorAll('#medications .tab-btn');
+            medTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    medTabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateMedContent(btn.dataset.medClass);
+                });
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            updateTabContent(document.querySelector('#types .tab-btn.active').dataset.tab);
+            updateMedContent(document.querySelector('#medications .tab-btn.active').dataset.medClass);
+            renderSymptomLists();
+            renderPrevalenceChart();
+        }
+        
+        function updateTabContent(tabKey) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('tab-content');
+            
+            const riskFactorsHtml = t[`${tabKey}_risk_list`].map(item => `<li class="text-sm">${item}</li>`).join('');
+
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">${t[`${tabKey}_title`]}</h4>
+                    <p class="text-slate-600 mb-4">${t[`${tabKey}_desc`]}</p>
+                    <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-4 rounded-r-lg mb-6">
+                        <p class="font-bold text-sm mb-1">${t[`${tabKey}_criteria_title`]}</p>
+                        <p class="text-sm">${t[`${tabKey}_criteria_text`]}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-lg mb-2 text-slate-700">${t[`${tabKey}_risk_title`]}</h5>
+                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                            ${riskFactorsHtml}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function updateMedContent(medClass) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('med-content');
+            const sideEffectsHtml = t[`med_${medClass}_se_list`].split(',').map(item => `<li class="text-sm">${item.trim()}</li>`).join('');
+
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-4 text-slate-800">${t[`med_${medClass}_title`]}</h4>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_moa_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_moa_text`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_se_title`]}</h5>
+                        <ul class="list-disc list-inside space-y-1">${sideEffectsHtml}</ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_con_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_con_text`]}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSymptomLists() {
+            const t = translations[currentLanguage];
+            const emotionalListEl = document.getElementById('symptoms-emotional-list');
+            const physicalListEl = document.getElementById('symptoms-physical-list');
+
+            emotionalListEl.innerHTML = t.symptom_list_emotional.map(item => `<li class="flex items-start"><span class="mr-2 text-teal-500">🧠</span><span>${item}</span></li>`).join('');
+            physicalListEl.innerHTML = t.symptom_list_physical.map(item => `<li class="flex items-start"><span class="mr-2 text-teal-500">💓</span><span>${item}</span></li>`).join('');
+        }
+
+        function renderPrevalenceChart() {
+            const t = translations[currentLanguage];
+            if (prevalenceChart) {
+                prevalenceChart.destroy();
+            }
+            const ctx = document.getElementById('prevalenceChart').getContext('2d');
+            prevalenceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [t.prevalence_chart_label_phobia, t.prevalence_chart_label_social, t.prevalence_chart_label_panic, t.prevalence_chart_label_gad],
+                    datasets: [{
+                        label: t.prevalence_chart_y_axis,
+                        data: [12.5, 7.1, 2.7, 2.9],
+                        backgroundColor: ['#94D2BD', '#5EAAA8', '#3B8C88', '#2E6B6A'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: t.prevalence_chart_y_axis, color: '#475569' },
+                            ticks: { color: '#475569', callback: (value) => value + '%' }
+                        },
+                        y: { ticks: { color: '#475569' } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}%` } }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

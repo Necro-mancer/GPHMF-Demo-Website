@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Psychotic Disorders: A Detailed Guide</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: This page is a deep-dive sub-page on Psychotic Disorders, using Schizophrenia as the main example. It follows the established structure. 1. An empathetic introduction defines psychosis. 2. An interactive tabbed section details the three core symptom clusters (Positive, Negative, Cognitive). 3. A section on Risk Factors provides context. 4. A "Treatments" section uses content cards to explain therapy and Coordinated Specialty Care (CSC). 5. An interactive section on Antipsychotic Medications provides a deep-dive on drug classes. 6. A final motivational section provides a message of hope. This structure guides the user from a general overview to specific details and treatment information. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Details of the three main symptom clusters. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs. -> Interaction: Click buttons to show/hide detailed descriptions. -> Justification: Allows users to understand the complex, multi-faceted nature of psychotic symptoms in a structured way. -> Library/Method: Vanilla JS DOM manipulation.
+        2. Report Info: Details of antipsychotic medication classes. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs/Buttons. -> Interaction: Click buttons to show detailed cards for each drug class. -> Justification: Breaks down complex medical information into digestible, user-selected chunks. -> Library/Method: Vanilla JS DOM manipulation.
+        3. Report Info: Treatment options (Therapy, CSC). -> Goal: Inform/Organize. -> Viz: Styled content cards. -> Interaction: None. -> Justification: Visually separates distinct treatment modalities for clarity. -> Library/Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .tab-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-bottom: 3px solid transparent;
+            transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
+        }
+        .tab-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-bottom-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="symptoms" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="symptoms_title"></h3>
+                 <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="symptoms_subtitle"></p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-2">
+                <div class="flex flex-wrap border-b border-slate-200">
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold active" data-tab="positive" data-translate="tab_positive"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="negative" data-translate="tab_negative"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="cognitive" data-translate="tab_cognitive"></button>
+                </div>
+                <div id="tab-content" class="p-6 md:p-8"></div>
+            </div>
+        </section>
+
+        <section id="risk-factors" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="risk_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="risk_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="risk_genetics_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="risk_genetics_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="risk_environment_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="risk_environment_desc"></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="treatments" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="treatments_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="treatments_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_therapy_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_therapy_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_csc_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_csc_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="medications" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="meds_section_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="meds_section_subtitle"></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex flex-row md:flex-col md:w-1/4 flex-wrap justify-center md:justify-start">
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg active" data-med-class="second_gen" data-translate="med_tab_second_gen"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="first_gen" data-translate="med_tab_first_gen"></button>
+                </div>
+                <div class="md:w-3/4 bg-white p-6 md:p-8 rounded-xl shadow-md">
+                    <div id="med-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600 mb-8" data-translate="hope_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">✅</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_1_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🤝</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_2_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">👤</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_3_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <a href="https://www.nimh.nih.gov/health/topics/schizophrenia" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors" data-translate="footer_link_text"></a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "Understanding Psychotic Disorders",
+                lang_back_button: "Back",
+                welcome_title: "A Deep Dive Into Psychotic Disorders",
+                welcome_subtitle: "Psychotic disorders are serious mental illnesses that alter thinking and perceptions, causing a person to lose touch with reality. Schizophrenia is the most common of these disorders. Early diagnosis and treatment are critical for improving long-term outcomes. This guide explains the symptoms, risk factors, and effective treatments.",
+                symptoms_title: "The Three Symptom Clusters of Psychosis",
+                symptoms_subtitle: "The symptoms of psychotic disorders like schizophrenia are typically categorized into three groups: positive, negative, and cognitive.",
+                tab_positive: "Positive Symptoms",
+                tab_negative: "Negative Symptoms",
+                tab_cognitive: "Cognitive Symptoms",
+                risk_title: "Risk Factors",
+                risk_subtitle: "The exact causes are unknown, but researchers believe a combination of genetic and environmental factors contribute to the risk.",
+                risk_genetics_title: "Genetics & Brain Structure",
+                risk_genetics_desc: "Having a close relative with schizophrenia significantly increases risk. Scientists also believe that subtle differences in brain structure and the balance of certain chemical messengers (like dopamine and glutamate) play a role.",
+                risk_environment_title: "Environmental Factors",
+                risk_environment_desc: "Factors that may increase risk include exposure to viruses or malnutrition before birth, problems during birth, and using mind-altering (psychoactive or psychotropic) drugs during teen and young adult years.",
+                treatments_title: "Paths to Recovery",
+                treatments_subtitle: "Treatment focuses on managing symptoms and improving quality of life. A combination of medication, therapy, and coordinated support services is most effective.",
+                treatment_therapy_title: "Psychotherapy",
+                treatment_therapy_desc: "Once symptoms are stabilized with medication, therapies like Cognitive Behavioral Therapy (CBT) can help people test the reality of their thoughts and perceptions, manage symptoms, and learn coping skills for daily life.",
+                treatment_csc_title: "Coordinated Specialty Care (CSC)",
+                treatment_csc_desc: "This is a team-based approach for treating a first episode of psychosis. It includes medication management, psychotherapy, case management, and family education and support. CSC is highly effective at improving long-term recovery.",
+                meds_section_title: "A Closer Look at Antipsychotics",
+                meds_section_subtitle: "Antipsychotic medications are the cornerstone of treatment for psychotic disorders. They are highly effective at managing 'positive' symptoms like hallucinations and delusions, which allows individuals to engage more fully in therapy and daily life.",
+                med_tab_first_gen: "First-Generation (Typicals)",
+                med_tab_second_gen: "Second-Generation (Atypicals)",
+                hope_title: "Recovery is a Journey of Hope",
+                hope_subtitle: "Receiving a diagnosis of a psychotic disorder can be frightening, but it's important to know that recovery is possible. With consistent treatment, people can and do manage their symptoms, prevent relapses, and lead independent, fulfilling lives.",
+                hope_infographic_1_title: "Recovery is Possible",
+                hope_infographic_1_desc: "While there is no cure, psychotic disorders are highly treatable. Consistent treatment helps manage symptoms, allowing people to live full and meaningful lives in their communities.",
+                hope_infographic_2_title: "Connection is Key",
+                hope_infographic_2_desc: "Strong, supportive relationships with family, friends, and a dedicated treatment team are vital. Support reduces stress, combats isolation, and provides the encouragement needed to stick with a treatment plan.",
+                hope_infographic_3_title: "You Are More Than a Diagnosis",
+                hope_infographic_3_desc: "A mental health condition is only one part of who you are. Recovery involves focusing on your strengths, goals, and interests, and building a life that has purpose and value beyond the illness.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This page summarizes information for educational purposes and is not a substitute for professional medical advice. Always consult a healthcare provider for diagnosis and treatment.",
+                footer_sources: "Content adapted from the National Institute of Mental Health (NIMH).",
+                footer_link_text: "Visit the original NIMH page on Schizophrenia",
+                positive_title: "Positive Symptoms (Psychotic behaviors not generally seen in healthy people)",
+                positive_desc: "These symptoms represent a distortion of normal functions. They are experiences that are 'added' to a person's reality.",
+                positive_list: ["Hallucinations: Seeing, hearing, smelling, tasting, or feeling things that are not there. Hearing voices is the most common type.", "Delusions: Strong, false beliefs that are not based in reality and persist even when there is evidence to the contrary.", "Thought Disorders: Unusual or dysfunctional ways of thinking, such as disorganized speech or trouble organizing thoughts.", "Movement Disorders: Agitated or repeated body movements."],
+                negative_title: "Negative Symptoms (Disruptions to normal emotions and behaviors)",
+                negative_desc: "These symptoms represent a reduction or loss of normal functions. They can be mistaken for depression or laziness.",
+                negative_list: ["'Flat affect': Reduced expression of emotions via facial expression or voice tone.", "Reduced feelings of pleasure in everyday life (anhedonia).", "Difficulty beginning and sustaining activities (avolition).", "Reduced speaking (alogia)."],
+                cognitive_title: "Cognitive Symptoms",
+                cognitive_desc: "For some, these symptoms are subtle, but for others, they are more severe and noticeable. They can make it difficult to lead a normal life.",
+                cognitive_list: ["Poor 'executive functioning': Difficulty understanding information and using it to make decisions.", "Trouble focusing or paying attention.", "Problems with 'working memory': Difficulty using information immediately after learning it."],
+                med_first_gen_title: "First-Generation (Typical) Antipsychotics",
+                med_first_gen_moa_title: "How They Work",
+                med_first_gen_moa_text: "These older medications primarily work by blocking dopamine D2 receptors in the brain. They are very effective at treating positive symptoms.",
+                med_first_gen_se_title: "Common Side Effects",
+                med_first_gen_se_list: "High risk of movement disorders (extrapyramidal symptoms), such as muscle stiffness, tremors, and long-term risk of tardive dyskinesia (uncontrollable muscle movements).",
+                med_first_gen_con_title: "Key Considerations",
+                med_first_gen_con_text: "While effective, they are used less often now as a first-line treatment due to the higher risk of movement-related side effects compared to newer medications.",
+                med_second_gen_title: "Second-Generation (Atypical) Antipsychotics",
+                med_second_gen_moa_title: "How They Work",
+                med_second_gen_moa_text: "These are newer medications that are generally the first choice for treatment. They block both dopamine D2 and serotonin 5-HT2A receptors.",
+                med_second_gen_se_title: "Common Side Effects",
+                med_second_gen_se_list: "Lower risk of serious movement disorders, but a higher risk of metabolic side effects, including significant weight gain, high cholesterol, and an increased risk for type 2 diabetes.",
+                med_second_gen_con_title: "Key Considerations",
+                med_second_gen_con_text: "Regular monitoring of weight, blood glucose, and cholesterol is essential. The choice of medication is based on a balance between effectiveness and potential side effects for each individual."
+            },
+            es: {
+                page_title: "Entendiendo los Trastornos Psicóticos",
+                lang_back_button: "Volver",
+                welcome_title: "Una Mirada Profunda a los Trastornos Psicóticos",
+                welcome_subtitle: "Los trastornos psicóticos son enfermedades mentales graves que alteran el pensamiento y las percepciones, haciendo que una persona pierda el contacto con la realidad. La esquizofrenia es el más común de estos trastornos. El diagnóstico y tratamiento tempranos son críticos para mejorar los resultados a largo plazo. Esta guía explica los síntomas, los factores de riesgo y los tratamientos efectivos.",
+                symptoms_title: "Los Tres Grupos de Síntomas de la Psicosis",
+                symptoms_subtitle: "Los síntomas de los trastornos psicóticos como la esquizofrenia se clasifican típicamente en tres grupos: positivos, negativos y cognitivos.",
+                tab_positive: "Síntomas Positivos",
+                tab_negative: "Síntomas Negativos",
+                tab_cognitive: "Síntomas Cognitivos",
+                risk_title: "Factores de Riesgo",
+                risk_subtitle: "Las causas exactas son desconocidas, pero los investigadores creen que una combinación de factores genéticos y ambientales contribuye al riesgo.",
+                risk_genetics_title: "Genética y Estructura Cerebral",
+                risk_genetics_desc: "Tener un pariente cercano con esquizofrenia aumenta significativamente el riesgo. Los científicos también creen que sutiles diferencias en la estructura cerebral y el equilibrio de ciertos mensajeros químicos (como la dopamina y el glutamato) juegan un papel.",
+                risk_environment_title: "Factores Ambientales",
+                risk_environment_desc: "Los factores que pueden aumentar el riesgo incluyen la exposición a virus o la desnutrición antes del nacimiento, problemas durante el parto y el uso de drogas que alteran la mente (psicoactivas o psicotrópicas) durante la adolescencia y la juventud.",
+                treatments_title: "Caminos Hacia la Recuperación",
+                treatments_subtitle: "El tratamiento se centra en manejar los síntomas y mejorar la calidad de vida. Una combinación de medicamentos, terapia y servicios de apoyo coordinados es lo más efectivo.",
+                treatment_therapy_title: "Psicoterapia",
+                treatment_therapy_desc: "Una vez que los síntomas se estabilizan con la medicación, terapias como la Terapia Cognitivo-Conductual (TCC) pueden ayudar a las personas a probar la realidad de sus pensamientos y percepciones, manejar los síntomas y aprender habilidades de afrontamiento para la vida diaria.",
+                treatment_csc_title: "Atención Coordinada Especializada (ACE)",
+                treatment_csc_desc: "Este es un enfoque basado en equipo para tratar un primer episodio de psicosis. Incluye manejo de medicamentos, psicoterapia, gestión de casos y educación y apoyo familiar. La ACE es muy eficaz para mejorar la recuperación a largo plazo.",
+                meds_section_title: "Una Mirada Cercana a los Antipsicóticos",
+                meds_section_subtitle: "Los medicamentos antipsicóticos son la piedra angular del tratamiento para los trastornos psicóticos. Son muy eficaces para manejar los síntomas 'positivos' como las alucinaciones y los delirios, lo que permite a las personas participar más plenamente en la terapia y la vida diaria.",
+                med_tab_first_gen: "Primera Generación (Típicos)",
+                med_tab_second_gen: "Segunda Generación (Atípicos)",
+                hope_title: "La Recuperación es un Viaje de Esperanza",
+                hope_subtitle: "Recibir un diagnóstico de un trastorno psicótico puede ser aterrador, pero es importante saber que la recuperación es posible. Con un tratamiento constante, las personas pueden manejar y de hecho manejan sus síntomas, previenen recaídas y llevan vidas independientes y plenas.",
+                hope_infographic_1_title: "La Recuperación es Posible",
+                hope_infographic_1_desc: "Aunque no hay cura, los trastornos psicóticos son altamente tratables. El tratamiento constante ayuda a manejar los síntomas, permitiendo a las personas vivir vidas plenas y significativas en sus comunidades.",
+                hope_infographic_2_title: "La Conexión es Clave",
+                hope_infographic_2_desc: "Las relaciones de apoyo sólidas con la familia, los amigos y un equipo de tratamiento dedicado son vitales. El apoyo reduce el estrés, combate el aislamiento y proporciona el aliento necesario para seguir con un plan de tratamiento.",
+                hope_infographic_3_title: "Usted es Más que un Diagnóstico",
+                hope_infographic_3_desc: "Una condición de salud mental es solo una parte de quién es usted. La recuperación implica centrarse en sus fortalezas, metas e intereses, y construir una vida que tenga propósito y valor más allá de la enfermedad.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta página resume información con fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Consulte siempre a un proveedor de atención médica para el diagnóstico y tratamiento.",
+                footer_sources: "Contenido adaptado del Instituto Nacional de Salud Mental (NIMH).",
+                footer_link_text: "Visite la página original del NIMH sobre Esquizofrenia",
+                positive_title: "Síntomas Positivos (comportamientos psicóticos que generalmente no se ven en personas sanas)",
+                positive_desc: "Estos síntomas representan una distorsión de las funciones normales. Son experiencias que se 'añaden' a la realidad de una persona.",
+                positive_list: ["Alucinaciones: Ver, oír, oler, saborear o sentir cosas que no existen. Oír voces es el tipo más común.", "Delirios: Creencias falsas y fuertes que no se basan en la realidad y persisten incluso cuando hay evidencia en contrario.", "Trastornos del pensamiento: Formas inusuales o disfuncionales de pensar, como el habla desorganizada o problemas para organizar los pensamientos.", "Trastornos del movimiento: Movimientos corporales agitados o repetidos."],
+                negative_title: "Síntomas Negativos (interrupciones de las emociones y comportamientos normales)",
+                negative_desc: "Estos síntomas representan una reducción o pérdida de las funciones normales. Pueden confundirse con depresión o pereza.",
+                negative_list: ["'Afecto plano': Expresión reducida de emociones a través de la expresión facial o el tono de voz.", "Reducción de los sentimientos de placer en la vida cotidiana (anhedonia).", "Dificultad para iniciar y mantener actividades (abulia).", "Habla reducida (alogia)."],
+                cognitive_title: "Síntomas Cognitivos",
+                cognitive_desc: "Para algunos, estos síntomas son sutiles, pero para otros, son más graves y notorios. Pueden dificultar llevar una vida normal.",
+                cognitive_list: ["Bajo 'funcionamiento ejecutivo': Dificultad para comprender la información y usarla para tomar decisiones.", "Problemas para concentrarse o prestar atención.", "Problemas con la 'memoria de trabajo': Dificultad para usar la información inmediatamente después de aprenderla."],
+                med_first_gen_title: "Antipsicóticos de Primera Generación (Típicos)",
+                med_first_gen_moa_title: "Cómo Funcionan",
+                med_first_gen_moa_text: "Estos medicamentos más antiguos funcionan principalmente bloqueando los receptores de dopamina D2 en el cerebro. Son muy eficaces para tratar los síntomas positivos.",
+                med_first_gen_se_title: "Efectos Secundarios Comunes",
+                med_first_gen_se_list: "Alto riesgo de trastornos del movimiento (síntomas extrapiramidales), como rigidez muscular, temblores y riesgo a largo plazo de discinesia tardía (movimientos musculares incontrolables).",
+                med_first_gen_con_title: "Consideraciones Clave",
+                med_first_gen_con_text: "Aunque son eficaces, ahora se usan con menos frecuencia como tratamiento de primera línea debido al mayor riesgo de efectos secundarios relacionados con el movimiento en comparación con los medicamentos más nuevos.",
+                med_second_gen_title: "Antipsicóticos de Segunda Generación (Atípicos)",
+                med_second_gen_moa_title: "Cómo Funcionan",
+                med_second_gen_moa_text: "Estos son medicamentos más nuevos que generalmente son la primera opción de tratamiento. Bloquean tanto los receptores de dopamina D2 como los de serotonina 5-HT2A.",
+                med_second_gen_se_title: "Efectos Secundarios Comunes",
+                med_second_gen_se_list: "Menor riesgo de trastornos graves del movimiento, pero un mayor riesgo de efectos secundarios metabólicos, incluido un aumento de peso significativo, colesterol alto y un mayor riesgo de diabetes tipo 2.",
+                med_second_gen_con_title: "Consideraciones Clave",
+                med_second_gen_con_text: "Es esencial el monitoreo regular del peso, la glucosa en sangre y el colesterol. La elección del medicamento se basa en un equilibrio entre la eficacia y los posibles efectos secundarios para cada individuo."
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            const tabBtns = document.querySelectorAll('#symptoms .tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateTabContent(btn.dataset.tab);
+                });
+            });
+
+            const medTabBtns = document.querySelectorAll('#medications .tab-btn');
+            medTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    medTabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateMedContent(btn.dataset.medClass);
+                });
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            updateTabContent(document.querySelector('#symptoms .tab-btn.active').dataset.tab);
+            updateMedContent(document.querySelector('#medications .tab-btn.active').dataset.medClass);
+        }
+        
+        function updateTabContent(tabKey) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('tab-content');
+            const listHtml = t[`${tabKey}_list`].map(item => `<li class="flex items-start"><span class="mr-2 text-teal-500">›</span><span>${item}</span></li>`).join('');
+            
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">${t[`${tabKey}_title`]}</h4>
+                    <p class="text-slate-600 mb-4">${t[`${tabKey}_desc`]}</p>
+                    <ul class="space-y-2">${listHtml}</ul>
+                </div>
+            `;
+        }
+
+        function updateMedContent(medClass) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('med-content');
+            const sideEffectsHtml = t[`med_${medClass}_se_list`].split(',').map(item => `<li class="text-sm">${item.trim()}</li>`).join('');
+
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-4 text-slate-800">${t[`med_${medClass}_title`]}</h4>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_moa_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_moa_text`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_se_title`]}</h5>
+                        <ul class="list-disc list-inside space-y-1">${sideEffectsHtml}</ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_con_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_con_text`]}</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

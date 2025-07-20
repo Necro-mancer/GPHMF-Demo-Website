@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Bipolar Disorder: A Detailed Guide</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: This page is a deep-dive sub-page on Bipolar Disorder. It follows the established structure for consistency. 1. An empathetic introduction defines the disorder. 2. An interactive tabbed section details specific types (Bipolar I, Bipolar II, Cyclothymia). 3. A "Two Sides of Bipolar Disorder" section uses a clear two-column layout to contrast manic and depressive symptoms. 4. A "Treatments" section uses content cards to explain medication, therapy, and other options. 5. An interactive section on Medications provides a deep-dive on drug classes. 6. An interactive bar chart visualizes prevalence data by severity. 7. A final motivational section provides a message of hope. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Details of different bipolar disorders. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs. -> Interaction: Click buttons to show/hide detailed descriptions. -> Justification: Allows users to compare complex information in a structured, non-linear way. -> Library/Method: Vanilla JS DOM manipulation.
+        2. Report Info: Details of medication classes. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs/Buttons. -> Interaction: Click buttons to show detailed cards for each drug class. -> Justification: Breaks down complex medical information into digestible, user-selected chunks. -> Library/Method: Vanilla JS DOM manipulation.
+        3. Report Info: Prevalence rates of bipolar disorder by severity. -> Goal: Inform/Compare. -> Viz: Horizontal Bar Chart. -> Interaction: Hover for details, updates with language change. -> Justification: A clear way to compare statistical data across categories. -> Library: Chart.js (Canvas).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .tab-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-bottom: 3px solid transparent;
+            transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
+        }
+        .tab-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-bottom-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="types" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="types_title"></h3>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-2">
+                <div class="flex flex-wrap border-b border-slate-200">
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold active" data-tab="bipolar1" data-translate="tab_bipolar1"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="bipolar2" data-translate="tab_bipolar2"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="cyclothymia" data-translate="tab_cyclothymia"></button>
+                </div>
+                <div id="tab-content" class="p-6 md:p-8"></div>
+            </div>
+        </section>
+
+        <section id="symptoms" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="symptoms_title"></h3>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-blue-50 p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-blue-800 text-center" data-translate="symptoms_manic_title"></h4>
+                    <ul class="space-y-2 text-slate-700" id="symptoms-manic-list"></ul>
+                </div>
+                <div class="bg-red-50 p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-red-800 text-center" data-translate="symptoms_depressive_title"></h4>
+                    <ul class="space-y-2 text-slate-700" id="symptoms-depressive-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="treatments" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="treatments_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="treatments_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_meds_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_meds_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_therapy_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_therapy_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_other_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_other_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="medications" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="meds_section_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="meds_section_subtitle"></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex flex-row md:flex-col md:w-1/4 flex-wrap justify-center md:justify-start">
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg active" data-med-class="stabilizers" data-translate="med_tab_stabilizers"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="antipsychotics" data-translate="med_tab_antipsychotics"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="antidepressants" data-translate="med_tab_antidepressants"></button>
+                </div>
+                <div class="md:w-3/4 bg-white p-6 md:p-8 rounded-xl shadow-md">
+                    <div id="med-content"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="prevalence" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="prevalence_title"></h3>
+                 <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="prevalence_subtitle"></p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <div class="chart-container">
+                    <canvas id="prevalenceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600 mb-8" data-translate="hope_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">⚓</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_1_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🤝</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_2_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">👤</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_3_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <a href="https://www.nimh.nih.gov/health/topics/bipolar-disorder" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors" data-translate="footer_link_text"></a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "Understanding Bipolar Disorder",
+                lang_back_button: "Back",
+                welcome_title: "A Deep Dive Into Bipolar Disorder",
+                welcome_subtitle: "Bipolar disorder is a mental illness that causes unusual shifts in mood, energy, activity levels, concentration, and the ability to carry out day-to-day tasks. These shifts are more severe than the normal ups and downs everyone goes through. This guide explains the different types, their symptoms, and effective, lifelong treatment strategies.",
+                types_title: "Types of Bipolar Disorder",
+                tab_bipolar1: "Bipolar I Disorder",
+                tab_bipolar2: "Bipolar II Disorder",
+                tab_cyclothymia: "Cyclothymic Disorder",
+                symptoms_title: "The Two Sides of Bipolar Disorder",
+                symptoms_manic_title: "Manic / Hypomanic Episodes",
+                symptoms_depressive_title: "Depressive Episodes",
+                prevalence_title: "How Common Is Bipolar Disorder?",
+                prevalence_subtitle: "An estimated 4.4% of U.S. adults experience bipolar disorder at some time in their lives. The chart below shows the past-year prevalence among U.S. adults, categorized by the level of impairment.",
+                treatments_title: "Managing Bipolar Disorder",
+                treatments_subtitle: "Bipolar disorder is a lifelong condition, but it can be managed effectively with a combination of medication and psychotherapy, allowing people to lead full and productive lives.",
+                treatment_meds_title: "Medication",
+                treatment_meds_desc: "This is the cornerstone of treatment. Mood stabilizers (like lithium, valproic acid) are the primary type. Atypical antipsychotics are also commonly used. The goal is to stabilize mood and prevent future episodes. Antidepressants must be used with caution as they can sometimes trigger mania.",
+                treatment_therapy_title: "Psychotherapy",
+                treatment_therapy_desc: "Therapy is a crucial partner to medication. It helps individuals learn to manage their symptoms, recognize early warning signs of mood episodes, develop healthy routines, and cope with the impact the disorder has on their life and relationships. Family-focused therapy is also very beneficial.",
+                treatment_other_title: "Other Therapies",
+                treatment_other_desc: "For severe or treatment-resistant episodes, other options may be considered. Electroconvulsive Therapy (ECT) is a safe and highly effective medical procedure for severe mania or depression. Newer options like Transcranial Magnetic Stimulation (TMS) are also being used.",
+                meds_section_title: "A Closer Look at Medications",
+                meds_section_subtitle: "Medication is central to managing bipolar disorder. The goal is to stabilize mood and prevent relapses into mania or depression. Finding the right medication or combination is a careful, collaborative process.",
+                med_tab_stabilizers: "Mood Stabilizers",
+                med_tab_antipsychotics: "Atypical Antipsychotics",
+                med_tab_antidepressants: "Antidepressants",
+                hope_title: "Living Well: A Journey of Balance and Hope",
+                hope_subtitle: "A diagnosis of bipolar disorder can feel overwhelming, but it is a highly treatable condition. While it is a lifelong journey, consistent treatment allows people to manage their mood swings and lead healthy, productive lives.",
+                hope_infographic_1_title: "Consistency is Your Anchor",
+                hope_infographic_1_desc: "Routine is a powerful tool for stability. Taking medication as prescribed, maintaining a regular sleep schedule, and consistent therapy appointments create a predictable foundation that helps prevent mood episodes.",
+                hope_infographic_2_title: "You Are a Partner in Your Care",
+                hope_infographic_2_desc: "Effective treatment is a collaboration. Tracking your moods, recognizing your personal warning signs for mania and depression, and communicating openly with your doctor are essential parts of managing your health.",
+                hope_infographic_3_title: "You Are More Than a Diagnosis",
+                hope_infographic_3_desc: "Bipolar disorder is a part of your health, but it does not define who you are. With effective management, you can pursue your goals, nurture your relationships, and build a meaningful life.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This page summarizes information for educational purposes and is not a substitute for professional medical advice. Always consult a healthcare provider for diagnosis and treatment.",
+                footer_sources: "Content adapted from the National Institute of Mental Health (NIMH).",
+                footer_link_text: "Visit the original NIMH page on Bipolar Disorder",
+                bipolar1_title: "Bipolar I Disorder",
+                bipolar1_desc: "Bipolar I is defined by the presence of at least one manic episode. This manic episode may be preceded or followed by hypomanic (less severe manic) or major depressive episodes. The experience of mania is a key feature and is often severe enough to cause significant impairment in functioning or to necessitate hospitalization.",
+                bipolar1_criteria_title: "Diagnostic Snapshot:",
+                bipolar1_criteria_text: "Defined by at least one manic episode that lasts for at least 1 week and is present most of the day, nearly every day. The mood disturbance is severe enough to cause marked impairment in social or occupational functioning or to require hospitalization to prevent harm to self or others.",
+                bipolar1_risk_title: "Common Risk Factors:",
+                bipolar1_risk_list: ["Genetics (having a first-degree relative with the disorder)", "High-stress periods or traumatic events", "Substance use can trigger episodes in vulnerable individuals"],
+                bipolar2_title: "Bipolar II Disorder",
+                bipolar2_desc: "Bipolar II is defined by a pattern of depressive episodes and hypomanic episodes, but not the full-blown manic episodes that are typical of Bipolar I. Hypomania is a less severe form of mania. People with Bipolar II often seek treatment during a depressive episode, as the hypomanic episodes may even feel productive or good.",
+                bipolar2_criteria_title: "Diagnostic Snapshot:",
+                bipolar2_criteria_text: "Defined by a history of at least one major depressive episode and at least one hypomanic episode. There has never been a full manic episode. The symptoms cause clinically significant distress or impairment.",
+                bipolar2_risk_title: "Common Risk Factors:",
+                bipolar2_risk_list: ["Family history is a strong predictor", "Often co-occurs with anxiety disorders", "Can be triggered by major life changes or disruptions to sleep patterns"],
+                cyclothymia_title: "Cyclothymic Disorder (Cyclothymia)",
+                cyclothymia_desc: "Cyclothymia is a milder form of bipolar disorder involving many 'mood swings,' with hypomania and depressive symptoms that occur frequently but are less severe and shorter in duration than in Bipolar I or II. People with cyclothymia experience emotional ups and downs, but with periods of stable mood in between.",
+                cyclothymia_criteria_title: "Diagnostic Snapshot:",
+                cyclothymia_criteria_text: "For at least 2 years (1 year in children/adolescents), there have been numerous periods with hypomanic symptoms that do not meet criteria for a hypomanic episode and numerous periods with depressive symptoms that do not meet criteria for a major depressive episode.",
+                cyclothymia_risk_title: "Common Risk Factors:",
+                cyclothymia_risk_list: ["Temperament (being more moody or sensitive)", "Family history of bipolar disorder", "Often begins in adolescence or early adulthood"],
+                symptoms_manic_list: ["Feeling very 'up,' 'high,' or elated", "Having a lot of energy, being more active than usual", "Increased activity and restlessness", "Racing thoughts, talking very fast about many different things", "Decreased need for sleep", "Feeling unusually important, talented, or powerful", "Engaging in risky behavior, such as spending sprees or reckless driving"],
+                symptoms_depressive_list: ["Feeling very sad, 'down,' empty, or hopeless", "Having very little energy", "Loss of interest in almost all activities", "Feeling worried and empty", "Difficulty concentrating or remembering things", "Sleeping too much or too little", "Changes in appetite, eating too much or too little", "Thinking about death or suicide"],
+                prevalence_chart_x_axis: "Level of Impairment",
+                prevalence_chart_y_axis: "Prevalence (%)",
+                prevalence_chart_label_serious: "Serious",
+                prevalence_chart_label_moderate: "Moderate",
+                prevalence_chart_label_mild: "Mild",
+                med_stabilizers_title: "Mood Stabilizers",
+                med_stabilizers_moa_title: "How They Work",
+                med_stabilizers_moa_text: "These are the primary medications for bipolar disorder. They are thought to work by influencing various chemical signaling pathways inside brain cells, which helps to control mood swings and reduce the severity of both manic and depressive episodes. Examples include Lithium and certain anticonvulsant drugs like Valproic Acid and Lamotrigine.",
+                med_stabilizers_se_title: "Common Side Effects",
+                med_stabilizers_se_list: "Varies by drug. Can include drowsiness, dizziness, tremor, increased thirst, weight gain. Some can affect the liver or kidneys.",
+                med_stabilizers_con_title: "Key Considerations",
+                med_stabilizers_con_text: "Regular blood tests are often required to monitor the level of the medication in the body and to check for effects on other organs. It is crucial to take these as prescribed and not stop suddenly.",
+                med_antipsychotics_title: "Atypical Antipsychotics",
+                med_antipsychotics_moa_title: "How They Work",
+                med_antipsychotics_moa_text: "These medications act on dopamine and serotonin receptors in the brain. They are often used to treat acute manic episodes and can also be used as a long-term mood stabilizer, sometimes in combination with another stabilizer.",
+                med_antipsychotics_se_title: "Common Side Effects",
+                med_antipsychotics_se_list: "Drowsiness, dizziness, restlessness, significant weight gain, increased risk of diabetes and high cholesterol.",
+                med_antipsychotics_con_title: "Key Considerations",
+                med_antipsychotics_con_text: "Regular monitoring of weight, blood glucose, and cholesterol levels is important. Some can cause movement-related side effects.",
+                med_antidepressants_title: "Antidepressants",
+                med_antidepressants_moa_title: "How They Work",
+                med_antidepressants_moa_text: "These medications increase levels of mood-related neurotransmitters like serotonin. They are used to treat the depressive episodes of bipolar disorder.",
+                med_antidepressants_se_title: "Common Side Effects",
+                med_antidepressants_se_list: "Nausea, headache, insomnia, sexual dysfunction. Side effects are similar to their use in major depression.",
+                med_antidepressants_con_title: "Key Considerations",
+                med_antidepressants_con_text: "CRITICAL: Antidepressants should ONLY be used in combination with a mood stabilizer in people with bipolar disorder. If used alone, they can trigger a manic episode or induce rapid cycling between moods."
+            },
+            es: {
+                page_title: "Entendiendo el Trastorno Bipolar",
+                lang_back_button: "Volver",
+                welcome_title: "Una Mirada Profunda al Trastorno Bipolar",
+                welcome_subtitle: "El trastorno bipolar es una enfermedad mental que causa cambios inusuales en el estado de ánimo, la energía, los niveles de actividad, la concentración y la capacidad para llevar a cabo las tareas diarias. Estos cambios son más severos que los altibajos normales que todos experimentan. Esta guía explica los diferentes tipos, sus síntomas y estrategias de tratamiento efectivas y de por vida.",
+                types_title: "Tipos de Trastorno Bipolar",
+                tab_bipolar1: "Trastorno Bipolar I",
+                tab_bipolar2: "Trastorno Bipolar II",
+                tab_cyclothymia: "Trastorno Ciclotímico",
+                symptoms_title: "Las Dos Caras del Trastorno Bipolar",
+                symptoms_manic_title: "Episodios Maníacos / Hipomaníacos",
+                symptoms_depressive_title: "Episodios Depresivos",
+                prevalence_title: "¿Qué Tan Común Es el Trastorno Bipolar?",
+                prevalence_subtitle: "Se estima que el 4.4% de los adultos en EE. UU. experimentan el trastorno bipolar en algún momento de sus vidas. El siguiente gráfico muestra la prevalencia en el último año entre los adultos de EE. UU., categorizada por el nivel de deterioro.",
+                treatments_title: "Manejando el Trastorno Bipolar",
+                treatments_subtitle: "El trastorno bipolar es una condición de por vida, pero se puede manejar eficazmente con una combinación de medicamentos y psicoterapia, permitiendo a las personas llevar vidas plenas y productivas.",
+                treatment_meds_title: "Medicación",
+                treatment_meds_desc: "Es la piedra angular del tratamiento. Los estabilizadores del estado de ánimo (como el litio, el ácido valproico) son el tipo principal. Los antipsicóticos atípicos también se usan comúnmente. El objetivo es estabilizar el estado de ánimo y prevenir futuros episodios. Los antidepresivos deben usarse con precaución, ya que a veces pueden desencadenar manía.",
+                treatment_therapy_title: "Psicoterapia",
+                treatment_therapy_desc: "La terapia es un complemento crucial de la medicación. Ayuda a las personas a aprender a manejar sus síntomas, reconocer las señales de advertencia tempranas de los episodios anímicos, desarrollar rutinas saludables y sobrellevar el impacto que el trastorno tiene en su vida y relaciones. La terapia centrada en la familia también es muy beneficiosa.",
+                treatment_other_title: "Otras Terapias",
+                treatment_other_desc: "Para episodios graves o resistentes al tratamiento, se pueden considerar otras opciones. La Terapia Electroconvulsiva (TEC) es un procedimiento médico seguro y muy eficaz para la manía o depresión severa. También se están utilizando opciones más nuevas como la Estimulación Magnética Transcraneal (EMT).",
+                meds_section_title: "Una Mirada Cercana a los Medicamentos",
+                meds_section_subtitle: "La medicación es fundamental para manejar el trastorno bipolar. El objetivo es estabilizar el estado de ánimo y prevenir recaídas en manía o depresión. Encontrar el medicamento o la combinación adecuada es un proceso cuidadoso y colaborativo.",
+                med_tab_stabilizers: "Estabilizadores del Ánimo",
+                med_tab_antipsychotics: "Antipsicóticos Atípicos",
+                med_tab_antidepressants: "Antidepresivos",
+                hope_title: "Vivir Bien: Un Viaje de Equilibrio y Esperanza",
+                hope_subtitle: "Un diagnóstico de trastorno bipolar puede ser abrumador, pero es una condición altamente tratable. Si bien es un viaje de por vida, el tratamiento constante permite a las personas manejar sus cambios de humor y llevar vidas saludables y productivas.",
+                hope_infographic_1_title: "La Consistencia es su Ancla",
+                hope_infographic_1_desc: "La rutina es una herramienta poderosa para la estabilidad. Tomar los medicamentos según lo prescrito, mantener un horario de sueño regular y asistir a las citas de terapia de manera consistente crean una base predecible que ayuda a prevenir los episodios anímicos.",
+                hope_infographic_2_title: "Usted es un Socio en su Cuidado",
+                hope_infographic_2_desc: "Un tratamiento eficaz es una colaboración. Rastrear sus estados de ánimo, reconocer sus señales de advertencia personales para la manía y la depresión, y comunicarse abiertamente con su médico son partes esenciales del manejo de su salud.",
+                hope_infographic_3_title: "Usted es Más que un Diagnóstico",
+                hope_infographic_3_desc: "El trastorno bipolar es parte de su salud, pero no define quién es usted. Con un manejo eficaz, puede perseguir sus metas, nutrir sus relaciones y construir una vida significativa.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta página resume información con fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Consulte siempre a un proveedor de atención médica para el diagnóstico y tratamiento.",
+                footer_sources: "Contenido adaptado del Instituto Nacional de Salud Mental (NIMH).",
+                footer_link_text: "Visite la página original del NIMH sobre Trastorno Bipolar",
+                bipolar1_title: "Trastorno Bipolar I",
+                bipolar1_desc: "El Bipolar I se define por la presencia de al menos un episodio maníaco. Este episodio maníaco puede ser precedido o seguido por episodios hipomaníacos (maníacos menos severos) o depresivos mayores. La experiencia de la manía es una característica clave y a menudo es lo suficientemente grave como para causar un deterioro significativo en el funcionamiento o para necesitar hospitalización.",
+                bipolar1_criteria_title: "Resumen Diagnóstico:",
+                bipolar1_criteria_text: "Definido por al menos un episodio maníaco que dura al menos 1 semana y está presente la mayor parte del día, casi todos los días. La alteración del estado de ánimo es lo suficientemente grave como para causar un deterioro marcado en el funcionamiento social u ocupacional o para requerir hospitalización para prevenir daños a sí mismo o a otros.",
+                bipolar1_risk_title: "Factores de Riesgo Comunes:",
+                bipolar1_risk_list: ["Genética (tener un pariente de primer grado con el trastorno)", "Períodos de alto estrés o eventos traumáticos", "El uso de sustancias puede desencadenar episodios en individuos vulnerables"],
+                bipolar2_title: "Trastorno Bipolar II",
+                bipolar2_desc: "El Bipolar II se define por un patrón de episodios depresivos y episodios hipomaníacos, pero no los episodios maníacos completos que son típicos del Bipolar I. La hipomanía es una forma menos severa de manía. Las personas con Bipolar II a menudo buscan tratamiento durante un episodio depresivo, ya que los episodios hipomaníacos pueden incluso sentirse productivos o buenos.",
+                bipolar2_criteria_title: "Resumen Diagnóstico:",
+                bipolar2_criteria_text: "Definido por un historial de al menos un episodio depresivo mayor y al menos un episodio hipomaníaco. Nunca ha habido un episodio maníaco completo. Los síntomas causan malestar o deterioro clínicamente significativo.",
+                bipolar2_risk_title: "Factores de Riesgo Comunes:",
+                bipolar2_risk_list: ["El historial familiar es un fuerte predictor", "A menudo coexiste con trastornos de ansiedad", "Puede ser desencadenado por cambios importantes en la vida o alteraciones en los patrones de sueño"],
+                cyclothymia_title: "Trastorno Ciclotímico (Ciclotimia)",
+                cyclothymia_desc: "La ciclotimia es una forma más leve de trastorno bipolar que implica muchos 'cambios de humor', con síntomas de hipomanía y depresivos que ocurren con frecuencia pero son menos severos y de menor duración que en el Bipolar I o II. Las personas con ciclotimia experimentan altibajos emocionales, pero con períodos de estado de ánimo estable entre ellos.",
+                cyclothymia_criteria_title: "Resumen Diagnóstico:",
+                cyclothymia_criteria_text: "Durante al menos 2 años (1 año en niños/adolescentes), ha habido numerosos períodos con síntomas hipomaníacos que no cumplen los criterios para un episodio hipomaníaco y numerosos períodos con síntomas depresivos que no cumplen los criterios para un episodio depresivo mayor.",
+                cyclothymia_risk_title: "Factores de Riesgo Comunes:",
+                cyclothymia_risk_list: ["Temperamento (ser más temperamental o sensible)", "Historial familiar de trastorno bipolar", "A menudo comienza en la adolescencia o la adultez temprana"],
+                symptoms_manic_list: ["Sentirse muy 'animado', 'eufórico' o exaltado", "Tener mucha energía, estar más activo de lo habitual", "Aumento de la actividad e inquietud", "Pensamientos acelerados, hablar muy rápido sobre muchas cosas diferentes", "Disminución de la necesidad de dormir", "Sentirse inusualmente importante, talentoso o poderoso", "Participar en comportamientos de riesgo, como gastos excesivos o conducción imprudente"],
+                symptoms_depressive_list: ["Sentirse muy triste, 'deprimido', vacío o sin esperanza", "Tener muy poca energía", "Pérdida de interés en casi todas las actividades", "Sentirse preocupado y vacío", "Dificultad para concentrarse o recordar cosas", "Dormir demasiado o muy poco", "Cambios en el apetito, comer demasiado o muy poco", "Pensar en la muerte o el suicidio"],
+                prevalence_chart_x_axis: "Nivel de Deterioro",
+                prevalence_chart_y_axis: "Prevalencia (%)",
+                prevalence_chart_label_serious: "Grave",
+                prevalence_chart_label_moderate: "Moderado",
+                prevalence_chart_label_mild: "Leve",
+                med_stabilizers_title: "Estabilizadores del Ánimo",
+                med_stabilizers_moa_title: "Cómo Funcionan",
+                med_stabilizers_moa_text: "Son los medicamentos principales para el trastorno bipolar. Se cree que funcionan al influir en diversas vías de señalización química dentro de las células cerebrales, lo que ayuda a controlar los cambios de humor y a reducir la gravedad de los episodios tanto maníacos como depresivos. Ejemplos incluyen Litio y ciertos fármacos anticonvulsivos como el Ácido Valproico y la Lamotrigina.",
+                med_stabilizers_se_title: "Efectos Secundarios Comunes",
+                med_stabilizers_se_list: "Varía según el fármaco. Puede incluir somnolencia, mareos, temblor, aumento de la sed, aumento de peso. Algunos pueden afectar el hígado o los riñones.",
+                med_stabilizers_con_title: "Consideraciones Clave",
+                med_stabilizers_con_text: "A menudo se requieren análisis de sangre regulares para monitorear el nivel del medicamento en el cuerpo y para verificar los efectos en otros órganos. Es crucial tomarlos según lo prescrito y no suspenderlos repentinamente.",
+                med_antipsychotics_title: "Antipsicóticos Atípicos",
+                med_antipsychotics_moa_title: "Cómo Funcionan",
+                med_antipsychotics_moa_text: "Estos medicamentos actúan sobre los receptores de dopamina y serotonina en el cerebro. A menudo se usan para tratar episodios maníacos agudos y también pueden usarse como estabilizadores del ánimo a largo plazo, a veces en combinación con otro estabilizador.",
+                med_antipsychotics_se_title: "Efectos Secundarios Comunes",
+                med_antipsychotics_se_list: "Somnolencia, mareos, inquietud, aumento de peso significativo, mayor riesgo de diabetes y colesterol alto.",
+                med_antipsychotics_con_title: "Consideraciones Clave",
+                med_antipsychotics_con_text: "Es importante el monitoreo regular del peso, la glucosa en sangre y los niveles de colesterol. Algunos pueden causar efectos secundarios relacionados con el movimiento.",
+                med_antidepressants_title: "Antidepresivos",
+                med_antidepressants_moa_title: "Cómo Funcionan",
+                med_antidepressants_moa_text: "Estos medicamentos aumentan los niveles de neurotransmisores relacionados con el estado de ánimo, como la serotonina. Se usan para tratar los episodios depresivos del trastorno bipolar.",
+                med_antidepressants_se_title: "Efectos Secundarios Comunes",
+                med_antidepressants_se_list: "Náuseas, dolor de cabeza, insomnio, disfunción sexual. Los efectos secundarios son similares a su uso en la depresión mayor.",
+                med_antidepressants_con_title: "Consideraciones Clave",
+                med_antidepressants_con_text: "CRÍTICO: Los antidepresivos SÓLO deben usarse en combinación con un estabilizador del ánimo en personas con trastorno bipolar. Si se usan solos, pueden desencadenar un episodio maníaco o inducir un ciclado rápido entre los estados de ánimo."
+            }
+        };
+
+        let currentLanguage = 'en';
+        let prevalenceChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            const tabBtns = document.querySelectorAll('#types .tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateTabContent(btn.dataset.tab);
+                });
+            });
+
+            const medTabBtns = document.querySelectorAll('#medications .tab-btn');
+            medTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    medTabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateMedContent(btn.dataset.medClass);
+                });
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            updateTabContent(document.querySelector('#types .tab-btn.active').dataset.tab);
+            updateMedContent(document.querySelector('#medications .tab-btn.active').dataset.medClass);
+            renderSymptomLists();
+            renderPrevalenceChart();
+        }
+        
+        function updateTabContent(tabKey) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('tab-content');
+            const riskFactorsHtml = t[`${tabKey}_risk_list`].map(item => `<li class="text-sm">${item}</li>`).join('');
+            
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">${t[`${tabKey}_title`]}</h4>
+                    <p class="text-slate-600 mb-4">${t[`${tabKey}_desc`]}</p>
+                    <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-4 rounded-r-lg mb-6">
+                        <p class="font-bold text-sm mb-1">${t[`${tabKey}_criteria_title`]}</p>
+                        <p class="text-sm">${t[`${tabKey}_criteria_text`]}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-lg mb-2 text-slate-700">${t[`${tabKey}_risk_title`]}</h5>
+                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                            ${riskFactorsHtml}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateMedContent(medClass) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('med-content');
+            const sideEffectsHtml = t[`med_${medClass}_se_list`].split(',').map(item => `<li class="text-sm">${item.trim()}</li>`).join('');
+
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-4 text-slate-800">${t[`med_${medClass}_title`]}</h4>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_moa_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_moa_text`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_se_title`]}</h5>
+                        <ul class="list-disc list-inside space-y-1">${sideEffectsHtml}</ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_con_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_con_text`]}</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderSymptomLists() {
+            const t = translations[currentLanguage];
+            const manicListEl = document.getElementById('symptoms-manic-list');
+            const depressiveListEl = document.getElementById('symptoms-depressive-list');
+
+            manicListEl.innerHTML = t.symptoms_manic_list.map(item => `<li class="flex items-start"><span class="mr-2 text-blue-500">🔼</span><span>${item}</span></li>`).join('');
+            depressiveListEl.innerHTML = t.symptoms_depressive_list.map(item => `<li class="flex items-start"><span class="mr-2 text-red-500">🔽</span><span>${item}</span></li>`).join('');
+        }
+
+        function renderPrevalenceChart() {
+            const t = translations[currentLanguage];
+            if (prevalenceChart) {
+                prevalenceChart.destroy();
+            }
+            const ctx = document.getElementById('prevalenceChart').getContext('2d');
+            prevalenceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [t.prevalence_chart_label_serious, t.prevalence_chart_label_moderate, t.prevalence_chart_label_mild],
+                    datasets: [{
+                        label: t.prevalence_chart_y_axis,
+                        data: [45.0, 32.5, 22.5],
+                        backgroundColor: ['#d9534f', '#f0ad4e', '#5cb85c'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: t.prevalence_chart_y_axis, color: '#475569' },
+                            ticks: { color: '#475569', callback: (value) => value + '%' }
+                        },
+                        y: { 
+                            title: { display: true, text: t.prevalence_chart_x_axis, color: '#475569' },
+                            ticks: { color: '#475569' } 
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}% of cases` } }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

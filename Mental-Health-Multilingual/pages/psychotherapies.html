@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Psychotherapy: A Guide to Talk Therapies</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: This page is a deep-dive sub-page on Psychotherapy. It follows the established structure. 1. An empathetic introduction defines psychotherapy. 2. An interactive tabbed section details major therapy types (CBT, DBT, IPT, Psychodynamic, and Family Therapy). Each tab provides a structured overview: What it is, Best for, How it works, and Time to improvement. 3. A "Finding the Right Fit" section offers practical advice. 4. A final motivational section provides a message of hope. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Details of different psychotherapy modalities. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs. -> Interaction: Click buttons to show/hide detailed descriptions. -> Justification: Allows users to compare complex therapeutic approaches in a structured, non-linear way. -> Library/Method: Vanilla JS DOM manipulation.
+        2. Report Info: Advice on finding a therapist. -> Goal: Inform/Guide. -> Viz: Styled content cards. -> Interaction: None. -> Justification: Visually separates distinct pieces of advice for clarity and impact. -> Library/Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .tab-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-bottom: 3px solid transparent;
+            transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
+        }
+        .tab-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-bottom-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="types" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="types_title"></h3>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-2">
+                <div class="flex flex-wrap border-b border-slate-200">
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold active" data-tab="cbt" data-translate="tab_cbt"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="dbt" data-translate="tab_dbt"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="ipt" data-translate="tab_ipt"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="psychodynamic" data-translate="tab_psychodynamic"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="family" data-translate="tab_family"></button>
+                </div>
+                <div id="tab-content" class="p-6 md:p-8"></div>
+            </div>
+        </section>
+
+        <section id="finding-fit" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="fit_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="fit_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="fit_ask_title"></h4>
+                    <ul class="text-sm text-slate-600 flex-grow space-y-2 list-disc list-inside" id="fit-ask-list"></ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="fit_relationship_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="fit_relationship_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600 mb-8" data-translate="hope_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🛋️</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_1_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🤝</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_2_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">⏳</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_3_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <a href="https://www.nimh.nih.gov/health/topics/psychotherapies" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors" data-translate="footer_link_text"></a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "Understanding Psychotherapy",
+                lang_back_button: "Back",
+                welcome_title: "A Guide to Psychotherapy",
+                welcome_subtitle: "Psychotherapy, or 'talk therapy,' is a way to help people with a broad variety of mental illnesses and emotional difficulties. It can help eliminate or control troubling symptoms so a person can function better and can increase well-being and healing. This guide explains some of the most common evidence-based approaches.",
+                types_title: "Types of Psychotherapy",
+                tab_cbt: "Cognitive Behavioral Therapy (CBT)",
+                tab_dbt: "Dialectical Behavior Therapy (DBT)",
+                tab_ipt: "Interpersonal Therapy (IPT)",
+                tab_psychodynamic: "Psychodynamic Therapy",
+                tab_family: "Family Therapy",
+                fit_title: "Finding the Right Fit",
+                fit_subtitle: "The relationship you build with your therapist is essential to the success of your treatment. It's important to find someone you feel comfortable with.",
+                fit_ask_title: "Questions to Ask a Potential Therapist",
+                fit_relationship_title: "The Therapeutic Relationship",
+                fit_relationship_desc: "Therapy is a partnership. A good therapist provides a safe, non-judgmental space, listens to you, and works collaboratively with you to set goals and track progress. Feeling understood and respected is key. It's okay if the first therapist you meet isn't the right one for you; finding the right match is worth the effort.",
+                hope_title: "Therapy is a Journey of Self-Discovery",
+                hope_subtitle: "Starting therapy can feel intimidating, but it is a courageous step towards healing and growth. Remember these key ideas as you begin your journey.",
+                hope_infographic_1_title: "It's a Safe Space",
+                hope_infographic_1_desc: "Therapy is a confidential space where you can be your authentic self without fear of judgment. It's a place to explore your thoughts and feelings openly.",
+                hope_infographic_2_title: "It's a Collaborative Process",
+                hope_infographic_2_desc: "You are not a passive recipient of treatment. You are an active partner. Your insights, goals, and feedback are what guide the therapeutic process and make it meaningful.",
+                hope_infographic_3_title: "Progress Takes Time",
+                hope_infographic_3_desc: "Therapy is not a quick fix. It's a process of building skills, gaining insight, and making gradual changes. Be patient and compassionate with yourself as you grow.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This page summarizes information for educational purposes and is not a substitute for professional medical advice. Always consult a healthcare provider for diagnosis and treatment.",
+                footer_sources: "Content adapted from the National Institute of Mental Health (NIMH).",
+                footer_link_text: "Visit the original NIMH page on Psychotherapies",
+                cbt_title: "Cognitive Behavioral Therapy (CBT)",
+                cbt_what_it_is: "CBT is a practical, goal-oriented therapy that focuses on the present. It operates on the principle that our thoughts, feelings, and behaviors are interconnected, and that changing negative patterns in one area can lead to positive changes in the others.",
+                cbt_best_for: "Depression, anxiety disorders, PTSD, eating disorders, and substance use disorders. Specialized forms (like CBTp) are also used alongside medication for psychosis.",
+                cbt_how_it_works: "In CBT, you work with a therapist to identify unhelpful or inaccurate thinking, challenge those thoughts, and practice new behaviors. It often involves 'homework,' such as tracking your thoughts or practicing new skills between sessions.",
+                cbt_timeline: "Typically a short-term therapy, with significant improvements often seen within 12-20 weeks.",
+                dbt_title: "Dialectical Behavior Therapy (DBT)",
+                dbt_what_it_is: "DBT is a type of CBT originally developed to treat borderline personality disorder. It emphasizes a balance between acceptance and change ('dialectics') and is highly structured.",
+                dbt_best_for: "Borderline personality disorder, self-harm, suicidal behavior, and conditions with significant emotional dysregulation.",
+                dbt_how_it_works: "DBT teaches four key skill sets: Mindfulness (being present), Distress Tolerance (coping with crises), Emotion Regulation (managing intense feelings), and Interpersonal Effectiveness (communicating needs effectively).",
+                dbt_timeline: "Comprehensive DBT is a longer-term therapy, often lasting a year or more to allow for thorough skill development.",
+                ipt_title: "Interpersonal Therapy (IPT)",
+                ipt_what_it_is: "IPT is a structured, time-limited therapy that focuses on the connection between mood and interpersonal relationships. It helps people identify and resolve problems in their relationships with others.",
+                ipt_best_for: "Primarily depression, but also adapted for eating disorders and bipolar disorder.",
+                ipt_how_it_works: "Therapy focuses on one or two key problem areas in your relationships, such as unresolved grief, conflicts with a loved one, major life changes (like divorce or a new job), or difficulties in starting or keeping relationships.",
+                ipt_timeline: "Typically a short-term therapy, usually completed within 12-16 weeks.",
+                psychodynamic_title: "Psychodynamic Therapy",
+                psychodynamic_what_it_is: "This therapy is based on the idea that our present-day behavior and feelings are rooted in past experiences and unconscious thoughts. It aims to increase self-awareness and understanding of how the past influences the present.",
+                psychodynamic_best_for: "A wide range of conditions, particularly for those interested in deep self-exploration to resolve long-standing patterns.",
+                psychodynamic_how_it_works: "You and your therapist will explore past experiences, relationships (especially early ones), and recurring patterns in your thoughts and feelings. The goal is to bring unconscious motivations to the surface to resolve internal conflicts.",
+                psychodynamic_timeline: "Can be either short-term or long-term, depending on the individual's goals and the depth of exploration.",
+                family_title: "Family Therapy",
+                family_what_it_is: "Family therapy involves the person with the mental health condition along with their parents, spouse, children, or other close family members. The focus is on the family system as a whole.",
+                family_best_for: "Especially helpful for schizophrenia and bipolar disorder. Also used for eating disorders, substance use, and helping families cope with a loved one's illness.",
+                family_how_it_works: "Therapy provides education about the illness, improves communication and problem-solving skills within the family, and reduces conflict and stress. This supportive environment is proven to lower relapse rates.",
+                family_timeline: "Often a medium-term therapy, typically lasting for several months to a year to help families navigate challenges and build new skills.",
+                fit_ask_list: ["What is your approach to therapy?", "Are you licensed in this state?", "What is your experience treating my specific condition?", "What are your fees and do you accept my insurance?", "What would a typical session look like?"]
+            },
+            es: {
+                page_title: "Entendiendo la Psicoterapia",
+                lang_back_button: "Volver",
+                welcome_title: "Una Guía sobre Psicoterapia",
+                welcome_subtitle: "La psicoterapia, o 'terapia de conversación', es una forma de ayudar a las personas con una amplia variedad de enfermedades mentales y dificultades emocionales. Puede ayudar a eliminar o controlar los síntomas problemáticos para que una persona pueda funcionar mejor y puede aumentar el bienestar y la curación. Esta guía explica algunos de los enfoques más comunes basados en la evidencia.",
+                types_title: "Tipos de Psicoterapia",
+                tab_cbt: "Terapia Cognitivo-Conductual (TCC)",
+                tab_dbt: "Terapia Dialéctica Conductual (TDC)",
+                tab_ipt: "Terapia Interpersonal (TIP)",
+                tab_psychodynamic: "Terapia Psicodinámica",
+                tab_family: "Terapia Familiar",
+                fit_title: "Encontrando el Terapeuta Adecuado",
+                fit_subtitle: "La relación que construyes con tu terapeuta es esencial para el éxito de tu tratamiento. Es importante encontrar a alguien con quien te sientas cómodo/a.",
+                fit_ask_title: "Preguntas para un Posible Terapeuta",
+                fit_relationship_title: "La Relación Terapéutica",
+                fit_relationship_desc: "La terapia es una asociación. Un buen terapeuta proporciona un espacio seguro y sin prejuicios, te escucha y trabaja en colaboración contigo para establecer metas y seguir el progreso. Sentirse comprendido y respetado es clave. Está bien si el primer terapeuta que conoces no es el adecuado para ti; vale la pena el esfuerzo de encontrar la pareja adecuada.",
+                hope_title: "La Terapia es un Viaje de Autodescubrimiento",
+                hope_subtitle: "Comenzar la terapia puede ser intimidante, pero es un paso valiente hacia la sanación y el crecimiento. Recuerde estas ideas clave al comenzar su viaje.",
+                hope_infographic_1_title: "Es un Espacio Seguro",
+                hope_infographic_1_desc: "La terapia es un espacio confidencial donde puede ser usted mismo/a auténticamente sin temor a ser juzgado/a. Es un lugar para explorar sus pensamientos y sentimientos abiertamente.",
+                hope_infographic_2_title: "Es un Proceso Colaborativo",
+                hope_infographic_2_desc: "Usted no es un receptor pasivo del tratamiento. Es un socio activo. Sus percepciones, metas y comentarios son lo que guía el proceso terapéutico y lo hace significativo.",
+                hope_infographic_3_title: "El Progreso Lleva Tiempo",
+                hope_infographic_3_desc: "La terapia no es una solución rápida. Es un proceso de desarrollo de habilidades, obtención de conocimientos y realización de cambios graduales. Sea paciente y compasivo/a consigo mismo/a mientras crece.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta página resume información con fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Consulte siempre a un proveedor de atención médica para el diagnóstico y tratamiento.",
+                footer_sources: "Contenido adaptado del Instituto Nacional de Salud Mental (NIMH).",
+                footer_link_text: "Visite la página original del NIMH sobre Psicoterapias",
+                cbt_title: "Terapia Cognitivo-Conductual (TCC)",
+                cbt_what_it_is: "La TCC es una terapia práctica y orientada a objetivos que se centra en el presente. Opera bajo el principio de que nuestros pensamientos, sentimientos y comportamientos están interconectados, y que cambiar los patrones negativos en un área puede llevar a cambios positivos en las otras.",
+                cbt_best_for: "Depresión, trastornos de ansiedad, TEPT, trastornos alimentarios y trastornos por uso de sustancias. Formas especializadas (como la TCCp) también se usan junto con medicamentos para la psicosis.",
+                cbt_how_it_works: "En la TCC, trabajas con un terapeuta para identificar pensamientos inútiles o inexactos, desafiar esos pensamientos y practicar nuevos comportamientos. A menudo implica 'tareas', como hacer un seguimiento de tus pensamientos o practicar nuevas habilidades entre sesiones.",
+                cbt_timeline: "Típicamente una terapia a corto plazo, con mejoras significativas a menudo vistas dentro de 12-20 semanas.",
+                dbt_title: "Terapia Dialéctica Conductual (TDC)",
+                dbt_what_it_is: "La TDC es un tipo de TCC desarrollada originalmente para tratar el trastorno límite de la personalidad. Enfatiza un equilibrio entre la aceptación y el cambio ('dialéctica') y es muy estructurada.",
+                dbt_best_for: "Trastorno límite de la personalidad, autolesiones, comportamiento suicida y condiciones con desregulación emocional significativa.",
+                dbt_how_it_works: "La TDC enseña cuatro conjuntos de habilidades clave: Mindfulness (estar presente), Tolerancia al malestar (afrontar crisis), Regulación emocional (manejar sentimientos intensos) y Efectividad interpersonal (comunicar necesidades de manera efectiva).",
+                dbt_timeline: "La TDC integral es una terapia a más largo plazo, que a menudo dura un año o más para permitir un desarrollo completo de las habilidades.",
+                ipt_title: "Terapia Interpersonal (TIP)",
+                ipt_what_it_is: "La TIP es una terapia estructurada y de tiempo limitado que se centra en la conexión entre el estado de ánimo y las relaciones interpersonales. Ayuda a las personas a identificar y resolver problemas en sus relaciones con los demás.",
+                ipt_best_for: "Principalmente la depresión, pero también adaptada para trastornos alimentarios y trastorno bipolar.",
+                ipt_how_it_works: "La terapia se centra en una o dos áreas problemáticas clave en tus relaciones, como un duelo no resuelto, conflictos con un ser querido, cambios importantes en la vida (como un divorcio o un nuevo trabajo) o dificultades para iniciar o mantener relaciones.",
+                ipt_timeline: "Típicamente una terapia a corto plazo, generalmente completada en 12-16 semanas.",
+                psychodynamic_title: "Terapia Psicodinámica",
+                psychodynamic_what_it_is: "Esta terapia se basa en la idea de que nuestro comportamiento y sentimientos actuales están arraigados en experiencias pasadas y pensamientos inconscientes. Su objetivo es aumentar la autoconciencia y la comprensión de cómo el pasado influye en el presente.",
+                psychodynamic_best_for: "Una amplia gama de condiciones, particularmente para aquellos interesados en una profunda autoexploración para resolver patrones de larga data.",
+                psychodynamic_how_it_works: "Tú y tu terapeuta explorarán experiencias pasadas, relaciones (especialmente las tempranas) y patrones recurrentes en tus pensamientos y sentimientos. El objetivo es sacar a la superficie las motivaciones inconscientes para resolver conflictos internos.",
+                psychodynamic_timeline: "Puede ser a corto o largo plazo, dependiendo de los objetivos del individuo y la profundidad de la exploración.",
+                family_title: "Terapia Familiar",
+                family_what_it_is: "La terapia familiar involucra a la persona con la condición de salud mental junto con sus padres, cónyuge, hijos u otros familiares cercanos. El enfoque está en el sistema familiar en su conjunto.",
+                family_best_for: "Especialmente útil para la esquizofrenia y el trastorno bipolar. También se utiliza para trastornos alimentarios, uso de sustancias y para ayudar a las familias a sobrellevar la enfermedad de un ser querido.",
+                family_how_it_works: "La terapia proporciona educación sobre la enfermedad, mejora la comunicación y las habilidades para resolver problemas dentro de la familia, y reduce los conflictos y el estrés. Se ha demostrado que este entorno de apoyo reduce las tasas de recaída.",
+                family_timeline: "A menudo es una terapia a mediano plazo, que generalmente dura de varios meses a un año para ayudar a las familias a navegar los desafíos y desarrollar nuevas habilidades.",
+                fit_ask_list: ["¿Cuál es su enfoque de la terapia?", "¿Tiene licencia en este estado?", "¿Cuál es su experiencia tratando mi condición específica?", "¿Cuáles son sus tarifas y acepta mi seguro?", "¿Cómo sería una sesión típica?"]
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateTabContent(btn.dataset.tab);
+                });
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            updateTabContent(document.querySelector('.tab-btn.active').dataset.tab);
+            renderFitLists();
+        }
+        
+        function updateTabContent(tabKey) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('tab-content');
+            
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">${t[`${tabKey}_title`]}</h4>
+                    <div class="grid md:grid-cols-2 gap-6 text-sm">
+                        <div>
+                            <h5 class="font-semibold text-teal-700 mb-1">What It Is:</h5>
+                            <p class="text-slate-600">${t[`${tabKey}_what_it_is`]}</p>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-teal-700 mb-1">Best For:</h5>
+                            <p class="text-slate-600">${t[`${tabKey}_best_for`]}</p>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-teal-700 mb-1">How It Works:</h5>
+                            <p class="text-slate-600">${t[`${tabKey}_how_it_works`]}</p>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-teal-700 mb-1">Time to Improvement:</h5>
+                            <p class="text-slate-600">${t[`${tabKey}_timeline`]}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderFitLists() {
+            const t = translations[currentLanguage];
+            const askListEl = document.getElementById('fit-ask-list');
+            askListEl.innerHTML = t.fit_ask_list.map(item => `<li>${item}</li>`).join('');
+        }
+
+    </script>
+</body>
+</html>

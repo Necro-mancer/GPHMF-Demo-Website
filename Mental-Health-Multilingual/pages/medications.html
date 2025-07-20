@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Mental Health Medications</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: This page is a deep-dive on medications. 1. An introduction explains the role of medication. 2. A primary set of interactive tabs allows users to select a disorder (Depression, Anxiety, etc.). 3. Within each disorder section, a secondary set of interactive tabs details specific drug classes, providing structured information on MOA, place in therapy, side effects, and considerations. This nested tab structure allows for clear, hierarchical navigation of complex information. 4. A final motivational section provides a message of hope. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Details of different medication classes for various disorders. -> Goal: Organize/Educate. -> Viz: Nested Interactive Content Tabs. -> Interaction: Click buttons to show/hide detailed descriptions. -> Justification: Allows users to navigate from a general disorder to specific drug information in a logical, user-driven manner, preventing information overload. -> Library/Method: Vanilla JS DOM manipulation.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .main-tab-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-bottom: 3px solid transparent;
+            transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
+        }
+        .main-tab-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .main-tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-bottom-color: #005F73;
+            font-weight: 600;
+        }
+        .sub-tab-btn {
+            background-color: #f8fafc;
+            color: #475569;
+            border-left: 4px solid transparent;
+        }
+        .sub-tab-btn:hover {
+             background-color: #f1f5f9;
+        }
+        .sub-tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-left-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="medications-by-disorder" class="mb-16">
+            <div class="bg-white rounded-xl shadow-lg p-2">
+                <div class="flex flex-wrap border-b border-slate-200" id="main-tabs-container">
+                    <!-- Main disorder tabs will be inserted here by JS -->
+                </div>
+                <div id="main-tab-content" class="p-6 md:p-8">
+                    <!-- Content for the selected disorder will be inserted here by JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600 mb-8" data-translate="hope_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">💊</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_1_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">⏳</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_2_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">❤️</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_3_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <a href="https://www.nimh.nih.gov/health/topics/mental-health-medications" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors" data-translate="footer_link_text"></a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "A Guide to Mental Health Medications",
+                lang_back_button: "Back",
+                welcome_title: "Understanding Mental Health Medications",
+                welcome_subtitle: "Medication can be an effective part of the treatment plan for many mental health conditions. It can help manage symptoms, making it easier to engage in therapy and daily life. This guide provides an overview of the common types of medications used for different disorders. The decision to use medication is always made in partnership with a healthcare provider.",
+                hope_title: "The Bigger Picture: Your Journey to Wellness",
+                hope_subtitle: "Starting a medication can feel like a big step, but it's a hopeful one. Remember these key ideas on your journey:",
+                hope_infographic_1_title: "Medication is a Tool",
+                hope_infographic_1_desc: "It's not a cure, but a tool that can help rebalance brain chemistry, reduce symptoms, and give you the stability to fully benefit from therapy and self-care.",
+                hope_infographic_2_title: "Recovery is a Process",
+                hope_infographic_2_desc: "Finding the right medication and dose takes time and patience. Work closely with your doctor, report side effects, and don't get discouraged. Progress is rarely linear.",
+                hope_infographic_3_title: "You Are the Expert on You",
+                hope_infographic_3_desc: "Your voice is the most important one in your treatment. A good treatment plan is a partnership where you feel heard, respected, and empowered to make decisions about your health.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This page summarizes information for educational purposes and is not a substitute for professional medical advice. Never start, stop, or change a medication without consulting your healthcare provider. All treatment decisions should be made in collaboration with a qualified professional.",
+                footer_sources: "Content adapted from the National Institute of Mental Health (NIMH).",
+                footer_link_text: "Visit the original NIMH page on Medications",
+                
+                // Main Tabs
+                main_tab_depression: "Depression",
+                main_tab_anxiety: "Anxiety Disorders",
+                main_tab_bipolar: "Bipolar Disorder",
+                main_tab_ptsd: "PTSD",
+                main_tab_psychosis: "Psychotic Disorders",
+
+                // Sub-Tabs & Content
+                how_they_work: "How They Work",
+                place_in_therapy: "Place in Therapy",
+                common_side_effects: "Common Side Effects",
+                key_considerations: "Key Considerations",
+
+                // Depression Meds
+                med_tab_dep_ssri: "SSRIs",
+                med_tab_dep_snri: "SNRIs",
+                med_tab_dep_atypical: "Atypicals",
+                med_tab_dep_tca: "TCAs",
+                dep_ssri_title: "SSRIs (Selective Serotonin Reuptake Inhibitors)",
+                dep_ssri_moa: "Increase levels of serotonin, a key mood-regulating chemical messenger, in the brain.",
+                dep_ssri_place: "First-line treatment for depression due to their effectiveness and favorable side effect profile.",
+                dep_ssri_se: "Nausea, headache, insomnia or drowsiness, sexual dysfunction. Many side effects lessen over time.",
+                dep_ssri_con: "Take 4-6 weeks to reach full effect. Should not be stopped abruptly. Inform doctor of other medications, especially blood thinners.",
+                dep_snri_title: "SNRIs (Serotonin-Norepinephrine Reuptake Inhibitors)",
+                dep_snri_moa: "Increase levels of both serotonin and norepinephrine. Norepinephrine is involved in alertness and energy.",
+                dep_snri_place: "First-line treatment, may be particularly useful if fatigue or chronic pain are also present.",
+                dep_snri_se: "Similar to SSRIs, but may also include dry mouth, sweating, and increased blood pressure.",
+                dep_snri_con: "Blood pressure should be monitored. Takes several weeks to work and should not be stopped abruptly.",
+                dep_atypical_title: "Atypical Antidepressants",
+                dep_atypical_moa: "A diverse group that works on different neurotransmitters. For example, some target dopamine in addition to serotonin.",
+                dep_atypical_place: "Often used as a second-line option or as an add-on to other antidepressants if the initial response is inadequate.",
+                dep_atypical_se: "Varies widely. Some (e.g., bupropion) have a lower risk of sexual side effects. Others (e.g., mirtazapine) can cause significant drowsiness.",
+                dep_atypical_con: "Chosen based on specific symptoms or to avoid certain side effects. Bupropion is contraindicated in seizure disorders.",
+                dep_tca_title: "TCAs (Tricyclic Antidepressants)",
+                dep_tca_moa: "An older class that also affects serotonin and norepinephrine, but less selectively than newer agents.",
+                dep_tca_place: "Generally reserved for treatment-resistant depression due to a higher side effect burden.",
+                dep_tca_se: "Dry mouth, blurred vision, constipation, drowsiness, weight gain, dizziness.",
+                dep_tca_con: "Can be dangerous in overdose and may cause heart rhythm problems. Not typically used in people with certain heart conditions.",
+
+                // Anxiety Meds
+                med_tab_anx_ssri: "SSRIs & SNRIs",
+                med_tab_anx_benzo: "Benzodiazepines",
+                med_tab_anx_beta: "Beta-Blockers",
+                anx_ssri_title: "SSRIs & SNRIs (Antidepressants)",
+                anx_ssri_moa: "Increase levels of mood-regulating brain chemicals like serotonin and norepinephrine.",
+                anx_ssri_place: "First-line treatment for most anxiety disorders for long-term management.",
+                anx_ssri_se: "Nausea, headache, insomnia or drowsiness. These often decrease over time.",
+                anx_ssri_con: "Take several weeks to reach full effect. Meant for daily use and should not be stopped abruptly.",
+                anx_benzo_title: "Benzodiazepines",
+                anx_benzo_moa: "Enhance the effect of GABA, a neurotransmitter that calms brain activity, providing rapid relief.",
+                anx_benzo_place: "For short-term or as-needed use for intense anxiety or panic attacks. Not for long-term daily management.",
+                anx_benzo_se: "Drowsiness, dizziness, confusion, impaired coordination.",
+                anx_benzo_con: "High risk of tolerance and dependence. Use should be carefully monitored by a doctor.",
+                anx_beta_title: "Beta-Blockers",
+                anx_beta_moa: "Block the physical effects of adrenaline, such as a racing heart and trembling.",
+                anx_beta_place: "Used on an as-needed basis for performance-related or situational anxiety (e.g., public speaking).",
+                anx_beta_se: "Fatigue, cold hands, dizziness, weakness.",
+                anx_beta_con: "Controls physical symptoms, not the psychological feeling of worry. Not for use in people with asthma or certain heart conditions.",
+
+                // Bipolar Meds
+                med_tab_bp_stabilizers: "Mood Stabilizers",
+                med_tab_bp_antipsychotics: "Atypical Antipsychotics",
+                med_tab_bp_antidepressants: "Antidepressants",
+                bp_stabilizers_title: "Mood Stabilizers",
+                bp_stabilizers_moa: "Thought to work on chemical signaling pathways inside brain cells to control mood swings.",
+                bp_stabilizers_place: "First-line and cornerstone of long-term treatment for Bipolar I and II.",
+                bp_stabilizers_se: "Varies by drug. Can include tremor, weight gain, increased thirst. Some can affect the liver or kidneys.",
+                bp_stabilizers_con: "Regular blood tests are often required to monitor drug levels and organ function. Do not stop suddenly.",
+                bp_antipsychotics_title: "Atypical Antipsychotics",
+                bp_antipsychotics_moa: "Act on dopamine and serotonin receptors. Can treat acute mania and also serve as a long-term stabilizer.",
+                bp_antipsychotics_place: "First or second-line treatment, often used for acute mania and for long-term maintenance, sometimes with a mood stabilizer.",
+                bp_antipsychotics_se: "Drowsiness, restlessness, significant weight gain, increased risk of diabetes and high cholesterol.",
+                bp_antipsychotics_con: "Regular monitoring of weight, blood glucose, and cholesterol is essential.",
+                bp_antidepressants_title: "Antidepressants",
+                bp_antidepressants_moa: "Increase levels of mood-related neurotransmitters like serotonin to treat depressive episodes.",
+                bp_antidepressants_place: "Used cautiously as an adjunct treatment for depressive episodes.",
+                bp_antidepressants_se: "Nausea, headache, insomnia, sexual dysfunction.",
+                bp_antidepressants_con: "CRITICAL: Must always be used with a mood stabilizer. If used alone, they can trigger a manic episode.",
+
+                // PTSD Meds
+                med_tab_ptsd_ssri: "SSRIs & SNRIs",
+                med_tab_ptsd_other: "Other Medications",
+                ptsd_ssri_title: "SSRIs & SNRIs (Antidepressants)",
+                ptsd_ssri_moa: "Increase levels of serotonin and/or norepinephrine to help regulate mood, fear, and worry.",
+                ptsd_ssri_place: "First-line medication treatment for PTSD to manage core symptoms.",
+                ptsd_ssri_se: "Nausea, drowsiness, headache, sexual side effects.",
+                ptsd_ssri_con: "Take several weeks to become fully effective. Should be taken daily as prescribed.",
+                ptsd_other_title: "Other Medications",
+                ptsd_other_moa: "Drugs like Prazosin block the brain's response to norepinephrine and can reduce nightmares.",
+                ptsd_other_place: "Used as an adjunct treatment to target specific symptoms, particularly nightmares.",
+                ptsd_other_se: "Dizziness, lightheadedness, particularly upon standing.",
+                ptsd_other_con: "Often taken at bedtime to reduce nightmares and improve sleep.",
+
+                // Psychosis Meds
+                med_tab_psy_second_gen: "Second-Generation (Atypicals)",
+                med_tab_psy_first_gen: "First-Generation (Typicals)",
+                psy_second_gen_title: "Second-Generation (Atypical) Antipsychotics",
+                psy_second_gen_moa: "Block both dopamine D2 and serotonin 5-HT2A receptors in the brain.",
+                psy_second_gen_place: "First-line treatment for schizophrenia and other psychotic disorders due to a better side effect profile for movement disorders.",
+                psy_second_gen_se: "High risk of metabolic side effects: weight gain, high cholesterol, and increased risk for type 2 diabetes. Also drowsiness.",
+                psy_second_gen_con: "Regular monitoring of weight, blood glucose, and cholesterol is essential.",
+                psy_first_gen_title: "First-Generation (Typical) Antipsychotics",
+                psy_first_gen_moa: "Primarily work by blocking dopamine D2 receptors in the brain. Very effective for positive symptoms.",
+                psy_first_gen_place: "Second-line or alternative treatment, used if atypical antipsychotics are not effective or tolerated.",
+                psy_first_gen_se: "High risk of movement disorders (muscle stiffness, tremors) and long-term risk of tardive dyskinesia (uncontrollable movements).",
+                psy_first_gen_con: "Less likely to cause metabolic side effects, but the risk of movement disorders is a major consideration."
+            },
+            es: {
+                page_title: "Guía de Medicamentos para la Salud Mental",
+                lang_back_button: "Volver",
+                welcome_title: "Entendiendo los Medicamentos para la Salud Mental",
+                welcome_subtitle: "La medicación puede ser una parte eficaz del plan de tratamiento para muchas condiciones de salud mental. Puede ayudar a manejar los síntomas, facilitando la participación en la terapia y la vida diaria. Esta guía ofrece una visión general de los tipos comunes de medicamentos utilizados para diferentes trastornos. La decisión de usar medicación siempre se toma en colaboración con un proveedor de atención médica.",
+                hope_title: "El Panorama General: Su Viaje hacia el Bienestar",
+                hope_subtitle: "Comenzar un medicamento puede parecer un gran paso, pero es uno lleno de esperanza. Recuerde estas ideas clave en su viaje:",
+                hope_infographic_1_title: "La Medicación es una Herramienta",
+                hope_infographic_1_desc: "No es una cura, sino una herramienta que puede ayudar a reequilibrar la química cerebral, reducir los síntomas y darle la estabilidad para beneficiarse plenamente de la terapia y el autocuidado.",
+                hope_infographic_2_title: "La Recuperación es un Proceso",
+                hope_infographic_2_desc: "Encontrar el medicamento y la dosis adecuados lleva tiempo y paciencia. Trabaje en estrecha colaboración con su médico, informe sobre los efectos secundarios y no se desanime. El progreso rara vez es lineal.",
+                hope_infographic_3_title: "Usted es el Experto en Usted Mismo",
+                hope_infographic_3_desc: "Su voz es la más importante en su tratamiento. Un buen plan de tratamiento es una asociación en la que se siente escuchado, respetado y empoderado para tomar decisiones sobre su salud.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta página resume información con fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Nunca comience, suspenda o cambie un medicamento sin consultar a su proveedor de atención médica. Todas las decisiones de tratamiento deben tomarse en colaboración con un profesional calificado.",
+                footer_sources: "Contenido adaptado del Instituto Nacional de Salud Mental (NIMH).",
+                footer_link_text: "Visite la página original del NIMH sobre Medicamentos",
+                
+                main_tab_depression: "Depresión",
+                main_tab_anxiety: "Trastornos de Ansiedad",
+                main_tab_bipolar: "Trastorno Bipolar",
+                main_tab_ptsd: "TEPT",
+                main_tab_psychosis: "Trastornos Psicóticos",
+
+                how_they_work: "Cómo Funcionan",
+                place_in_therapy: "Lugar en la Terapia",
+                common_side_effects: "Efectos Secundarios Comunes",
+                key_considerations: "Consideraciones Clave",
+
+                med_tab_dep_ssri: "ISRS",
+                med_tab_dep_snri: "IRSN",
+                med_tab_dep_atypical: "Atípicos",
+                med_tab_dep_tca: "ATC",
+                dep_ssri_title: "ISRS (Inhibidores Selectivos de la Recaptación de Serotonina)",
+                dep_ssri_moa: "Aumentan los niveles de serotonina, un mensajero químico clave que regula el estado de ánimo, en el cerebro.",
+                dep_ssri_place: "Tratamiento de primera línea para la depresión debido a su eficacia y perfil de efectos secundarios favorable.",
+                dep_ssri_se: "Náuseas, dolor de cabeza, insomnio o somnolencia, disfunción sexual. Muchos efectos secundarios disminuyen con el tiempo.",
+                dep_ssri_con: "Tardan de 4 a 6 semanas en alcanzar su efecto completo. No deben suspenderse bruscamente. Informe al médico de otros medicamentos, especialmente anticoagulantes.",
+                dep_snri_title: "IRSN (Inhibidores de la Recaptación de Serotonina y Norepinefrina)",
+                dep_snri_moa: "Aumentan los niveles tanto de serotonina como de norepinefrina. La norepinefrina está involucrada en el estado de alerta y la energía.",
+                dep_snri_place: "Tratamiento de primera línea, puede ser particularmente útil si también hay fatiga o dolor crónico.",
+                dep_snri_se: "Similares a los ISRS, pero también pueden incluir sequedad de boca, sudoración y aumento de la presión arterial.",
+                dep_snri_con: "Se debe monitorear la presión arterial. Tardan varias semanas en funcionar y no deben suspenderse bruscamente.",
+                dep_atypical_title: "Antidepresivos Atípicos",
+                dep_atypical_moa: "Un grupo diverso que actúa sobre diferentes neurotransmisores. Por ejemplo, algunos actúan sobre la dopamina además de la serotonina.",
+                dep_atypical_place: "A menudo se usan como una opción de segunda línea o como un complemento a otros antidepresivos si la respuesta inicial es inadecuada.",
+                dep_atypical_se: "Varía ampliamente. Algunos (p. ej., bupropión) tienen un menor riesgo de efectos secundarios sexuales. Otros (p. ej., mirtazapina) pueden causar somnolencia significativa.",
+                dep_atypical_con: "Se eligen en función de síntomas específicos o para evitar ciertos efectos secundarios. El bupropión está contraindicado en trastornos convulsivos.",
+                dep_tca_title: "ATC (Antidepresivos Tricíclicos)",
+                dep_tca_moa: "Una clase más antigua que también afecta la serotonina y la norepinefrina, pero de forma menos selectiva.",
+                dep_tca_place: "Generalmente reservados para la depresión resistente al tratamiento debido a una mayor carga de efectos secundarios.",
+                dep_tca_se: "Sequedad de boca, visión borrosa, estreñimiento, somnolencia, aumento de peso, mareos.",
+                dep_tca_con: "Pueden ser peligrosos en sobredosis y pueden causar problemas del ritmo cardíaco. No se usan típicamente en personas con ciertas afecciones cardíacas.",
+
+                med_tab_anx_ssri: "ISRS y IRSN",
+                med_tab_anx_benzo: "Benzodiacepinas",
+                med_tab_anx_beta: "Betabloqueantes",
+                anx_ssri_title: "ISRS y IRSN (Antidepresivos)",
+                anx_ssri_moa: "Aumentan los niveles de sustancias químicas cerebrales que regulan el estado de ánimo, como la serotonina y la norepinefrina.",
+                anx_ssri_place: "Tratamiento de primera línea para la mayoría de los trastornos de ansiedad para el manejo a largo plazo.",
+                anx_ssri_se: "Náuseas, dolor de cabeza, insomnio o somnolencia. A menudo disminuyen con el tiempo.",
+                anx_ssri_con: "Tardan varias semanas en alcanzar su efecto completo. Destinados a un uso diario y a largo plazo y no deben suspenderse bruscamente.",
+                anx_benzo_title: "Benzodiacepinas",
+                anx_benzo_moa: "Potencian el efecto del GABA, un neurotransmisor que calma la actividad cerebral, proporcionando un alivio rápido.",
+                anx_benzo_place: "Para uso a corto plazo o según sea necesario para la ansiedad intensa o los ataques de pánico. No para el manejo diario a largo plazo.",
+                anx_benzo_se: "Somnolencia, mareos, confusión, alteración de la coordinación.",
+                anx_benzo_con: "Alto riesgo de tolerancia y dependencia. Su uso debe ser cuidadosamente monitoreado por un médico.",
+                anx_beta_title: "Betabloqueantes",
+                anx_beta_moa: "Bloquean los efectos físicos de la adrenalina, como el corazón acelerado y los temblores.",
+                anx_beta_place: "Se utilizan según sea necesario para la ansiedad relacionada con el rendimiento (p. ej., hablar en público).",
+                anx_beta_se: "Fatiga, manos frías, mareos, debilidad.",
+                anx_beta_con: "Controlan los síntomas físicos, no el sentimiento psicológico de preocupación. No para uso en personas con asma o ciertas afecciones cardíacas.",
+
+                med_tab_bp_stabilizers: "Estabilizadores del Ánimo",
+                med_tab_bp_antipsychotics: "Antipsicóticos Atípicos",
+                med_tab_bp_antidepressants: "Antidepresivos",
+                bp_stabilizers_title: "Estabilizadores del Ánimo",
+                bp_stabilizers_moa: "Se cree que actúan sobre las vías de señalización química dentro de las células cerebrales para controlar los cambios de humor.",
+                bp_stabilizers_place: "Primera línea y piedra angular del tratamiento a largo plazo para el Trastorno Bipolar I y II.",
+                bp_stabilizers_se: "Varía según el fármaco. Puede incluir temblor, aumento de peso, aumento de la sed. Algunos pueden afectar el hígado o los riñones.",
+                bp_stabilizers_con: "A menudo se requieren análisis de sangre regulares para monitorear los niveles del fármaco y la función de los órganos. No suspender repentinamente.",
+                bp_antipsychotics_title: "Antipsicóticos Atípicos",
+                bp_antipsychotics_moa: "Actúan sobre los receptores de dopamina y serotonina. Pueden tratar la manía aguda y también servir como estabilizador a largo plazo.",
+                bp_antipsychotics_place: "Tratamiento de primera o segunda línea, a menudo utilizado para la manía aguda y para el mantenimiento a largo plazo, a veces con un estabilizador del ánimo.",
+                bp_antipsychotics_se: "Somnolencia, inquietud, aumento de peso significativo, mayor riesgo de diabetes y colesterol alto.",
+                bp_antipsychotics_con: "Es esencial el monitoreo regular del peso, la glucosa en sangre y el colesterol.",
+                bp_antidepressants_title: "Antidepresivos",
+                bp_antidepressants_moa: "Aumentan los niveles de neurotransmisores relacionados con el estado de ánimo como la serotonina para tratar los episodios depresivos.",
+                bp_antidepressants_place: "Se usan con precaución como tratamiento complementario para los episodios depresivos.",
+                bp_antidepressants_se: "Náuseas, dolor de cabeza, insomnio, disfunción sexual.",
+                bp_antidepressants_con: "CRÍTICO: Siempre deben usarse con un estabilizador del ánimo. Si se usan solos, pueden desencadenar un episodio maníaco.",
+
+                med_tab_ptsd_ssri: "ISRS y IRSN",
+                med_tab_ptsd_other: "Otros Medicamentos",
+                ptsd_ssri_title: "ISRS y IRSN (Antidepresivos)",
+                ptsd_ssri_moa: "Aumentan los niveles de serotonina y/o norepinefrina para ayudar a regular el estado de ánimo, el miedo y la preocupación.",
+                ptsd_ssri_place: "Tratamiento farmacológico de primera línea para el TEPT para manejar los síntomas centrales.",
+                ptsd_ssri_se: "Náuseas, somnolencia, dolor de cabeza, efectos secundarios sexuales.",
+                ptsd_ssri_con: "Tardan varias semanas en ser completamente efectivos. Deben tomarse diariamente según lo prescrito.",
+                ptsd_other_title: "Otros Medicamentos",
+                ptsd_other_moa: "Fármacos como la Prazosina bloquean la respuesta del cerebro a la norepinefrina y pueden reducir las pesadillas.",
+                ptsd_other_place: "Se utilizan como tratamiento complementario para tratar síntomas específicos, particularmente las pesadillas.",
+                ptsd_other_se: "Mareos, aturdimiento, especialmente al ponerse de pie.",
+                ptsd_other_con: "A menudo se toman a la hora de acostarse para reducir las pesadillas y mejorar el sueño.",
+
+                med_tab_psy_second_gen: "Segunda Generación (Atípicos)",
+                med_tab_psy_first_gen: "Primera Generación (Típicos)",
+                psy_second_gen_title: "Antipsicóticos de Segunda Generación (Atípicos)",
+                psy_second_gen_moa: "Bloquean tanto los receptores de dopamina D2 como los de serotonina 5-HT2A en el cerebro.",
+                psy_second_gen_place: "Tratamiento de primera línea para la esquizofrenia y otros trastornos psicóticos debido a un mejor perfil de efectos secundarios para los trastornos del movimiento.",
+                psy_second_gen_se: "Alto riesgo de efectos secundarios metabólicos: aumento de peso, colesterol alto y mayor riesgo de diabetes tipo 2. También somnolencia.",
+                psy_second_gen_con: "Es esencial el monitoreo regular del peso, la glucosa en sangre y el colesterol.",
+                psy_first_gen_title: "Antipsicóticos de Primera Generación (Típicos)",
+                psy_first_gen_moa: "Funcionan principalmente bloqueando los receptores de dopamina D2 en el cerebro. Muy eficaces para los síntomas positivos.",
+                psy_first_gen_place: "Tratamiento de segunda línea o alternativo, utilizado si los antipsicóticos atípicos no son eficaces o tolerados.",
+                psy_first_gen_se: "Alto riesgo de trastornos del movimiento (rigidez muscular, temblores) y riesgo a largo plazo de discinesia tardía (movimientos incontrolables).",
+                psy_first_gen_con: "Menos propensos a causar efectos secundarios metabólicos, pero el riesgo de trastornos del movimiento es una consideración importante."
+            }
+        };
+
+        const medicationData = {
+            depression: ['dep_ssri', 'dep_snri', 'dep_atypical', 'dep_tca'],
+            anxiety: ['anx_ssri', 'anx_benzo', 'anx_beta'],
+            bipolar: ['bp_stabilizers', 'bp_antipsychotics', 'bp_antidepressants'],
+            ptsd: ['ptsd_ssri', 'ptsd_other'],
+            psychosis: ['psy_second_gen', 'psy_first_gen']
+        };
+
+        let currentLanguage = 'en';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            renderMainTabs();
+            renderDisorderContent('depression');
+        }
+
+        function renderMainTabs() {
+            const t = translations[currentLanguage];
+            const container = document.getElementById('main-tabs-container');
+            const disorders = ['depression', 'anxiety', 'bipolar', 'ptsd', 'psychosis'];
+            container.innerHTML = disorders.map((disorder, index) => `
+                <button class="main-tab-btn flex-grow p-4 text-sm md:text-base font-semibold ${index === 0 ? 'active' : ''}" data-disorder="${disorder}" data-translate="main_tab_${disorder}"></button>
+            `).join('');
+            
+            // Re-translate and re-attach event listeners
+            container.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            container.querySelectorAll('.main-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    container.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderDisorderContent(btn.dataset.disorder);
+                });
+            });
+        }
+
+        function renderDisorderContent(disorder) {
+            const t = translations[currentLanguage];
+            const contentContainer = document.getElementById('main-tab-content');
+            const medClasses = medicationData[disorder];
+
+            const subTabsHtml = medClasses.map((medClass, index) => `
+                <button class="sub-tab-btn w-full text-left p-3 my-1 rounded-lg ${index === 0 ? 'active' : ''}" data-med-class="${medClass}" data-translate="med_tab_${medClass}"></button>
+            `).join('');
+
+            contentContainer.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex flex-row md:flex-col md:w-1/4 flex-wrap justify-center md:justify-start">
+                        ${subTabsHtml}
+                    </div>
+                    <div class="md:w-3/4">
+                        <div id="sub-tab-content"></div>
+                    </div>
+                </div>
+            `;
+
+            // Re-translate and re-attach event listeners for sub-tabs
+            contentContainer.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            contentContainer.querySelectorAll('.sub-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    contentContainer.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderMedicationDetails(btn.dataset.medClass);
+                });
+            });
+
+            // Render initial medication details
+            renderMedicationDetails(medClasses[0]);
+        }
+
+        function renderMedicationDetails(medClass) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('sub-tab-content');
+            const sideEffectsHtml = t[`${medClass}_se`].split(',').map(item => `<li class="text-sm">${item.trim()}</li>`).join('');
+
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-4 text-slate-800">${t[`${medClass}_title`]}</h4>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t.how_they_work}</h5>
+                        <p class="text-sm text-slate-600">${t[`${medClass}_moa`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t.place_in_therapy}</h5>
+                        <p class="text-sm text-slate-600">${t[`${medClass}_place`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t.common_side_effects}</h5>
+                        <ul class="list-disc list-inside space-y-1">${sideEffectsHtml}</ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-teal-700 mb-1">${t.key_considerations}</h5>
+                        <p class="text-sm text-slate-600">${t[`${medClass}_con`]}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+    </script>
+</body>
+</html>

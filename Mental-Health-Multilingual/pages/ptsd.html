@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding PTSD: A Detailed Guide</title>
+    <!-- Chosen Palette: Serene Teal & Gold -->
+    <!-- Application Structure Plan: This page is a deep-dive sub-page on PTSD. It follows the established structure for consistency. 1. An empathetic introduction defines PTSD as a reaction to trauma. 2. An interactive tabbed section details the four core symptom clusters. 3. A section on Risk and Resilience factors provides context. 4. A "Treatments" section uses content cards to explain trauma-focused therapies. 5. A new, interactive section on Medications provides a deep-dive on drug classes. 6. An interactive bar chart visualizes prevalence data. 7. A final motivational section provides a message of hope. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Details of the four PTSD symptom clusters. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs. -> Interaction: Click buttons to show/hide detailed descriptions. -> Justification: Allows users to understand the complex, multi-faceted nature of PTSD symptoms in a structured way. -> Library/Method: Vanilla JS DOM manipulation.
+        2. Report Info: Details of medication classes for PTSD. -> Goal: Organize/Educate. -> Viz: Interactive Content Tabs/Buttons. -> Interaction: Click buttons to show detailed cards for each drug class. -> Justification: Breaks down complex medical information into digestible, user-selected chunks. -> Library/Method: Vanilla JS DOM manipulation.
+        3. Report Info: Prevalence rates of PTSD. -> Goal: Inform/Compare. -> Viz: Vertical Bar Chart. -> Interaction: Hover for details, updates with language change. -> Justification: A clear way to show how common PTSD is across different demographics. -> Library: Chart.js (Canvas).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        .tab-btn {
+            background-color: #EEF2F5;
+            color: #334155;
+            border-bottom: 3px solid transparent;
+            transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
+        }
+        .tab-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .tab-btn.active {
+            background-color: #FFFFFF;
+            color: #005F73;
+            border-bottom-color: #005F73;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #005F73; color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #94D2BD !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #005F73 !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold text-slate-800" data-translate="page_title"></h1>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m4.25 16-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 0 0 3 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0 0 12 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0 0 21 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0 0 12 3z"/></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-700 hover:underline" data-translate="lang_back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="welcome" class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="symptoms" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="symptoms_title"></h3>
+                 <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="symptoms_subtitle"></p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-2">
+                <div class="flex flex-wrap border-b border-slate-200">
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold active" data-tab="reexperiencing" data-translate="tab_reexperiencing"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="avoidance" data-translate="tab_avoidance"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="cognition" data-translate="tab_cognition"></button>
+                    <button class="tab-btn flex-grow p-4 text-sm md:text-base font-semibold" data-tab="arousal" data-translate="tab_arousal"></button>
+                </div>
+                <div id="tab-content" class="p-6 md:p-8"></div>
+            </div>
+        </section>
+
+        <section id="risk-resilience" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="risk_title"></h3>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-red-50 p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-red-800 text-center" data-translate="risk_factors_title"></h4>
+                    <ul class="space-y-2 text-slate-700" id="risk-factors-list"></ul>
+                </div>
+                <div class="bg-green-50 p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-xl mb-4 text-green-800 text-center" data-translate="resilience_factors_title"></h4>
+                    <ul class="space-y-2 text-slate-700" id="resilience-factors-list"></ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="treatments" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="treatments_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="treatments_subtitle"></p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_therapy_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_therapy_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                    <h4 class="font-bold text-xl mb-3 text-center" data-translate="treatment_meds_title"></h4>
+                    <p class="text-sm text-slate-600 flex-grow" data-translate="treatment_meds_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="medications" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="meds_section_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="meds_section_subtitle"></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex flex-row md:flex-col md:w-1/4 flex-wrap justify-center md:justify-start">
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg active" data-med-class="ssri" data-translate="med_tab_ssri"></button>
+                    <button class="tab-btn w-full text-left p-3 my-1 rounded-lg" data-med-class="other" data-translate="med_tab_other"></button>
+                </div>
+                <div class="md:w-3/4 bg-white p-6 md:p-8 rounded-xl shadow-md">
+                    <div id="med-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prevalence" class="mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="prevalence_title"></h3>
+                 <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="prevalence_subtitle"></p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <div class="chart-container">
+                    <canvas id="prevalenceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="hope" class="scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-translate="hope_title"></h2>
+                <p class="max-w-3xl mx-auto text-slate-600 mb-8" data-translate="hope_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🧠</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_1_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">🛡️</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_2_desc"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl mb-3">❤️‍🩹</p>
+                        <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="hope_infographic_3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="hope_infographic_3_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="font-bold text-lg mb-4" data-translate="footer_disclaimer_title"></h3>
+            <p class="max-w-4xl mx-auto text-slate-300 text-sm mb-4" data-translate="footer_disclaimer_text"></p>
+            <p class="text-slate-400 text-xs mb-6" data-translate="footer_sources"></p>
+            <a href="https://www.nimh.nih.gov/health/topics/post-traumatic-stress-disorder-ptsd" target="_blank" class="text-teal-300 hover:text-teal-200 transition-colors" data-translate="footer_link_text"></a>
+        </div>
+    </footer>
+
+    <div id="google_translate_element_wrapper" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                page_title: "Understanding PTSD",
+                lang_back_button: "Back",
+                welcome_title: "A Deep Dive Into PTSD",
+                welcome_subtitle: "Post-Traumatic Stress Disorder (PTSD) is a mental health condition that some people develop after experiencing or witnessing a shocking, scary, or dangerous event. It is a normal reaction to an abnormal situation. This guide explains the symptoms, risk factors, and effective treatments that can help people recover.",
+                symptoms_title: "The Four Symptom Clusters of PTSD",
+                symptoms_subtitle: "To be diagnosed with PTSD, an adult must have all of the following for at least 1 month: at least one re-experiencing symptom, at least one avoidance symptom, at least two cognition and mood symptoms, and at least two arousal and reactivity symptoms.",
+                tab_reexperiencing: "Re-experiencing",
+                tab_avoidance: "Avoidance",
+                tab_cognition: "Cognition & Mood",
+                tab_arousal: "Arousal & Reactivity",
+                risk_title: "Risk and Resilience Factors",
+                risk_factors_title: "Risk Factors",
+                resilience_factors_title: "Resilience Factors",
+                prevalence_title: "How Common Is PTSD?",
+                prevalence_subtitle: "Anyone can develop PTSD at any age. An estimated 3.6% of U.S. adults had PTSD in the past year. The chart below shows the estimated lifetime prevalence.",
+                treatments_title: "Paths to Recovery",
+                treatments_subtitle: "Recovering from PTSD is a process, and effective treatments are available. The primary approaches are trauma-focused psychotherapies and medication.",
+                treatment_therapy_title: "Trauma-Focused Psychotherapy",
+                treatment_therapy_desc: "This is the most effective treatment. These therapies teach you skills to process your traumatic experience. Examples include Cognitive Processing Therapy (CPT), which helps you reframe negative thoughts about the trauma, and Prolonged Exposure (PE), which helps you gradually approach trauma-related memories and feelings.",
+                treatment_meds_title: "Medication",
+                treatment_meds_desc: "Antidepressants, specifically SSRIs and SNRIs, are the most commonly used medications for PTSD. They can help control symptoms such as sadness, worry, anger, and feeling numb inside. Other medications may be used to help with sleep problems or nightmares.",
+                meds_section_title: "A Closer Look at Medications",
+                meds_section_subtitle: "Medication can help manage the challenging symptoms of PTSD, making it easier to engage in therapy. The most common types are antidepressants.",
+                med_tab_ssri: "SSRIs & SNRIs",
+                med_tab_other: "Other Medications",
+                hope_title: "Healing from Trauma: A Path Forward",
+                hope_subtitle: "Recovering from trauma is a journey of reclaiming your life. It takes courage and time, but healing is possible. Remember these key ideas as you move forward.",
+                hope_infographic_1_title: "Healing is Not Forgetting",
+                hope_infographic_1_desc: "Recovery doesn't mean erasing the past. It means learning to live with the memory so that it no longer controls your present. The trauma becomes a part of your story, not the whole story.",
+                hope_infographic_2_title: "Safety is the Foundation",
+                hope_infographic_2_desc: "The first step in healing is establishing a sense of safety, both in your environment and in your relationships. A good therapist helps create this safe space for you to process what happened.",
+                hope_infographic_3_title: "You Are Resilient",
+                hope_infographic_3_desc: "Surviving a traumatic event is a testament to your strength. The same resilience that got you through the event is the strength you will draw upon to heal and build a meaningful life.",
+                footer_disclaimer_title: "Important Disclaimer",
+                footer_disclaimer_text: "This page summarizes information for educational purposes and is not a substitute for professional medical advice. Always consult a healthcare provider for diagnosis and treatment.",
+                footer_sources: "Content adapted from the National Institute of Mental Health (NIMH).",
+                footer_link_text: "Visit the original NIMH page on PTSD",
+                reexperiencing_title: "Re-experiencing Symptoms",
+                reexperiencing_desc: "These symptoms involve reliving the trauma over and over, which can disrupt daily life. They can start from the person's own thoughts and feelings or be triggered by external reminders.",
+                reexperiencing_list: ["Flashbacks—reliving the trauma over and over, including physical symptoms like a racing heart or sweating", "Bad dreams or nightmares about the event", "Frightening thoughts you can't control"],
+                avoidance_title: "Avoidance Symptoms",
+                avoidance_desc: "These symptoms involve trying to avoid reminders of the traumatic event. This can cause a person to change their personal routine and withdraw from the world.",
+                avoidance_list: ["Staying away from places, events, or objects that are reminders of the traumatic experience", "Avoiding thoughts or feelings related to the traumatic event"],
+                cognition_title: "Negative Alterations in Cognition and Mood",
+                cognition_desc: "These symptoms involve negative changes in beliefs and feelings since the trauma. They can make you feel alienated or detached from friends or family members.",
+                cognition_list: ["Trouble remembering key features of the traumatic event", "Negative thoughts about oneself or the world", "Distorted feelings like guilt or blame", "Loss of interest in enjoyable activities", "Feeling emotionally numb"],
+                arousal_title: "Alterations in Arousal and Reactivity",
+                arousal_desc: "These symptoms are keyed-up or 'on edge' feelings. They can be constant and make the person feel stressed and angry, making daily tasks like sleeping or concentrating difficult.",
+                arousal_list: ["Being easily startled", "Feeling tense or 'on edge'", "Having difficulty sleeping", "Having angry outbursts", "Engaging in reckless or self-destructive behavior"],
+                risk_factors_list: ["Living through dangerous events and traumas", "Getting hurt or seeing people hurt or killed", "History of childhood trauma", "Feeling horror, helplessness, or extreme fear", "Having little or no social support after the event", "Dealing with extra stress after the event, such as loss of a loved one, pain and injury, or loss of a job or home"],
+                resilience_factors_list: ["Seeking out support from other people, such as friends, family, or a support group", "Finding a support group after a traumatic event", "Learning to feel good about one's own actions in the face of danger", "Having a positive coping strategy, or a way of getting through the bad event and learning from it", "Being able to act and respond effectively despite feeling fear"],
+                prevalence_chart_x_axis: "Demographic Group",
+                prevalence_chart_y_axis: "Lifetime Prevalence (%)",
+                prevalence_chart_label_adults: "U.S. Adults",
+                prevalence_chart_label_adolescents: "U.S. Adolescents (13-18)",
+                med_ssri_title: "SSRIs & SNRIs (Antidepressants)",
+                med_ssri_moa_title: "How They Work",
+                med_ssri_moa_text: "These medications increase levels of serotonin and/or norepinephrine to help regulate the brain circuits involved in mood, fear, and worry, which are often dysregulated in PTSD.",
+                med_ssri_se_title: "Common Side Effects",
+                med_ssri_se_list: "Nausea, drowsiness or insomnia, headache, sexual side effects.",
+                med_ssri_con_title: "Key Considerations",
+                med_ssri_con_text: "These are considered the first-line medication treatment for PTSD. They can take several weeks to become fully effective and should be taken daily as prescribed.",
+                med_other_title: "Other Medications",
+                med_other_moa_title: "How They Work",
+                med_other_moa_text: "Drugs like Prazosin, an alpha-blocker, work by blocking the brain's response to norepinephrine (an adrenaline-like chemical), which can reduce the intensity of trauma-related nightmares.",
+                med_other_se_title: "Common Side Effects",
+                med_other_se_list: "Dizziness, lightheadedness, weakness, particularly upon standing.",
+                med_other_con_title: "Key Considerations",
+                med_other_con_text: "These are used as an adjunct treatment to target specific, persistent symptoms like nightmares and sleep disturbance. Prazosin is typically taken at bedtime."
+            },
+            es: {
+                page_title: "Entendiendo el TEPT",
+                lang_back_button: "Volver",
+                welcome_title: "Una Mirada Profunda al TEPT",
+                welcome_subtitle: "El Trastorno de Estrés Postraumático (TEPT) es una condición de salud mental que algunas personas desarrollan después de experimentar o presenciar un evento impactante, aterrador o peligroso. Es una reacción normal a una situación anormal. Esta guía explica los síntomas, los factores de riesgo y los tratamientos efectivos que pueden ayudar a las personas a recuperarse.",
+                symptoms_title: "Los Cuatro Grupos de Síntomas del TEPT",
+                symptoms_subtitle: "Para ser diagnosticado con TEPT, un adulto debe tener todo lo siguiente durante al menos 1 mes: al menos un síntoma de reexperimentación, al menos un síntoma de evitación, al menos dos síntomas de cognición y estado de ánimo, y al menos dos síntomas de activación y reactividad.",
+                tab_reexperiencing: "Reexperimentación",
+                tab_avoidance: "Evitación",
+                tab_cognition: "Cognición y Ánimo",
+                tab_arousal: "Activación y Reactividad",
+                risk_title: "Factores de Riesgo y Resiliencia",
+                risk_factors_title: "Factores de Riesgo",
+                resilience_factors_title: "Factores de Resiliencia",
+                prevalence_title: "¿Qué Tan Común Es el TEPT?",
+                prevalence_subtitle: "Cualquier persona puede desarrollar TEPT a cualquier edad. Se estima que el 3.6% de los adultos en EE. UU. tuvieron TEPT en el último año. El siguiente gráfico muestra la prevalencia estimada a lo largo de la vida.",
+                treatments_title: "Caminos Hacia la Recuperación",
+                treatments_subtitle: "La recuperación del TEPT es un proceso y existen tratamientos eficaces. Los enfoques principales son las psicoterapias centradas en el trauma y la medicación.",
+                treatment_therapy_title: "Psicoterapia Centrada en el Trauma",
+                treatment_therapy_desc: "Este es el tratamiento más eficaz. Estas terapias le enseñan habilidades para procesar su experiencia traumática. Ejemplos incluyen la Terapia de Procesamiento Cognitivo (TPC), que le ayuda a replantear los pensamientos negativos sobre el trauma, y la Terapia de Exposición Prolongada (EP), que le ayuda a acercarse gradualmente a los recuerdos y sentimientos relacionados con el trauma.",
+                treatment_meds_title: "Medicación",
+                treatment_meds_desc: "Los antidepresivos, específicamente los ISRS y los IRSN, son los medicamentos más utilizados para el TEPT. Pueden ayudar a controlar síntomas como la tristeza, la preocupación, la ira y la sensación de entumecimiento interior. Se pueden usar otros medicamentos para ayudar con los problemas de sueño o las pesadillas.",
+                meds_section_title: "Una Mirada Cercana a los Medicamentos",
+                meds_section_subtitle: "La medicación puede ayudar a manejar los difíciles síntomas del TEPT, facilitando la participación en la terapia. Los tipos más comunes son los antidepresivos.",
+                med_tab_ssri: "ISRS y IRSN",
+                med_tab_other: "Otros Medicamentos",
+                hope_title: "Sanando del Trauma: Un Camino Hacia Adelante",
+                hope_subtitle: "Recuperarse de un trauma es un viaje para reclamar su vida. Requiere coraje y tiempo, pero la sanación es posible. Recuerde estas ideas clave a medida que avanza.",
+                hope_infographic_1_title: "Sanar no es Olvidar",
+                hope_infographic_1_desc: "La recuperación no significa borrar el pasado. Significa aprender a vivir con el recuerdo para que ya no controle su presente. El trauma se convierte en parte de su historia, no en toda la historia.",
+                hope_infographic_2_title: "La Seguridad es la Base",
+                hope_infographic_2_desc: "El primer paso para sanar es establecer un sentido de seguridad, tanto en su entorno como en sus relaciones. Un buen terapeuta ayuda a crear este espacio seguro para que procese lo que sucedió.",
+                hope_infographic_3_title: "Usted es Resiliente",
+                hope_infographic_3_desc: "Sobrevivir a un evento traumático es un testimonio de su fortaleza. La misma resiliencia que lo ayudó a superar el evento es la fuerza de la que se valdrá para sanar y construir una vida significativa.",
+                footer_disclaimer_title: "Descargo de Responsabilidad Importante",
+                footer_disclaimer_text: "Esta página resume información con fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Consulte siempre a un proveedor de atención médica para el diagnóstico y tratamiento.",
+                footer_sources: "Contenido adaptado del Instituto Nacional de Salud Mental (NIMH).",
+                footer_link_text: "Visite la página original del NIMH sobre TEPT",
+                reexperiencing_title: "Síntomas de Reexperimentación",
+                reexperiencing_desc: "Estos síntomas implican revivir el trauma una y otra vez, lo que puede perturbar la vida diaria. Pueden originarse a partir de los propios pensamientos y sentimientos de la persona o ser desencadenados por recordatorios externos.",
+                reexperiencing_list: ["Flashbacks: revivir el trauma una y otra vez, incluyendo síntomas físicos como taquicardia o sudoración", "Malos sueños o pesadillas sobre el evento", "Pensamientos aterradores que no puede controlar"],
+                avoidance_title: "Síntomas de Evitación",
+                avoidance_desc: "Estos síntomas implican tratar de evitar los recordatorios del evento traumático. Esto puede hacer que una persona cambie su rutina personal y se aísle del mundo.",
+                avoidance_list: ["Mantenerse alejado de lugares, eventos u objetos que son recordatorios de la experiencia traumática", "Evitar pensamientos o sentimientos relacionados con el evento traumático"],
+                cognition_title: "Alteraciones Negativas en la Cognición y el Estado de Ánimo",
+                cognition_desc: "Estos síntomas implican cambios negativos en las creencias y sentimientos desde el trauma. Pueden hacer que se sienta alienado o distanciado de amigos o familiares.",
+                cognition_list: ["Problemas para recordar características clave del evento traumático", "Pensamientos negativos sobre uno mismo o el mundo", "Sentimientos distorsionados como culpa o remordimiento", "Pérdida de interés en actividades que antes disfrutaba", "Sentirse emocionalmente insensible"],
+                arousal_title: "Alteraciones en la Activación y la Reactividad",
+                arousal_desc: "Estos síntomas son sentimientos de estar 'alerta' o 'al límite'. Pueden ser constantes y hacer que la persona se sienta estresada y enojada, dificultando tareas diarias como dormir o concentrarse.",
+                arousal_list: ["Sobresaltarse fácilmente", "Sentirse tenso o 'al límite'", "Tener dificultad para dormir", "Tener arrebatos de ira", "Participar en comportamientos imprudentes o autodestructivos"],
+                risk_factors_list: ["Vivir eventos y traumas peligrosos", "Resultar herido o ver a personas heridas o muertas", "Historial de trauma infantil", "Sentir horror, impotencia o miedo extremo", "Tener poco o ningún apoyo social después del evento", "Lidiar con estrés adicional después del evento, como la pérdida de un ser querido, dolor y lesiones, o la pérdida de un trabajo o un hogar"],
+                resilience_factors_list: ["Buscar el apoyo de otras personas, como amigos, familiares o un grupo de apoyo", "Encontrar un grupo de apoyo después de un evento traumático", "Aprender a sentirse bien con las propias acciones frente al peligro", "Tener una estrategia de afrontamiento positiva, o una forma de superar el mal evento y aprender de él", "Ser capaz de actuar y responder eficazmente a pesar de sentir miedo"],
+                prevalence_chart_x_axis: "Grupo Demográfico",
+                prevalence_chart_y_axis: "Prevalencia de por Vida (%)",
+                prevalence_chart_label_adults: "Adultos de EE. UU.",
+                prevalence_chart_label_adolescents: "Adolescentes de EE. UU. (13-18)",
+                med_ssri_title: "ISRS y IRSN (Antidepresivos)",
+                med_ssri_moa_title: "Cómo Funcionan",
+                med_ssri_moa_text: "Estos medicamentos aumentan los niveles de serotonina y/o norepinefrina para ayudar a regular los circuitos cerebrales implicados en el estado de ánimo, el miedo y la preocupación, que a menudo están desregulados en el TEPT.",
+                med_ssri_se_title: "Efectos Secundarios Comunes",
+                med_ssri_se_list: "Náuseas, somnolencia o insomnio, dolor de cabeza, efectos secundarios sexuales.",
+                med_ssri_con_title: "Consideraciones Clave",
+                med_ssri_con_text: "Se consideran el tratamiento farmacológico de primera línea para el TEPT. Pueden tardar varias semanas en ser completamente efectivos y deben tomarse diariamente según lo prescrito.",
+                med_other_title: "Otros Medicamentos",
+                med_other_moa_title: "Cómo Funcionan",
+                med_other_moa_text: "Fármacos como la Prazosina, un alfabloqueante, actúan bloqueando la respuesta del cerebro a la norepinefrina (una sustancia química similar a la adrenalina), lo que puede reducir la intensidad de las pesadillas relacionadas con el trauma.",
+                med_other_se_title: "Efectos Secundarios Comunes",
+                med_other_se_list: "Mareos, aturdimiento, debilidad, especialmente al ponerse de pie.",
+                med_other_con_title: "Consideraciones Clave",
+                med_other_con_text: "Se utilizan como tratamiento complementario para tratar síntomas específicos y persistentes como las pesadillas y los trastornos del sueño. La Prazosina se suele tomar a la hora de acostarse."
+            }
+        };
+
+        let currentLanguage = 'en';
+        let prevalenceChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+            
+            langEnBtn.addEventListener('click', () => changeLanguage('en'));
+            langEsBtn.addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleTranslateCookie = document.cookie.match(/googtrans=([^\;]+)/);
+                if (googleTranslateCookie) {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+                }
+                window.location.reload();
+            });
+
+            const tabBtns = document.querySelectorAll('#symptoms .tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateTabContent(btn.dataset.tab);
+                });
+            });
+
+            const medTabBtns = document.querySelectorAll('#medications .tab-btn');
+            medTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    medTabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateMedContent(btn.dataset.medClass);
+                });
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            updateTabContent(document.querySelector('#symptoms .tab-btn.active').dataset.tab);
+            updateMedContent(document.querySelector('#medications .tab-btn.active').dataset.medClass);
+            renderRiskResilienceLists();
+            renderPrevalenceChart();
+        }
+        
+        function updateTabContent(tabKey) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('tab-content');
+            const listHtml = t[`${tabKey}_list`].map(item => `<li class="flex items-start"><span class="mr-2 text-teal-500">›</span><span>${item}</span></li>`).join('');
+            
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">${t[`${tabKey}_title`]}</h4>
+                    <p class="text-slate-600 mb-4">${t[`${tabKey}_desc`]}</p>
+                    <ul class="space-y-2">${listHtml}</ul>
+                </div>
+            `;
+        }
+
+        function updateMedContent(medClass) {
+            const t = translations[currentLanguage];
+            const contentEl = document.getElementById('med-content');
+            const sideEffectsHtml = t[`med_${medClass}_se_list`].split(',').map(item => `<li class="text-sm">${item.trim()}</li>`).join('');
+
+            contentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="font-bold text-xl mb-4 text-slate-800">${t[`med_${medClass}_title`]}</h4>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_moa_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_moa_text`]}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_se_title`]}</h5>
+                        <ul class="list-disc list-inside space-y-1">${sideEffectsHtml}</ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-teal-700 mb-1">${t[`med_${medClass}_con_title`]}</h5>
+                        <p class="text-sm text-slate-600">${t[`med_${medClass}_con_text`]}</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderRiskResilienceLists() {
+            const t = translations[currentLanguage];
+            const riskListEl = document.getElementById('risk-factors-list');
+            const resilienceListEl = document.getElementById('resilience-factors-list');
+
+            riskListEl.innerHTML = t.risk_factors_list.map(item => `<li class="flex items-start"><span class="mr-2 text-red-500">❗️</span><span>${item}</span></li>`).join('');
+            resilienceListEl.innerHTML = t.resilience_factors_list.map(item => `<li class="flex items-start"><span class="mr-2 text-green-500">✅</span><span>${item}</span></li>`).join('');
+        }
+
+        function renderPrevalenceChart() {
+            const t = translations[currentLanguage];
+            if (prevalenceChart) {
+                prevalenceChart.destroy();
+            }
+            const ctx = document.getElementById('prevalenceChart').getContext('2d');
+            prevalenceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [t.prevalence_chart_label_adults, t.prevalence_chart_label_adolescents],
+                    datasets: [{
+                        label: t.prevalence_chart_y_axis,
+                        data: [6.8, 5.0],
+                        backgroundColor: ['#5EAAA8', '#94D2BD'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: t.prevalence_chart_y_axis, color: '#475569' },
+                            ticks: { color: '#475569', callback: (value) => value + '%' }
+                        },
+                        x: { 
+                            title: { display: true, text: t.prevalence_chart_x_axis, color: '#475569' },
+                            ticks: { color: '#475569' } 
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}%` } }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
