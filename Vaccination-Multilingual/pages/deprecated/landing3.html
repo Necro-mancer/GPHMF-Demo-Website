@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answering Your Questions About Vaccines</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: linear-gradient(120deg, #f0f9ff 0%, #e0f2f1 100%);
+            color: #334155;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background-color: #0d9488;
+            transition: all 0.3s ease-in-out;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+            left: 0;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        .citation-link {
+            display: inline-block;
+            background-color: rgba(13, 148, 136, 0.1);
+            color: #0d9488;
+            border-radius: 6px;
+            padding: 1px 6px;
+            font-size: 0.7em;
+            font-weight: bold;
+            vertical-align: super;
+            text-decoration: none;
+            margin: 0 2px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .citation-link:hover {
+            background-color: #0d9488;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .reference-item a {
+            color: #1e3a8a;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+        .reference-item a:hover {
+            color: #0d9488;
+            text-decoration: underline;
+        }
+        .section-icon {
+            width: 3rem;
+            height: 3rem;
+            color: #1e3a8a;
+        }
+        .stat-highlight {
+            transition: transform 0.3s, color 0.3s;
+        }
+        .stat-highlight:hover {
+            transform: scale(1.05);
+            color: #0d9488;
+        }
+        .stepper-item {
+            opacity: 0.3;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .stepper-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #0d9488 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #1e3a8a !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2">
+                <div class="text-lg md:text-xl font-bold text-[#1e3a8a] mr-4" data-translate="nav_title"></div>
+                <div class="hidden md:flex space-x-6 font-semibold items-center">
+                    <a href="#legacy" class="nav-link text-slate-600" data-translate="nav_success"></a>
+                    <a href="#science" class="nav-link text-slate-600" data-translate="nav_science"></a>
+                    <a href="#concerns" class="nav-link text-slate-600" data-translate="nav_questions"></a>
+                    <a href="#community" class="nav-link text-slate-600" data-translate="nav_community"></a>
+                    <a href="#advocate" class="nav-link text-slate-600" data-translate="nav_inform"></a>
+                </div>
+                <div id="lang-selector" class="flex items-center pl-4 shrink-0 ml-auto">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="nav_back"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="hero" class="text-center py-16 md:py-24">
+            <h1 class="text-5xl md:text-7xl font-black text-[#1e3a8a] mb-6" data-translate="hero_title"></h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto" data-translate="hero_subtitle"></p>
+            <div class="mt-6 text-sm text-slate-500 italic" data-translate="hero_note"></div>
+        </section>
+
+        <section id="legacy" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="legacy_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-4xl mx-auto" data-translate="legacy_intro"></p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                <div class="card p-8">
+                    <h3 class="text-2xl font-bold text-[#be123c] mb-2" data-translate="legacy_smallpox_title"></h3>
+                    <p class="text-6xl font-black text-[#9f1239] my-4 stat-highlight">300M+</p>
+                    <p class="text-slate-700" data-translate="legacy_smallpox_desc"></p>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-2xl font-bold text-[#0d9488] mb-2" data-translate="legacy_polio_title"></h3>
+                    <p class="text-6xl font-black text-[#0f766e] my-4 stat-highlight">>99.9%</p>
+                    <p class="text-slate-700" data-translate="legacy_polio_desc"></p>
+                </div>
+            </div>
+
+            <div class="card mt-12 p-6 md:p-8">
+                <h3 class="text-2xl font-bold text-center text-[#1e3a8a] mb-6" data-translate="legacy_decline_title"></h3>
+                <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto" data-translate="legacy_decline_intro"></p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    <div>
+                        <h4 class="font-semibold text-center text-lg text-slate-700 mb-2" data-translate="legacy_measles_cases_title"></h4>
+                        <div class="chart-container">
+                            <canvas id="measlesDeclineChart"></canvas>
+                        </div>
+                    </div>
+                     <div>
+                        <h4 class="font-semibold text-center text-lg text-slate-700 mb-2" data-translate="legacy_measles_deaths_title"></h4>
+                        <div class="chart-container">
+                            <canvas id="measlesDeathsChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-center text-lg text-slate-700 mb-2" data-translate="legacy_diphtheria_cases_title"></h4>
+                        <div class="chart-container">
+                            <canvas id="diphtheriaDeclineChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-center text-lg text-slate-700 mb-2" data-translate="legacy_diphtheria_deaths_title"></h4>
+                        <div class="chart-container">
+                            <canvas id="diphtheriaDeathsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="science" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0l-.07.002z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="science_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="science_intro"></p>
+            
+            <div class="card p-6 md:p-8">
+                <h3 class="text-2xl font-bold text-center text-[#1e3a8a] mb-8" data-translate="science_path_title"></h3>
+                <div id="immunity-stepper" class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-6 top-0 h-full w-0.5 bg-teal-200"></div>
+
+                    <div class="stepper-item relative pl-16 py-4">
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 bg-teal-500 text-white font-bold text-2xl rounded-full border-4 border-white shadow-lg">1</div>
+                        <h4 class="font-bold text-lg text-teal-700" data-translate="science_step1_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="science_step1_desc"></p>
+                    </div>
+                    <div class="stepper-item relative pl-16 py-4">
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 bg-teal-500 text-white font-bold text-2xl rounded-full border-4 border-white shadow-lg">2</div>
+                        <h4 class="font-bold text-lg text-teal-700" data-translate="science_step2_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="science_step2_desc"></p>
+                    </div>
+                    <div class="stepper-item relative pl-16 py-4">
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 bg-teal-500 text-white font-bold text-2xl rounded-full border-4 border-white shadow-lg">3</div>
+                        <h4 class="font-bold text-lg text-teal-700" data-translate="science_step3_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="science_step3_desc"></p>
+                    </div>
+                    <div class="stepper-item relative pl-16 py-4">
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 bg-teal-500 text-white font-bold text-2xl rounded-full border-4 border-white shadow-lg">4</div>
+                        <h4 class="font-bold text-lg text-teal-700" data-translate="science_step4_title"></h4>
+                        <p class="text-sm text-slate-600" data-translate="science_step4_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="concerns" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="concerns_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="concerns_intro"></p>
+            
+            <div class="space-y-8">
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="concerns_risk_title"></h3>
+                    <p class="mb-6 text-slate-700" data-translate="concerns_risk_intro"></p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                            <h4 class="text-xl font-bold text-red-800" data-translate="concerns_risk_infection_title"></h4>
+                            <div class="space-y-4 mt-4">
+                                <div>
+                                    <p class="text-4xl font-black text-red-600">1 in 20</p>
+                                    <p class="text-red-700 font-semibold" data-translate="concerns_risk_pneumonia"></p>
+                                </div>
+                                <div>
+                                    <p class="text-4xl font-black text-red-600">1 in 1,000</p>
+                                    <p class="text-red-700 font-semibold" data-translate="concerns_risk_brain"></p>
+                                </div>
+                                <div>
+                                    <p class="text-4xl font-black text-red-600">1-3 in 1,000</p>
+                                    <p class="text-red-700 font-semibold" data-translate="concerns_risk_death"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-teal-50 border border-teal-200 rounded-lg p-6 text-center">
+                            <h4 class="text-xl font-bold text-teal-800" data-translate="concerns_risk_vaccine_title"></h4>
+                            <div class="space-y-4 mt-4 flex flex-col justify-center h-full">
+                                <div>
+                                    <p class="text-4xl font-black text-teal-600">< 1 in 1,000,000</p>
+                                    <p class="text-teal-700 font-semibold" data-translate="concerns_risk_allergy"></p>
+                                </div>
+                                <p class="text-teal-700 font-semibold mt-4" data-translate="concerns_risk_other"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="concerns_autism_title"></h3>
+                    <p class="mb-4" data-translate="concerns_autism_p1"></p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">
+                        <li data-translate="concerns_autism_l1"></li>
+                        <li data-translate="concerns_autism_l2"></li>
+                        <li data-translate="concerns_autism_l3"></li>
+                    </ul>
+                </div>
+
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="concerns_toomany_title"></h3>
+                    <p class="mb-4" data-translate="concerns_toomany_p1"></p>
+                     <ul class="list-disc list-inside space-y-2 text-slate-700">
+                        <li data-translate="concerns_toomany_l1"></li>
+                        <li data-translate="concerns_toomany_l2"></li>
+                        <li data-translate="concerns_toomany_l3"></li>
+                    </ul>
+                </div>
+
+                <div class="card p-6 md:p-8" id="ingredients">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="concerns_ingredients_title"></h3>
+                    <p class="mb-4" data-translate="concerns_ingredients_p1"></p>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-lg text-slate-800" data-translate="concerns_ingredients_aluminum_title"></h4>
+                            <p class="text-slate-700" data-translate="concerns_ingredients_aluminum_desc"></p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-slate-800" data-translate="concerns_ingredients_formaldehyde_title"></h4>
+                            <p class="text-slate-700" data-translate="concerns_ingredients_formaldehyde_desc"></p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-slate-800" data-translate="concerns_ingredients_thimerosal_title"></h4>
+                            <p class="text-slate-700" data-translate="concerns_ingredients_thimerosal_desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="adult-vaccines" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                 <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008H12v-.008z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="adult_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="adult_intro"></p>
+            <div class="space-y-8">
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="adult_flu_title"></h3>
+                    <ul class="list-disc list-inside space-y-3 text-slate-700">
+                        <li data-translate="adult_flu_l1"></li>
+                        <li data-translate="adult_flu_l2"></li>
+                        <li data-translate="adult_flu_l3"></li>
+                    </ul>
+                </div>
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="adult_shingles_title"></h3>
+                     <ul class="list-disc list-inside space-y-3 text-slate-700">
+                        <li data-translate="adult_shingles_l1"></li>
+                        <li data-translate="adult_shingles_l2"></li>
+                    </ul>
+                </div>
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="adult_covid_title"></h3>
+                     <ul class="list-disc list-inside space-y-3 text-slate-700">
+                        <li data-translate="adult_covid_l1"></li>
+                        <li data-translate="adult_covid_l2"></li>
+                         <li data-translate="adult_covid_l3"></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="deeper-dive" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="dive_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="dive_intro"></p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="pages/mmr.html" class="card p-6 text-center block hover:bg-white">
+                    <h4 class="font-bold text-xl text-slate-800" data-translate="dive_mmr_title"></h4>
+                    <p class="text-sm text-slate-600 mt-2" data-translate="dive_mmr_desc"></p>
+                </a>
+                <a href="pages/dtap.html" class="card p-6 text-center block hover:bg-white">
+                    <h4 class="font-bold text-xl text-slate-800" data-translate="dive_dtap_title"></h4>
+                    <p class="text-sm text-slate-600 mt-2" data-translate="dive_dtap_desc"></p>
+                </a>
+                <a href="pages/polio.html" class="card p-6 text-center block hover:bg-white">
+                    <h4 class="font-bold text-xl text-slate-800" data-translate="dive_polio_title"></h4>
+                    <p class="text-sm text-slate-600 mt-2" data-translate="dive_polio_desc"></p>
+                </a>
+                <a href="pages/hpv.html" class="card p-6 text-center block hover:bg-white">
+                    <h4 class="font-bold text-xl text-slate-800" data-translate="dive_hpv_title"></h4>
+                    <p class="text-sm text-slate-600 mt-2" data-translate="dive_hpv_desc"></p>
+                </a>
+                <a href="pages/flu.html" class="card p-6 text-center block hover:bg-white">
+                    <h4 class="font-bold text-xl text-slate-800" data-translate="dive_flu_title"></h4>
+                    <p class="text-sm text-slate-600 mt-2" data-translate="dive_flu_desc"></p>
+                </a>
+                <a href="pages/covid.html" class="card p-6 text-center block hover:bg-white">
+                    <h4 class="font-bold text-xl text-slate-800" data-translate="dive_covid_title"></h4>
+                    <p class="text-sm text-slate-600 mt-2" data-translate="dive_covid_desc"></p>
+                </a>
+            </div>
+        </section>
+
+        <section id="community" class="py-12">
+             <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962A3 3 0 0110.5 9.75v-.75a3 3 0 013-3h.008a3 3 0 013 3v.75a3 3 0 01-2.25 2.962m-16.5 0a3 3 0 013-3h1.5a3 3 0 013 3v.75a3 3 0 01-3 3h-1.5a3 3 0 01-3-3v-.75z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="community_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="community_intro"></p>
+            
+            <div class="card p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="community_sim_title"></h3>
+                        <p class="mb-4 text-slate-700" data-translate="community_sim_desc"></p>
+                        <label for="vaccinationRate" class="block mb-2 font-semibold" data-translate="community_sim_rate"></label>
+                        <input type="range" id="vaccinationRate" min="0" max="100" value="80" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        <button id="startSimulation" class="mt-4 bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-all transform hover:scale-105" data-translate="community_sim_button"></button>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg aspect-square">
+                        <canvas id="herdImmunityCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="advocate" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="advocate_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="advocate_intro"></p>
+            <div class="card p-6 md:p-8">
+                <h3 class="text-2xl font-bold text-[#1e3a8a] mb-4" data-translate="advocate_vaers_title"></h3>
+                <p class="mb-4 text-slate-700" data-translate="advocate_vaers_p1"></p>
+                <ul class="list-disc list-inside space-y-2 text-slate-700">
+                    <li data-translate="advocate_vaers_l1"></li>
+                    <li data-translate="advocate_vaers_l2"></li>
+                    <li data-translate="advocate_vaers_l3"></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="references" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-12">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="references_title"></h2>
+            </div>
+            <div class="card p-6 md:p-8 text-sm">
+                <ol class="list-decimal list-inside space-y-4 columns-1 md:columns-2">
+                    <li class="reference-item"><a href="https://www.healthychildren.org/English/safety-prevention/immunizations/Pages/vaccine-studies-examine-the-evidence.aspx" target="_blank" rel="noopener noreferrer">American Academy of Pediatrics. (2023). *Vaccine Studies: Examine the Evidence*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters" target="_blank" rel="noopener noreferrer">World Health Organization. (2023). *Coronavirus disease (COVID-19) advice for the public: Mythbusters*.</a></li>
+                    <li class="reference-item"><a href="https://www.vaccineinformation.org/vaccine-basics/trusted-sources/" target="_blank" rel="noopener noreferrer">Immunization Action Coalition. (2023). *Finding Credible Vaccine Information Sources*.</a></li>
+                    <li class="reference-item"><a href="https://www.chop.edu/centers-programs/vaccine-education-center/vaccine-details" target="_blank" rel="noopener noreferrer">The Children's Hospital of Philadelphia. (2023). *A Look at Each Vaccine*.</a></li>
+                    <li class="reference-item"><a href="https://pubmed.ncbi.nlm.nih.gov/30186724/" target="_blank" rel="noopener noreferrer">Hussain, A., et al. (2018). The Anti-vaccination Movement: A Regression in Modern Medicine. *Cureus*.</a></li>
+                    <li class="reference-item"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5402432/" target="_blank" rel="noopener noreferrer">Orenstein, W. A., & Ahmed, R. (2017). Simply put: Vaccination saves lives. *PNAS*.</a></li>
+                    <li class="reference-item"><a href="https://www.historyofvaccines.org/" target="_blank" rel="noopener noreferrer">The College of Physicians of Philadelphia. (2018). *The History of Vaccines*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/smallpox/about/history.html" target="_blank" rel="noopener noreferrer">Centers for Disease Control and Prevention. (2021). *History of Smallpox*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/health-topics/smallpox" target="_blank" rel="noopener noreferrer">World Health Organization. (n.d.). *Smallpox*.</a></li>
+                    <li class="reference-item"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1200696/" target="_blank" rel="noopener noreferrer">Parker, S., et al. (2007). A history of smallpox. *Baylor University Medical Center Proceedings*.</a></li>
+                    <li class="reference-item"><a href="https://iris.who.int/handle/10665/39485" target="_blank" rel="noopener noreferrer">Fenner, F., et al. (1988). *Smallpox and its Eradication*. WHO.</a></li>
+                    <li class="reference-item"><a href="https://www.vaccines.gov/" target="_blank" rel="noopener noreferrer">U.S. Department of Health and Human Services. *Vaccines.gov*.</a></li>
+                    <li class="reference-item"><a href="https://www.cancer.gov/publications/dictionaries/cancer-terms/def/antigen" target="_blank" rel="noopener noreferrer">National Cancer Institute. (n.d.). *NCI Dictionary of Cancer Terms*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/vaccines/basics/explaining-how-vaccines-work.html" target="_blank" rel="noopener noreferrer">Centers for Disease Control and Prevention. (2022). *Understanding How Vaccines Work*.</a></li>
+                    <li class="reference-item"><a href="https://www.nature.com/articles/s41577-020-00479-7" target="_blank" rel="noopener noreferrer">Pollard, A. J., & Bijker, E. M. (2021). A guide to vaccinology: from basic principles to new developments. *Nature Reviews Immunology*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/news-room/feature-stories/detail/how-do-vaccines-work" target="_blank" rel="noopener noreferrer">World Health Organization. (2020). *How do vaccines work?*.</a></li>
+                    <li class="reference-item"><a href="https://www.khanacademy.org/science/biology/human-biology/immunology/a/the-immune-system" target="_blank" rel="noopener noreferrer">Khan Academy. (n.d.). *The immune system*.</a></li>
+                    <li class="reference-item"><a href="https://publichealth.jhu.edu/2021/what-is-herd-immunity-and-how-can-we-achieve-it-with-covid-19" target="_blank" rel="noopener noreferrer">Johns Hopkins Bloomberg School of Public Health. (2021). *What Is Herd Immunity and How Can We Achieve It With COVID-19?*</a></li>
+                    <li class="reference-item"><a href="https://www.vaccines.gov/basics/types" target="_blank" rel="noopener noreferrer">U.S. Dept of Health & Human Services. (2021). *Vaccine Types*.</a></li>
+                    <li class="reference-item"><a href="https://medlineplus.gov/ency/article/000821.htm" target="_blank" rel="noopener noreferrer">MedlinePlus. (2021). *Immune Response*.</a></li>
+                    <li class="reference-item"><a href="https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/vaccines/art-20048334" target="_blank" rel="noopener noreferrer">Mayo Clinic. (2023). *Childhood vaccines: Tough questions, straight answers*.</a></li>
+                    <li class="reference-item"><a href="https://vaers.hhs.gov/about.html" target="_blank" rel="noopener noreferrer">HHS. (n.d.). *About VAERS*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/vaccine-safety/vaccines/index.html" target="_blank" rel="noopener noreferrer">Centers for Disease Control and Prevention. (2023). *Vaccine Safety*.</a></li>
+                    <li class="reference-item"><a href="https://academic.oup.com/cid/article/52/7/911/289233" target="_blank" rel="noopener noreferrer">Fine, P., et al. (2011). "Herd Immunity": A Rough Guide. *Clinical Infectious Diseases*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/health-topics/poliomyelitis" target="_blank" rel="noopener noreferrer">WHO. (2023). *Poliomyelitis (polio)*.</a></li>
+                    <li class="reference-item"><a href="https://polioeradication.org/who-we-are/history-of-polio/" target="_blank" rel="noopener noreferrer">Global Polio Eradication Initiative. *History of Polio*.</a></li>
+                    <li class="reference-item"><a href="https://www.rotary.org/en/our-causes/ending-polio" target="_blank" rel="noopener noreferrer">Rotary International. *Polio Eradication*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/global-polio-vaccination/about/" target="_blank" rel="noopener noreferrer">CDC. (2022). *About the Global Polio Eradication Initiative*.</a></li>
+                    <li class="reference-item"><a href="https://www.healthychildren.org/English/safety-prevention/immunizations/Pages/Why-Immunize-Your-Child.aspx" target="_blank" rel="noopener noreferrer">AAP. (2023). *Why Immunize Your Child*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/measles/data-research/index.html" target="_blank" rel="noopener noreferrer">CDC. (2023). *Measles Data and Research*.</a></li>
+                    <li class="reference-item"><a href="https://pubmed.ncbi.nlm.nih.gov/18000199/" target="_blank" rel="noopener noreferrer">Roush, S. W., & Murphy, T. V. (2007). Historical comparisons of morbidity and mortality for vaccine-preventable diseases in the United States. *JAMA*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/diphtheria/index.html" target="_blank" rel="noopener noreferrer">CDC. (2022). *Diphtheria*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/news-room/fact-sheets/detail/diphtheria" target="_blank" rel="noopener noreferrer">WHO. (2023). *Diphtheria*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/pertussis/php/surveillance/index.html" target="_blank" rel="noopener noreferrer">CDC. (2023). *Pertussis (Whooping Cough) Surveillance*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/health-topics/pertussis" target="_blank" rel="noopener noreferrer">WHO. (2023). *Pertussis*.</a></li>
+                    <li class="reference-item"><a href="https://www.marchofdimes.org/find-support/topics/planning-baby/vaccinations-and-pregnancy" target="_blank" rel="noopener noreferrer">March of Dimes. (2023). *Vaccinations and pregnancy*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/mumps/outbreaks/" target="_blank" rel="noopener noreferrer">CDC. (2021). *Mumps Outbreaks*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/teams/health-product-policy-and-standards/standards-and-specifications/norms-and-standards/vaccine-standardization/mumps" target="_blank" rel="noopener noreferrer">WHO. (n.d.). *Mumps*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/rubella/index.html" target="_blank" rel="noopener noreferrer">CDC. (2020). *Rubella (German Measles)*.</a></li>
+                    <li class="reference-item"><a href="https://www.who.int/news-room/fact-sheets/detail/rubella" target="_blank" rel="noopener noreferrer">WHO. (2022). *Rubella*.</a></li>
+                    <li class="reference-item"><a href="https://www.immunize.org/talking-about-vaccines/" target="_blank" rel="noopener noreferrer">Immunization Action Coalition. (2023). *Talking about Vaccines*.</a></li>
+                    <li class="reference-item"><a href="https://jamanetwork.com/journals/jama/fullarticle/2503179" target="_blank" rel="noopener noreferrer">Phadke, V. K., et al. (2016). Association Between Vaccine Refusal and Vaccine-Preventable Diseases. *JAMA*.</a></li>
+                    <li class="reference-item"><a href="https://www.chop.edu/centers-programs/vaccine-education-center/vaccine-safety" target="_blank" rel="noopener noreferrer">CHOP. (2023). *Vaccine Safety*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/measles/signs-symptoms/index.html" target="_blank" rel="noopener noreferrer">CDC. (2020). *Measles Signs and Symptoms*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-age.html" target="_blank" rel="noopener noreferrer">CDC. (2023). *Immunization Schedules for Children & Adolescents*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/flu/prevention/misconceptions.html" target="_blank" rel="noopener noreferrer">CDC. (2023). *Misconceptions about Seasonal Flu and Flu Vaccines*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/vaccine-safety/vaccines/mmrv.html" target="_blank" rel="noopener noreferrer">CDC. (2022). *MMRV Vaccine Safety*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/measles/vaccines/index.html" target="_blank" rel="noopener noreferrer">CDC. (2021). *Measles Vaccination*.</a></li>
+                    <li class="reference-item"><a href="https://www.healthychildren.org/english/safety-prevention/immunizations/pages/Measles-Mumps-Rubella-Vaccines-What-You-Need-to-Know.aspx" target="_blank" rel="noopener noreferrer">AAP. (2023). *Measles, Mumps, and Rubella (MMR) Vaccines: What You Need to Know*.</a></li>
+                    <li class="reference-item"><a href="https://www.cdc.gov/shingles/vaccines/index.html" target="_blank" rel="noopener noreferrer">CDC. (2023). *Shingles Vaccination*.</a></li>
+                </ol>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-8 border-t border-slate-200">
+            <h2 class="text-3xl font-bold text-[#1e3a8a] mb-4" data-translate="footer_title"></h2>
+            <p class="text-slate-600 max-w-3xl mx-auto mb-4" data-translate="footer_desc"></p>
+            <p class="text-sm text-slate-500" data-translate="footer_source"></p>
+        </footer>
+    </main>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                nav_title: "Answering Your Questions About Vaccines",
+                nav_success: "Success",
+                nav_science: "Science",
+                nav_questions: "Questions",
+                nav_community: "Community",
+                nav_inform: "Be Informed",
+                nav_back: "Back",
+                hero_title: "Answering Your Questions<br>About Vaccines",
+                hero_subtitle: "Navigating health information can be challenging. This guide is here to provide clear, evidence-based answers to your questions, grounded in science and a commitment to your family's well-being.<a href=\"#ref-4\" class=\"citation-link\">[4]</a><a href=\"#ref-5\" class=\"citation-link\">[5]</a>",
+                hero_note: "Note: Clickable citation numbers like <a href=\"#references\" class=\"citation-link\">[#]</a> will take you to the full reference at the bottom of the page.",
+                legacy_title: "A Legacy of Success",
+                legacy_intro: "Before we address specific questions, it's important to see the big picture. The impact of vaccines on global health is one of the greatest success stories in human history, rivaled only by clean water.<a href=\"#ref-6\" class=\"citation-link\">[6]</a><a href=\"#ref-7\" class=\"citation-link\">[7]</a><a href=\"#ref-8\" class=\"citation-link\">[8]</a>",
+                legacy_smallpox_title: "Smallpox: Eradicated",
+                legacy_smallpox_desc: "Estimated deaths in the 20th century alone. Thanks to a global vaccination campaign, it was declared completely eradicated in 1980—the only human disease ever wiped out.<a href=\"#ref-9\" class=\"citation-link\">[9]</a><a href=\"#ref-11\" class=\"citation-link\">[11]</a><a href=\"#ref-12\" class=\"citation-link\">[12]</a>",
+                legacy_polio_title: "Polio: Pushed to the Brink",
+                legacy_polio_desc: "Reduction in wild poliovirus cases since 1988. An estimated 20 million people are walking today who would have otherwise been paralyzed by this devastating disease.<a href=\"#ref-29\" class=\"citation-link\">[29]</a><a href=\"#ref-32\" class=\"citation-link\">[32]</a>",
+                legacy_decline_title: "The Data Doesn't Lie: The Dramatic Decline of Common Diseases",
+                legacy_decline_intro: "A common myth suggests diseases were disappearing on their own due to better hygiene.<a href=\"#ref-33\" class=\"citation-link\">[33]</a> While sanitation helps, the historical data shows a different story: the introduction of vaccines caused a near-immediate and drastic collapse in disease cases.",
+                legacy_measles_cases_title: "Measles Cases (US)",
+                legacy_measles_deaths_title: "Measles Deaths (US)",
+                legacy_diphtheria_cases_title: "Diphtheria Cases (US)",
+                legacy_diphtheria_deaths_title: "Diphtheria Deaths (US)",
+                chart_measles_cases_label: "Annual Measles Cases (US)",
+                chart_measles_deaths_label: "Annual Measles Deaths (US)",
+                chart_diphtheria_cases_label: "Annual Diphtheria Cases (US)",
+                chart_diphtheria_deaths_label: "Annual Diphtheria Deaths (US)",
+                science_title: "How Vaccines Work",
+                science_intro: "Vaccines don't introduce something unnatural. They cleverly use your body's own amazing defense system, giving it a \"training manual\" to fight off future infections safely.<a href=\"#ref-15\" class=\"citation-link\">[15]</a><a href=\"#ref-22\" class=\"citation-link\">[22]</a>",
+                science_path_title: "The Path to Immunity",
+                science_step1_title: "Safe Exposure",
+                science_step1_desc: "A harmless piece of a germ (an antigen) is introduced.<a href=\"#ref-17\" class=\"citation-link\">[17]</a>",
+                science_step2_title: "Response Team",
+                science_step2_desc: "Your immune system creates antibodies to fight the antigen.<a href=\"#ref-19\" class=\"citation-link\">[19]</a>",
+                science_step3_title: "Building Memory",
+                science_step3_desc: "Special \"memory cells\" are created that remember the germ.<a href=\"#ref-21\" class=\"citation-link\">[21]</a>",
+                science_step4_title: "Future Protection",
+                science_step4_desc: "If the real germ attacks, your body is ready to defeat it quickly.<a href=\"#ref-15\" class=\"citation-link\">[15]</a>",
+                concerns_title: "Addressing Your Questions",
+                concerns_intro: "It's normal and responsible to have questions. Here are clear, evidence-based answers to some of the most common concerns about vaccination.",
+                concerns_risk_title: "Natural Immunity vs. Vaccine Immunity: A Risk Comparison",
+                concerns_risk_intro: "Some believe immunity from getting sick is better. But that \"natural\" immunity comes at a dangerous price. Vaccination gives you powerful protection without the potentially life-threatening risks of the disease itself.<a href=\"#ref-7\" class=\"citation-link\">[7]</a><a href=\"#ref-33\" class=\"citation-link\">[33]</a> Let's compare the risks for Measles:<a href=\"#ref-49\" class=\"citation-link\">[49]</a><a href=\"#ref-59\" class=\"citation-link\">[59]</a>",
+                concerns_risk_infection_title: "Risk from Measles Infection",
+                concerns_risk_pneumonia: "Get Pneumonia",
+                concerns_risk_brain: "Develop Brain Swelling",
+                concerns_risk_death: "Will Die",
+                concerns_risk_vaccine_title: "Risk from MMR Vaccine",
+                concerns_risk_allergy: "Have a Severe Allergic Reaction",
+                concerns_risk_other: "Other serious risks like pneumonia or death are not statistically linked to the vaccine.",
+                concerns_autism_title: "Myth: Vaccines Cause Autism",
+                concerns_autism_p1: "This is one of the most persistent fears, but it originated from a single, fraudulent study that has been completely discredited. Decades of research involving millions of children confirm: <strong>vaccines do not cause autism.</strong><a href=\"#ref-1\" class=\"citation-link\">[1]</a><a href=\"#ref-46\" class=\"citation-link\">[46]</a><a href=\"#ref-48\" class=\"citation-link\">[48]</a>",
+                concerns_autism_l1: "The 1998 study that started the fear was found to be fraudulent and was fully retracted by the medical journal The Lancet. The author lost his medical license.<a href=\"#ref-6\" class=\"citation-link\">[6]</a>",
+                concerns_autism_l2: "Dozens of large-scale, rigorous studies since then have found no link whatsoever between any vaccine and autism.<a href=\"#ref-25\" class=\"citation-link\">[25]</a>",
+                concerns_autism_l3: "The timing is a coincidence. Signs of autism often become apparent around the same age that children receive routine vaccines. Correlation is not causation.<a href=\"#ref-4\" class=\"citation-link\">[4]</a>",
+                concerns_toomany_title: "Concern: \"Too Many, Too Soon\"",
+                concerns_toomany_p1: "Can a baby's immune system handle the vaccine schedule? Science says <strong>absolutely, yes.</strong> A baby's immune system is incredibly powerful and deals with far more challenges every single day.<a href=\"#ref-1\" class=\"citation-link\">[1]</a><a href=\"#ref-33\" class=\"citation-link\">[33]</a>",
+                concerns_toomany_l1: "A baby encounters thousands of germs and antigens daily from the air, food, and contact with people.<a href=\"#ref-46\" class=\"citation-link\">[46]</a>",
+                concerns_toomany_l2: "The total number of antigens in the entire childhood vaccine schedule is a tiny fraction of what a baby's immune system handles effortlessly every day.<a href=\"#ref-48\" class=\"citation-link\">[48]</a>",
+                concerns_toomany_l3: "Delaying vaccines leaves a child vulnerable to deadly diseases when they are most susceptible. The schedule is carefully designed to provide protection at the most critical times.<a href=\"#ref-50\" class=\"citation-link\">[50]</a>",
+                concerns_ingredients_title: "Concern: Vaccine Ingredients (e.g., \"Toxins\")",
+                concerns_ingredients_p1: "Reading the ingredient list on a vaccine information sheet can be intimidating. Every ingredient serves a specific, necessary purpose, and all are present in extremely small, safe amounts that have been rigorously tested.<a href=\"#ref-4\" class=\"citation-link\">[4]</a><a href=\"#ref-6\" class=\"citation-link\">[6]</a><a href=\"#ref-8\" class=\"citation-link\">[8]</a>",
+                concerns_ingredients_aluminum_title: "Aluminum Salts",
+                concerns_ingredients_aluminum_desc: "These are \"adjuvants\" that help create a stronger immune response. Aluminum is one of the most common elements on Earth. A baby receives far more aluminum through breast milk or infant formula than from all their vaccines combined.<a href=\"#ref-46\" class=\"citation-link\">[46]</a>",
+                concerns_ingredients_formaldehyde_title: "Formaldehyde",
+                concerns_ingredients_formaldehyde_desc: "Used to inactivate viruses or toxins. The vast majority is removed before packaging. Our own bodies produce and use formaldehyde for metabolism, and the amount naturally in a baby's blood is much higher than the trace amount in any vaccine.<a href=\"#ref-6\" class=\"citation-link\">[6]</a><a href=\"#ref-8\" class=\"citation-link\">[8]</a><a href=\"#ref-48\" class=\"citation-link\">[48]</a>",
+                concerns_ingredients_thimerosal_title: "Thimerosal",
+                concerns_ingredients_thimerosal_desc: "A mercury-based preservative that was used in multi-dose vials to prevent contamination. It contains ethylmercury, which is cleared safely and quickly from the body and is different from methylmercury found in some fish. As a precaution, it was removed from all routine childhood vaccines in the U.S. in 2001.<a href=\"#ref-1\" class=\"citation-link\">[1]</a><a href=\"#ref-4\" class=\"citation-link\">[4]</a><a href=\"#ref-46\" class=\"citation-link\">[46]</a>",
+                adult_title: "A Closer Look: Adult & Lifespan Vaccines",
+                adult_intro: "Vaccination isn't just for children. Immunity can fade over time, and new health risks emerge as we age. Staying up-to-date on adult vaccines is a critical part of lifelong health.",
+                adult_flu_title: "The Annual Influenza (Flu) Vaccine",
+                adult_flu_l1: "<b>Myth: The flu shot can give you the flu.</b><br><b>Fact:</b> Impossible. The shot uses killed virus or no virus at all. Mild aches are a sign your immune system is learning, not a sign of illness.<a href=\"#ref-54\" class=\"citation-link\">[54]</a><a href=\"#ref-55\" class=\"citation-link\">[55]</a>",
+                adult_flu_l2: "<b>Myth: The flu is just a bad cold.</b><br><b>Fact:</b> Influenza is far more serious and can lead to pneumonia, hospitalization, and death, especially in vulnerable populations.<a href=\"#ref-56\" class=\"citation-link\">[56]</a>",
+                adult_flu_l3: "<b>Myth: It's not safe during pregnancy.</b><br><b>Fact:</b> It is highly recommended. The flu is more dangerous during pregnancy, and the vaccine protects both mother and baby, passing on crucial immunity for the first few months of life.<a href=\"#ref-57\" class=\"citation-link\">[57]</a>",
+                adult_shingles_title: "The Shingles Vaccine (Shingrix)",
+                adult_shingles_l1: "<b>Myth: If you've had chickenpox, you don't need it.</b><br><b>Fact:</b> The opposite is true. You can only get shingles if you've had chickenpox. The vaccine prevents the dormant virus from reactivating.<a href=\"#ref-61\" class=\"citation-link\">[61]</a><a href=\"#ref-62\" class=\"citation-link\">[62]</a>",
+                adult_shingles_l2: "<b>Myth: The vaccine isn't very effective.</b><br><b>Fact:</b> The modern Shingrix vaccine is over 90% effective at preventing shingles in adults 50 and older, a massive improvement over older versions.<a href=\"#ref-61\" class=\"citation-link\">[61]</a>",
+                adult_covid_title: "COVID-19 Vaccines",
+                adult_covid_l1: "<b>Myth: The technology was rushed.</b><br><b>Fact:</b> While the vaccines were new, the underlying mRNA technology has been researched and developed by scientists for decades.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                adult_covid_l2: "<b>Myth: It can alter your DNA.</b><br><b>Fact:</b> This is biologically impossible. The mRNA from the vaccine never enters the cell's nucleus, where DNA is stored, and is quickly broken down by the body.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                adult_covid_l3: "<b>Myth: They cause infertility.</b><br><b>Fact:</b> Baseless. Large-scale studies have shown no evidence that any vaccines, including for COVID-19, cause fertility problems in women or men. Vaccination is recommended for those who are pregnant or trying to become pregnant.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                dive_title: "A Deeper Dive into the Vaccines",
+                dive_intro: "For more detailed information on specific vaccines, including schedules and potential side effects, explore the resources below.",
+                dive_mmr_title: "MMR Vaccine",
+                dive_mmr_desc: "Learn more about Measles, Mumps, and Rubella.",
+                dive_dtap_title: "DTaP/Tdap Vaccine",
+                dive_dtap_desc: "Facts on Diphtheria, Tetanus, and Pertussis.",
+                dive_polio_title: "Polio Vaccine",
+                dive_polio_desc: "Information on protecting against Polio.",
+                dive_hpv_title: "HPV Vaccine",
+                dive_hpv_desc: "Understanding the vaccine against cancer-causing HPV.",
+                dive_flu_title: "Flu Vaccine",
+                dive_flu_desc: "Details on the annual Influenza vaccine.",
+                dive_covid_title: "COVID-19 Vaccines",
+                dive_covid_desc: "The latest information on COVID-19 protection.",
+                community_title: "Community Immunity",
+                community_intro: "Vaccination is a personal shield, but it's also a community firewall. When enough people are vaccinated, it creates \"herd immunity,\" which protects the most vulnerable among us who can't be vaccinated, like newborns and those with weakened immune systems.<a href=\"#ref-8\" class=\"citation-link\">[8]</a><a href=\"#ref-13\" class=\"citation-link\">[13]</a><a href=\"#ref-27\" class=\"citation-link\">[27]</a>",
+                community_sim_title: "Interactive Herd Immunity Simulator",
+                community_sim_desc: "Use the slider to see how vaccination rates affect the spread of a contagious disease. The blue dots are vaccinated, gray are unvaccinated, and red is an active infection.",
+                community_sim_rate: "Vaccination Rate: <span id=\"rateValue\" class=\"text-teal-600 font-bold\">80</span>%",
+                community_sim_button: "Run Simulation",
+                advocate_title: "Becoming an Informed Advocate",
+                advocate_intro: "In the digital age, learning to identify reliable information is one of the best things you can do for your health. Misinformation often preys on fear and emotion.<a href=\"#ref-2\" class=\"citation-link\">[2]</a><a href=\"#ref-3\" class=\"citation-link\">[3]</a>",
+                advocate_vaers_title: "Understanding VAERS",
+                advocate_vaers_p1: "Groups promoting vaccine hesitancy often misuse data from the Vaccine Adverse Event Reporting System (VAERS). It's critical to understand what this system is—and what it is not.",
+                advocate_vaers_l1: "<b>What it is:</b> A vital national early warning system. Anyone can submit a report for any health problem that occurs after vaccination, whether or not the vaccine was the cause.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                advocate_vaers_l2: "<b>What it is NOT:</b> A database of proven vaccine side effects. The reports are not verified. For example, if someone gets a vaccine and is in a car accident the next day, that can be reported to VAERS. This does not mean the vaccine caused the car accident.<a href=\"#ref-13\" class=\"citation-link\">[13]</a>",
+                advocate_vaers_l3: "<b>The bottom line:</b> Scientists use VAERS data as a starting point for rigorous investigation. Citing a raw VAERS report as proof of harm is a dangerous misinterpretation of data.",
+                references_title: "References",
+                footer_title: "Your Partner in Health",
+                footer_desc: "The evidence is overwhelming: vaccines are one of the safest and most effective tools in medicine. Having questions is a sign of engagement. Please continue this conversation with your trusted healthcare provider.",
+                footer_source: "Data sourced from the World Health Organization (WHO) and the Centers for Disease Control and Prevention (CDC)."
+            },
+            es: {
+                nav_title: "Respondiendo sus Preguntas Sobre las Vacunas",
+                nav_success: "Éxito",
+                nav_science: "Ciencia",
+                nav_questions: "Preguntas",
+                nav_community: "Comunidad",
+                nav_inform: "Infórmese",
+                nav_back: "Volver",
+                hero_title: "Respondiendo sus Preguntas<br>Sobre las Vacunas",
+                hero_subtitle: "Navegar por la información de salud puede ser un desafío. Esta guía está aquí para proporcionar respuestas claras y basadas en evidencia a sus preguntas, fundamentadas en la ciencia y el compromiso con el bienestar de su familia.<a href=\"#ref-4\" class=\"citation-link\">[4]</a><a href=\"#ref-5\" class=\"citation-link\">[5]</a>",
+                hero_note: "Nota: Los números de citación clicables como <a href=\"#references\" class=\"citation-link\">[#]</a> lo llevarán a la referencia completa al final de la página.",
+                legacy_title: "Un Legado de Éxito",
+                legacy_intro: "Antes de abordar preguntas específicas, es importante ver el panorama general. El impacto de las vacunas en la salud mundial es una de las historias de éxito más grandes de la historia de la humanidad, solo comparable con el agua potable.<a href=\"#ref-6\" class=\"citation-link\">[6]</a><a href=\"#ref-7\" class=\"citation-link\">[7]</a><a href=\"#ref-8\" class=\"citation-link\">[8]</a>",
+                legacy_smallpox_title: "Viruela: Erradicada",
+                legacy_smallpox_desc: "Muertes estimadas solo en el siglo XX. Gracias a una campaña mundial de vacunación, fue declarada completamente erradicada en 1980, la única enfermedad humana que ha sido eliminada por completo.<a href=\"#ref-9\" class=\"citation-link\">[9]</a><a href=\"#ref-11\" class=\"citation-link\">[11]</a><a href=\"#ref-12\" class=\"citation-link\">[12]</a>",
+                legacy_polio_title: "Polio: Al Borde de la Extinción",
+                legacy_polio_desc: "Reducción de los casos de poliovirus salvaje desde 1988. Se estima que 20 millones de personas pueden caminar hoy que de otro modo habrían quedado paralizadas por esta devastadora enfermedad.<a href=\"#ref-29\" class=\"citation-link\">[29]</a><a href=\"#ref-32\" class=\"citation-link\">[32]</a>",
+                legacy_decline_title: "Los Datos no Mienten: El Drástico Declive de Enfermedades Comunes",
+                legacy_decline_intro: "Un mito común sugiere que las enfermedades estaban desapareciendo por sí solas debido a una mejor higiene.<a href=\"#ref-33\" class=\"citation-link\">[33]</a> Si bien el saneamiento ayuda, los datos históricos cuentan una historia diferente: la introducción de las vacunas provocó un colapso casi inmediato y drástico en los casos de enfermedades.",
+                legacy_measles_cases_title: "Casos de Sarampión (EE. UU.)",
+                legacy_measles_deaths_title: "Muertes por Sarampión (EE. UU.)",
+                legacy_diphtheria_cases_title: "Casos de Difteria (EE. UU.)",
+                legacy_diphtheria_deaths_title: "Muertes por Difteria (EE. UU.)",
+                chart_measles_cases_label: "Casos Anuales de Sarampión (EE. UU.)",
+                chart_measles_deaths_label: "Muertes Anuales por Sarampión (EE. UU.)",
+                chart_diphtheria_cases_label: "Casos Anuales de Difteria (EE. UU.)",
+                chart_diphtheria_deaths_label: "Muertes Anuales por Difteria (EE. UU.)",
+                science_title: "Cómo Funcionan las Vacunas",
+                science_intro: "Las vacunas no introducen algo antinatural. Utilizan inteligentemente el asombroso sistema de defensa de su propio cuerpo, dándole un \"manual de entrenamiento\" para combatir futuras infecciones de forma segura.<a href=\"#ref-15\" class=\"citation-link\">[15]</a><a href=\"#ref-22\" class=\"citation-link\">[22]</a>",
+                science_path_title: "El Camino hacia la Inmunidad",
+                science_step1_title: "Exposición Segura",
+                science_step1_desc: "Se introduce una parte inofensiva de un germen (un antígeno).<a href=\"#ref-17\" class=\"citation-link\">[17]</a>",
+                science_step2_title: "Equipo de Respuesta",
+                science_step2_desc: "Su sistema inmunológico crea anticuerpos para combatir el antígeno.<a href=\"#ref-19\" class=\"citation-link\">[19]</a>",
+                science_step3_title: "Creando Memoria",
+                science_step3_desc: "Se crean \"células de memoria\" especiales que recuerdan el germen.<a href=\"#ref-21\" class=\"citation-link\">[21]</a>",
+                science_step4_title: "Protección Futura",
+                science_step4_desc: "Si el germen real ataca, su cuerpo está listo para derrotarlo rápidamente.<a href=\"#ref-15\" class=\"citation-link\">[15]</a>",
+                concerns_title: "Respondiendo a sus Preguntas",
+                concerns_intro: "Es normal y responsable tener preguntas. Aquí hay respuestas claras y basadas en evidencia a algunas de las preocupaciones más comunes sobre la vacunación.",
+                concerns_risk_title: "Inmunidad Natural vs. Inmunidad por Vacuna: Una Comparación de Riesgos",
+                concerns_risk_intro: "Algunos creen que la inmunidad obtenida al enfermarse es mejor. Pero esa inmunidad \"natural\" tiene un precio peligroso. La vacunación le brinda una protección poderosa sin los riesgos potencialmente mortales de la enfermedad misma.<a href=\"#ref-7\" class=\"citation-link\">[7]</a><a href=\"#ref-33\" class=\"citation-link\">[33]</a> Comparemos los riesgos del sarampión:<a href=\"#ref-49\" class=\"citation-link\">[49]</a><a href=\"#ref-59\" class=\"citation-link\">[59]</a>",
+                concerns_risk_infection_title: "Riesgo de la Infección por Sarampión",
+                concerns_risk_pneumonia: "Desarrolla Neumonía",
+                concerns_risk_brain: "Desarrolla Inflamación Cerebral",
+                concerns_risk_death: "Morirá",
+                concerns_risk_vaccine_title: "Riesgo de la Vacuna MMR",
+                concerns_risk_allergy: "Tiene una Reacción Alérgica Grave",
+                concerns_risk_other: "Otros riesgos graves como neumonía o muerte no están estadísticamente vinculados a la vacuna.",
+                concerns_autism_title: "Mito: Las vacunas causan autismo",
+                concerns_autism_p1: "Este es uno de los temores más persistentes, pero se originó en un único estudio fraudulento que ha sido completamente desacreditado. Décadas de investigación con millones de niños confirman: <strong>las vacunas no causan autismo.</strong><a href=\"#ref-1\" class=\"citation-link\">[1]</a><a href=\"#ref-46\" class=\"citation-link\">[46]</a><a href=\"#ref-48\" class=\"citation-link\">[48]</a>",
+                concerns_autism_l1: "El estudio de 1998 que inició el temor se descubrió que era fraudulento y fue completamente retractado por la revista médica The Lancet. El autor perdió su licencia médica.<a href=\"#ref-6\" class=\"citation-link\">[6]</a>",
+                concerns_autism_l2: "Docenas de estudios rigurosos a gran escala desde entonces no han encontrado ningún vínculo entre ninguna vacuna y el autismo.<a href=\"#ref-25\" class=\"citation-link\">[25]</a>",
+                concerns_autism_l3: "La cronología es una coincidencia. Los signos de autismo a menudo se vuelven aparentes a la misma edad en que los niños reciben las vacunas de rutina. Correlación no implica causalidad.<a href=\"#ref-4\" class=\"citation-link\">[4]</a>",
+                concerns_toomany_title: "Preocupación: \"Demasiadas, Demasiado Pronto\"",
+                concerns_toomany_p1: "¿Puede el sistema inmunológico de un bebé manejar el calendario de vacunación? La ciencia dice <strong>absolutamente, sí.</strong> El sistema inmunológico de un bebé es increíblemente poderoso y enfrenta muchos más desafíos cada día.<a href=\"#ref-1\" class=\"citation-link\">[1]</a><a href=\"#ref-33\" class=\"citation-link\">[33]</a>",
+                concerns_toomany_l1: "Un bebé encuentra miles de gérmenes y antígenos diariamente en el aire, la comida y el contacto con personas.<a href=\"#ref-46\" class=\"citation-link\">[46]</a>",
+                concerns_toomany_l2: "El número total de antígenos en todo el calendario de vacunación infantil es una pequeña fracción de lo que el sistema inmunológico de un bebé maneja sin esfuerzo todos los días.<a href=\"#ref-48\" class=\"citation-link\">[48]</a>",
+                concerns_toomany_l3: "Retrasar las vacunas deja a un niño vulnerable a enfermedades mortales cuando son más susceptibles. El calendario está cuidadosamente diseñado para proporcionar protección en los momentos más críticos.<a href=\"#ref-50\" class=\"citation-link\">[50]</a>",
+                concerns_ingredients_title: "Preocupación: Ingredientes de las Vacunas (ej. \"Toxinas\")",
+                concerns_ingredients_p1: "Leer la lista de ingredientes en una hoja de información de la vacuna puede ser intimidante. Cada ingrediente cumple un propósito específico y necesario, y todos están presentes en cantidades extremadamente pequeñas y seguras que han sido rigurosamente probadas.<a href=\"#ref-4\" class=\"citation-link\">[4]</a><a href=\"#ref-6\" class=\"citation-link\">[6]</a><a href=\"#ref-8\" class=\"citation-link\">[8]</a>",
+                concerns_ingredients_aluminum_title: "Sales de Aluminio",
+                concerns_ingredients_aluminum_desc: "Estos son \"adyuvantes\" que ayudan a crear una respuesta inmune más fuerte. El aluminio es uno de los elementos más comunes en la Tierra. Un bebé recibe mucho más aluminio a través de la leche materna o la fórmula infantil que de todas sus vacunas combinadas.<a href=\"#ref-46\" class=\"citation-link\">[46]</a>",
+                concerns_ingredients_formaldehyde_title: "Formaldehído",
+                concerns_ingredients_formaldehyde_desc: "Se utiliza para inactivar virus o toxinas. La gran mayoría se elimina antes del envasado. Nuestros propios cuerpos producen y utilizan formaldehído para el metabolismo, y la cantidad natural en la sangre de un bebé es mucho mayor que la cantidad traza en cualquier vacuna.<a href=\"#ref-6\" class=\"citation-link\">[6]</a><a href=\"#ref-8\" class=\"citation-link\">[8]</a><a href=\"#ref-48\" class=\"citation-link\">[48]</a>",
+                concerns_ingredients_thimerosal_title: "Timerosal",
+                concerns_ingredients_thimerosal_desc: "Un conservante a base de mercurio que se usaba en viales multidosis para prevenir la contaminación. Contiene etilmercurio, que el cuerpo elimina de forma segura y rápida y es diferente del metilmercurio que se encuentra en algunos pescados. Como precaución, se eliminó de todas las vacunas infantiles de rutina en los EE. UU. en 2001.<a href=\"#ref-1\" class=\"citation-link\">[1]</a><a href=\"#ref-4\" class=\"citation-link\">[4]</a><a href=\"#ref-46\" class=\"citation-link\">[46]</a>",
+                adult_title: "Una Mirada Más Cercana: Vacunas para Adultos y de por Vida",
+                adult_intro: "La vacunación no es solo para niños. La inmunidad puede desvanecerse con el tiempo y surgen nuevos riesgos para la salud a medida que envejecemos. Mantenerse al día con las vacunas para adultos es una parte fundamental de la salud a lo largo de la vida.",
+                adult_flu_title: "La Vacuna Anual contra la Influenza (Gripe)",
+                adult_flu_l1: "<b>Mito: La vacuna contra la gripe puede darte la gripe.</b><br><b>Hecho:</b> Imposible. La vacuna utiliza virus muertos o ningún virus en absoluto. Los dolores leves son una señal de que su sistema inmunológico está aprendiendo, no una señal de enfermedad.<a href=\"#ref-54\" class=\"citation-link\">[54]</a><a href=\"#ref-55\" class=\"citation-link\">[55]</a>",
+                adult_flu_l2: "<b>Mito: La gripe es solo un resfriado fuerte.</b><br><b>Hecho:</b> La influenza es mucho más grave y puede provocar neumonía, hospitalización y muerte, especialmente en poblaciones vulnerables.<a href=\"#ref-56\" class=\"citation-link\">[56]</a>",
+                adult_flu_l3: "<b>Mito: No es segura durante el embarazo.</b><br><b>Hecho:</b> Es muy recomendable. La gripe es más peligrosa durante el embarazo, y la vacuna protege tanto a la madre como al bebé, transmitiendo una inmunidad crucial durante los primeros meses de vida.<a href=\"#ref-57\" class=\"citation-link\">[57]</a>",
+                adult_shingles_title: "La Vacuna contra el Herpes Zóster (Shingrix)",
+                adult_shingles_l1: "<b>Mito: Si tuvo varicela, no la necesita.</b><br><b>Hecho:</b> Es todo lo contrario. Solo puede contraer herpes zóster si ha tenido varicela. La vacuna evita que el virus latente se reactive.<a href=\"#ref-61\" class=\"citation-link\">[61]</a><a href=\"#ref-62\" class=\"citation-link\">[62]</a>",
+                adult_shingles_l2: "<b>Mito: La vacuna no es muy efectiva.</b><br><b>Hecho:</b> La vacuna moderna Shingrix tiene más del 90% de efectividad para prevenir el herpes zóster en adultos de 50 años o más, una mejora masiva con respecto a las versiones anteriores.<a href=\"#ref-61\" class=\"citation-link\">[61]</a>",
+                adult_covid_title: "Vacunas contra el COVID-19",
+                adult_covid_l1: "<b>Mito: La tecnología fue apresurada.</b><br><b>Hecho:</b> Si bien las vacunas eran nuevas, la tecnología de ARNm subyacente ha sido investigada y desarrollada por científicos durante décadas.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                adult_covid_l2: "<b>Mito: Puede alterar tu ADN.</b><br><b>Hecho:</b> Esto es biológicamente imposible. El ARNm de la vacuna nunca entra en el núcleo de la célula, donde se almacena el ADN, y el cuerpo lo descompone rápidamente.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                adult_covid_l3: "<b>Mito: Causan infertilidad.</b><br><b>Hecho:</b> Sin fundamento. Estudios a gran escala no han mostrado evidencia de que ninguna vacuna, incluidas las de COVID-19, cause problemas de fertilidad. Se recomienda la vacunación para quienes están embarazadas o intentan quedar embarazadas.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                dive_title: "Una Inmersión Profunda en las Vacunas",
+                dive_intro: "Para obtener información más detallada sobre vacunas específicas, incluidos los calendarios y los posibles efectos secundarios, explore los recursos a continuación.",
+                dive_mmr_title: "Vacuna MMR",
+                dive_mmr_desc: "Aprenda más sobre Sarampión, Paperas y Rubéola.",
+                dive_dtap_title: "Vacuna DTaP/Tdap",
+                dive_dtap_desc: "Datos sobre Difteria, Tétanos y Tos Ferina.",
+                dive_polio_title: "Vacuna contra la Polio",
+                dive_polio_desc: "Información sobre la protección contra la Polio.",
+                dive_hpv_title: "Vacuna contra el VPH",
+                dive_hpv_desc: "Comprendiendo la vacuna contra el VPH causante de cáncer.",
+                dive_flu_title: "Vacuna contra la Gripe",
+                dive_flu_desc: "Detalles sobre la vacuna anual contra la Influenza.",
+                dive_covid_title: "Vacunas contra el COVID-19",
+                dive_covid_desc: "La información más reciente sobre la protección contra el COVID-19.",
+                community_title: "Inmunidad Comunitaria",
+                community_intro: "La vacunación es un escudo personal, pero también es un cortafuegos comunitario. Cuando suficientes personas se vacunan, se crea una \"inmunidad de rebaño\", que protege a los más vulnerables entre nosotros que no pueden ser vacunados.<a href=\"#ref-8\" class=\"citation-link\">[8]</a><a href=\"#ref-13\" class=\"citation-link\">[13]</a><a href=\"#ref-27\" class=\"citation-link\">[27]</a>",
+                community_sim_title: "Simulador Interactivo de Inmunidad de Rebaño",
+                community_sim_desc: "Use el control deslizante para ver cómo las tasas de vacunación afectan la propagación de una enfermedad contagiosa. Los puntos azules son vacunados, los grises no vacunados y el rojo es una infección activa.",
+                community_sim_rate: "Tasa de Vacunación: <span id=\"rateValue\" class=\"text-teal-600 font-bold\">80</span>%",
+                community_sim_button: "Ejecutar Simulación",
+                advocate_title: "Conviértase en un Defensor Informado",
+                advocate_intro: "En la era digital, aprender a identificar información confiable es una de las mejores cosas que puede hacer por su salud. La desinformación a menudo se aprovecha del miedo y la emoción.<a href=\"#ref-2\" class=\"citation-link\">[2]</a><a href=\"#ref-3\" class=\"citation-link\">[3]</a>",
+                advocate_vaers_title: "Entendiendo el VAERS",
+                advocate_vaers_p1: "Los grupos que promueven la vacilación ante las vacunas a menudo utilizan indebidamente los datos del Sistema de Notificación de Reacciones Adversas a las Vacunas (VAERS). Es fundamental entender qué es este sistema y qué no es.",
+                advocate_vaers_l1: "<b>Qué es:</b> Un sistema nacional vital de alerta temprana. Cualquiera puede presentar un informe sobre cualquier problema de salud que ocurra después de la vacunación, sea o no la vacuna la causa.<a href=\"#ref-24\" class=\"citation-link\">[24]</a>",
+                advocate_vaers_l2: "<b>Qué NO es:</b> Una base de datos de efectos secundarios comprobados de las vacunas. Los informes no están verificados. Por ejemplo, si alguien se vacuna y tiene un accidente de coche al día siguiente, eso se puede informar al VAERS. Esto no significa que la vacuna causó el accidente.<a href=\"#ref-13\" class=\"citation-link\">[13]</a>",
+                advocate_vaers_l3: "<b>En resumen:</b> Los científicos utilizan los datos de VAERS como punto de partida para una investigación rigurosa. Citar un informe de VAERS sin procesar como prueba de daño es una mala interpretación peligrosa de los datos.",
+                references_title: "Referencias",
+                footer_title: "Su Socio en Salud",
+                footer_desc: "La evidencia es abrumadora: las vacunas son una de las herramientas más seguras y eficaces jamás desarrolladas en la medicina. Tener preguntas es una señal de compromiso. Por favor, continúe esta conversación con su proveedor de atención médica de confianza.",
+                footer_source: "Datos obtenidos de la Organización Mundial de la Salud (OMS) y los Centros para el Control y la Prevención de Enfermedades (CDC)."
+            }
+        };
+
+        let currentLanguage = 'en';
+        let measlesDeclineChart, measlesDeathsChart, diphtheriaDeclineChart, diphtheriaDeathsChart;
+
+        const palette = {
+            darkBlue: '#1e3a8a',
+            teal: '#0d9488',
+            lightTeal: '#ccfbf1',
+            red: '#be123c',
+            darkRed: '#9f1239',
+            gray: '#475569'
+        };
+
+        const defaultChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: palette.gray,
+                        font: { size: 14, weight: '600' }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { 
+                        color: palette.gray,
+                        callback: (value) => value >= 1000 ? `${value/1000}k` : value
+                    },
+                    grid: { color: '#e2e8f0' }
+                },
+                x: {
+                    ticks: { color: palette.gray },
+                    grid: { display: false }
+                }
+            }
+        };
+        
+        function createCharts(lang) {
+            const t = translations[lang];
+            if (measlesDeclineChart) measlesDeclineChart.destroy();
+            const measlesDeclineCtx = document.getElementById('measlesDeclineChart').getContext('2d');
+            measlesDeclineChart = new Chart(measlesDeclineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1950', '1960', '1963 (Vaccine)', '1970', '1980', '1990', '2000', '2022'],
+                    datasets: [{
+                        label: t.chart_measles_cases_label,
+                        data: [319000, 441703, 385156, 47351, 13506, 27786, 86, 121],
+                        borderColor: palette.red,
+                        backgroundColor: 'rgba(190, 18, 60, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: { ...defaultChartOptions }
+            });
+
+            if (measlesDeathsChart) measlesDeathsChart.destroy();
+            const measlesDeathsCtx = document.getElementById('measlesDeathsChart').getContext('2d');
+            measlesDeathsChart = new Chart(measlesDeathsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1950', '1960', '1963 (Vaccine)', '1970', '1980', '1990', '2000', '2022'],
+                    datasets: [{
+                        label: t.chart_measles_deaths_label,
+                        data: [450, 380, 364, 89, 11, 3, 1, 0],
+                        borderColor: palette.darkRed,
+                        backgroundColor: 'rgba(159, 18, 57, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                    }]
+                },
+                options: { ...defaultChartOptions }
+            });
+
+            if (diphtheriaDeclineChart) diphtheriaDeclineChart.destroy();
+            const diphtheriaDeclineCtx = document.getElementById('diphtheriaDeclineChart').getContext('2d');
+            diphtheriaDeclineChart = new Chart(diphtheriaDeclineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1921', '1930', '1940', '1945 (Vaccine)', '1950', '1970', '1990', '2020'],
+                    datasets: [{
+                        label: t.chart_diphtheria_cases_label,
+                        data: [206000, 100000, 15536, 18684, 5796, 210, 4, 0],
+                        borderColor: palette.darkBlue,
+                        backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: { ...defaultChartOptions }
+            });
+            
+            if (diphtheriaDeathsChart) diphtheriaDeathsChart.destroy();
+            const diphtheriaDeathsCtx = document.getElementById('diphtheriaDeathsChart').getContext('2d');
+            diphtheriaDeathsChart = new Chart(diphtheriaDeathsCtx, {
+                type: 'line',
+                data: {
+                     labels: ['1921', '1930', '1940', '1945 (Vaccine)', '1950', '1970', '1990', '2020'],
+                    datasets: [{
+                        label: t.chart_diphtheria_deaths_label,
+                        data: [15520, 6000, 1900, 1300, 410, 1, 0, 0],
+                        borderColor: '#1e293b',
+                        backgroundColor: 'rgba(30, 41, 59, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                    }]
+                },
+                options: { ...defaultChartOptions }
+            });
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            
+            const t = translations[lang];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            createCharts(lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleCookie = "; " + document.cookie;
+                const parts = googleCookie.split("; googtrans=");
+                if (parts.length == 2) {
+                    const langCode = parts.pop().split(";").shift().split('/')[2];
+                    if (langCode !== 'en') {
+                         // This is a bit of a hack to force Google Translate to revert
+                        const a = document.querySelector("#google_translate_element a");
+                        if (a) a.click();
+                    }
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+
+        const herdCanvas = document.getElementById('herdImmunityCanvas');
+        const rateSlider = document.getElementById('vaccinationRate');
+        const startBtn = document.getElementById('startSimulation');
+
+        if (herdCanvas && rateSlider && startBtn) {
+            const ctx = herdCanvas.getContext('2d');
+            let animationFrameId;
+            let dots = [];
+            const dotCount = 200;
+            const dotRadius = 4;
+
+            function setupSimulation() {
+                if (!herdCanvas.parentElement) return;
+                herdCanvas.width = herdCanvas.parentElement.clientWidth;
+                herdCanvas.height = herdCanvas.parentElement.clientHeight;
+                dots = [];
+                const vaccinationRate = parseInt(rateSlider.value) / 100;
+                
+                for (let i = 0; i < dotCount; i++) {
+                    dots.push({
+                        x: Math.random() * herdCanvas.width,
+                        y: Math.random() * herdCanvas.height,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: (Math.random() - 0.5) * 2,
+                        status: Math.random() < vaccinationRate ? 'vaccinated' : 'unvaccinated'
+                    });
+                }
+                if (dots.some(d => d.status === 'unvaccinated')) {
+                    let patientZero = dots.find(d => d.status === 'unvaccinated');
+                    if (patientZero) patientZero.status = 'infected';
+                }
+                drawDots();
+            }
+
+            function drawDots() {
+                ctx.clearRect(0, 0, herdCanvas.width, herdCanvas.height);
+                dots.forEach(dot => {
+                    ctx.beginPath();
+                    ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
+                    switch(dot.status) {
+                        case 'vaccinated': ctx.fillStyle = palette.darkBlue; break;
+                        case 'unvaccinated': ctx.fillStyle = '#cbd5e1'; break;
+                        case 'infected': ctx.fillStyle = palette.red; break;
+                    }
+                    ctx.fill();
+                });
+            }
+
+            function updateSimulation() {
+                dots.forEach(dot => {
+                    dot.x += dot.vx;
+                    dot.y += dot.vy;
+
+                    if (dot.x < dotRadius || dot.x > herdCanvas.width - dotRadius) dot.vx *= -1;
+                    if (dot.y < dotRadius || dot.y > herdCanvas.height - dotRadius) dot.vy *= -1;
+                });
+
+                for (let i = 0; i < dots.length; i++) {
+                    if (dots[i].status !== 'infected') continue;
+                    for (let j = 0; j < dots.length; j++) {
+                        if (i === j || dots[j].status !== 'unvaccinated') continue;
+                        const dx = dots[i].x - dots[j].x;
+                        const dy = dots[i].y - dots[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < dotRadius * 2) {
+                            dots[j].status = 'infected';
+                        }
+                    }
+                }
+
+                drawDots();
+                animationFrameId = requestAnimationFrame(updateSimulation);
+            }
+
+            rateSlider.addEventListener('input', (e) => {
+                const rateValue = document.getElementById('rateValue');
+                if(rateValue) {
+                    rateValue.textContent = e.target.value;
+                }
+            });
+
+            startBtn.addEventListener('click', () => {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                setupSimulation();
+                updateSimulation();
+            });
+            
+            window.addEventListener('resize', () => {
+                 if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                 setupSimulation();
+            });
+
+            setupSimulation();
+        }
+
+        // Stepper animation
+        const stepperItems = document.querySelectorAll('.stepper-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        stepperItems.forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>

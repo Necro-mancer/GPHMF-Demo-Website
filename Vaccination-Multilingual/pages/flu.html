@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Deeper Dive: The Flu Vaccine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: linear-gradient(120deg, #f0f9ff 0%, #e0f2f1 100%);
+            color: #334155;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .card:hover {
+            transform: translateY(-8px) perspective(1000px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+        }
+        .citation-link {
+            display: inline-block;
+            background-color: rgba(13, 148, 136, 0.1);
+            color: #0d9488;
+            border-radius: 6px;
+            padding: 1px 6px;
+            font-size: 0.7em;
+            font-weight: bold;
+            vertical-align: super;
+            text-decoration: none;
+            margin: 0 2px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .citation-link:hover {
+            background-color: #0d9488;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .reference-item a {
+            color: #1e3a8a;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+        .reference-item a:hover {
+            color: #0d9488;
+            text-decoration: underline;
+        }
+        .section-icon {
+            width: 3rem;
+            height: 3rem;
+            color: #1e3a8a;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #0d9488 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #1e3a8a !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2">
+                <a href="../landing.html" class="text-lg md:text-xl font-bold text-[#1e3a8a] mr-4 hover:text-teal-600 transition-colors" data-translate="nav_back_link"></a>
+                <div id="lang-selector" class="flex items-center pl-4 shrink-0 ml-auto">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="nav_back_button"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="hero" class="py-12 md:py-16 text-center">
+            <h1 class="text-4xl md:text-5xl font-black text-[#1e3a8a] mb-4" data-translate="hero_title"></h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto mb-8" data-translate="hero_subtitle"></p>
+            <div class="w-full h-48 md:h-64 rounded-2xl">
+                <canvas id="hero-canvas" class="w-full h-full"></canvas>
+            </div>
+        </section>
+
+        <section id="why-annual" class="py-12">
+             <div class="card p-8 bg-teal-50 border-teal-200">
+                <h2 class="text-3xl font-bold text-center text-teal-800 mb-4" data-translate="annual_title"></h2>
+                <p class="text-center text-slate-700 mb-6 max-w-3xl mx-auto" data-translate="annual_intro"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                    <div class="bg-white rounded-lg p-6 shadow">
+                         <h3 class="text-xl font-bold text-teal-700" data-translate="annual_drift_title"></h3>
+                         <p class="text-slate-700 mt-2" data-translate="annual_drift_desc"></p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow">
+                         <h3 class="text-xl font-bold text-teal-700" data-translate="annual_waning_title"></h3>
+                         <p class="text-slate-700 mt-2" data-translate="annual_waning_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="disease" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.472-2.472a3.75 3.75 0 00-5.304-5.304L4.75 12V8.25h3.5L11.42 15.17z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="disease_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-4xl mx-auto" data-translate="disease_intro"></p>
+
+            <div class="card p-8">
+                <h3 class="text-2xl font-bold text-[#be123c] mb-4" data-translate="disease_effects_title"></h3>
+                <p class="text-slate-700 mb-4" data-translate="disease_effects_desc"></p>
+                <h4 class="font-bold text-slate-800" data-translate="complications_title"></h4>
+                <ul class="list-disc list-inside text-slate-700 mt-2 text-sm space-y-1">
+                    <li data-translate="disease_c1"></li>
+                    <li data-translate="disease_c2"></li>
+                    <li data-translate="disease_c3"></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="safety" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008H12v-.008z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="safety_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="safety_intro"></p>
+            <div class="card p-6 md:p-8">
+                <div class="space-y-6">
+                     <div class="border-b border-slate-200 pb-6">
+                        <h3 class="text-xl font-bold text-[#1e3a8a] mb-2" data-translate="safety_myths_title"></h3>
+                         <ul class="list-disc list-inside space-y-3 text-slate-700">
+                            <li data-translate="safety_myth1"></li>
+                            <li data-translate="safety_myth2"></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#1e3a8a] mb-4" data-translate="safety_sideeffects_title"></h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                                <h4 class="text-lg font-bold text-yellow-800" data-translate="safety_common_title"></h4>
+                                <ul class="list-disc list-inside mt-4 space-y-2 text-yellow-900">
+                                    <li data-translate="safety_common_l1"></li>
+                                    <li data-translate="safety_common_l2"></li>
+                                    <li data-translate="safety_common_l3"></li>
+                                </ul>
+                            </div>
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                                <h4 class="text-lg font-bold text-red-800" data-translate="safety_rare_title"></h4>
+                                 <p class="text-sm text-red-900 mt-4" data-translate="safety_rare_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="motivation" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="motivation_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="motivation_intro"></p>
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <p class="text-4xl mb-3">🛡️</p>
+                    <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="motivation_card1_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="motivation_card1_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <p class="text-4xl mb-3">❤️</p>
+                    <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="motivation_card2_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="motivation_card2_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <p class="text-4xl mb-3">🗓️</p>
+                    <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="motivation_card3_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="motivation_card3_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="references" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-12">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="references_title"></h2>
+            </div>
+            <div class="card p-6 md:p-8 text-sm">
+                <ol class="list-decimal list-inside space-y-4 columns-1">
+                    <li id="flu-ref-1" class="reference-item"><a href="https://www.cdc.gov/flu/vaccines/keyfacts.html" target="_blank" rel="noopener noreferrer">CDC. (2025). *Key Facts About Seasonal Flu Vaccine*.</a></li>
+                    <li id="flu-ref-2" class="reference-item"><a href="https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)" target="_blank" rel="noopener noreferrer">WHO. (2023). *Influenza (Seasonal)*.</a></li>
+                    <li id="flu-ref-3" class="reference-item"><a href="https://www.cdc.gov/flu/prevention/misconceptions.html" target="_blank" rel="noopener noreferrer">CDC. (2025). *Misconceptions about Seasonal Flu and Flu Vaccines*.</a></li>
+                    <li id="flu-ref-5" class="reference-item"><a href="https://www.acog.org/womens-health/faqs/the-flu-vaccine-and-pregnancy" target="_blank" rel="noopener noreferrer">ACOG. (2024). *The Flu Vaccine and Pregnancy*.</a></li>
+                </ol>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-8 border-t border-slate-200">
+            <p class="text-slate-600 max-w-3xl mx-auto mb-4" data-translate="footer_desc"></p>
+            <p class="text-sm text-slate-500" data-translate="footer_source"></p>
+        </footer>
+    </main>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                nav_back_link: "&larr; Back to Main Guide",
+                nav_back_button: "Back",
+                hero_title: "A Deeper Dive:<br>The Annual Flu Vaccine",
+                hero_subtitle: "Understanding your yearly protection against seasonal influenza.",
+                efficacy_title: "How Effective is the Flu Vaccine?",
+                efficacy_intro: "The goal of the annual flu shot is to prevent severe outcomes. While its effectiveness at preventing infection can vary each year, it is consistently successful at preventing what matters most: serious illness.",
+                efficacy_hospitalization: "Reduces Risk of Hospitalization",
+                efficacy_infection: "Reduces Risk of Illness",
+                disease_title: "What is Influenza (The Flu)?",
+                disease_intro: "Influenza is a contagious respiratory illness caused by influenza viruses. It is not the same as a common cold, and can lead to serious complications, hospitalization, or even death.<a href=\"#flu-ref-1\" class=\"citation-link\">[1]</a><a href=\"#flu-ref-2\" class=\"citation-link\">[2]</a>",
+                disease_effects_title: "The Effects of the Flu",
+                disease_effects_desc: "The flu can affect people differently, but it is especially dangerous for young children, older adults, pregnant people, and those with chronic health conditions.",
+                complications_title: "Potential Complications:",
+                disease_c1: "Pneumonia",
+                disease_c2: "Inflammation of the heart (myocarditis), brain (encephalitis) or muscle tissues",
+                disease_c3: "Worsening of chronic medical conditions (like asthma or heart disease)",
+                annual_title: "Why Do I Need a Flu Shot Every Year?",
+                annual_intro: "Unlike other vaccines that provide long-term immunity, protection from the flu requires an annual update for two key reasons.",
+                annual_drift_title: "The Virus Changes (Antigenic Drift)",
+                annual_drift_desc: "Influenza viruses are constantly mutating. These small genetic changes over time mean that the viruses circulating this year are different from last year. The annual vaccine is updated to match the strains scientists predict will be most common.",
+                annual_waning_title: "Immunity Fades",
+                annual_waning_desc: "The protection you get from a flu vaccine declines over time. An annual shot is needed to keep your immune system's defenses strong and ready for the upcoming flu season.",
+                safety_title: "Safety and Common Questions",
+                safety_intro: "Flu vaccines have a long and excellent safety record, having been used for more than 50 years.<a href=\"#flu-ref-3\" class=\"citation-link\">[3]</a>",
+                safety_myths_title: "Addressing Common Myths",
+                safety_myth1: "<b>Myth: The flu shot can give you the flu.</b><br><b>Fact:</b> This is impossible. The flu shot is made with either inactivated (killed) virus or no virus at all. Mild aches are a sign your immune system is building protection, not a sign of illness.<a href=\"#flu-ref-3\" class=\"citation-link\">[3]</a>",
+                safety_myth2: "<b>Myth: It's not safe during pregnancy.</b><br><b>Fact:</b> It is highly recommended. The flu is more dangerous during pregnancy, and the vaccine protects both mother and baby, passing on crucial immunity for the first few months of life.<a href=\"#flu-ref-5\" class=\"citation-link\">[5]</a>",
+                safety_sideeffects_title: "Side Effects",
+                safety_common_title: "Mild & Common",
+                safety_common_l1: "Soreness, redness, or swelling at injection site",
+                safety_common_l2: "Headache or muscle aches",
+                safety_common_l3: "Low-grade fever",
+                safety_rare_title: "Rare & Serious",
+                safety_rare_desc: "Life-threatening allergic reactions to the flu vaccine are very rare. Signs of a severe reaction can include breathing problems, swelling around the eyes or lips, and dizziness.",
+                motivation_title: "Your Decision Matters",
+                motivation_intro: "Getting your annual flu shot is a simple act that has a powerful, positive impact on your health and your community.",
+                motivation_card1_title: "A Shield for Yourself",
+                motivation_card1_desc: "The flu can cause serious illness even in healthy people. Your annual shot is the best tool you have to prevent days of misery, missed work, and potentially severe complications.",
+                motivation_card2_title: "A Gift to the Vulnerable",
+                motivation_card2_desc: "When you get vaccinated, you also help protect the people around you who are most at risk, like babies, the elderly, and those with chronic illnesses.",
+                motivation_card3_title: "A Healthy Habit",
+                motivation_card3_desc: "Making the annual flu shot a routine part of your healthcare is one of the easiest and most effective ways to invest in your well-being year after year.",
+                references_title: "References for this Page",
+                footer_desc: "This page provides a summary. For complete information and to discuss your personal health, please speak with your healthcare provider.",
+                footer_source: "Information and data sourced from the CDC, WHO, and ACOG."
+            },
+            es: {
+                nav_back_link: "&larr; Volver a la Guía Principal",
+                nav_back_button: "Volver",
+                hero_title: "Una Mirada Profunda:<br>La Vacuna Anual contra la Gripe",
+                hero_subtitle: "Comprendiendo su protección anual contra la influenza estacional.",
+                efficacy_title: "¿Qué tan Efectiva es la Vacuna contra la Gripe?",
+                efficacy_intro: "El objetivo de la vacuna anual contra la gripe es prevenir los resultados graves. Si bien su efectividad para prevenir la infección puede variar cada año, es consistentemente exitosa en prevenir lo más importante: la enfermedad grave.",
+                efficacy_hospitalization: "Reduce el Riesgo de Hospitalización",
+                efficacy_infection: "Reduce el Riesgo de Enfermedad",
+                disease_title: "¿Qué es la Influenza (La Gripe)?",
+                disease_intro: "La influenza es una enfermedad respiratoria contagiosa causada por los virus de la influenza. No es lo mismo que un resfriado común y puede provocar complicaciones graves, hospitalización o incluso la muerte.<a href=\"#flu-ref-1\" class=\"citation-link\">[1]</a><a href=\"#flu-ref-2\" class=\"citation-link\">[2]</a>",
+                disease_effects_title: "Los Efectos de la Gripe",
+                disease_effects_desc: "La gripe puede afectar a las personas de manera diferente, pero es especialmente peligrosa para los niños pequeños, los adultos mayores, las personas embarazadas y aquellos con afecciones de salud crónicas.",
+                complications_title: "Posibles Complicaciones:",
+                disease_c1: "Neumonía",
+                disease_c2: "Inflamación del corazón (miocarditis), cerebro (encefalitis) o tejidos musculares",
+                disease_c3: "Empeoramiento de condiciones médicas crónicas (como asma o enfermedades cardíacas)",
+                annual_title: "¿Por Qué Necesito Vacunarme Contra la Gripe Cada Año?",
+                annual_intro: "A diferencia de otras vacunas que brindan inmunidad a largo plazo, la protección contra la gripe requiere una actualización anual por dos razones clave.",
+                annual_drift_title: "El Virus Cambia (Deriva Antigénica)",
+                annual_drift_desc: "Los virus de la influenza mutan constantemente. Estos pequeños cambios genéticos a lo largo del tiempo significan que los virus que circulan este año son diferentes a los del año pasado. La vacuna anual se actualiza para que coincida con las cepas que los científicos predicen que serán más comunes.",
+                annual_waning_title: "La Inmunidad Disminuye",
+                annual_waning_desc: "La protección que se obtiene de una vacuna contra la gripe disminuye con el tiempo. Se necesita una vacuna anual para mantener fuertes las defensas de su sistema inmunológico y listas para la próxima temporada de gripe.",
+                safety_title: "Seguridad y Preguntas Comunes",
+                safety_intro: "Las vacunas contra la gripe tienen un historial de seguridad largo y excelente, habiéndose utilizado durante más de 50 años.<a href=\"#flu-ref-3\" class=\"citation-link\">[3]</a>",
+                safety_myths_title: "Abordando Mitos Comunes",
+                safety_myth1: "<b>Mito: La vacuna contra la gripe puede darte la gripe.</b><br><b>Hecho:</b> Esto es imposible. La vacuna contra la gripe se elabora con virus inactivados (muertos) o sin ningún virus (tecnología recombinante). Los dolores leves son una señal de que su sistema inmunológico está creando protección, no una señal de enfermedad.<a href=\"#flu-ref-3\" class=\"citation-link\">[3]</a>",
+                safety_myth2: "<b>Mito: No es segura durante el embarazo.</b><br><b>Hecho:</b> Es muy recomendable. La gripe es más peligrosa durante el embarazo, y la vacuna protege tanto a la madre como al bebé, transmitiendo una inmunidad crucial durante los primeros meses de vida.<a href=\"#flu-ref-5\" class=\"citation-link\">[5]</a>",
+                safety_sideeffects_title: "Efectos Secundarios",
+                safety_common_title: "Leves y Comunes",
+                safety_common_l1: "Dolor, enrojecimiento o hinchazón en el lugar de la inyección",
+                safety_common_l2: "Dolor de cabeza o dolores musculares",
+                safety_common_l3: "Fiebre de bajo grado",
+                safety_rare_title: "Raros y Graves",
+                safety_rare_desc: "Las reacciones alérgicas potencialmente mortales a la vacuna contra la gripe son muy raras. Los signos de una reacción grave pueden incluir problemas para respirar, hinchazón alrededor de los ojos o labios y mareos.",
+                motivation_title: "Su Decisión Importa",
+                motivation_intro: "Vacunarse anualmente contra la gripe es un acto simple que tiene un impacto poderoso y positivo en su salud y en su comunidad.",
+                motivation_card1_title: "Un Escudo para Usted",
+                motivation_card1_desc: "La gripe puede causar enfermedades graves incluso en personas sanas. Su vacuna anual es la mejor herramienta que tiene para prevenir días de malestar, ausencias laborales y complicaciones potencialmente graves.",
+                motivation_card2_title: "Un Regalo para los Vulnerables",
+                motivation_card2_desc: "Cuando se vacuna, también ayuda a proteger a las personas que lo rodean y que corren mayor riesgo, como los bebés, los ancianos y las personas con enfermedades crónicas.",
+                motivation_card3_title: "Un Hábito Saludable",
+                motivation_card3_desc: "Hacer de la vacuna anual contra la gripe una parte rutinaria de su atención médica es una de las formas más fáciles y efectivas de invertir en su bienestar año tras año.",
+                references_title: "Referencias de esta Página",
+                footer_desc: "Esta página ofrece un resumen. Para obtener información completa y discutir su salud personal, por favor hable con su proveedor de atención médica.",
+                footer_source: "Información y datos obtenidos de los CDC, la OMS y ACOG."
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+
+            const t = translations[lang];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+
+                const googleCookie = "; " + document.cookie;
+                const parts = googleCookie.split("; googtrans=");
+                if (parts.length == 2) {
+                    const langCode = parts.pop().split(";").shift().split('/')[2];
+                    if (langCode !== 'en') {
+                        const a = document.querySelector("#google_translate_element a");
+                        if (a) a.click();
+                    }
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            // Animated Counters
+            const counters = document.querySelectorAll('[data-count]');
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.count);
+                        let current = 0;
+                        const increment = target / 100;
+                        const interval = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(interval);
+                            }
+                            el.textContent = (target === 90 ? '>' : '') + Math.ceil(current) + '%';
+                        }, 20);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(counter => counterObserver.observe(counter));
+
+            // Hero Canvas Animation
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null };
+
+            function resizeCanvas() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+            canvas.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.color = `rgba(13, 148, 136, ${Math.random() * 0.5 + 0.2})`;
+                }
+                update() {
+                    if (mouse.x !== null) {
+                        let dx = mouse.x - this.x;
+                        let dy = mouse.y - this.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < 100) {
+                            this.x -= dx / 20;
+                            this.y -= dy / 20;
+                        }
+                    }
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                let numberOfParticles = (canvas.width * canvas.height) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animate);
+            }
+
+            resizeCanvas();
+            initParticles();
+            animate();
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>

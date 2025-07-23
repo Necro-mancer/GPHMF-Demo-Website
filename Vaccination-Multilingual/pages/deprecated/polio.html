@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Deeper Dive: The Polio Vaccine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: linear-gradient(120deg, #f0f9ff 0%, #e0f2f1 100%);
+            color: #334155;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .card:hover {
+            transform: translateY(-8px) perspective(1000px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+        }
+        .citation-link {
+            display: inline-block;
+            background-color: rgba(13, 148, 136, 0.1);
+            color: #0d9488;
+            border-radius: 6px;
+            padding: 1px 6px;
+            font-size: 0.7em;
+            font-weight: bold;
+            vertical-align: super;
+            text-decoration: none;
+            margin: 0 2px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .citation-link:hover {
+            background-color: #0d9488;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .reference-item a {
+            color: #1e3a8a;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+        .reference-item a:hover {
+            color: #0d9488;
+            text-decoration: underline;
+        }
+        .section-icon {
+            width: 3rem;
+            height: 3rem;
+            color: #1e3a8a;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #0d9488 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #1e3a8a !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2">
+                <a href="../landing.html" class="text-lg md:text-xl font-bold text-[#1e3a8a] mr-4 hover:text-teal-600 transition-colors" data-translate="nav_back_link"></a>
+                <div id="lang-selector" class="flex items-center pl-4 shrink-0 ml-auto">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="nav_back_button"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="hero" class="py-12 md:py-16 text-center">
+            <h1 class="text-4xl md:text-5xl font-black text-[#1e3a8a] mb-4" data-translate="hero_title"></h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto mb-8" data-translate="hero_subtitle"></p>
+            <div class="w-full h-48 md:h-64 rounded-2xl">
+                <canvas id="hero-canvas" class="w-full h-full"></canvas>
+            </div>
+        </section>
+
+        <section id="efficacy" class="py-12">
+             <div class="card p-8 bg-teal-50 border-teal-200">
+                <h2 class="text-3xl font-bold text-center text-teal-800 mb-4" data-translate="efficacy_title"></h2>
+                <p class="text-center text-slate-700 mb-6 max-w-3xl mx-auto" data-translate="efficacy_intro"></p>
+                <div class="flex justify-center">
+                    <div class="bg-white rounded-lg p-6 shadow w-full md:w-1/2">
+                         <p class="text-6xl font-black text-teal-600" data-count="99">0%</p>
+                         <p class="font-semibold text-slate-700 mt-2" data-translate="efficacy_paralysis"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="disease" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.472-2.472a3.75 3.75 0 00-5.304-5.304L4.75 12V8.25h3.5L11.42 15.17z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="disease_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-4xl mx-auto" data-translate="disease_intro"></p>
+            
+            <div class="card p-8">
+                <h3 class="text-2xl font-bold text-[#be123c] mb-4" data-translate="disease_effects_title"></h3>
+                <p class="text-slate-700 mb-4" data-translate="disease_effects_desc"></p>
+                <h4 class="font-bold text-slate-800" data-translate="complications_title"></h4>
+                <ul class="list-disc list-inside text-slate-700 mt-2 text-sm space-y-1">
+                    <li data-translate="disease_c1"></li>
+                    <li data-translate="disease_c2"></li>
+                    <li data-translate="disease_c3"></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="vaccine-types" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                 <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="types_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="types_intro"></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-8">
+                    <h3 class="text-xl font-bold text-teal-700 mb-2" data-translate="types_ipv_title"></h3>
+                    <p class="text-slate-700" data-translate="types_ipv_desc"></p>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-xl font-bold text-teal-700 mb-2" data-translate="types_opv_title"></h3>
+                    <p class="text-slate-700" data-translate="types_opv_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="schedule" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M12 12.75h.008v.008H12v-.008z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="schedule_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="schedule_intro"></p>
+            <div class="card p-6 md:p-8">
+                <h3 class="text-xl font-bold text-teal-700" data-translate="schedule_child_title"></h3>
+                <ul class="list-disc list-inside mt-4 space-y-2 text-slate-700">
+                    <li data-translate="schedule_child_d1"></li>
+                    <li data-translate="schedule_child_d2"></li>
+                    <li data-translate="schedule_child_d3"></li>
+                    <li data-translate="schedule_child_d4"></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="safety" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008H12v-.008z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="safety_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="safety_intro"></p>
+            <div class="card p-6 md:p-8">
+                <div class="space-y-6">
+                     <div class="border-b border-slate-200 pb-6">
+                        <h3 class="text-xl font-bold text-[#1e3a8a] mb-2" data-translate="safety_who_title"></h3>
+                        <p class="mb-4 text-slate-700" data-translate="safety_who_desc"></p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#1e3a8a] mb-4" data-translate="safety_sideeffects_title"></h3>
+                        <p class="text-slate-700" data-translate="safety_sideeffects_desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="motivation" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="motivation_title"></h2>
+            </div>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto" data-translate="motivation_intro"></p>
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <p class="text-4xl mb-3">🏆</p>
+                    <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="motivation_card1_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="motivation_card1_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <p class="text-4xl mb-3">🌍</p>
+                    <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="motivation_card2_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="motivation_card2_desc"></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <p class="text-4xl mb-3">❤️</p>
+                    <h4 class="font-bold text-lg mb-2 text-teal-700" data-translate="motivation_card3_title"></h4>
+                    <p class="text-sm text-slate-600" data-translate="motivation_card3_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="references" class="py-12">
+            <div class="flex justify-center items-center gap-4 mb-12">
+                <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-[#1e3a8a]" data-translate="references_title"></h2>
+            </div>
+            <div class="card p-6 md:p-8 text-sm">
+                <ol class="list-decimal list-inside space-y-4 columns-1 md:columns-2">
+                    <li id="polio-ref-1" class="reference-item"><a href="https://www.cdc.gov/vaccines/vpd/polio/public/index.html" target="_blank" rel="noopener noreferrer">CDC. (2022). *Polio Vaccination: What Everyone Should Know*.</a></li>
+                    <li id="polio-ref-2" class="reference-item"><a href="https://www.who.int/health-topics/poliomyelitis" target="_blank" rel="noopener noreferrer">WHO. (2023). *Poliomyelitis (polio)*.</a></li>
+                    <li id="polio-ref-3" class="reference-item"><a href="https://polioeradication.org/polio-today/history-of-polio/" target="_blank" rel="noopener noreferrer">Global Polio Eradication Initiative. *History of Polio*.</a></li>
+                    <li id="polio-ref-4" class="reference-item"><a href="https://www.cdc.gov/vaccines/schedules/hcp/imz/child-adolescent.html" target="_blank" rel="noopener noreferrer">CDC. (2023). *Immunization Schedules*.</a></li>
+                    <li id="polio-ref-5" class="reference-item"><a href="https://www.cdc.gov/vaccinesafety/vaccines/polio-vaccine.html" target="_blank" rel="noopener noreferrer">CDC. (2021). *Polio Vaccine Safety*.</a></li>
+                </ol>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-8 border-t border-slate-200">
+            <p class="text-slate-600 max-w-3xl mx-auto mb-4" data-translate="footer_desc"></p>
+            <p class="text-sm text-slate-500" data-translate="footer_source"></p>
+        </footer>
+    </main>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                nav_back_link: "&larr; Back to Main Guide",
+                nav_back_button: "Back",
+                hero_title: "A Deeper Dive:<br>The Polio Vaccine",
+                hero_subtitle: "Understanding the protection against one of history's most feared diseases.",
+                efficacy_title: "Proven Protection: How Effective is the Polio Vaccine?",
+                efficacy_intro: "The inactivated polio vaccine (IPV) used in the United States is incredibly effective at preventing the most severe outcomes of the disease.",
+                efficacy_paralysis: "Effective against Paralysis",
+                disease_title: "What is Polio?",
+                disease_intro: "Poliomyelitis (polio) is a disabling and life-threatening disease caused by the poliovirus. The virus spreads from person to person and can infect a person’s spinal cord, causing paralysis.<a href=\"#polio-ref-1\" class=\"citation-link\">[1]</a><a href=\"#polio-ref-2\" class=\"citation-link\">[2]</a>",
+                disease_effects_title: "The Effects of Polio",
+                disease_effects_desc: "Most people who get infected with poliovirus will not have any visible symptoms. However, a smaller proportion of people will develop more serious symptoms that affect the brain and spinal cord.",
+                complications_title: "Potential Complications:",
+                disease_c1: "Meningitis (infection of the covering of the spinal cord and/or brain)",
+                disease_c2: "Paralysis (cannot move parts of the body)",
+                disease_c3: "Death (due to paralysis of the muscles used for breathing)",
+                types_title: "Two Types of Polio Vaccine",
+                types_intro: "The global effort to eradicate polio has relied on two highly effective types of vaccine.<a href=\"#polio-ref-3\" class=\"citation-link\">[3]</a>",
+                types_ipv_title: "Inactivated Polio Vaccine (IPV)",
+                types_ipv_desc: "This is a shot that contains killed poliovirus. It cannot cause polio. IPV is the only polio vaccine that has been used in the United States since 2000. It provides excellent protection in the blood, preventing the virus from reaching the nervous system and causing paralysis.",
+                types_opv_title: "Oral Polio Vaccine (OPV)",
+                types_opv_desc: "This vaccine is given as oral drops and contains a live, weakened virus. It is cheaper, easier to administer, and provides excellent immunity in the gut, which helps stop person-to-person spread. In very rare cases, it can cause vaccine-associated paralytic polio, which is why the U.S. switched to IPV once the disease was eliminated domestically.",
+                schedule_title: "Vaccine Schedule",
+                schedule_intro: "The CDC recommends a four-dose series of the polio vaccine for children to provide the best protection.<a href=\"#polio-ref-4\" class=\"citation-link\">[4]</a>",
+                schedule_child_title: "For Children (IPV):",
+                schedule_child_d1: "<strong>2 months</strong>",
+                schedule_child_d2: "<strong>4 months</strong>",
+                schedule_child_d3: "<strong>6 through 18 months</strong>",
+                schedule_child_d4: "<strong>4 through 6 years</strong>",
+                safety_title: "Safety and Side Effects",
+                safety_intro: "The polio vaccine (IPV) used in the United States is very safe and effective at preventing polio. Most people have no side effects at all.<a href=\"#polio-ref-5\" class=\"citation-link\">[5]</a>",
+                safety_who_title: "Who Should Talk to Their Doctor Before Vaccination?",
+                safety_who_desc: "You should talk to your doctor if you have ever had a life-threatening allergic reaction to a previous dose of polio vaccine or to the antibiotics neomycin, streptomycin, or polymyxin B.",
+                safety_sideeffects_title: "Common Side Effects",
+                safety_sideeffects_desc: "The most common side effect is some temporary redness, swelling, and pain at the injection site. Serious side effects are extremely rare.",
+                motivation_title: "Your Decision Matters",
+                motivation_intro: "Choosing to vaccinate is a powerful act with benefits that last a lifetime and extend to the entire community.",
+                motivation_card1_title: "A Public Health Triumph",
+                motivation_card1_desc: "Vaccinating your child makes them part of one of the greatest public health achievements in history, keeping a once-terrifying disease at bay.",
+                motivation_card2_title: "Finishing the Fight",
+                motivation_card2_desc: "As long as polio exists anywhere in the world, every child remains at risk. Your choice helps maintain the wall of immunity that protects our country and supports the global goal of eradication.",
+                motivation_card3_title: "A Gift of a Normal Life",
+                motivation_card3_desc: "The polio vaccine is a simple, safe step that ensures your child has the freedom to walk, run, and play without the fear of paralysis that haunted previous generations.",
+                references_title: "References for this Page",
+                footer_desc: "This page provides a summary. For complete information and to discuss your personal health, please speak with your healthcare provider.",
+                footer_source: "Information and data sourced from the CDC, WHO, and the Global Polio Eradication Initiative."
+            },
+            es: {
+                nav_back_link: "&larr; Volver a la Guía Principal",
+                nav_back_button: "Volver",
+                hero_title: "Una Mirada Profunda:<br>La Vacuna contra la Polio",
+                hero_subtitle: "Comprendiendo la protección contra una de las enfermedades más temidas de la historia.",
+                efficacy_title: "Protección Comprobada: ¿Qué tan Efectiva es la Vacuna contra la Polio?",
+                efficacy_intro: "La vacuna inactivada contra la polio (IPV) utilizada en los Estados Unidos es increíblemente efectiva para prevenir los resultados más graves de la enfermedad.",
+                efficacy_paralysis: "Efectiva contra la Parálisis",
+                disease_title: "¿Qué es la Polio?",
+                disease_intro: "La poliomielitis (polio) es una enfermedad incapacitante y potencialmente mortal causada por el poliovirus. El virus se propaga de persona a persona y puede infectar la médula espinal de una persona, causando parálisis.<a href=\"#polio-ref-1\" class=\"citation-link\">[1]</a><a href=\"#polio-ref-2\" class=\"citation-link\">[2]</a>",
+                disease_effects_title: "Los Efectos de la Polio",
+                disease_effects_desc: "La mayoría de las personas que se infectan con el poliovirus no presentan síntomas visibles. Sin embargo, una proporción menor de personas desarrollará síntomas más graves que afectan el cerebro y la médula espinal.",
+                complications_title: "Posibles Complicaciones:",
+                disease_c1: "Meningitis (infección de la cubierta de la médula espinal y/o el cerebro)",
+                disease_c2: "Parálisis (incapacidad para mover partes del cuerpo)",
+                disease_c3: "Muerte (debido a la parálisis de los músculos utilizados para respirar)",
+                types_title: "Dos Tipos de Vacuna contra la Polio",
+                types_intro: "El esfuerzo mundial para erradicar la polio se ha basado en dos tipos de vacunas altamente efectivas.<a href=\"#polio-ref-3\" class=\"citation-link\">[3]</a>",
+                types_ipv_title: "Vacuna Inactivada contra la Polio (IPV)",
+                types_ipv_desc: "Esta es una inyección que contiene poliovirus muerto. No puede causar polio. La IPV es la única vacuna contra la polio que se ha utilizado en los Estados Unidos desde el año 2000. Proporciona una excelente protección en la sangre, evitando que el virus llegue al sistema nervioso y cause parálisis.",
+                types_opv_title: "Vacuna Oral contra la Polio (OPV)",
+                types_opv_desc: "Esta vacuna se administra en gotas orales y contiene un virus vivo y debilitado. Es más barata, más fácil de administrar y proporciona una excelente inmunidad en el intestino, lo que ayuda a detener la propagación de persona a persona. En casos muy raros, puede causar poliomielitis paralítica asociada a la vacuna, razón por la cual EE. UU. cambió a la IPV una vez que la enfermedad fue eliminada a nivel nacional.",
+                schedule_title: "Calendario de Vacunación",
+                schedule_intro: "Los CDC recomiendan una serie de cuatro dosis de la vacuna contra la polio para los niños para proporcionar la mejor protección.<a href=\"#polio-ref-4\" class=\"citation-link\">[4]</a>",
+                schedule_child_title: "Para Niños (IPV):",
+                schedule_child_d1: "<strong>2 meses</strong>",
+                schedule_child_d2: "<strong>4 meses</strong>",
+                schedule_child_d3: "<strong>6 a 18 meses</strong>",
+                schedule_child_d4: "<strong>4 a 6 años</strong>",
+                safety_title: "Seguridad y Efectos Secundarios",
+                safety_intro: "La vacuna contra la polio (IPV) utilizada en los Estados Unidos es muy segura y eficaz para prevenir la polio. La mayoría de las personas no tienen ningún efecto secundario.<a href=\"#polio-ref-5\" class=\"citation-link\">[5]</a>",
+                safety_who_title: "¿Quién Debe Hablar con su Médico Antes de Vacunarse?",
+                safety_who_desc: "Debe hablar con su médico si alguna vez ha tenido una reacción alérgica potencialmente mortal a una dosis previa de la vacuna contra la polio o a los antibióticos neomicina, estreptomicina o polimixina B.",
+                safety_sideeffects_title: "Efectos Secundarios Comunes",
+                safety_sideeffects_desc: "El efecto secundario más común es algo de enrojecimiento, hinchazón y dolor temporales en el lugar de la inyección. Los efectos secundarios graves son extremadamente raros.",
+                motivation_title: "Su Decisión Importa",
+                motivation_intro: "Elegir vacunar es un acto poderoso con beneficios que duran toda la vida y se extienden a toda la comunidad.",
+                motivation_card1_title: "Un Triunfo de la Salud Pública",
+                motivation_card1_desc: "Vacunar a su hijo lo convierte en parte de uno de los mayores logros de salud pública de la historia, manteniendo a raya una enfermedad que alguna vez fue aterradora.",
+                motivation_card2_title: "Terminando la Lucha",
+                motivation_card2_desc: "Mientras la polio exista en cualquier parte del mundo, todos los niños corren riesgo. Su elección ayuda a mantener el muro de inmunidad que protege a nuestro país y apoya el objetivo global de erradicación.",
+                motivation_card3_title: "Un Regalo de una Vida Normal",
+                motivation_card3_desc: "La vacuna contra la polio es un paso simple y seguro que garantiza que su hijo tenga la libertad de caminar, correr y jugar sin el miedo a la parálisis que atormentó a las generaciones anteriores.",
+                references_title: "Referencias de esta Página",
+                footer_desc: "Esta página ofrece un resumen. Para obtener información completa y discutir su salud personal, por favor hable con su proveedor de atención médica.",
+                footer_source: "Información y datos obtenidos de los CDC, la OMS y la Iniciativa de Erradicación Mundial de la Poliomielitis."
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            
+            const t = translations[lang];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const googleCookie = "; " + document.cookie;
+                const parts = googleCookie.split("; googtrans=");
+                if (parts.length == 2) {
+                    const langCode = parts.pop().split(";").shift().split('/')[2];
+                    if (langCode !== 'en') {
+                        const a = document.querySelector("#google_translate_element a");
+                        if (a) a.click();
+                    }
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            // Animated Counters
+            const counters = document.querySelectorAll('[data-count]');
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.count);
+                        let current = 0;
+                        const increment = target / 100;
+                        const interval = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(interval);
+                            }
+                            el.textContent = Math.ceil(current) + '%';
+                        }, 20);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(counter => counterObserver.observe(counter));
+
+            // Hero Canvas Animation
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null };
+
+            function resizeCanvas() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+            canvas.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.color = `rgba(13, 148, 136, ${Math.random() * 0.5 + 0.2})`;
+                }
+                update() {
+                    if (mouse.x !== null) {
+                        let dx = mouse.x - this.x;
+                        let dy = mouse.y - this.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < 100) {
+                            this.x -= dx / 20;
+                            this.y -= dy / 20;
+                        }
+                    }
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                let numberOfParticles = (canvas.width * canvas.height) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animate);
+            }
+            
+            resizeCanvas();
+            initParticles();
+            animate();
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>
