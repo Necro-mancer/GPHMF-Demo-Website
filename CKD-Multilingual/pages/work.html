@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Your Kidneys Work - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            padding: 2rem; 
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Icon Grid Layout Styles */
+        .icon-button {
+            transition: all 0.2s ease-in-out;
+            border: 2px solid transparent;
+        }
+        .icon-button.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            border-color: #3B82F6;
+        }
+        .content-box-info {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <main class="space-y-12">
+            <!-- Anatomy of the Kidney -->
+            <section class="info-card">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="anatomy_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="anatomy_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 items-start">
+                    <div class="md:col-span-1 grid grid-cols-3 md:grid-cols-1 gap-4" id="anatomy-icons"></div>
+                    <div class="md:col-span-2 bg-blue-50 p-6 rounded-lg min-h-[150px]" id="anatomy-info-box"></div>
+                </div>
+            </section>
+
+            <!-- The Filtering Process Section -->
+            <section class="info-card">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="process_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="process_subtitle"></p>
+                <div class="grid md:grid-cols-3 gap-8 items-start">
+                    <div class="md:col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4" id="process-icons"></div>
+                    <div class="md:col-span-2 bg-blue-50 p-6 rounded-lg min-h-[150px]" id="process-info-box"></div>
+                </div>
+            </section>
+
+            <!-- Kidneys by the Numbers -->
+            <section class="info-card">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="numbers_title"></h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center" id="numbers-list"></div>
+            </section>
+
+            <!-- Other Key Functions Section -->
+            <section class="info-card">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="functions_title"></h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="functions-list"></div>
+            </section>
+            
+             <!-- How Kidneys Know What to Do Section -->
+            <section class="info-card bg-blue-50 border-l-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-800 mb-4" data-translate="how_know_title"></h2>
+                <p class="text-gray-700" data-translate="how_know_desc"></p>
+            </section>
+
+            <!-- What Happens When Kidneys Don't Work? -->
+            <section class="info-card bg-red-50 border-l-4 border-red-500">
+                <h2 class="text-2xl font-bold text-red-800 mb-4" data-translate="what_happens_title"></h2>
+                <p class="text-gray-700" data-translate="what_happens_desc"></p>
+            </section>
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "How Your Kidneys Work",
+                header_subtitle: "A closer look at the amazing filtering power and other vital functions of your kidneys.",
+                btn_back: "Back",
+                anatomy_title: "Anatomy of the Kidney",
+                anatomy_subtitle: "Click an icon to learn about the main parts of the kidney.",
+                anatomy_list: [
+                    { name: "Cortex", icon: `<svg class="w-12 h-12 text-red-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.3"/><path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>`, desc: "The renal cortex is the outer layer of the kidney. It has a reddish-brown color and a granular appearance. This is where the initial filtering process begins, as it contains all of the glomeruli." },
+                    { name: "Medulla", icon: `<svg class="w-12 h-12 text-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 22H22L12 2Z" stroke="currentColor" stroke-width="1.5" opacity="0.3"/><path d="M12 10L7 20H17L12 10Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`, desc: "The renal medulla is the innermost part of the kidney. It contains millions of tiny tubules that are responsible for the 'fine-tuning' part of blood cleaning—reabsorbing water and essential substances back into the blood." },
+                    { name: "Pelvis", icon: `<svg class="w-12 h-12 text-blue-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H20L14 12V18L10 21V12L4 4Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`, desc: "The renal pelvis is the funnel-like structure in the center of the kidney. It acts as a collecting basin, gathering the urine produced by the nephrons before it flows out of the kidney and down the ureter to the bladder." }
+                ],
+                process_title: "The Filtering Process: A Step-by-Step Guide",
+                process_subtitle: "Your blood is cleaned inside millions of tiny filters called nephrons. Click an icon to learn how each step works.",
+                process_list: [
+                    { name: "Blood Enters the Nephron", icon: "➡️", desc: "Blood from the body enters each kidney through the renal artery. From there, it flows through smaller and smaller blood vessels until it reaches about one million nephrons in each kidney." },
+                    { name: "Glomerular Filtration", icon: "💧", desc: "Inside the nephron, blood enters a tiny filter called the glomerulus. The pressure pushes water, waste products, and small molecules into a collecting tube, while larger particles like proteins and red blood cells stay in the blood." },
+                    { name: "Tubular Reabsorption & Secretion", icon: "🔧", desc: "The filtered fluid then passes along the tubule. Here, a second, more precise process happens. A blood vessel wrapped around the tubule reabsorbs almost all of the water, along with minerals and nutrients your body needs. At the same time, the tubule secretes additional wastes and excess acid from the blood into the fluid." },
+                    { name: "Urine Formation", icon: "✅", desc: "The newly cleaned, pH-balanced blood with the right amount of water and minerals returns to the body through the renal vein. The remaining fluid and waste products in the tubule become urine, which flows to the bladder to be removed from the body." }
+                ],
+                numbers_title: "Your Kidneys by the Numbers",
+                numbers_list: [
+                    { icon: "✊", value: "Fist-Sized", label: "Size of each kidney" },
+                    { icon: "🔬", value: "1 Million", label: "Nephrons per kidney" },
+                    { icon: "🩸", value: "1/2 Cup", label: "Blood filtered per minute" },
+                    { icon: "🪣", value: "200 Quarts", label: "Fluid filtered every 24 hours" }
+                ],
+                functions_title: "More Than Just a Filter",
+                functions_list: [
+                    { icon: "💧", title: "Remove Wastes & Fluid", desc: "Your kidneys filter about a half cup of blood every minute, removing wastes like urea and extra water to make urine." },
+                    { icon: "🌡️", title: "Control Blood Pressure", desc: "They produce hormones like renin that help regulate blood pressure and manage the body's fluid balance." },
+                    { icon: "🦴", title: "Keep Bones Healthy", desc: "They convert vitamin D into its active form, calcitriol, which is needed for calcium absorption and strong bones." },
+                    { icon: "🩸", title: "Make Red Blood Cells", desc: "They produce the hormone erythropoietin (EPO), which signals the bone marrow to make oxygen-carrying red blood cells." },
+                    { icon: "⚖️", title: "Control pH Levels", desc: "They maintain the delicate acid-base balance in your blood by removing acid and conserving bicarbonate, which is essential for your body to function properly." },
+                    { icon: "⚡", title: "Balance Minerals", desc: "They regulate the levels of important minerals (electrolytes) like sodium, phosphorus, and potassium in your blood." }
+                ],
+                how_know_title: "How Do Kidneys Know What to Do?",
+                how_know_desc: "Your kidneys are incredibly smart. They are part of a complex communication system with the rest of your body. Hormones and sensors constantly provide feedback, telling the kidneys when to hold on to more water if you're dehydrated (via ADH), release more minerals if your levels are low, or produce hormones to raise blood pressure if it drops. This constant adjustment keeps your body in a stable state, known as homeostasis.",
+                what_happens_title: "What Happens When Kidneys Don't Work?",
+                what_happens_desc: "When kidneys fail, these vital functions stop. Wastes build up (uremia), blood pressure rises, the body retains fluid (edema), red blood cell counts drop (anemia), and bones become weak (bone disease). This is why understanding what your kidneys do is the first step to understanding kidney disease.",
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.niddk.nih.gov/health-information/kidney-disease/kidneys-how-they-work" target="_blank" class="text-blue-600 hover:underline">NIDDK</a>.`,
+            },
+            es: {
+                header_title: "Cómo Funcionan Sus Riñones",
+                header_subtitle: "Una mirada más cercana al asombroso poder de filtrado y otras funciones vitales de sus riñones.",
+                btn_back: "Volver",
+                anatomy_title: "Anatomía del Riñón",
+                anatomy_subtitle: "Haga clic en un icono para aprender sobre las partes principales del riñón.",
+                anatomy_list: [
+                    { name: "Corteza", icon: `<svg class="w-12 h-12 text-red-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.3"/><path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>`, desc: "La corteza renal es la capa externa del riñón. Tiene un color marrón rojizo y una apariencia granular. Aquí es donde comienza el proceso de filtrado inicial, ya que contiene todos los glomérulos." },
+                    { name: "Médula", icon: `<svg class="w-12 h-12 text-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 22H22L12 2Z" stroke="currentColor" stroke-width="1.5" opacity="0.3"/><path d="M12 10L7 20H17L12 10Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`, desc: "La médula renal es la parte más interna del riñón. Contiene millones de túbulos diminutos que son responsables del 'ajuste fino' de la limpieza de la sangre, reabsorbiendo agua y sustancias esenciales de vuelta a la sangre." },
+                    { name: "Pelvis", icon: `<svg class="w-12 h-12 text-blue-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H20L14 12V18L10 21V12L4 4Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`, desc: "La pelvis renal es la estructura en forma de embudo en el centro del riñón. Actúa como una cuenca de recolección, recogiendo la orina producida por las nefronas antes de que fluya fuera del riñón y baje por el uréter hasta la vejiga." }
+                ],
+                process_title: "El Proceso de Filtrado: Guía Paso a Paso",
+                process_subtitle: "Su sangre se limpia dentro de millones de filtros diminutos llamados nefronas. Haga clic en un icono para saber cómo funciona cada paso.",
+                process_list: [
+                    { name: "La Sangre Entra a la Nefrona", icon: "➡️", desc: "La sangre del cuerpo entra a cada riñón a través de la arteria renal. Desde allí, fluye a través de vasos sanguíneos cada vez más pequeños hasta llegar a aproximadamente un millón de nefronas en cada riñón." },
+                    { name: "Filtración Glomerular", icon: "💧", desc: "Dentro de la nefrona, la sangre entra en un filtro diminuto llamado glomérulo. La presión empuja el agua, los productos de desecho y las moléculas pequeñas hacia un tubo colector, mientras que las partículas más grandes como las proteínas y los glóbulos rojos permanecen en la sangre." },
+                    { name: "Reabsorción y Secreción Tubular", icon: "🔧", desc: "El líquido filtrado pasa luego por el túbulo. Aquí ocurre un segundo proceso más preciso. Un vaso sanguíneo que envuelve el túbulo reabsorbe casi toda el agua, junto con los minerales y nutrientes que su cuerpo necesita. Al mismo tiempo, el túbulo secreta desechos adicionales y exceso de ácido de la sangre al líquido." },
+                    { name: "Formación de Orina", icon: "✅", desc: "La sangre recién limpiada, con el pH equilibrado y la cantidad correcta de agua y minerales, regresa al cuerpo a través de la vena renal. El líquido y los productos de desecho restantes en el túbulo se convierten en orina, que fluye a la vejiga para ser eliminada del cuerpo." }
+                ],
+                numbers_title: "Sus Riñones en Cifras",
+                numbers_list: [
+                    { icon: "✊", value: "Tamaño de un Puño", label: "Tamaño de cada riñón" },
+                    { icon: "🔬", value: "1 Millón", label: "Nefronas por riñón" },
+                    { icon: "🩸", value: "1/2 Taza", label: "Sangre filtrada por minuto" },
+                    { icon: "🪣", value: "190 Litros", label: "Líquido filtrado cada 24 horas" }
+                ],
+                functions_title: "Más que un Simple Filtro",
+                functions_list: [
+                    { icon: "💧", title: "Eliminar Desechos y Líquido", desc: "Sus riñones filtran aproximadamente media taza de sangre por minuto, eliminando desechos como la urea y exceso de agua para producir orina." },
+                    { icon: "🌡️", title: "Controlar la Presión Arterial", desc: "Producen hormonas como la renina que ayudan a regular la presión arterial y a gestionar el equilibrio de líquidos del cuerpo." },
+                    { icon: "🦴", title: "Mantener los Huesos Sanos", desc: "Convierten la vitamina D en su forma activa, el calcitriol, que es necesario para la absorción de calcio y la fortaleza de los huesos." },
+                    { icon: "🩸", title: "Producir Glóbulos Rojos", desc: "Producen la hormona eritropoyetina (EPO), que le indica a la médula ósea que produzca glóbulos rojos transportadores de oxígeno." },
+                    { icon: "⚖️", title: "Controlar los Niveles de pH", desc: "Mantienen el delicado equilibrio ácido-base en su sangre eliminando ácido y conservando bicarbonato, lo cual es esencial para que su cuerpo funcione correctamente." },
+                    { icon: "⚡", title: "Equilibrar Minerales", desc: "Regulan los niveles de minerales importantes (electrolitos) como el sodio, el fósforo y el potasio en su sangre." }
+                ],
+                how_know_title: "¿Cómo Saben los Riñones Qué Hacer?",
+                how_know_desc: "Sus riñones son increíblemente inteligentes. Forman parte de un complejo sistema de comunicación con el resto de su cuerpo. Las hormonas y los sensores proporcionan retroalimentación constante, indicando a los riñones cuándo retener más agua si está deshidratado (a través de la ADH), liberar más minerales si sus niveles son bajos, o producir hormonas para aumentar la presión arterial si baja. Este ajuste constante mantiene su cuerpo en un estado estable, conocido como homeostasis.",
+                what_happens_title: "¿Qué Pasa Cuando los Riñones No Funcionan?",
+                what_happens_desc: "Cuando los riñones fallan, estas funciones vitales se detienen. Los desechos se acumulan (uremia), la presión arterial aumenta, el cuerpo retiene líquidos (edema), el recuento de glóbulos rojos disminuye (anemia) y los huesos se debilitan (enfermedad ósea). Por eso, entender lo que hacen sus riñones es el primer paso para entender la enfermedad renal.",
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo médico profesional.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada del <a href="https://www.niddk.nih.gov/health-information/kidney-disease/kidneys-how-they-work" target="_blank" class="text-blue-600 hover:underline">NIDDK</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            const numbersList = document.getElementById('numbers-list');
+            numbersList.innerHTML = t.numbers_list.map(item => `<div class="bg-gray-50 p-4 rounded-lg"><p class="text-4xl mb-2">${item.icon}</p><p class="text-2xl font-bold text-blue-600">${item.value}</p><p class="text-sm text-gray-600">${item.label}</p></div>`).join('');
+
+            const functionsList = document.getElementById('functions-list');
+            functionsList.innerHTML = t.functions_list.map(item => `<div class="info-card"><p class="text-3xl mb-2">${item.icon}</p><h3 class="font-bold text-xl mb-2">${item.title}</h3><p class="text-gray-600">${item.desc}</p></div>`).join('');
+
+            renderIconGrid('anatomy-icons', 'anatomy-info-box', t.anatomy_list, t);
+            renderIconGrid('process-icons', 'process-info-box', t.process_list, t);
+        }
+
+        function renderIconGrid(iconsContainerId, infoBoxId, items, t) {
+            const iconsContainer = document.getElementById(iconsContainerId);
+            iconsContainer.innerHTML = items.map((item, index) => `
+                <button class="icon-button p-4 rounded-lg bg-white shadow text-center" data-target="${infoBoxId}" data-index="${index}">
+                    <span class="h-12 w-12 flex items-center justify-center mx-auto">${item.icon}</span>
+                    <span class="block font-semibold mt-2 text-sm">${item.name}</span>
+                </button>
+            `).join('');
+            
+            const infoBox = document.getElementById(infoBoxId);
+            if (items.length > 0) {
+                infoBox.innerHTML = `<div class="content-box-info">
+                    <h4 class="font-bold text-lg text-gray-800">${items[0].name}</h4>
+                    <p class="text-sm text-gray-600 mt-1">${items[0].desc}</p>
+                </div>`;
+                iconsContainer.querySelector('.icon-button')?.classList.add('active');
+            }
+        }
+
+        function setupIconGrids() {
+            document.body.addEventListener('click', function(e) {
+                const button = e.target.closest('.icon-button');
+                if (!button) return;
+
+                const targetBoxId = button.dataset.target;
+                const index = parseInt(button.dataset.index, 10);
+                const t = translations[currentLanguage];
+                let items;
+
+                if (targetBoxId === 'process-info-box') {
+                    items = t.process_list;
+                } else if (targetBoxId === 'anatomy-info-box') {
+                    items = t.anatomy_list;
+                } else {
+                    return;
+                }
+                
+                const infoBox = document.getElementById(targetBoxId);
+                const selectedItem = items[index];
+                
+                infoBox.innerHTML = `<div class="content-box-info">
+                    <h4 class="font-bold text-lg text-gray-800">${selectedItem.name}</h4>
+                    <p class="text-sm text-gray-600 mt-1">${selectedItem.desc}</p>
+                </div>`;
+
+                const parentGrid = button.parentElement;
+                parentGrid.querySelectorAll('.icon-button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        // Language toggle listeners
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial load
+        changeLanguage('en');
+        setupIconGrids();
+    });
+    </script>
+
+</body>
+</html>

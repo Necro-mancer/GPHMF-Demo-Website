@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Chronic Kidney Disease (CKD)</title>
+    <!-- Chosen Palette: Warm Neutrals & Soft Blue -->
+    <!-- Application Structure Plan: A thematic, tabbed single-page application. This structure breaks down the dense report into manageable, user-selectable sections (Learn, Prevent & Detect, Manage, Diet Helper, Advanced Stages, Support). This is more user-friendly than a long scroll, allowing users to directly access information relevant to their current needs (e.g., a newly diagnosed patient explores 'Learn', while a long-term patient uses the 'Diet Helper'). The user flow starts with a welcoming landing page and branches out via a clear top navigation bar, promoting exploration over linear reading. This design prioritizes usability and task-orientation. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: CKD Risk Factors -> Goal: Compare -> Viz: Doughnut Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Quickly visualizes the dominant causes (Diabetes, HBP) versus others.
+        - Report Info: 5 Stages of CKD -> Goal: Organize/Inform -> Viz: Horizontal Bar Chart (Chart.js) -> Interaction: Click on a bar to show detailed text -> Justification: Transforms a static table into an interactive visual, helping users understand the disease progression spectrum.
+        - Report Info: Kidney-Friendly Diet Table -> Goal: Practical Tool -> Viz: Interactive Side-by-Side Lists (HTML/JS) -> Interaction: Click buttons for Sodium/Potassium/Phosphorus to dynamically populate 'Choose' and 'Limit' food lists -> Justification: Creates a highly practical, engaging tool from a static table, which is the "wow factor" of the app.
+        - Report Info: Kidney Functions/Complications -> Goal: Inform/Explain Relationships -> Viz: Styled Cards & Diagrams (HTML/Tailwind) -> Interaction: Click to reveal info -> Justification: Breaks down complex information into digestible, non-intimidating visual chunks.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #3B82F6;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .nav-button:not(.active):hover {
+            background-color: #EFF6FF;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-800 mb-2">Your Guide to Living Well with CKD</h1>
+            <p class="text-lg text-gray-600">An interactive resource to help you understand and manage Chronic Kidney Disease.</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+            <button data-target="learn" class="nav-button active font-semibold py-2 px-4 rounded-full text-sm md:text-base">🧠 Learn About CKD</button>
+            <button data-target="prevent" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base">🛡️ Prevent & Detect</button>
+            <button data-target="manage" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base">💪 Manage Your Health</button>
+            <button data-target="diet" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base">🥗 Diet Helper</button>
+            <button data-target="advanced" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base">🩺 Advanced Stages</button>
+            <button data-target="support" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base">❤️ Support</button>
+        </nav>
+
+        <main id="main-content">
+            <section id="learn" class="content-section active bg-white p-6 rounded-2xl shadow-sm">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Understanding Your Kidneys & CKD</h2>
+                <p class="mb-6 text-gray-700">This section helps you understand the vital role your kidneys play and what happens when they are affected by Chronic Kidney Disease (CKD). We'll cover the basics of kidney function, explain what CKD is in simple terms, and describe how this condition develops over time, often without early symptoms.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Your Body's Hardest Workers</h3>
+                        <p class="mb-4">Your two bean-shaped kidneys are powerful filters. Every day, they clean about 37 gallons of blood, removing waste and extra water to make urine. But they do much more:</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Control Blood Pressure:</strong> By managing fluid levels.</span></li>
+                            <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Make Red Blood Cells:</strong> By producing a key hormone.</span></li>
+                            <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Keep Bones Healthy:</strong> By activating Vitamin D.</span></li>
+                            <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Balance Minerals:</strong> Like salt, potassium, and calcium.</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-3">What is CKD?</h3>
+                        <p>Chronic Kidney Disease (CKD) means your kidneys are damaged and can't filter blood as well as they should. This damage happens slowly over at least three months. Because the damage is gradual, waste can build up in your body, leading to other health problems like heart disease. Worryingly, about 90% of people with CKD don't even know they have it because early symptoms are rare.</p>
+                    </div>
+                </div>
+
+                 <hr class="my-8">
+
+                <h3 class="text-2xl font-semibold mb-4 text-center">Who is at Risk for CKD?</h3>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-3">The "Big Two" Causes</h4>
+                        <p class="mb-4">The vast majority of CKD cases are caused by two common conditions:</p>
+                        <p class="mb-2"><strong>1. Diabetes:</strong> High blood sugar makes kidneys work too hard, damaging their filters over time. About 1 in 3 adults with diabetes has CKD.</p>
+                        <p><strong>2. High Blood Pressure:</strong> This weakens and scars the small blood vessels in the kidneys, making them less effective. About 1 in 5 adults with high blood pressure has CKD.</p>
+                        <h4 class="text-xl font-semibold mt-6 mb-3">Other Key Risk Factors</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Heart disease or heart failure</li>
+                            <li>Age (risk increases after 40)</li>
+                            <li>Obesity</li>
+                            <li>A family history of kidney failure</li>
+                            <li>Smoking</li>
+                            <li>Certain ethnicities (African American, Hispanic/Latino, American Indian)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-center text-gray-600 mb-2">Primary Causes of CKD</p>
+                        <div class="chart-container">
+                            <canvas id="riskFactorsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="prevent" class="content-section bg-white p-6 rounded-2xl shadow-sm">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Prevention and Detection</h2>
+                <p class="mb-6 text-gray-700">Discover the powerful steps you can take to protect your kidneys and learn about the simple tests used to detect CKD early. This section provides an action plan for kidney health, explains how we diagnose the condition, and features an interactive chart to help you understand the stages of CKD.</p>
+                <h3 class="text-2xl font-semibold mb-4">Your Action Plan for Kidney Health</h3>
+                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg"><strong>Manage Blood Sugar & Pressure:</strong> The most important step if you have diabetes or hypertension.</div>
+                    <div class="bg-green-50 p-4 rounded-lg"><strong>Eat a Healthy Diet:</strong> Focus on reducing salt (sodium) to less than 2,300 mg/day.</div>
+                    <div class="bg-green-50 p-4 rounded-lg"><strong>Stay Active:</strong> Aim for 30 minutes of activity most days.</div>
+                    <div class="bg-green-50 p-4 rounded-lg"><strong>Maintain a Healthy Weight:</strong> Reduces the burden on your kidneys.</div>
+                    <div class="bg-green-50 p-4 rounded-lg"><strong>Quit Smoking & Limit Alcohol:</strong> Crucial for kidney and overall health.</div>
+                    <div class="bg-green-50 p-4 rounded-lg"><strong>Be Smart with Painkillers:</strong> Avoid frequent, long-term use of NSAIDs (like ibuprofen).</div>
+                </div>
+
+                <hr class="my-8">
+
+                <h3 class="text-2xl font-semibold mb-4">How We Detect CKD</h3>
+                <p class="mb-4">Because early CKD is silent, we rely on two simple tests:</p>
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h4 class="font-bold">1. eGFR Blood Test</h4>
+                        <p>The estimated Glomerular Filtration Rate (eGFR) measures how well your kidneys are filtering waste from your blood. <strong>A higher number is better.</strong> An eGFR below 60 for 3+ months suggests CKD.</p>
+                    </div>
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h4 class="font-bold">2. uACR Urine Test</h4>
+                        <p>The urine albumin-to-creatinine ratio (uACR) checks for a protein called albumin in your urine. Healthy kidneys keep this protein in the blood. Its presence in urine is an early sign of damage. A uACR over 30 mg/g is a concern.</p>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-semibold text-center mb-4">Interactive Guide to the 5 Stages of CKD</h3>
+                <p class="text-center text-gray-600 mb-4">CKD is divided into 5 stages based on your eGFR score. Click on a stage in the chart below to learn more about it. The goal at every stage is to slow down the damage and preserve kidney function.</p>
+                <div class="grid lg:grid-cols-2 gap-8 items-center">
+                    <div class="chart-container h-96">
+                        <canvas id="ckdStagesChart"></canvas>
+                    </div>
+                    <div id="stage-info" class="bg-blue-50 p-6 rounded-lg min-h-[300px]">
+                        <h4 id="stage-title" class="text-xl font-bold mb-2">Stage 1</h4>
+                        <p id="stage-egfr" class="font-semibold text-gray-700 mb-2">eGFR: 90 or higher</p>
+                        <p id="stage-description" class="text-gray-800">Normal kidney function, but other signs of kidney damage are present, such as protein in the urine.</p>
+                    </div>
+                </div>
+
+            </section>
+            
+            <section id="manage" class="content-section bg-white p-6 rounded-2xl shadow-sm">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Managing Your Health with CKD</h2>
+                <p class="mb-6 text-gray-700">A CKD diagnosis is serious, but you can actively manage it. This section focuses on the pillars of management: medications that protect your kidneys and understanding the common complications that can arise from CKD, such as anemia and bone disease. This knowledge empowers you to understand the "why" behind your treatment plan.</p>
+                
+                <h3 class="text-2xl font-semibold mb-4">Medications That Protect Your Kidneys</h3>
+                <div class="space-y-4">
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold">ACE inhibitors & ARBs</h4>
+                        <p>These blood pressure drugs have a special protective effect on the kidneys and are often used even if your blood pressure is normal.</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold">SGLT2 inhibitors & nsMRAs</h4>
+                        <p>Newer classes of drugs proven to slow CKD progression and reduce heart risks.</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold">Statins</h4>
+                        <p>These lower cholesterol to reduce the high risk of heart attack or stroke associated with CKD.</p>
+                    </div>
+                     <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold">Diuretics ("Water Pills")</h4>
+                        <p>Help your body get rid of extra salt and water to control blood pressure and swelling.</p>
+                    </div>
+                </div>
+
+                <hr class="my-8">
+                
+                <h3 class="text-2xl font-semibold mb-4 text-center">Navigating Complications</h3>
+                <p class="text-center text-gray-600 mb-6">Because kidneys are connected to so many body systems, CKD can cause other issues. Understanding these connections helps you see the bigger picture of your health.</p>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="border-t-4 border-red-500 bg-red-50 p-4 rounded-b-lg">
+                        <h4 class="text-xl font-bold mb-2">❤️ The Kidney-Heart Connection</h4>
+                        <p>CKD significantly increases your risk for heart disease. This is the #1 cause of death for people with CKD due to shared risk factors and the extra strain on the heart from fluid and waste buildup.</p>
+                    </div>
+                    <div class="border-t-4 border-yellow-500 bg-yellow-50 p-4 rounded-b-lg">
+                        <h4 class="text-xl font-bold mb-2">😴 Feeling Tired? Understanding Anemia</h4>
+                        <p>Damaged kidneys produce less of a hormone needed to make red blood cells, leading to anemia. This causes the persistent fatigue many people with CKD experience.</p>
+                    </div>
+                    <div class="border-t-4 border-purple-500 bg-purple-50 p-4 rounded-b-lg">
+                        <h4 class="text-xl font-bold mb-2">🦴 Keeping Bones Strong</h4>
+                        <p>CKD disrupts the balance of calcium and phosphorus in your blood. Your body may pull calcium from your bones, making them weak and brittle over time (Mineral and Bone Disorder).</p>
+                    </div>
+                </div>
+                 <div class="mt-6 bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-center">Other Potential Challenges</h4>
+                    <p class="text-center text-gray-700">Fluid retention (swelling), dry/itchy skin, poor appetite, and muscle cramps are also common symptoms as waste products build up.</p>
+                </div>
+            </section>
+            
+            <section id="diet" class="content-section bg-white p-6 rounded-2xl shadow-sm">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Interactive Kidney-Friendly Diet Helper</h2>
+                <p class="mb-6 text-gray-700">Nutrition is a cornerstone of managing CKD. A kidney-friendly diet reduces the workload on your kidneys. This can feel complex, so we've created this simple tool. Click on a nutrient to see which foods to choose and which to limit. Always work with a registered dietitian to create a plan that's right for you.</p>
+                
+                <div class="flex justify-center gap-3 mb-6">
+                    <button class="diet-button bg-red-500 text-white font-bold py-2 px-5 rounded-full" data-nutrient="sodium">Sodium</button>
+                    <button class="diet-button bg-yellow-500 text-white font-bold py-2 px-5 rounded-full" data-nutrient="potassium">Potassium</button>
+                    <button class="diet-button bg-purple-500 text-white font-bold py-2 px-5 rounded-full" data-nutrient="phosphorus">Phosphorus</button>
+                </div>
+
+                <div id="diet-info-container" class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-green-100 p-4 rounded-lg">
+                        <h3 id="choose-title" class="text-2xl font-semibold text-green-800 mb-3">✅ Choose These</h3>
+                        <ul id="choose-list" class="space-y-2 text-green-900">
+                           <li>Click a nutrient button above to start.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-100 p-4 rounded-lg">
+                        <h3 id="limit-title" class="text-2xl font-semibold text-red-800 mb-3">❌ Limit or Avoid These</h3>
+                        <ul id="limit-list" class="space-y-2 text-red-900">
+                             <li>Click a nutrient button above to start.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 bg-blue-50 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2">A Note on Protein</h4>
+                    <p>Protein is essential, but processing it creates waste that damaged kidneys struggle to filter. Your doctor or dietitian may recommend adjusting your protein intake, especially in later stages of CKD, to reduce the burden on your kidneys.</p>
+                </div>
+            </section>
+
+            <section id="advanced" class="content-section bg-white p-6 rounded-2xl shadow-sm">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Advanced CKD and Kidney Failure (ESRD)</h2>
+                <p class="mb-6 text-gray-700">When kidney function declines to a critical level (Stage 5), it is called kidney failure or End-Stage Renal Disease (ESRD). At this point, a treatment is needed to replace the work of the kidneys to sustain life. This section explains the primary treatment options: dialysis and kidney transplant.</p>
+
+                <div class="space-y-6">
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-2">Dialysis: A Life-Sustaining Treatment</h3>
+                        <p class="mb-4">Dialysis is a procedure that takes over the filtering work of your kidneys. There are two main types:</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold text-lg">1. Hemodialysis (HD)</h4>
+                                <p>Uses a machine with an "artificial kidney" to clean your blood. It's usually done at a clinic 3 times a week for about 4 hours.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">2. Peritoneal Dialysis (PD)</h4>
+                                <p>Uses the lining of your own abdomen as a natural filter. It's typically done daily at home, often while you sleep.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-2">Kidney Transplant: The Gift of a New Beginning</h3>
+                        <p>A transplant is a surgery to place a healthy kidney from a donor into your body. For many, this is the preferred treatment as it offers the closest thing to a normal life. However, it is a major surgery and requires taking anti-rejection medications for life to protect the new kidney.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="support" class="content-section bg-white p-6 rounded-2xl shadow-sm">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Finding Support and Hope</h2>
+                 <p class="mb-6 text-gray-700">The journey with CKD is both physical and emotional. It's okay to feel overwhelmed. Remember, you are not alone, and a full, meaningful life is possible. This section provides inspiring words from fellow patients and links to reputable organizations that offer help and resources.</p>
+                
+                <div class="mb-8 p-6 bg-yellow-50 border-l-4 border-yellow-400">
+                     <p class="text-lg italic text-gray-800">“My journey so far has taught me that kidney disease is part of my life, but kidney disease does not define my life.”</p>
+                     <p class="text-right font-semibold">- A person living with CKD</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mb-4">You Don't Have to Do This Alone</h3>
+                <p class="mb-4">These organizations offer a wealth of information, financial assistance, and peer support programs:</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <a href="https://www.kidney.org/" target="_blank" class="block p-4 bg-blue-100 hover:bg-blue-200 rounded-lg transition">
+                        <h4 class="font-bold">National Kidney Foundation (NKF)</h4>
+                        <p class="text-sm">Patient resources, recipes, and a helpline: 855-NKF-CARES.</p>
+                    </a>
+                    <a href="https://www.kidneyfund.org/" target="_blank" class="block p-4 bg-blue-100 hover:bg-blue-200 rounded-lg transition">
+                        <h4 class="font-bold">American Kidney Fund (AKF)</h4>
+                        <p class="text-sm">Financial assistance and health education.</p>
+                    </a>
+                    <a href="https://www.niddk.nih.gov/health-information/kidney-disease" target="_blank" class="block p-4 bg-blue-100 hover:bg-blue-200 rounded-lg transition">
+                        <h4 class="font-bold">NIDDK</h4>
+                        <p class="text-sm">Reliable, evidence-based info from the NIH.</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const mainContent = document.getElementById('main-content');
+    const navButtons = document.querySelectorAll('.nav-button');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    const ckdStageData = [
+        { stage: 'Stage 1', egfr: '90 or higher', description: 'Normal kidney function, but other signs of kidney damage are present, such as protein in the urine.' },
+        { stage: 'Stage 2', egfr: '60-89', description: 'Mildly reduced kidney function, with other signs of kidney damage present.' },
+        { stage: 'Stage 3a', egfr: '45-59', description: 'Moderately reduced kidney function.' },
+        { stage: 'Stage 3b', egfr: '30-44', description: 'Moderately reduced kidney function. Complications like anemia and bone disease may begin to appear.' },
+        { stage: 'Stage 4', egfr: '15-29', description: 'Severely reduced kidney function. This is the last stage before kidney failure, and preparation for dialysis or a transplant may begin.' },
+        { stage: 'Stage 5', egfr: 'Less than 15', description: 'Kidney failure, also known as End-Stage Renal Disease (ESRD). Dialysis or a kidney transplant is necessary to sustain life.' }
+    ];
+
+    const dietData = {
+        sodium: {
+            choose: ['Fresh or frozen foods', 'Herbs and spices for flavor', 'Unsalted snacks', 'Home-cooked meals'],
+            limit: ['Processed foods (canned soups, frozen dinners, deli meats)', 'Fast food', 'Table salt', 'Salty snacks', 'Cheese']
+        },
+        potassium: {
+            choose: ['Apples, berries, grapes, pineapple', 'Cabbage, cauliflower, green beans', 'White bread, white rice', 'Lean beef and chicken'],
+            limit: ['Oranges, bananas, melons', 'Potatoes, tomatoes, spinach, avocados', 'Brown rice, whole-wheat bread', 'Beans, nuts', 'Salt substitutes']
+        },
+        phosphorus: {
+            choose: ['Fresh fruits and vegetables', 'White bread (French, Italian)', 'Corn or rice cereals', 'Unsalted popcorn', 'Light-colored sodas'],
+            limit: ['Dairy products (milk, cheese, yogurt)', 'Nuts and seeds, beans', 'Whole-grain breads, oatmeal', 'Dark-colored colas', 'Processed meats with "PHOS" additives']
+        }
+    };
+
+    function setActiveSection(targetId) {
+        navButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.target === targetId);
+        });
+        contentSections.forEach(section => {
+            section.classList.toggle('active', section.id === targetId);
+        });
+    }
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            setActiveSection(button.dataset.target);
+        });
+    });
+
+    function createRiskFactorsChart() {
+        const ctx = document.getElementById('riskFactorsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Diabetes', 'High Blood Pressure', 'Other Causes'],
+                datasets: [{
+                    data: [33, 20, 47],
+                    backgroundColor: ['#3B82F6', '#F59E0B', '#9CA3AF'],
+                    borderColor: '#FDFBF8',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ~${context.raw}% of cases`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function createCkdStagesChart() {
+        const stageInfo = {
+            title: document.getElementById('stage-title'),
+            egfr: document.getElementById('stage-egfr'),
+            description: document.getElementById('stage-description')
+        };
+
+        const ctx = document.getElementById('ckdStagesChart').getContext('2d');
+        const stagesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ckdStageData.map(d => `${d.stage} (eGFR: ${d.egfr})`),
+                datasets: [{
+                    label: 'Kidney Function Level',
+                    data: [100, 75, 52, 37, 22, 10], 
+                    backgroundColor: [
+                        '#4ADE80', // green
+                        '#A3E635', // lime
+                        '#FACC15', // yellow
+                        '#FB923C', // orange
+                        '#F87171', // red
+                        '#EF4444'  // dark red
+                    ],
+                    borderColor: '#FDFBF8',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                 scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                         ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        title: {
+                           display: true,
+                           text: 'Approximate Kidney Function'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            autoSkip: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                         enabled: false
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const data = ckdStageData[index];
+                        stageInfo.title.textContent = data.stage;
+                        stageInfo.egfr.textContent = `eGFR: ${data.egfr}`;
+                        stageInfo.description.textContent = data.description;
+                    }
+                }
+            }
+        });
+    }
+    
+    function setupDietHelper() {
+        const buttons = document.querySelectorAll('.diet-button');
+        const chooseList = document.getElementById('choose-list');
+        const limitList = document.getElementById('limit-list');
+        const chooseTitle = document.getElementById('choose-title');
+        const limitTitle = document.getElementById('limit-title');
+
+        function updateLists(nutrient) {
+            const data = dietData[nutrient];
+            chooseTitle.textContent = `✅ Choose These (Low in ${nutrient.charAt(0).toUpperCase() + nutrient.slice(1)})`;
+            limitTitle.textContent = `❌ Limit These (High in ${nutrient.charAt(0).toUpperCase() + nutrient.slice(1)})`;
+
+            chooseList.innerHTML = data.choose.map(item => `<li>${item}</li>`).join('');
+            limitList.innerHTML = data.limit.map(item => `<li>${item}</li>`).join('');
+        }
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const nutrient = button.dataset.nutrient;
+                updateLists(nutrient);
+            });
+        });
+        
+        updateLists('sodium'); 
+    }
+
+    createRiskFactorsChart();
+    createCkdStagesChart();
+    setupDietHelper();
+
+});
+</script>
+
+</body>
+</html>

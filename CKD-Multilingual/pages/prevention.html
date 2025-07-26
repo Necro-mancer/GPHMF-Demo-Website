@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Prevent Kidney Disease - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Interactive Pillar Styles */
+        .pillar-button {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .pillar-button.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            border-color: #3B82F6;
+        }
+        .pillar-info {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .pillar-info.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Risk Checklist Explanation Style - LAYOUT FIX */
+        .risk-explanation {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, margin-top 0.5s ease-in-out, padding 0.5s ease-in-out;
+            background-color: #f0f9ff;
+            border-left: 4px solid #38bdf8;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        .risk-explanation.visible {
+            max-height: 150px; /* Increased max-height */
+            margin-top: 0.5rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <!-- 6 Pillars of Prevention Section -->
+            <section class="mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="pillars_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="pillars_subtitle"></p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-center mb-8">
+                    <button class="pillar-button p-4 rounded-lg bg-white shadow" data-pillar="1"><span class="text-4xl">🩺</span><span class="block font-semibold mt-2" data-translate="pillar1_button"></span></button>
+                    <button class="pillar-button p-4 rounded-lg bg-white shadow" data-pillar="2"><span class="text-4xl">🩸</span><span class="block font-semibold mt-2" data-translate="pillar2_button"></span></button>
+                    <button class="pillar-button p-4 rounded-lg bg-white shadow" data-pillar="3"><span class="text-4xl">❤️</span><span class="block font-semibold mt-2" data-translate="pillar3_button"></span></button>
+                    <button class="pillar-button p-4 rounded-lg bg-white shadow" data-pillar="4"><span class="text-4xl">🧂</span><span class="block font-semibold mt-2" data-translate="pillar4_button"></span></button>
+                    <button class="pillar-button p-4 rounded-lg bg-white shadow" data-pillar="5"><span class="text-4xl">💊</span><span class="block font-semibold mt-2" data-translate="pillar5_button"></span></button>
+                    <button class="pillar-button p-4 rounded-lg bg-white shadow" data-pillar="6"><span class="text-4xl">🥗</span><span class="block font-semibold mt-2" data-translate="pillar6_button"></span></button>
+                </div>
+
+                <div class="info-card bg-blue-50 min-h-[200px]">
+                    <div id="pillar-1-info" class="pillar-info"></div>
+                    <div id="pillar-2-info" class="pillar-info"></div>
+                    <div id="pillar-3-info" class="pillar-info"></div>
+                    <div id="pillar-4-info" class="pillar-info"></div>
+                    <div id="pillar-5-info" class="pillar-info"></div>
+                    <div id="pillar-6-info" class="pillar-info"></div>
+                </div>
+            </section>
+
+             <!-- Golden Rules Section - NEW -->
+            <section class="info-card mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="golden_rules_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="golden_rules_subtitle"></p>
+                <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">1.</span><div data-translate="rule1"></div></div>
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">2.</span><div data-translate="rule2"></div></div>
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">3.</span><div data-translate="rule3"></div></div>
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">4.</span><div data-translate="rule4"></div></div>
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">5.</span><div data-translate="rule5"></div></div>
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">6.</span><div data-translate="rule6"></div></div>
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">7.</span><div data-translate="rule7"></div></div>
+                    <div class="flex items-start"><span class="text-blue-500 font-bold text-xl mr-3">8.</span><div data-translate="rule8"></div></div>
+                </div>
+            </section>
+
+            <!-- Risk Factor Checklist Section -->
+            <section class="info-card mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="checklist_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="checklist_subtitle"></p>
+                <div class="max-w-lg mx-auto">
+                    <div class="space-y-2">
+                        <div>
+                            <label class="flex items-center p-4 bg-gray-50 rounded-lg cursor-pointer"><input type="checkbox" data-risk="1" class="risk-checkbox h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span class="ml-3 text-gray-700" data-translate="risk1"></span></label>
+                            <div id="risk-1-exp" class="risk-explanation text-sm" data-translate="risk1_exp"></div>
+                        </div>
+                        <div>
+                            <label class="flex items-center p-4 bg-gray-50 rounded-lg cursor-pointer"><input type="checkbox" data-risk="2" class="risk-checkbox h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span class="ml-3 text-gray-700" data-translate="risk2"></span></label>
+                            <div id="risk-2-exp" class="risk-explanation text-sm" data-translate="risk2_exp"></div>
+                        </div>
+                        <div>
+                            <label class="flex items-center p-4 bg-gray-50 rounded-lg cursor-pointer"><input type="checkbox" data-risk="3" class="risk-checkbox h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span class="ml-3 text-gray-700" data-translate="risk3"></span></label>
+                             <div id="risk-3-exp" class="risk-explanation text-sm" data-translate="risk3_exp"></div>
+                        </div>
+                         <div>
+                            <label class="flex items-center p-4 bg-gray-50 rounded-lg cursor-pointer"><input type="checkbox" data-risk="4" class="risk-checkbox h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span class="ml-3 text-gray-700" data-translate="risk4"></span></label>
+                            <div id="risk-4-exp" class="risk-explanation text-sm" data-translate="risk4_exp"></div>
+                        </div>
+                         <div>
+                            <label class="flex items-center p-4 bg-gray-50 rounded-lg cursor-pointer"><input type="checkbox" data-risk="5" class="risk-checkbox h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span class="ml-3 text-gray-700" data-translate="risk5"></span></label>
+                            <div id="risk-5-exp" class="risk-explanation text-sm" data-translate="risk5_exp"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- What to Ask Your Doctor Section -->
+            <section class="info-card">
+                 <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="ask_doctor_title"></h2>
+                 <p class="text-center text-gray-600 mb-8" data-translate="ask_doctor_subtitle"></p>
+                 <div class="max-w-lg mx-auto">
+                    <ul class="space-y-3 list-disc list-inside text-gray-700">
+                        <li data-translate="ask_doctor_q1"></li>
+                        <li data-translate="ask_doctor_q2"></li>
+                        <li data-translate="ask_doctor_q3"></li>
+                        <li data-translate="ask_doctor_q4"></li>
+                    </ul>
+                 </div>
+            </section>
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "Protecting Your Kidneys",
+                header_subtitle: "Learn the key steps you can take to keep your kidneys healthy for life.",
+                btn_back: "Back",
+                pillars_title: "The 6 Pillars of Kidney Health",
+                pillars_subtitle: "Click on each pillar to learn more about these essential prevention strategies.",
+                pillar1_button: "Get Tested",
+                pillar2_button: "Manage Blood Sugar",
+                pillar3_button: "Manage Blood Pressure",
+                pillar4_button: "Reduce Salt",
+                pillar5_button: "Avoid NSAIDs",
+                pillar6_button: "Healthy Lifestyle",
+                pillar1_title: "Get Tested Regularly",
+                pillar1_desc: "If you are at risk, regular testing is key. Simple urine and blood tests can detect kidney disease early, when it's most treatable.<ul><li class='mt-2'><strong>ACR (Albumin-to-Creatinine Ratio):</strong> A urine test to see if you have a type of protein (albumin) in your urine, an early sign of kidney damage.</li><li><strong>eGFR (estimated Glomerular Filtration Rate):</strong> A blood test that measures how well your kidneys are filtering wastes.</li></ul>",
+                pillar2_title: "Control Blood Sugar",
+                pillar2_desc: "Diabetes is a leading cause of kidney failure. High blood sugar forces kidneys to filter too much blood, which wears them out over time.<ul><li class='mt-2'>Work with your doctor to keep your blood sugar in your target range.</li><li>Regularly monitor your levels as advised by your healthcare team.</li></ul>",
+                pillar3_title: "Control Blood Pressure",
+                pillar3_desc: "High blood pressure can constrict and narrow the blood vessels in the kidneys, which damages and weakens them.<ul><li class='mt-2'>A blood pressure goal for most people is below 140/90 mm Hg. Your doctor will tell you your specific goal.</li><li>Medication, a low-sodium diet, and exercise can help manage it.</li></ul>",
+                pillar4_title: "Reduce Salt Intake",
+                pillar4_desc: "Eating less salt (sodium) helps control blood pressure. Aim for less than 2,300 milligrams (mg) per day.<ul><li class='mt-2'>Read food labels to check sodium content.</li><li>Avoid high-sodium foods like processed meats, canned soups, frozen dinners, and fast food.</li><li>Flavor food with herbs and spices instead of salt.</li></ul>",
+                pillar5_title: "Use Painkillers Wisely",
+                pillar5_desc: "Frequent, long-term use of Non-Steroidal Anti-Inflammatory Drugs (NSAIDs) can reduce blood flow to the kidneys and cause harm.<ul><li class='mt-2'>Common NSAIDs include ibuprofen and naproxen.</li><li>If you need regular pain relief, ask your doctor about kidney-safe alternatives like acetaminophen.</li></ul>",
+                pillar6_title: "Live a Healthy Lifestyle",
+                pillar6_desc: "These habits benefit your entire body, including your kidneys.<ul><li class='mt-2'><strong>Diet:</strong> Focus on fresh fruits, vegetables, whole grains, and lean proteins.</li><li><strong>Exercise:</strong> Aim for at least 30 minutes of moderate activity most days of the week.</li><li><strong>Quit Smoking:</strong> Smoking damages blood vessels, which decreases blood flow to the kidneys.</li></ul>",
+                golden_rules_title: "8 Golden Rules of Prevention",
+                golden_rules_subtitle: "A quick summary of the most important actions you can take for your kidney health.",
+                rule1: "Keep fit and active.",
+                rule2: "Keep regular control of your blood sugar level.",
+                rule3: "Monitor your blood pressure.",
+                rule4: "Eat healthy and keep your weight in check.",
+                rule5: "Drink plenty of fluids.",
+                rule6: "Do not smoke.",
+                rule7: "Do not take over-the-counter anti-inflammatory/pain-killer pills regularly.",
+                rule8: "Get your kidney function checked if you have one or more of the 'high risk' factors.",
+                checklist_title: "Are You at Risk?",
+                checklist_subtitle: "If you check one or more of these boxes, talk to your doctor about getting tested for kidney disease.",
+                risk1: "I have diabetes.",
+                risk1_exp: "<strong>Why it matters:</strong> High blood sugar makes kidneys work harder and can damage their filters.",
+                risk2: "I have high blood pressure.",
+                risk2_exp: "<strong>Why it matters:</strong> High blood pressure wears down the small blood vessels in the kidneys.",
+                risk3: "I have heart disease.",
+                risk3_exp: "<strong>Why it matters:</strong> The heart and kidneys are connected. If one is struggling, it puts stress on the other.",
+                risk4: "I have a family history of kidney failure.",
+                risk4_exp: "<strong>Why it matters:</strong> Some kidney diseases can run in families.",
+                risk5: "I am overweight.",
+                risk5_exp: "<strong>Why it matters:</strong> Obesity increases the risk of developing diabetes and high blood pressure, the two main causes of kidney disease.",
+                ask_doctor_title: "What to Ask Your Doctor",
+                ask_doctor_subtitle: "Take these questions to your next appointment to start a conversation about your kidney health.",
+                ask_doctor_q1: "What is my glomerular filtration rate (eGFR)?",
+                ask_doctor_q2: "What is my urine albumin-to-creatinine ratio (ACR)?",
+                ask_doctor_q3: "What should my blood pressure be?",
+                ask_doctor_q4: "Are any of my current medications potentially harmful to my kidneys?",
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.kidney.org/prevention" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            },
+            es: {
+                header_title: "Protegiendo Sus Riñones",
+                header_subtitle: "Aprenda los pasos clave que puede tomar para mantener sus riñones sanos de por vida.",
+                btn_back: "Volver",
+                pillars_title: "Los 6 Pilares de la Salud Renal",
+                pillars_subtitle: "Haga clic en cada pilar para aprender más sobre estas estrategias de prevención esenciales.",
+                pillar1_button: "Hágase la Prueba",
+                pillar2_button: "Controle el Azúcar",
+                pillar3_button: "Controle la Presión",
+                pillar4_button: "Reduzca la Sal",
+                pillar5_button: "Evite los AINE",
+                pillar6_button: "Estilo de Vida Saludable",
+                pillar1_title: "Hágase Pruebas Regularmente",
+                pillar1_desc: "Si está en riesgo, las pruebas regulares son clave. Un simple análisis de orina y de sangre pueden detectar la enfermedad renal temprano.<ul><li class='mt-2'><strong>ACR (Cociente Albúmina-Creatinina):</strong> Un análisis de orina para ver si tiene una proteína (albúmina) en la orina, un signo temprano de daño renal.</li><li><strong>eGFR (Tasa de Filtración Glomerular estimada):</strong> Un análisis de sangre que mide qué tan bien sus riñones filtran los desechos.</li></ul>",
+                pillar2_title: "Controle el Azúcar en la Sangre",
+                pillar2_desc: "La diabetes es una de las principales causas de insuficiencia renal. El nivel alto de azúcar en la sangre obliga a los riñones a filtrar demasiada sangre, lo que los desgasta con el tiempo.<ul><li class='mt-2'>Trabaje con su médico para mantener el azúcar en la sangre en su rango objetivo.</li><li>Controle sus niveles regularmente según las indicaciones de su equipo de atención médica.</li></ul>",
+                pillar3_title: "Controle la Presión Arterial",
+                pillar3_desc: "La presión arterial alta puede contraer y estrechar los vasos sanguíneos de los riñones, lo que los daña y debilita.<ul><li class='mt-2'>Un objetivo de presión arterial para la mayoría de las personas es inferior a 140/90 mm Hg. Su médico le indicará su objetivo específico.</li><li>La medicación, una dieta baja en sodio y el ejercicio pueden ayudar a controlarla.</li></ul>",
+                pillar4_title: "Reduzca el Consumo de Sal",
+                pillar4_desc: "Comer menos sal (sodio) ayuda a controlar la presión arterial. Apunte a menos de 2,300 miligramos (mg) por día.<ul><li class='mt-2'>Lea las etiquetas de los alimentos para verificar el contenido de sodio.</li><li>Evite los alimentos con alto contenido de sodio como carnes procesadas, sopas enlatadas, cenas congeladas y comida rápida.</li><li>Sazone la comida con hierbas y especias en lugar de sal.</li></ul>",
+                pillar5_title: "Use los Analgésicos con Prudencia",
+                pillar5_desc: "El uso frecuente y a largo plazo de antiinflamatorios no esteroideos (AINE) puede reducir el flujo sanguíneo a los riñones y causar daño.<ul><li class='mt-2'>Los AINE comunes incluyen ibuprofeno y naproxeno.</li><li>Si necesita alivio del dolor regularmente, pregúntele a su médico sobre alternativas seguras para los riñones como el paracetamol.</li></ul>",
+                pillar6_title: "Lleve un Estilo de Vida Saludable",
+                pillar6_desc: "Estos hábitos benefician a todo su cuerpo, incluidos sus riñones.<ul><li class='mt-2'><strong>Dieta:</strong> Concéntrese en frutas frescas, verduras, granos integrales y proteínas magras.</li><li><strong>Ejercicio:</strong> Trate de hacer al menos 30 minutos de actividad moderada la mayoría de los días de la semana.</li><li><strong>Deje de Fumar:</strong> Fumar daña los vasos sanguíneos, lo que disminuye el flujo de sangre a los riñones.</li></ul>",
+                golden_rules_title: "8 Reglas de Oro de la Prevención",
+                golden_rules_subtitle: "Un resumen rápido de las acciones más importantes que puede tomar para la salud de sus riñones.",
+                rule1: "Manténgase en forma y activo.",
+                rule2: "Mantenga un control regular de su nivel de azúcar en la sangre.",
+                rule3: "Controle su presión arterial.",
+                rule4: "Coma sano y mantenga su peso bajo control.",
+                rule5: "Beba muchos líquidos.",
+                rule6: "No fume.",
+                rule7: "No tome pastillas antiinflamatorias/analgésicas de venta libre con regularidad.",
+                rule8: "Hágase una revisión de la función renal si tiene uno o más de los factores de 'alto riesgo'.",
+                checklist_title: "¿Está en Riesgo?",
+                checklist_subtitle: "Si marca una o más de estas casillas, hable con su médico sobre la posibilidad de hacerse una prueba de enfermedad renal.",
+                risk1: "Tengo diabetes.",
+                risk1_exp: "<strong>Por qué importa:</strong> El nivel alto de azúcar en la sangre hace que los riñones trabajen más y puede dañar sus filtros.",
+                risk2: "Tengo presión arterial alta.",
+                risk2_exp: "<strong>Por qué importa:</strong> La presión arterial alta desgasta los pequeños vasos sanguíneos de los riñones.",
+                risk3: "Tengo una enfermedad cardíaca.",
+                risk3_exp: "<strong>Por qué importa:</strong> El corazón y los riñones están conectados. Si uno tiene problemas, ejerce presión sobre el otro.",
+                risk4: "Tengo antecedentes familiares de insuficiencia renal.",
+                risk4_exp: "<strong>Por qué importa:</strong> Algunas enfermedades renales pueden ser hereditarias.",
+                risk5: "Tengo sobrepeso.",
+                risk5_exp: "<strong>Por qué importa:</strong> La obesidad aumenta el riesgo de desarrollar diabetes y presión arterial alta, las dos causas principales de enfermedad renal.",
+                ask_doctor_title: "Qué Preguntarle a su Médico",
+                ask_doctor_subtitle: "Lleve estas preguntas a su próxima cita para iniciar una conversación sobre su salud renal.",
+                ask_doctor_q1: "¿Cuál es mi tasa de filtración glomerular (eGFR)?",
+                ask_doctor_q2: "¿Cuál es mi cociente albúmina-creatinina en orina (ACR)?",
+                ask_doctor_q3: "¿Cuál debería ser mi presión arterial?",
+                ask_doctor_q4: "¿Alguno de mis medicamentos actuales es potencialmente dañino para mis riñones?",
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo médico profesional.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada de la <a href="https://www.kidney.org/es/prevencion" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            // Populate pillar info divs
+            for (let i = 1; i <= 6; i++) {
+                const pillarInfo = document.getElementById(`pillar-${i}-info`);
+                if (pillarInfo) {
+                    pillarInfo.innerHTML = `<h3 class="font-bold text-xl text-blue-800 mb-2">${t[`pillar${i}_title`]}</h3><p>${t[`pillar${i}_desc`]}</p>`;
+                }
+            }
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        // Language toggle listeners
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Pillars of Prevention interaction
+        const pillarButtons = document.querySelectorAll('.pillar-button');
+        const pillarInfos = document.querySelectorAll('.pillar-info');
+
+        function setActivePillar(pillar) {
+            pillarButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.pillar === pillar);
+            });
+            pillarInfos.forEach(info => {
+                info.classList.toggle('active', info.id === `pillar-${pillar}-info`);
+            });
+        }
+
+        pillarButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setActivePillar(button.dataset.pillar);
+            });
+        });
+
+        // Risk Checklist interaction
+        const riskCheckboxes = document.querySelectorAll('.risk-checkbox');
+        riskCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const riskId = e.target.dataset.risk;
+                const explanationDiv = document.getElementById(`risk-${riskId}-exp`);
+                if (e.target.checked) {
+                    explanationDiv.classList.add('visible');
+                } else {
+                    explanationDiv.classList.remove('visible');
+                }
+            });
+        });
+
+        // Initial load
+        changeLanguage('en');
+        setActivePillar('1'); // Set initial active pillar
+    });
+    </script>
+
+</body>
+</html>

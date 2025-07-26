@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Transplantation - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Tab Styles */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #3B82F6;
+            color: #3B82F6;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        /* Step Styles */
+        .step-button {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .step-button.active {
+            background-color: #10B981; /* green-500 */
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+        }
+        .step-info {
+            display: none;
+        }
+        .step-info.active {
+            display: block;
+        }
+        /* Icon Grid Layout Styles */
+        .icon-button {
+            transition: all 0.2s ease-in-out;
+            border: 2px solid transparent;
+        }
+        .icon-button.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            border-color: #3B82F6;
+        }
+        .content-box-info {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <main class="space-y-12">
+            <!-- What is a Transplant? -->
+            <section class="info-card p-8 bg-green-50 border-l-4 border-green-500">
+                <h2 class="text-2xl font-bold text-green-800 mb-4" data-translate="what_is_title"></h2>
+                <p class="text-gray-700" data-translate="what_is_desc"></p>
+            </section>
+
+            <!-- Who is a Candidate? -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="candidate_title"></h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div id="candidate-good"></div>
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 md:pl-8 pt-8 md:pt-0" id="candidate-bad"></div>
+                </div>
+            </section>
+
+            <!-- The Transplant Journey -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="journey_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="journey_subtitle"></p>
+                <div class="grid lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-1 flex flex-col items-center justify-center">
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-green-600 text-2xl" data-step="1">1</div>
+                        <div class="h-8 w-1 bg-green-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-green-600 text-2xl" data-step="2">2</div>
+                        <div class="h-8 w-1 bg-green-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-green-600 text-2xl" data-step="3">3</div>
+                        <div class="h-8 w-1 bg-green-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-green-600 text-2xl" data-step="4">4</div>
+                    </div>
+                    <div class="lg:col-span-2 bg-gray-50 p-6 rounded-lg min-h-[200px]">
+                        <div id="step-1-info" class="step-info"></div>
+                        <div id="step-2-info" class="step-info"></div>
+                        <div id="step-3-info" class="step-info"></div>
+                        <div id="step-4-info" class="step-info"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Finding a Match -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="match_title"></h2>
+                <div class="grid md:grid-cols-3 gap-8 items-start">
+                    <div class="md:col-span-1 grid grid-cols-3 md:grid-cols-1 gap-4" id="match-icons"></div>
+                    <div class="md:col-span-2 bg-gray-50 p-6 rounded-lg min-h-[150px]" id="match-info-box"></div>
+                </div>
+            </section>
+
+            <!-- Types of Kidney Donors -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="donors_title"></h2>
+                <div class="border-b border-gray-200 mb-8">
+                    <nav class="flex justify-center -mb-px space-x-6">
+                        <button class="tab-button whitespace-nowrap py-4 px-1 font-medium text-lg" data-tab="1" data-translate="living_donor_tab"></button>
+                        <button class="tab-button whitespace-nowrap py-4 px-1 font-medium text-lg" data-tab="2" data-translate="deceased_donor_tab"></button>
+                    </nav>
+                </div>
+                <div id="living-donor-content" class="tab-content"></div>
+                <div id="deceased-donor-content" class="tab-content"></div>
+            </section>
+            
+            <!-- Risks of Surgery -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="risks_title"></h2>
+                 <div class="grid md:grid-cols-3 gap-8 items-start">
+                    <div class="md:col-span-1 grid grid-cols-3 md:grid-cols-2 gap-4" id="risks-icons"></div>
+                    <div class="md:col-span-2 bg-red-50 p-6 rounded-lg min-h-[150px]" id="risks-info-box"></div>
+                </div>
+            </section>
+
+            <!-- Life After Transplant -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="life_after_title"></h2>
+                <div class="grid md:grid-cols-3 gap-8 items-start">
+                    <div class="md:col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4" id="life-after-icons"></div>
+                    <div class="md:col-span-2 bg-gray-50 p-6 rounded-lg min-h-[150px]" id="life-after-info-box"></div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "Kidney Transplantation",
+                header_subtitle: "A kidney transplant is a treatment for kidney failure—not a cure. Learn about the process, from evaluation to life after surgery.",
+                btn_back: "Back",
+                what_is_title: "What is a Kidney Transplant?",
+                what_is_desc: "A kidney transplant is a surgery to place a healthy kidney from a donor into a person whose kidneys have failed. The new kidney does the work that your two failed kidneys used to do. During the surgery, the new kidney is placed in your lower abdomen and connected to your artery and vein. Your own kidneys are usually left in place unless they are causing problems like high blood pressure or infection.",
+                candidate_title: "Who is a Candidate for Transplant?",
+                candidate_good_title: "Good Candidates Are Generally People Who:",
+                candidate_good_list: ["Have end-stage kidney failure (GFR < 20).", "Are healthy enough to undergo a major surgery.", "Have a strong support system of family and friends.", "Understand and are willing to follow the strict medical regimen after transplant."],
+                candidate_bad_title: "You Might Not Be a Candidate If You Have:",
+                candidate_bad_list: ["A short life expectancy.", "Recent cancer (other than some skin cancers).", "An active serious infection.", "Severe heart or lung disease.", "An inability to follow the medical plan."],
+                journey_title: "The Transplant Journey",
+                journey_subtitle: "The path to a new kidney is a process with several key stages. Click each step to learn more.",
+                step1_title: "Referral & Evaluation",
+                step1_desc: "Your journey begins when your kidney doctor (nephrologist) refers you to a transplant center. There, you will undergo a comprehensive evaluation with a team of specialists. They will perform medical tests and a psychosocial evaluation to ensure you are healthy enough for surgery and have the support needed for success.",
+                step2_title: "The Waiting List",
+                step2_desc: "If you are approved for a transplant but do not have a living donor, you will be placed on the national waiting list for a deceased donor kidney. The wait time can vary greatly depending on your blood type, location, and other factors.",
+                step3_title: "The Surgery",
+                step3_desc: "When a kidney becomes available, you will be called to the hospital for surgery. The operation typically takes about 3-4 hours. The new kidney is placed in your lower abdomen, and your own kidneys are usually left in place.",
+                step4_title: "Recovery & Follow-up",
+                step4_desc: "Recovery begins in the hospital, where you will stay for several days. After you go home, you will have frequent follow-up appointments and blood tests to monitor your new kidney. Taking your anti-rejection medications is crucial for long-term success.",
+                match_title: "Finding a Match: The Science of Compatibility",
+                match_list: [
+                    { name: "Blood Type", icon: "🩸", desc: "The first step is matching blood type (A, B, AB, or O). The rules are similar to blood transfusions. For example, a person with type O blood can donate to anyone, but can only receive from a type O donor." },
+                    { name: "Tissue Typing (HLA)", icon: "🧬", desc: "Everyone has special markers on their cells called Human Leukocyte Antigens (HLAs). You get half from each parent. A closer HLA match between donor and recipient lowers the risk of rejection. A 'perfect match' (6 out of 6) is ideal but not always necessary." },
+                    { name: "Crossmatching", icon: "🔬", desc: "This is the final and most important test. A small amount of your blood is mixed with the donor's blood. If your blood 'reacts' to the donor's, it's a 'positive crossmatch,' meaning your body would likely reject the kidney. A 'negative crossmatch' means the transplant can proceed." }
+                ],
+                donors_title: "Types of Kidney Donors",
+                living_donor_tab: "Living Donor",
+                deceased_donor_tab: "Deceased Donor",
+                living_donor_desc: "A living donor is a healthy person who chooses to donate one of their kidneys. They can be a family member, a friend, or even a stranger (an altruistic donor).",
+                living_donor_pros: ["Shorter wait time (no waiting list).", "Kidney often lasts longer (average 15-20 years).", "Surgery can be scheduled at a convenient time."],
+                living_donor_cons: ["Requires finding a willing and medically compatible donor.", "The donor must undergo surgery and its associated risks."],
+                deceased_donor_desc: "A deceased donor is someone who has been declared brain dead and whose family has consented to organ donation. These kidneys are allocated through the national waiting list system.",
+                deceased_donor_pros: ["No need to find your own donor.", "An opportunity to receive the 'gift of life'."],
+                deceased_donor_cons: ["Long wait times (often several years).", "Kidney may not last as long as one from a living donor (average 10-15 years).", "Surgery is an emergency and cannot be scheduled."],
+                risks_title: "Risks of Transplant Surgery",
+                risks_list: [
+                    { name: "Rejection", icon: "🚫", desc: "This is the most significant risk. Your immune system may identify the new kidney as foreign and attack it. This can be acute (happening suddenly) or chronic (happening slowly over time). Anti-rejection medicines are vital to prevent this." },
+                    { name: "Infection", icon: "🦠", desc: "The anti-rejection medicines that protect your new kidney also weaken your immune system, making you more susceptible to infections, especially in the first few months." },
+                    { name: "Blood Clots", icon: "💔", desc: "Clots can form in the blood vessels connected to the new kidney, potentially blocking blood flow and causing the kidney to fail." },
+                    { name: "Bleeding", icon: "🩸", desc: "As with any major surgery, there is a risk of significant bleeding during or after the operation." },
+                    { name: "Kidney Failure", icon: "⚠️", desc: "Sometimes the new kidney does not start working right away (called delayed graft function) or it may fail due to rejection, blood clots, or other complications." }
+                ],
+                life_after_title: "Life After Transplant",
+                life_after_list: [
+                    { name: "Anti-Rejection Medicines", icon: "💊", desc: "This is the most critical part of post-transplant care. Your body's immune system will see the new kidney as foreign and try to attack it. You must take anti-rejection medicines every day for as long as you have the transplant to prevent this. Missing even a single dose can lead to rejection." },
+                    { name: "Diet and Exercise", icon: "🥗", desc: "After transplant, you can usually enjoy a more liberal diet than on dialysis, but healthy eating is still important. You may need to avoid certain foods like grapefruit that interact with your medicines. Regular exercise is encouraged to maintain a healthy weight and strong heart." },
+                    { name: "Preventing Infection", icon: "🧼", desc: "Because anti-rejection medicines weaken your immune system, you will be at a higher risk for infections. It's important to practice good hygiene, wash your hands frequently, and avoid people who are sick." },
+                    { name: "Signs of Rejection", icon: "🌡️", desc: "Rejection can happen even if you are taking your medicines perfectly. It's important to know the signs, which can include fever, pain over the transplant site, swelling, and a decrease in urine output. Report any of these to your transplant team immediately." }
+                ],
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.kidney.org/transplantation" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            },
+            es: {
+                header_title: "Trasplante de Riñón",
+                header_subtitle: "Un trasplante de riñón es un tratamiento para la insuficiencia renal, no una cura. Aprenda sobre el proceso, desde la evaluación hasta la vida después de la cirugía.",
+                btn_back: "Volver",
+                what_is_title: "¿Qué es un Trasplante de Riñón?",
+                what_is_desc: "Un trasplante de riñón es una cirugía para colocar un riñón sano de un donante en una persona cuyos riñones han fallado. El nuevo riñón hace el trabajo que sus dos riñones fallidos solían hacer. Durante la cirugía, el nuevo riñón se coloca en la parte inferior del abdomen y se conecta a su arteria y vena. Sus propios riñones generalmente se dejan en su lugar a menos que causen problemas como presión arterial alta o infección.",
+                candidate_title: "¿Quién es Candidato para un Trasplante?",
+                candidate_good_title: "Los Buenos Candidatos Generalmente Son Personas Que:",
+                candidate_good_list: ["Tienen insuficiencia renal en etapa terminal (TFG < 20).", "Están lo suficientemente sanos para someterse a una cirugía mayor.", "Tienen un fuerte sistema de apoyo de familiares y amigos.", "Entienden y están dispuestos a seguir el estricto régimen médico después del trasplante."],
+                candidate_bad_title: "Usted Podría No Ser Candidato Si Tiene:",
+                candidate_bad_list: ["Una corta esperanza de vida.", "Cáncer reciente (excepto algunos cánceres de piel).", "Una infección grave activa.", "Enfermedad cardíaca o pulmonar grave.", "Incapacidad para seguir el plan médico."],
+                journey_title: "El Camino del Trasplante",
+                journey_subtitle: "El camino hacia un nuevo riñón es un proceso con varias etapas clave. Haga clic en cada paso para saber más.",
+                step1_title: "Referencia y Evaluación",
+                step1_desc: "Su viaje comienza cuando su médico de riñones (nefrólogo) lo refiere a un centro de trasplantes. Allí, se someterá a una evaluación exhaustiva con un equipo de especialistas. Realizarán pruebas médicas y una evaluación psicosocial para asegurarse de que está lo suficientemente sano para la cirugía y que tiene el apoyo necesario para el éxito.",
+                step2_title: "La Lista de Espera",
+                step2_desc: "Si es aprobado para un trasplante pero no tiene un donante vivo, se le colocará en la lista de espera nacional para un riñón de donante fallecido. El tiempo de espera puede variar mucho según su tipo de sangre, ubicación y otros factores.",
+                step3_title: "La Cirugía",
+                step3_desc: "Cuando un riñón esté disponible, lo llamarán al hospital para la cirugía. La operación generalmente dura entre 3 y 4 horas. El nuevo riñón se coloca en la parte inferior del abdomen y sus propios riñones generalmente se dejan en su lugar.",
+                step4_title: "Recuperación y Seguimiento",
+                step4_desc: "La recuperación comienza en el hospital, donde permanecerá varios días. Después de irse a casa, tendrá citas de seguimiento y análisis de sangre frecuentes para monitorear su nuevo riñón. Tomar sus medicamentos antirrechazo es crucial para el éxito a largo plazo.",
+                match_title: "Encontrar un Donante Compatible: La Ciencia de la Compatibilidad",
+                match_list: [
+                    { name: "Tipo de Sangre", icon: "🩸", desc: "El primer paso es la compatibilidad del tipo de sangre (A, B, AB u O). Las reglas son similares a las de las transfusiones de sangre. Por ejemplo, una persona con sangre tipo O puede donar a cualquiera, pero solo puede recibir de un donante tipo O." },
+                    { name: "Tipificación de Tejidos (HLA)", icon: "🧬", desc: "Todos tienen marcadores especiales en sus células llamados Antígenos Leucocitarios Humanos (HLA). Se hereda la mitad de cada padre. Una mayor compatibilidad de HLA entre donante y receptor reduce el riesgo de rechazo. Una 'compatibilidad perfecta' (6 de 6) es ideal pero no siempre necesaria." },
+                    { name: "Prueba Cruzada (Crossmatch)", icon: "🔬", desc: "Esta es la prueba final y más importante. Se mezcla una pequeña cantidad de su sangre con la sangre del donante. Si su sangre 'reacciona' a la del donante, es una 'prueba cruzada positiva', lo que significa que su cuerpo probablemente rechazaría el riñón. Una 'prueba cruzada negativa' significa que el trasplante puede proceder." }
+                ],
+                donors_title: "Tipos de Donantes de Riñón",
+                living_donor_tab: "Donante Vivo",
+                deceased_donor_tab: "Donante Fallecido",
+                living_donor_desc: "Un donante vivo es una persona sana que elige donar uno de sus riñones. Puede ser un familiar, un amigo o incluso un extraño (un donante altruista).",
+                living_donor_pros: ["Menor tiempo de espera (sin lista de espera).", "El riñón a menudo dura más (promedio 15-20 años).", "La cirugía se puede programar en un momento conveniente."],
+                living_donor_cons: ["Requiere encontrar un donante dispuesto y médicamente compatible.", "El donante debe someterse a una cirugía y sus riesgos asociados."],
+                deceased_donor_desc: "Un donante fallecido es alguien que ha sido declarado con muerte cerebral y cuya familia ha consentido la donación de órganos. Estos riñones se asignan a través del sistema de lista de espera nacional.",
+                deceased_donor_pros: ["No es necesario encontrar su propio donante.", "Una oportunidad de recibir el 'regalo de la vida'."],
+                deceased_donor_cons: ["Largos tiempos de espera (a menudo varios años).", "El riñón puede no durar tanto como el de un donante vivo (promedio 10-15 años).", "La cirugía es una emergencia y no se puede programar."],
+                risks_title: "Riesgos de la Cirugía de Trasplante",
+                risks_list: [
+                    { name: "Rechazo", icon: "🚫", desc: "Este es el riesgo más significativo. Su sistema inmunológico puede identificar el nuevo riñón como extraño y atacarlo. Puede ser agudo (sucede de repente) o crónico (sucede lentamente con el tiempo). Los medicamentos antirrechazo son vitales para prevenir esto." },
+                    { name: "Infección", icon: "🦠", desc: "Los medicamentos antirrechazo que protegen su nuevo riñón también debilitan su sistema inmunológico, haciéndolo más susceptible a las infecciones, especialmente en los primeros meses." },
+                    { name: "Coágulos de Sangre", icon: "💔", desc: "Se pueden formar coágulos en los vasos sanguíneos conectados al nuevo riñón, bloqueando potencialmente el flujo sanguíneo y causando que el riñón falle." },
+                    { name: "Sangrado", icon: "🩸", desc: "Como con cualquier cirugía mayor, existe el riesgo de sangrado significativo durante o después de la operación." },
+                    { name: "Fallo del riñón donado", icon: "⚠️", desc: "A veces, el nuevo riñón no comienza a funcionar de inmediato (lo que se llama función retardada del injerto) o puede fallar con el tiempo debido a rechazo, coágulos de sangre u otras complicaciones." }
+                ],
+                life_after_title: "La Vida Después del Trasplante",
+                life_after_list: [
+                    { name: "Medicamentos Antirrechazo", icon: "💊", desc: "Esta es la parte más crítica del cuidado postrasplante. El sistema inmunológico de su cuerpo verá el nuevo riñón como extraño e intentará atacarlo. Debe tomar medicamentos antirrechazo todos los días durante el tiempo que tenga el trasplante para evitar esto. Omitir incluso una sola dosis puede provocar el rechazo." },
+                    { name: "Dieta y Ejercicio", icon: "🥗", desc: "Después del trasplante, generalmente puede disfrutar de una dieta más liberal que en diálisis, pero una alimentación saludable sigue siendo importante. Es posible que deba evitar ciertos alimentos como el pomelo que interactúan con sus medicamentos. Se recomienda el ejercicio regular para mantener un peso saludable y un corazón fuerte." },
+                    { name: "Prevención de Infecciones", icon: "🧼", desc: "Debido a que los medicamentos antirrechazo debilitan su sistema inmunológico, tendrá un mayor riesgo de infecciones. Es importante practicar una buena higiene, lavarse las manos con frecuencia y evitar a las personas que están enfermas." },
+                    { name: "Signos de Rechazo", icon: "🌡️", desc: "El rechazo puede ocurrir incluso si está tomando sus medicamentos perfectamente. Es importante conocer los signos, que pueden incluir fiebre, dolor sobre el sitio del trasplante, hinchazón y una disminución en la producción de orina. Informe a su equipo de trasplantes de inmediato sobre cualquiera de estos." }
+                ],
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo médico profesional.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada de la <a href="https://www.kidney.org/transplantation" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key] && typeof t[key] === 'string') {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Populate dynamic content
+            document.getElementById('candidate-good').innerHTML = `<h3 class="text-xl font-semibold text-green-700 mb-4">${t.candidate_good_title}</h3><ul class="space-y-3 list-disc list-inside">${t.candidate_good_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            document.getElementById('candidate-bad').innerHTML = `<h3 class="text-xl font-semibold text-red-700 mb-4">${t.candidate_bad_title}</h3><ul class="space-y-3 list-disc list-inside">${t.candidate_bad_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+
+            for (let i = 1; i <= 4; i++) {
+                const stepInfo = document.getElementById(`step-${i}-info`);
+                stepInfo.innerHTML = `<h3 class="text-xl font-bold text-green-700 mb-3">${t[`step${i}_title`]}</h3><p class="text-gray-700">${t[`step${i}_desc`]}</p>`;
+            }
+
+            const livingDonorContent = document.getElementById('living-donor-content');
+            livingDonorContent.innerHTML = `
+                <p class="mb-6">${t.living_donor_desc}</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div><h4 class="font-semibold text-green-700 mb-2">Pros:</h4><ul class="list-disc list-inside space-y-1">${t.living_donor_pros.map(item => `<li>${item}</li>`).join('')}</ul></div>
+                    <div><h4 class="font-semibold text-red-700 mb-2">Cons:</h4><ul class="list-disc list-inside space-y-1">${t.living_donor_cons.map(item => `<li>${item}</li>`).join('')}</ul></div>
+                </div>`;
+
+            const deceasedDonorContent = document.getElementById('deceased-donor-content');
+            deceasedDonorContent.innerHTML = `
+                <p class="mb-6">${t.deceased_donor_desc}</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div><h4 class="font-semibold text-green-700 mb-2">Pros:</h4><ul class="list-disc list-inside space-y-1">${t.deceased_donor_pros.map(item => `<li>${item}</li>`).join('')}</ul></div>
+                    <div><h4 class="font-semibold text-red-700 mb-2">Cons:</h4><ul class="list-disc list-inside space-y-1">${t.deceased_donor_cons.map(item => `<li>${item}</li>`).join('')}</ul></div>
+                </div>`;
+            
+            // Render Icon Grids
+            renderIconGrid('match-icons', 'match-info-box', t.match_list, t);
+            renderIconGrid('risks-icons', 'risks-info-box', t.risks_list, t);
+            renderIconGrid('life-after-icons', 'life-after-info-box', t.life_after_list, t);
+        }
+
+        function renderIconGrid(iconsContainerId, infoBoxId, items, t) {
+            const iconsContainer = document.getElementById(iconsContainerId);
+            iconsContainer.innerHTML = items.map((item, index) => `
+                <button class="icon-button p-4 rounded-lg bg-white shadow text-center" data-target="${infoBoxId}" data-index="${index}">
+                    <span class="text-4xl">${item.icon}</span>
+                    <span class="block font-semibold mt-2 text-sm">${item.name}</span>
+                </button>
+            `).join('');
+            
+            // Set initial content for the info box
+            const infoBox = document.getElementById(infoBoxId);
+            if (items.length > 0) {
+                infoBox.innerHTML = `<div class="content-box-info">
+                    <h4 class="font-bold text-lg text-gray-800">${items[0].name}</h4>
+                    <p class="text-sm text-gray-600 mt-1">${items[0].desc}</p>
+                </div>`;
+                iconsContainer.querySelector('.icon-button')?.classList.add('active');
+            }
+        }
+
+        function setupIconGrids() {
+            document.body.addEventListener('click', function(e) {
+                const button = e.target.closest('.icon-button');
+                if (!button) return;
+
+                const targetBoxId = button.dataset.target;
+                const index = parseInt(button.dataset.index, 10);
+                const t = translations[currentLanguage];
+                let items;
+
+                if (targetBoxId === 'match-info-box') items = t.match_list;
+                else if (targetBoxId === 'risks-info-box') items = t.risks_list;
+                else if (targetBoxId === 'life-after-info-box') items = t.life_after_list;
+                else return;
+                
+                const infoBox = document.getElementById(targetBoxId);
+                const selectedItem = items[index];
+                
+                infoBox.innerHTML = `<div class="content-box-info">
+                    <h4 class="font-bold text-lg text-gray-800">${selectedItem.name}</h4>
+                    <p class="text-sm text-gray-600 mt-1">${selectedItem.desc}</p>
+                </div>`;
+
+                // Update active state
+                const parentGrid = button.parentElement;
+                parentGrid.querySelectorAll('.icon-button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+            setupTabs();
+        }
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            let activeTab = document.querySelector('.tab-button.active')?.dataset.tab || '1';
+
+            function setActiveTab(tab) {
+                tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
+                tabContents.forEach(content => {
+                    const contentId = content.id.includes('living') ? '1' : '2';
+                    content.classList.toggle('active', contentId === tab);
+                });
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    activeTab = e.currentTarget.dataset.tab;
+                    setActiveTab(activeTab);
+                });
+            });
+            
+            setActiveTab(activeTab);
+        }
+        
+        const stepButtons = document.querySelectorAll('.step-button');
+        const stepInfos = document.querySelectorAll('.step-info');
+
+        function setActiveStep(step) {
+            stepButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.step === step));
+            stepInfos.forEach(info => info.classList.toggle('active', info.id === `step-${step}-info`));
+        }
+
+        stepButtons.forEach(button => {
+            button.addEventListener('click', () => setActiveStep(button.dataset.step));
+        });
+
+        changeLanguage('en');
+        setupTabs();
+        setActiveStep('1');
+        setupIconGrids();
+    });
+    </script>
+
+</body>
+</html>

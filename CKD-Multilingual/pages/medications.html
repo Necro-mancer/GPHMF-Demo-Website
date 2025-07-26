@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications to Manage Kidney Disease - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Tab & Accordion Styles */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #3B82F6;
+            color: #3B82F6;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .accordion-button {
+            transition: background-color 0.2s;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 600px; /* Increased height for more content */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card bg-yellow-50 border-l-4 border-yellow-400 mb-12 p-4">
+            <h3 class="font-bold text-yellow-800" data-translate="important_note_title"></h3>
+            <p class="text-yellow-700" data-translate="important_note_desc"></p>
+        </div>
+
+        <main>
+            <!-- Tabs -->
+            <div class="border-b border-gray-200 mb-8">
+                <nav class="flex justify-center -mb-px space-x-6">
+                    <button class="tab-button whitespace-nowrap py-4 px-1 font-medium text-lg" data-tab="1" data-translate="tab1_title"></button>
+                    <button class="tab-button whitespace-nowrap py-4 px-1 font-medium text-lg" data-tab="2" data-translate="tab2_title"></button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="meds-content-container" class="space-y-4">
+                <!-- JS will populate this -->
+            </div>
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "Medicines to Manage Kidney Disease",
+                header_subtitle: "An in-depth look at the common types of medicines used to slow kidney disease and manage its complications.",
+                important_note_title: "Important Note:",
+                important_note_desc: "This information is for educational purposes only. Always talk to your doctor or pharmacist before starting, stopping, or changing any medication.",
+                btn_back: "Back",
+                tab1_title: "Slowing Kidney Disease",
+                tab2_title: "Managing Complications",
+                med_moa: "How it Works (MOA)",
+                med_side_effects: "Common Side Effects",
+                med_considerations: "Special Considerations",
+                slowing_meds: [
+                    {
+                        name: "SGLT2 Inhibitors",
+                        brands: "Jardiance, Farxiga, Invokana",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a1 1 0 001 1h1.586l.707.707a1 1 0 001.414 0L8.414 14H10a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1-1zm14 10a1 1 0 01-1.414.895L15 13.207V14a1 1 0 01-1 1h-1.586l-.707.707a1 1 0 01-1.414 0L9.586 14H8a1 1 0 01-1-1v-1.586l-.707-.707a1 1 0 010-1.414L7 9.586V8a1 1 0 011-1h1.586l.707-.707a1 1 0 011.414 0L12.414 7H14a1 1 0 011 1v1.586l.707.707a1 1 0 010 1.414L15 12.414V13z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-green-500",
+                        moa: "Blocks a protein (SGLT2) in the kidneys, causing excess sugar to be removed through urine. This also lowers pressure inside the kidney's filters, protecting them from overwork. This dual action provides powerful kidney and heart protection.",
+                        side_effects: "Urinary tract or yeast infections, dehydration, low blood pressure. A rare but serious side effect is euglycemic ketoacidosis (acid buildup in the blood without high blood sugar).",
+                        considerations: "A major breakthrough in kidney care, shown to be effective even in patients without diabetes. It's important to stay well-hydrated and be aware of sick day protocols (your doctor may advise you to temporarily stop the medication if you are ill)."
+                    },
+                    {
+                        name: "ACE Inhibitors & ARBs",
+                        brands: "Lisinopril (Zestril), Losartan (Cozaar), Valsartan (Diovan)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-red-500",
+                        moa: "These relax blood vessels and lower blood pressure. They specifically reduce pressure in the kidneys' filters (glomeruli) and can decrease the amount of protein leaking into the urine (proteinuria), which is a sign of kidney damage.",
+                        side_effects: "Dry cough (more common with ACE inhibitors), dizziness, high potassium levels (hyperkalemia).",
+                        considerations: "A cornerstone of kidney protection for decades, especially for those with proteinuria. Requires regular blood tests to monitor potassium and kidney function. Should not be used in pregnancy."
+                    },
+                    {
+                        name: "Finerenone (nsMRA)",
+                        brands: "Kerendia",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a1 1 0 000-2H4a1 1 0 000 2zM4 7h7a1 1 0 000-2H4a1 1 0 000 2zM4 10h12a1 1 0 100-2H4a1 1 0 100 2zM4 13h12a1 1 0 100-2H4a1 1 0 100 2zM4 16h7a1 1 0 100-2H4a1 1 0 100 2zM13 4h3a1 1 0 100-2h-3a1 1 0 100 2z" /></svg>`,
+                        color: "bg-blue-500",
+                        moa: "A non-steroidal mineralocorticoid receptor antagonist. It specifically targets and blocks receptors that, when overactivated, contribute to inflammation and fibrosis (scarring) in the kidneys, heart, and blood vessels.",
+                        side_effects: "High potassium levels (hyperkalemia), low blood pressure, low sodium.",
+                        considerations: "A newer class of medication that offers another way to protect the kidneys, especially in people with type 2 diabetes. Requires careful potassium monitoring and should not be taken with strong CYP3A4 inhibitors (ask your pharmacist)."
+                    }
+                ],
+                complication_meds: [
+                    {
+                        name: "Diuretics (Water Pills)",
+                        brands: "Furosemide (Lasix), Hydrochlorothiazide (Microzide)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-sky-500",
+                        moa: "Help the kidneys get rid of extra salt and water from the body, which is then passed as urine. This helps lower blood pressure and reduce fluid buildup (edema).",
+                        side_effects: "Dehydration, dizziness, muscle cramps, electrolyte imbalances (e.g., low potassium or sodium).",
+                        considerations: "Very effective for managing fluid overload and high blood pressure. Loop diuretics (like Furosemide) are generally more potent and used in more advanced CKD than thiazide diuretics (like HCTZ). Requires monitoring of electrolytes and kidney function."
+                    },
+                    {
+                        name: "Phosphate Binders",
+                        brands: "Calcium acetate (PhosLo), Sevelamer (Renvela), Lanthanum (Fosrenol)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h4a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-purple-500",
+                        moa: "Act like sponges in your gut. They 'bind' to phosphorus from the food you eat, preventing it from being absorbed into your blood. The phosphorus is then passed in your stool. High phosphorus can lead to weak bones and calcification of blood vessels.",
+                        side_effects: "Constipation, nausea, stomach upset, and sometimes large pill burden.",
+                        considerations: "Must be taken with meals and snacks to be effective. The dose depends on the amount of phosphorus in your food. There are calcium-based and non-calcium-based binders; your doctor chooses based on your bloodwork."
+                    },
+                    {
+                        name: "Anemia Medications",
+                        brands: "ESA: Procrit, Aranesp. Iron: Ferrous Sulfate (oral), Venofer (IV)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 011-1h.5a1.5 1.5 0 000-3H6a1 1 0 01-1-1V5a1 1 0 011-1h3a1 1 0 001-1v-.5z" /></svg>`,
+                        color: "bg-pink-500",
+                        moa: "ESAs (Erythropoiesis-Stimulating Agents) are synthetic versions of the hormone erythropoietin, which your kidneys are supposed to make. They tell your bone marrow to produce more red blood cells. Iron is a key building block for those cells and is often given as well.",
+                        side_effects: "ESAs: High blood pressure, risk of blood clots. Iron: Constipation and dark stools (oral), allergic reactions (IV, rare).",
+                        considerations: "Used to treat anemia, a common complication that causes fatigue and shortness of breath. Your blood pressure must be well-controlled before starting ESAs."
+                    },
+                    {
+                        name: "Bone & Mineral Meds",
+                        brands: "Vitamin D: Calcitriol (Rocaltrol). Calcimimetics: Cinacalcet (Sensipar)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>`,
+                        color: "bg-yellow-500",
+                        moa: "CKD disrupts the body's ability to activate Vitamin D, leading to low calcium and high parathyroid hormone (PTH), which pulls calcium from bones. Active Vitamin D analogs fix this. Calcimimetics trick the parathyroid gland into making less PTH.",
+                        side_effects: "High calcium levels (with Vitamin D), low calcium levels (with Calcimimetics), nausea.",
+                        considerations: "Treatment for Mineral and Bone Disorder is a balancing act. Requires close monitoring of calcium, phosphorus, and PTH blood levels to prevent complications like weak bones and vascular calcification."
+                    }
+                ],
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only. Never start or stop a medicine without talking to your doctor.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.kidneyfund.org/treatments/medicines-manage-kidney-disease" target="_blank" class="text-blue-600 hover:underline">American Kidney Fund</a>.`,
+            },
+            es: {
+                header_title: "Medicamentos para Manejar la Enfermedad Renal",
+                header_subtitle: "Una mirada profunda a los tipos comunes de medicamentos utilizados para retrasar la enfermedad renal y manejar sus complicaciones.",
+                important_note_title: "Nota Importante:",
+                important_note_desc: "Esta información es solo para fines educativos. Siempre hable con su médico o farmacéutico antes de comenzar, suspender o cambiar cualquier medicamento.",
+                btn_back: "Volver",
+                tab1_title: "Retrasar la Enfermedad Renal",
+                tab2_title: "Manejar Complicaciones",
+                med_moa: "Cómo Funciona (MdA)",
+                med_brands: "Nombres de Marca Comunes",
+                med_side_effects: "Efectos Secundarios Comunes",
+                med_considerations: "Consideraciones Especiales",
+                slowing_meds: [
+                    {
+                        name: "Inhibidores de SGLT2",
+                        brands: "Jardiance, Farxiga, Invokana",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a1 1 0 001 1h1.586l.707.707a1 1 0 001.414 0L8.414 14H10a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1-1zm14 10a1 1 0 01-1.414.895L15 13.207V14a1 1 0 01-1 1h-1.586l-.707.707a1 1 0 01-1.414 0L9.586 14H8a1 1 0 01-1-1v-1.586l-.707-.707a1 1 0 010-1.414L7 9.586V8a1 1 0 011-1h1.586l.707-.707a1 1 0 011.414 0L12.414 7H14a1 1 0 011 1v1.586l.707.707a1 1 0 010 1.414L15 12.414V13z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-green-500",
+                        moa: "Bloquea una proteína (SGLT2) en los riñones, lo que provoca la eliminación del exceso de azúcar a través de la orina. Esto también reduce la presión dentro de los filtros del riñón, protegiéndolos del sobreesfuerzo. Esta doble acción proporciona una potente protección renal y cardíaca.",
+                        side_effects: "Infecciones del tracto urinario o por hongos, deshidratación, presión arterial baja. Un efecto secundario raro pero grave es la cetoacidosis euglucémica (acumulación de ácido en la sangre sin niveles altos de azúcar).",
+                        considerations: "Un gran avance en el cuidado renal, demostrado ser efectivo incluso en pacientes sin diabetes. Es importante mantenerse bien hidratado y conocer los protocolos para días de enfermedad (su médico puede aconsejarle que suspenda temporalmente el medicamento si está enfermo)."
+                    },
+                    {
+                        name: "Inhibidores de la ECA y ARA",
+                        brands: "Lisinopril (Zestril), Losartán (Cozaar), Valsartán (Diovan)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-red-500",
+                        moa: "Relajan los vasos sanguíneos y bajan la presión arterial. Reducen específicamente la presión en los filtros de los riñones (glomérulos) y pueden disminuir la cantidad de proteína que se filtra en la orina (proteinuria), que es un signo de daño renal.",
+                        side_effects: "Tos seca (más común con IECA), mareos, niveles altos de potasio (hiperpotasemia).",
+                        considerations: "Un pilar de la protección renal durante décadas, especialmente para aquellos con proteinuria. Requiere análisis de sangre regulares para monitorear el potasio y la función renal. No debe usarse durante el embarazo."
+                    },
+                    {
+                        name: "Finerenona (ARM no esteroideo)",
+                        brands: "Kerendia",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a1 1 0 000-2H4a1 1 0 000 2zM4 7h7a1 1 0 000-2H4a1 1 0 000 2zM4 10h12a1 1 0 100-2H4a1 1 0 100 2zM4 13h12a1 1 0 100-2H4a1 1 0 100 2zM4 16h7a1 1 0 100-2H4a1 1 0 100 2zM13 4h3a1 1 0 100-2h-3a1 1 0 100 2z" /></svg>`,
+                        color: "bg-blue-500",
+                        moa: "Un antagonista del receptor de mineralocorticoides no esteroideo. Se dirige y bloquea específicamente los receptores que, cuando se sobreactivan, contribuyen a la inflamación y fibrosis (cicatrización) en los riñones, el corazón y los vasos sanguíneos.",
+                        side_effects: "Niveles altos de potasio (hiperpotasemia), presión arterial baja, bajo nivel de sodio.",
+                        considerations: "Una nueva clase de medicamento que ofrece otra forma de proteger los riñones, especialmente en personas con diabetes tipo 2. Requiere un cuidadoso monitoreo del potasio y no debe tomarse con inhibidores potentes de CYP3A4 (consulte a su farmacéutico)."
+                    }
+                ],
+                complication_meds: [
+                    {
+                        name: "Diuréticos (Píldoras de Agua)",
+                        brands: "Furosemida (Lasix), Hidroclorotiazida (Microzide)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-sky-500",
+                        moa: "Ayudan a los riñones a eliminar el exceso de sal y agua del cuerpo, que luego se elimina como orina. Esto ayuda a bajar la presión arterial y a reducir la acumulación de líquidos (edema).",
+                        side_effects: "Deshidratación, mareos, calambres musculares, desequilibrios electrolíticos (ej. potasio o sodio bajos).",
+                        considerations: "Muy eficaces para manejar la sobrecarga de líquidos y la presión arterial alta. Los diuréticos de asa (como Furosemida) son generalmente más potentes y se usan en ERC más avanzada que los diuréticos tiazídicos (como HCTZ). Requiere monitoreo de electrolitos y función renal."
+                    },
+                    {
+                        name: "Quelantes de Fosfato",
+                        brands: "Acetato de calcio (PhosLo), Sevelamer (Renvela), Lantano (Fosrenol)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h4a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>`,
+                        color: "bg-purple-500",
+                        moa: "Actúan como esponjas en el intestino. Se 'unen' al fósforo de los alimentos que consume, evitando que se absorba en la sangre. El fósforo unido se elimina en las heces. El fósforo alto puede provocar huesos débiles y calcificación de los vasos sanguíneos.",
+                        side_effects: "Estreñimiento, náuseas, malestar estomacal y, a veces, una gran carga de pastillas.",
+                        considerations: "Deben tomarse con las comidas y meriendas para ser efectivos. La dosis depende de la cantidad de fósforo en su comida. Existen quelantes a base de calcio y sin calcio; su médico elige según sus análisis de sangre."
+                    },
+                    {
+                        name: "Medicamentos para la Anemia",
+                        brands: "AEE: Procrit, Aranesp. Hierro: Sulfato Ferroso (oral), Venofer (IV)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 011-1h.5a1.5 1.5 0 000-3H6a1 1 0 01-1-1V5a1 1 0 011-1h3a1 1 0 001-1v-.5z" /></svg>`,
+                        color: "bg-pink-500",
+                        moa: "Los AEE (Agentes Estimulantes de la Eritropoyesis) son versiones sintéticas de la hormona eritropoyetina, que sus riñones deberían producir. Le indican a la médula ósea que produzca más glóbulos rojos. El hierro es un componente clave para esas células y a menudo también se administra.",
+                        side_effects: "AEE: Presión arterial alta, riesgo de coágulos sanguíneos. Hierro: Estreñimiento y heces oscuras (oral), reacciones alérgicas (IV, raras).",
+                        considerations: "Se usa para tratar la anemia, una complicación común que causa fatiga y dificultad para respirar. Su presión arterial debe estar bien controlada antes de iniciar los AEE."
+                    },
+                    {
+                        name: "Medicamentos para Huesos y Minerales",
+                        brands: "Vitamina D: Calcitriol (Rocaltrol). Calcimiméticos: Cinacalcet (Sensipar)",
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>`,
+                        color: "bg-yellow-500",
+                        moa: "La ERC altera la capacidad del cuerpo para activar la Vitamina D, lo que conduce a un bajo nivel de calcio y un alto nivel de la hormona paratiroidea (PTH), que extrae el calcio de los huesos. Los análogos de la Vitamina D activa corrigen esto. Los calcimiméticos engañan a la glándula paratiroides para que produzca menos PTH.",
+                        side_effects: "Niveles altos de calcio (con Vitamina D), niveles bajos de calcio (con Calcimiméticos), náuseas.",
+                        considerations: "El tratamiento para el Trastorno Mineral y Óseo es un acto de equilibrio. Requiere un monitoreo cercano de los niveles de calcio, fósforo y PTH en sangre para prevenir complicaciones como huesos débiles y calcificación vascular."
+                    }
+                ],
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos. Nunca comience ni suspenda un medicamento sin hablar con su médico.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada del <a href="https://www.kidneyfund.org/treatments/medicines-manage-kidney-disease" target="_blank" class="text-blue-600 hover:underline">American Kidney Fund</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+        const contentContainer = document.getElementById('meds-content-container');
+
+        function createAccordionItem(med, t, index) {
+            return `
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <h2>
+                        <button type="button" class="accordion-button flex items-center justify-between w-full p-4 font-semibold text-left text-gray-700 bg-gray-50 hover:bg-gray-100" data-accordion-index="${index}">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 rounded-full ${med.color} flex items-center justify-center mr-4 shrink-0">
+                                    ${med.icon}
+                                </div>
+                                <div>
+                                    <span class="text-lg">${med.name}</span>
+                                    <p class="text-sm text-gray-500 font-normal italic">${med.brands}</p>
+                                </div>
+                            </div>
+                            <svg class="accordion-icon w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h2>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="border-t border-gray-200 py-4">
+                            <h4 class="font-bold text-gray-700">${t.med_moa}</h4>
+                            <p class="text-sm text-gray-600">${med.moa}</p>
+                            
+                            <h4 class="font-bold text-gray-700 mt-4">${t.med_side_effects}</h4>
+                            <p class="text-sm text-gray-600">${med.side_effects}</p>
+
+                            <h4 class="font-bold text-gray-700 mt-4">${t.med_considerations}</h4>
+                            <p class="text-sm text-gray-600">${med.considerations}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMeds(t) {
+            const slowingMedsHtml = t.slowing_meds.map((med, i) => createAccordionItem(med, t, `slowing-${i}`)).join('');
+            const complicationMedsHtml = t.complication_meds.map((med, i) => createAccordionItem(med, t, `complication-${i}`)).join('');
+            
+            contentContainer.innerHTML = `
+                <div id="tab-1-content" class="tab-content space-y-4">
+                    ${slowingMedsHtml}
+                </div>
+                <div id="tab-2-content" class="tab-content space-y-4">
+                    ${complicationMedsHtml}
+                </div>
+            `;
+        }
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            renderMeds(t);
+            setupTabs();
+            setupAccordion();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            let activeTab = document.querySelector('.tab-button.active')?.dataset.tab || '1';
+
+            function setActiveTab(tab) {
+                tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
+                tabContents.forEach(content => content.classList.toggle('active', content.id === `tab-${tab}-content`));
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    activeTab = e.currentTarget.dataset.tab;
+                    setActiveTab(activeTab);
+                });
+            });
+            
+            setActiveTab(activeTab);
+        }
+
+        function setupAccordion() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.parentElement.nextElementSibling;
+                    button.classList.toggle('open');
+                    content.classList.toggle('open');
+                });
+            });
+        }
+
+        changeLanguage('en');
+    });
+    </script>
+
+</body>
+</html>

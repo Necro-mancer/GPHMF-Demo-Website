@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mineral & Bone Disorder in CKD - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Interactive Step Styles */
+        .step-button {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .step-button.active {
+            background-color: #A78BFA; /* purple-400 */
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px 0 rgba(167, 139, 250, 0.39);
+        }
+        .step-info {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .step-info.active {
+            display: block;
+        }
+        /* Accordion Styles */
+        .accordion-button {
+            transition: background-color 0.2s;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+        /* Symptom Card Styles */
+        .symptom-card {
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .symptom-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39); /* indigo */
+            border-color: #6366f1;
+        }
+        .symptom-explanation {
+            display: none;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .symptom-explanation.visible {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <!-- The Domino Effect Section -->
+            <section class="info-card bg-purple-50 border border-purple-200 mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-purple-800 mb-2" data-translate="domino_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="domino_subtitle"></p>
+                
+                <div class="grid lg:grid-cols-3 gap-8 items-center">
+                    <!-- The Visual Diagram -->
+                    <div class="lg:col-span-1 flex flex-col items-center justify-center">
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-purple-600 text-2xl" data-step="1">1</div>
+                        <div class="h-8 w-1 bg-purple-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-purple-600 text-2xl" data-step="2">2</div>
+                        <div class="h-8 w-1 bg-purple-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-purple-600 text-2xl" data-step="3">3</div>
+                        <div class="h-8 w-1 bg-purple-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-purple-600 text-2xl" data-step="4">4</div>
+                    </div>
+
+                    <!-- The Explanations -->
+                    <div class="lg:col-span-2">
+                        <div id="step-1-info" class="step-info"></div>
+                        <div id="step-2-info" class="step-info"></div>
+                        <div id="step-3-info" class="step-info"></div>
+                        <div id="step-4-info" class="step-info"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Signs & Symptoms Section -->
+            <section class="info-card mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4" data-translate="symptoms_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="symptoms_subtitle"></p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-purple-600 mb-4" data-translate="symptoms_bone_title"></h3>
+                        <div class="space-y-3" id="symptoms-bone-list"></div>
+                    </div>
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 md:pl-8 pt-8 md:pt-0">
+                        <h3 class="text-xl font-semibold text-red-600 mb-4" data-translate="symptoms_heart_title"></h3>
+                        <div class="space-y-3" id="symptoms-heart-list"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Types of Bone Disease Section -->
+            <section class="info-card mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="types_title"></h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div id="type-high-turnover"></div>
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 md:pl-8 pt-8 md:pt-0" id="type-low-turnover"></div>
+                </div>
+            </section>
+
+            <!-- Diagnosis & Treatment Section -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="diag_treat_title"></h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Diagnosis -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-700 mb-4" data-translate="diagnosis_title"></h3>
+                        <div class="space-y-4" id="diagnosis-list"></div>
+                    </div>
+                    <!-- Treatment -->
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 md:pl-8 pt-8 md:pt-0">
+                        <h3 class="text-xl font-semibold text-green-700 mb-4" data-translate="treatment_title"></h3>
+                        <div class="space-y-2" id="treatment-accordion"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "CKD–Mineral and Bone Disorder",
+                header_subtitle: "Learn about this common complication of CKD that affects your bones, heart, and blood vessels.",
+                btn_back: "Back",
+                domino_title: "The Domino Effect",
+                domino_subtitle: "CKD-MBD is a chain reaction. Click each step to see how it starts and progresses.",
+                step1_title: "Kidneys Fail to Balance Minerals",
+                step1_desc: "Healthy kidneys remove extra phosphorus and activate Vitamin D. When they are damaged, phosphorus levels in the blood rise, and Vitamin D levels fall, leading to low calcium.",
+                step2_title: "Parathyroid Glands Overreact",
+                step2_desc: "Your parathyroid glands sense the high phosphorus and low calcium. To fix this, they release much more parathyroid hormone (PTH) than normal.",
+                step3_title: "PTH Pulls Calcium from Bones",
+                step3_desc: "High levels of PTH act on your bones, pulling calcium and phosphorus out of them and into the blood. This makes your bones weaker and more brittle over time.",
+                step4_title: "Calcium Deposits in Blood Vessels",
+                step4_desc: "The extra calcium and phosphorus now circulating in your blood can form hard deposits in your blood vessels and heart (called calcification), making them stiff and increasing your risk of heart attack and stroke.",
+                symptoms_title: "Signs & Symptoms",
+                symptoms_subtitle: "Many people have no symptoms until the disease is advanced. Click a symptom to learn more.",
+                symptoms_bone_title: "In Your Bones",
+                symptoms_heart_title: "In Your Heart & Blood Vessels",
+                symptoms_bone_list: [
+                    { name: "Bone & Joint Pain", explanation: "High PTH levels can cause bones to become weak and painful." },
+                    { name: "Increased Fractures", explanation: "Weakened bones are more likely to break from minor injuries." },
+                    { name: "Itchy Skin", explanation: "High phosphorus levels in the blood can cause severe itching." }
+                ],
+                symptoms_heart_list: [
+                    { name: "Stiff Blood Vessels", explanation: "Calcium and phosphorus deposits make blood vessels hard, which raises blood pressure and strains the heart." },
+                    { name: "Heart Valve Problems", explanation: "Calcification can damage heart valves, making them unable to open and close properly." },
+                    { name: "Heart Failure Risk", explanation: "The combination of high blood pressure and stiff vessels forces the heart to work much harder." }
+                ],
+                types_title: "Types of Bone Disease in CKD",
+                type_high_turnover_name: "High-Turnover Bone Disease",
+                type_high_turnover_desc: "This is the most common type. It's caused by very high levels of PTH, which constantly tells your bones to release calcium. This leads to weak, fibrous bone that is prone to fractures.",
+                type_low_turnover_name: "Low-Turnover (Adynamic) Bone Disease",
+                type_low_turnover_desc: "In this type, normal bone-building processes slow down too much. The bones don't remodel themselves properly and become brittle. This can happen if PTH levels are suppressed too much by treatment.",
+                diag_treat_title: "Diagnosis & Treatment",
+                diagnosis_title: "How is CKD-MBD Diagnosed?",
+                diagnosis_list: [
+                    { name: "Blood Tests", desc: "Your doctor will regularly check your blood levels of calcium, phosphorus, parathyroid hormone (PTH), and Vitamin D to look for imbalances." },
+                    { name: "Imaging Tests", desc: "X-rays or other scans may be used to look for bone changes or calcification in your blood vessels." },
+                    { name: "Bone Biopsy", desc: "In rare cases, a small sample of bone may be taken to see how the disease is affecting your bone structure." }
+                ],
+                treatment_title: "How is CKD-MBD Treated?",
+                treatment_list: [
+                    { 
+                        name: "Controlling Phosphorus", 
+                        desc: "This is a key goal. It's done through a low-phosphorus diet (limiting dairy, nuts, beans, dark sodas) and taking phosphate binder medications with every meal to prevent phosphorus from being absorbed."
+                    },
+                    {
+                        name: "Managing PTH Levels",
+                        desc: "If PTH is too high, your doctor may prescribe a special active form of Vitamin D (like calcitriol) or a calcimimetic (like cinacalcet), which tricks the parathyroid gland into making less PTH."
+                    },
+                    {
+                        name: "Dialysis Adjustments",
+                        desc: "If you are on dialysis, your healthcare team may adjust your dialysis prescription to help remove more phosphorus from your blood."
+                    }
+                ],
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.niddk.nih.gov/health-information/kidney-disease/mineral-bone-disorder" target="_blank" class="text-blue-600 hover:underline">National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)</a>.`,
+            },
+            es: {
+                header_title: "Enfermedad Mineral y Ósea de la ERC",
+                header_subtitle: "Aprenda sobre esta complicación común de la ERC que afecta sus huesos, corazón y vasos sanguíneos.",
+                btn_back: "Volver",
+                domino_title: "El Efecto Dominó",
+                domino_subtitle: "La EMO-ERC es una reacción en cadena. Haga clic en cada paso para ver cómo comienza y progresa.",
+                step1_title: "Los Riñones no Logran Equilibrar los Minerales",
+                step1_desc: "Los riñones sanos eliminan el exceso de fósforo y activan la Vitamina D. Cuando están dañados, los niveles de fósforo en la sangre aumentan y los niveles de Vitamina D bajan, lo que conduce a un bajo nivel de calcio.",
+                step2_title: "Las Glándulas Paratiroides Reaccionan Exageradamente",
+                step2_desc: "Sus glándulas paratiroides detectan el alto nivel de fósforo y el bajo nivel de calcio. Para solucionar esto, liberan mucha más hormona paratiroidea (PTH) de lo normal.",
+                step3_title: "La PTH Extrae Calcio de los Huesos",
+                step3_desc: "Los altos niveles de PTH actúan sobre sus huesos, extrayendo calcio y fósforo de ellos hacia la sangre. Esto hace que sus huesos se vuelvan más débiles y frágiles con el tiempo.",
+                step4_title: "Depósitos de Calcio en los Vasos Sanguíneos",
+                step4_desc: "El calcio y el fósforo adicionales que ahora circulan en su sangre pueden formar depósitos duros en sus vasos sanguíneos y corazón (llamado calcificación), haciéndolos rígidos y aumentando su riesgo de ataque cardíaco y accidente cerebrovascular.",
+                symptoms_title: "Signos y Síntomas",
+                symptoms_subtitle: "Muchas personas no tienen síntomas hasta que la enfermedad está avanzada. Haga clic en un síntoma para saber más.",
+                symptoms_bone_title: "En Sus Huesos",
+                symptoms_heart_title: "En Su Corazón y Vasos Sanguíneos",
+                symptoms_bone_list: [
+                    { name: "Dolor de huesos y articulaciones", explanation: "Los altos niveles de PTH pueden hacer que los huesos se debiliten y duelan." },
+                    { name: "Mayor riesgo de fracturas", explanation: "Los huesos debilitados tienen más probabilidades de romperse por lesiones menores." },
+                    { name: "Picazón en la piel", explanation: "Los altos niveles de fósforo en la sangre pueden causar una picazón intensa." }
+                ],
+                symptoms_heart_list: [
+                    { name: "Vasos sanguíneos rígidos", explanation: "Los depósitos de calcio y fósforo endurecen los vasos sanguíneos, lo que aumenta la presión arterial y sobrecarga el corazón." },
+                    { name: "Problemas en las válvulas cardíacas", explanation: "La calcificación puede dañar las válvulas del corazón, impidiendo que se abran y cierren correctamente." },
+                    { name: "Riesgo de insuficiencia cardíaca", explanation: "La combinación de presión arterial alta y vasos rígidos obliga al corazón a trabajar mucho más." }
+                ],
+                types_title: "Tipos de Enfermedad Ósea en la ERC",
+                type_high_turnover_name: "Enfermedad Ósea de Alto Recambio",
+                type_high_turnover_desc: "Este es el tipo más común. Es causado por niveles muy altos de PTH, que constantemente le dicen a sus huesos que liberen calcio. Esto conduce a un hueso débil y fibroso que es propenso a las fracturas.",
+                type_low_turnover_name: "Enfermedad Ósea de Bajo Recambio (Adinámica)",
+                type_low_turnover_desc: "En este tipo, los procesos normales de formación de hueso se ralentizan demasiado. Los huesos no se remodelan adecuadamente y se vuelven frágiles. Esto puede suceder si los niveles de PTH se suprimen demasiado con el tratamiento.",
+                diag_treat_title: "Diagnóstico y Tratamiento",
+                diagnosis_title: "¿Cómo se Diagnostica la EMO-ERC?",
+                diagnosis_list: [
+                    { name: "Análisis de Sangre", desc: "Su médico revisará regularmente sus niveles en sangre de calcio, fósforo, hormona paratiroidea (PTH) y Vitamina D para buscar desequilibrios." },
+                    { name: "Pruebas de Imagen", desc: "Se pueden usar radiografías u otras exploraciones para buscar cambios óseos o calcificación en sus vasos sanguíneos." },
+                    { name: "Biopsia Ósea", desc: "En casos raros, se puede tomar una pequeña muestra de hueso para ver cómo la enfermedad está afectando su estructura ósea." }
+                ],
+                treatment_title: "¿Cómo se Trata la EMO-ERC?",
+                treatment_list: [
+                    { 
+                        name: "Cambios en la Dieta", 
+                        desc: "El primer paso suele ser limitar los alimentos ricos en fósforo. Esto incluye productos lácteos, nueces, frijoles y refrescos de color oscuro. Un dietista renal puede ayudarle a crear un plan de alimentación seguro y eficaz."
+                    },
+                    {
+                        name: "Quelantes de Fosfato",
+                        desc: "Son medicamentos que actúan como esponjas en el intestino. Se toman con las comidas y se 'unen' al fósforo de los alimentos, evitando que se absorba en la sangre. Ejemplos incluyen el acetato de calcio y el sevelamer."
+                    },
+                    {
+                        name: "Vitamina D y Calcimiméticos",
+                        desc: "Su médico puede recetarle una forma activa especial de Vitamina D (como el calcitriol) para ayudar a equilibrar sus niveles de calcio y reducir la PTH. Los calcimiméticos (como el cinacalcet) son otro tipo de medicamento que engaña a la glándula paratiroides para que produzca menos PTH."
+                    }
+                ],
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo médico profesional.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada del <a href="https://www.niddk.nih.gov/health-information/kidney-disease/mineral-bone-disorder" target="_blank" class="text-blue-600 hover:underline">Instituto Nacional de la Diabetes y las Enfermedades Digestivas y Renales (NIDDK)</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key] && typeof t[key] === 'string') {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Populate dynamic content
+            for (let i = 1; i <= 4; i++) {
+                const stepInfo = document.getElementById(`step-${i}-info`);
+                stepInfo.innerHTML = `<h3 class="text-xl font-bold text-purple-700 mb-3">${t[`step${i}_title`]}</h3><p class="text-gray-700">${t[`step${i}_desc`]}</p>`;
+            }
+
+            const boneSymptoms = document.getElementById('symptoms-bone-list');
+            boneSymptoms.innerHTML = t.symptoms_bone_list.map(item => `
+                <div class="symptom-card border-2 border-transparent p-3 rounded-lg hover:bg-gray-50">
+                    <div class="flex items-start">
+                        <span class="text-purple-500 mr-3 mt-1">›</span>
+                        <span>${item.name}</span>
+                    </div>
+                    <div class="symptom-explanation text-sm text-gray-600 pl-6">${item.explanation}</div>
+                </div>`).join('');
+
+            const heartSymptoms = document.getElementById('symptoms-heart-list');
+            heartSymptoms.innerHTML = t.symptoms_heart_list.map(item => `
+                <div class="symptom-card border-2 border-transparent p-3 rounded-lg hover:bg-gray-50">
+                    <div class="flex items-start">
+                        <span class="text-red-500 mr-3 mt-1">›</span>
+                        <span>${item.name}</span>
+                    </div>
+                    <div class="symptom-explanation text-sm text-gray-600 pl-6">${item.explanation}</div>
+                </div>`).join('');
+
+            document.getElementById('type-high-turnover').innerHTML = `<h3 class="text-xl font-semibold text-gray-800 mb-4">${t.type_high_turnover_name}</h3><p class="text-gray-600">${t.type_high_turnover_desc}</p>`;
+            document.getElementById('type-low-turnover').innerHTML = `<h3 class="text-xl font-semibold text-gray-800 mb-4">${t.type_low_turnover_name}</h3><p class="text-gray-600">${t.type_low_turnover_desc}</p>`;
+
+            const diagnosisList = document.getElementById('diagnosis-list');
+            diagnosisList.innerHTML = t.diagnosis_list.map(item => `<div><h4 class="font-semibold text-gray-800">${item.name}</h4><p class="text-sm text-gray-600">${item.desc}</p></div>`).join('');
+
+            const treatmentAccordion = document.getElementById('treatment-accordion');
+            treatmentAccordion.innerHTML = t.treatment_list.map((item, index) => `
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <h2>
+                        <button type="button" class="accordion-button flex items-center justify-between w-full p-4 font-semibold text-left text-gray-700 bg-gray-50 hover:bg-gray-100" data-accordion-index="${index}">
+                            <span>${item.name}</span>
+                            <svg class="accordion-icon w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h2>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="border-t border-gray-200 py-4">
+                            <p class="text-sm text-gray-600">${item.desc}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            setupAccordion();
+            setupSymptomCards();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        const stepButtons = document.querySelectorAll('.step-button');
+        const stepInfos = document.querySelectorAll('.step-info');
+
+        function setActiveStep(step) {
+            stepButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.step === step));
+            stepInfos.forEach(info => info.classList.toggle('active', info.id === `step-${step}-info`));
+        }
+
+        stepButtons.forEach(button => {
+            button.addEventListener('click', () => setActiveStep(button.dataset.step));
+        });
+        
+        function setupAccordion() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.parentElement.nextElementSibling;
+                    button.classList.toggle('open');
+                    content.classList.toggle('open');
+                });
+            });
+        }
+        
+        function setupSymptomCards() {
+            const symptomCards = document.querySelectorAll('.symptom-card');
+            symptomCards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const currentExplanation = card.querySelector('.symptom-explanation');
+                    const isAlreadyVisible = currentExplanation.classList.contains('visible');
+
+                    // Close all others
+                    document.querySelectorAll('.symptom-explanation').forEach(exp => exp.classList.remove('visible'));
+                    document.querySelectorAll('.symptom-card').forEach(c => c.classList.remove('active'));
+
+                    if (!isAlreadyVisible) {
+                        currentExplanation.classList.add('visible');
+                        card.classList.add('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.symptom-explanation').forEach(exp => exp.classList.remove('visible'));
+                document.querySelectorAll('.symptom-card').forEach(c => c.classList.remove('active'));
+            });
+        }
+
+        changeLanguage('en');
+        setActiveStep('1');
+    });
+    </script>
+
+</body>
+</html>

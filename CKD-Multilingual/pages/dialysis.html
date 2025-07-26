@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialysis - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Tab Styles */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #3B82F6;
+            color: #3B82F6;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        /* Accordion Styles */
+        .accordion-button {
+            transition: background-color 0.2s;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+        /* Side Effect Card Styles */
+        .side-effect-card {
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .side-effect-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39); /* indigo */
+            border-color: #6366f1;
+        }
+        .side-effect-explanation {
+            display: none;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .side-effect-explanation.visible {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <main class="space-y-12">
+            <!-- About Dialysis & How it Works -->
+            <section class="info-card p-8 bg-blue-50 border-l-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-800 mb-4" data-translate="about_title"></h2>
+                <p class="text-gray-700 mb-4" data-translate="about_desc"></p>
+                <div id="uses-list"></div>
+                <h3 class="text-xl font-bold text-blue-800 mt-6 mb-2" data-translate="how_it_works_title"></h3>
+                <p class="text-gray-700" data-translate="how_it_works_desc"></p>
+            </section>
+
+            <!-- Types of Dialysis Section -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="types_title"></h2>
+                <div class="border-b border-gray-200 mb-8">
+                    <nav class="flex justify-center -mb-px space-x-6">
+                        <button class="tab-button whitespace-nowrap py-4 px-1 font-medium text-lg" data-tab="1" data-translate="hemo_tab"></button>
+                        <button class="tab-button whitespace-nowrap py-4 px-1 font-medium text-lg" data-tab="2" data-translate="pd_tab"></button>
+                    </nav>
+                </div>
+                <div id="hemo-content" class="tab-content"></div>
+                <div id="pd-content" class="tab-content"></div>
+            </section>
+            
+            <!-- Effectiveness & Side Effects Section -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="effectiveness_side_effects_title"></h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4" data-translate="effectiveness_title"></h3>
+                        <p data-translate="effectiveness_desc"></p>
+                    </div>
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 md:pl-8 pt-8 md:pt-0">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4" data-translate="side_effects_title"></h3>
+                        <div class="space-y-2" id="side-effects-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Additional Considerations Section -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="considerations_title"></h2>
+                <div class="space-y-2" id="considerations-accordion">
+                    <!-- JS Populated -->
+                </div>
+            </section>
+            
+            <!-- Preparing for Your Appointment Section -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="preparing_title"></h2>
+                <div class="space-y-2" id="preparing-accordion">
+                    <!-- JS Populated -->
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "Dialysis: A Guide for Patients and Families",
+                header_subtitle: "Learn about dialysis, a life-sustaining treatment for kidney failure, including the different types and what to expect.",
+                btn_back: "Back",
+                about_title: "About Dialysis and Its Uses",
+                about_desc: "Dialysis is a treatment that does some of the work of healthy kidneys when they can no longer function. It is needed when you have end-stage kidney failure, usually when you have lost about 85 to 90 percent of your kidney function (a GFR of less than 15).",
+                uses_list: [
+                    { icon: "🗑️", text: "<strong>Remove waste products</strong> from the blood that can become toxic if they build up." },
+                    { icon: "💧", text: "<strong>Remove extra fluid</strong> from the body to control swelling and blood pressure." },
+                    { icon: "⚖️", text: "<strong>Keep a safe balance</strong> of electrolytes like potassium, sodium, and bicarbonate." }
+                ],
+                how_it_works_title: "How Dialysis Works",
+                how_it_works_desc: "Dialysis works on the principles of diffusion. Your blood flows on one side of a special filter (a semipermeable membrane) and a cleaning fluid (dialysate) flows on the other. This thin membrane has tiny pores that block large particles like red blood cells, but allow small waste products like urea and extra minerals to pass from your blood into the dialysate, which is then discarded. This process cleans your blood without removing the things your body needs.",
+                types_title: "Types of Dialysis",
+                hemo_tab: "Hemodialysis (HD)",
+                pd_tab: "Peritoneal Dialysis (PD)",
+                hemo_desc: "In hemodialysis, an artificial kidney (hemodialyzer) is used to remove waste and extra chemicals and fluid from your blood. To get your blood into the dialyzer, a doctor needs to make an access, or entrance, into your blood vessels.",
+                hemo_access_title: "Hemodialysis Access Types",
+                hemo_access_list: [
+                    { name: "AV Fistula", desc: "The 'gold standard'. A surgeon connects an artery to a vein, usually in your arm. This makes the vein larger and stronger, allowing for good blood flow. It has the lowest risk of infection and clotting." },
+                    { name: "AV Graft", desc: "If your blood vessels are not suitable for a fistula, a surgeon can use a soft plastic tube to connect an artery and a vein. Grafts have a higher risk of clotting and infection than fistulas." },
+                    { name: "Catheter", desc: "A soft tube placed in a large vein in your neck, chest, or leg. It is often used for temporary access but has the highest risk of infection and clotting, so it's not preferred for long-term use." }
+                ],
+                pd_desc: "In peritoneal dialysis, your blood is cleaned inside your body. The inside lining of your own belly (peritoneum) acts as a natural filter. A soft tube called a catheter is placed in your belly by surgery. A special fluid called dialysate is put into your belly through this catheter and 'dwells' there for a few hours, pulling waste from your blood. The fluid is then drained, taking the waste with it.",
+                pd_types_title: "Peritoneal Dialysis Schedules",
+                pd_types_list: [
+                    { name: "Continuous Ambulatory PD (CAPD)", desc: "This is 'manual' PD. You fill your abdomen with dialysate and drain it yourself 3-4 times a day. Each exchange takes about 30-40 minutes, and you can go about your day during the 'dwell' time." },
+                    { name: "Automated PD (APD)", desc: "This is done at night with a machine called a cycler. You connect to the machine before you go to sleep, and it automatically does the exchanges for you while you sleep for 8-10 hours." }
+                ],
+                effectiveness_side_effects_title: "Effectiveness & Side Effects",
+                effectiveness_title: "Effectiveness of Dialysis",
+                effectiveness_desc: "Dialysis is a life-saving treatment that replaces a portion of your kidney function. It can help you feel better and live longer, but it is not a cure for kidney disease. It only performs about 10-15% of the work of a healthy kidney, which is why following your diet and taking medications is so important.",
+                side_effects_title: "Common Side Effects",
+                side_effects_list: [
+                    { name: "Low Blood Pressure (Hypotension)", explanation: "Occurs when too much fluid is removed too quickly." },
+                    { name: "Muscle Cramps", explanation: "Related to fluid and electrolyte shifts during treatment." },
+                    { name: "Fatigue", explanation: "The body is working hard during dialysis, and it can be tiring." },
+                    { name: "Itching (Pruritus)", explanation: "Often caused by high phosphorus levels in the blood." }
+                ],
+                considerations_title: "Additional Considerations",
+                considerations_list: [
+                    { name: "Diet and Fluids", desc: "Your diet is a critical part of your treatment. You will likely need to limit potassium, phosphorus, sodium, and fluids. A renal dietitian will create a personal plan for you." },
+                    { name: "Medications", desc: "You will need to take medicines to control blood pressure, manage phosphorus levels, and treat anemia. It's vital to take them exactly as prescribed." },
+                    { name: "Work and Exercise", desc: "Many people on dialysis continue to work. It's important to talk to your employer about a flexible schedule if needed. Light to moderate exercise is also encouraged to improve strength and energy." },
+                    { name: "Travel", desc: "Traveling is possible on dialysis. Your dialysis center's social worker can help you arrange for treatments at a center in another city or country. PD often offers more travel flexibility." },
+                    { name: "Emotional Support", desc: "Adjusting to life on dialysis can be challenging. It's important to talk about your feelings with family, friends, or your healthcare team. Support groups can also be very helpful." }
+                ],
+                preparing_title: "Preparing for Your Appointment",
+                preparing_list: [
+                    { name: "Questions About Treatment Options", desc: "What are the pros and cons of each type of dialysis for me? Which type fits best with my lifestyle? What kind of training is needed for home dialysis?" },
+                    { name: "Questions About the Procedure", desc: "What kind of access will I need and when will it be placed? How will I feel during and after treatment? How long does each session take?" },
+                    { name: "Questions About Lifestyle", desc: "What changes do I need to make to my diet? Can I still work, travel, or exercise? What resources are available for financial or emotional support?" }
+                ],
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.kidney.org/kidney-topics/dialysis" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            },
+            es: {
+                header_title: "Diálisis: Guía para Pacientes y Familias",
+                header_subtitle: "Aprenda sobre la diálisis, un tratamiento que sostiene la vida en la insuficiencia renal, incluyendo los diferentes tipos y qué esperar.",
+                btn_back: "Volver",
+                about_title: "Acerca de la Diálisis y sus Usos",
+                about_desc: "La diálisis es un tratamiento que realiza parte del trabajo de los riñones sanos cuando ya no pueden funcionar. Se necesita cuando tiene insuficiencia renal en etapa terminal, generalmente cuando ha perdido entre el 85 y el 90 por ciento de su función renal (una TFG de menos de 15).",
+                uses_list: [
+                    { icon: "🗑️", text: "<strong>Eliminar productos de desecho</strong> de la sangre que pueden volverse tóxicos si se acumulan." },
+                    { icon: "💧", text: "<strong>Eliminar el exceso de líquido</strong> del cuerpo para controlar la hinchazón y la presión arterial." },
+                    { icon: "⚖️", text: "<strong>Mantener un equilibrio seguro</strong> de electrolitos como el potasio, el sodio y el bicarbonato." }
+                ],
+                how_it_works_title: "Cómo Funciona la Diálisis",
+                how_it_works_infographic_caption: "Los desechos (puntos rojos) se mueven de la sangre al líquido de limpieza, mientras que la sangre limpia (puntos azules) permanece.",
+                how_it_works_desc: "La diálisis funciona según los principios de la difusión. Su sangre fluye por un lado de un filtro especial (una membrana semipermeable) y un líquido de limpieza (dialisato) fluye por el otro. Esta delgada membrana tiene poros diminutos que bloquean partículas grandes como los glóbulos rojos, pero permiten que pequeños productos de desecho como la urea y los minerales adicionales pasen de su sangre al dialisato, que luego se desecha. Este proceso limpia su sangre sin eliminar las cosas que su cuerpo necesita.",
+                types_title: "Tipos de Diálisis",
+                hemo_tab: "Hemodiálisis (HD)",
+                pd_tab: "Diálisis Peritoneal (DP)",
+                hemo_desc: "En la hemodiálisis, se utiliza un riñón artificial (hemodializador) para eliminar los desechos y el exceso de químicos y líquidos de su sangre. Para que su sangre llegue al dializador, un médico necesita crear un acceso, o entrada, a sus vasos sanguíneos.",
+                hemo_access_title: "Tipos de Acceso para Hemodiálisis",
+                hemo_access_list: [
+                    { name: "Fístula AV", desc: "El 'estándar de oro'. Un cirujano conecta una arteria a una vena, generalmente en el brazo. Esto hace que la vena sea más grande y fuerte, permitiendo un buen flujo sanguíneo. Tiene el menor riesgo de infección y coagulación." },
+                    { name: "Injerto AV", desc: "Si sus vasos sanguíneos no son adecuados para una fístula, un cirujano puede usar un tubo de plástico blando para conectar una arteria y una vena. Los injertos tienen un mayor riesgo de coagulación e infección que las fístulas." },
+                    { name: "Catéter", desc: "Un tubo blando que se coloca en una vena grande del cuello, pecho o pierna. A menudo se usa para acceso temporal, pero tiene el mayor riesgo de infección y coagulación, por lo que no se prefiere para uso a largo plazo." }
+                ],
+                pd_desc: "En la diálisis peritoneal, su sangre se limpia dentro de su cuerpo. El revestimiento interno de su propio abdomen (peritoneo) actúa como un filtro natural. Se coloca un tubo blando llamado catéter en su abdomen mediante cirugía. Se introduce un líquido especial llamado dializado en su abdomen a través de este catéter y 'permanece' allí durante unas horas, extrayendo los desechos de su sangre. Luego, el líquido se drena, llevándose los desechos consigo.",
+                pd_types_title: "Horarios de Diálisis Peritoneal",
+                pd_types_list: [
+                    { name: "DP Continua Ambulatoria (DPCA)", desc: "Esta es la DP 'manual'. Usted llena su abdomen con dialisato y lo drena usted mismo 3-4 veces al día. Cada intercambio dura entre 30 y 40 minutos, y puede continuar con su día durante el tiempo de 'permanencia'." },
+                    { name: "DP Automatizada (DPA)", desc: "Se realiza por la noche con una máquina llamada cicladora. Se conecta a la máquina antes de dormir, y esta realiza automáticamente los intercambios por usted mientras duerme durante 8-10 horas." }
+                ],
+                effectiveness_side_effects_title: "Eficacia y Efectos Secundarios",
+                effectiveness_title: "Eficacia de la Diálisis",
+                effectiveness_desc: "La diálisis es un tratamiento que salva vidas y que reemplaza una parte de la función renal. Puede ayudarle a sentirse mejor y a vivir más tiempo, pero no es una cura para la enfermedad renal. Solo realiza entre el 10 y el 15% del trabajo de un riñón sano, por lo que es muy importante seguir su dieta y tomar los medicamentos.",
+                side_effects_title: "Efectos Secundarios Comunes",
+                side_effects_list: [
+                    { name: "Presión arterial baja (hipotensión)", explanation: "Ocurre cuando se elimina demasiado líquido demasiado rápido." },
+                    { name: "Calambres musculares", explanation: "Relacionado con los cambios de líquidos y electrolitos durante el tratamiento." },
+                    { name: "Fatiga", explanation: "El cuerpo trabaja duro durante la diálisis y puede ser agotador." },
+                    { name: "Picazón (prurito)", explanation: "A menudo causado por altos niveles de fósforo en la sangre." }
+                ],
+                considerations_title: "Consideraciones Adicionales",
+                considerations_list: [
+                    { name: "Dieta y Líquidos", desc: "Su dieta es una parte fundamental de su tratamiento. Probablemente necesitará limitar el potasio, el fósforo, el sodio y los líquidos. Un dietista renal creará un plan personal para usted." },
+                    { name: "Medicamentos", desc: "Necesitará tomar medicamentos para controlar la presión arterial, manejar los niveles de fósforo y tratar la anemia. Es vital tomarlos exactamente como se le prescribió." },
+                    { name: "Trabajo y Ejercicio", desc: "Muchas personas en diálisis continúan trabajando. Es importante hablar con su empleador sobre un horario flexible si es necesario. También se recomienda el ejercicio de leve a moderado para mejorar la fuerza y la energía." },
+                    { name: "Viajes", desc: "Viajar es posible en diálisis. El trabajador social de su centro de diálisis puede ayudarle a organizar tratamientos en un centro de otra ciudad o país. La DP a menudo ofrece más flexibilidad para viajar." },
+                    { name: "Apoyo Emocional", desc: "Adaptarse a la vida en diálisis puede ser un desafío. Es importante hablar de sus sentimientos con familiares, amigos o su equipo de atención médica. Los grupos de apoyo también pueden ser muy útiles." }
+                ],
+                preparing_title: "Preparándose para su Cita",
+                preparing_list: [
+                    { name: "Preguntas sobre Opciones de Tratamiento", desc: "¿Cuáles son los pros y los contras de cada tipo de diálisis para mí? ¿Qué tipo se adapta mejor a mi estilo de vida? ¿Qué tipo de capacitación se necesita para la diálisis en casa?" },
+                    { name: "Preguntas sobre el Procedimiento", desc: "¿Qué tipo de acceso necesitaré y cuándo se colocará? ¿Cómo me sentiré durante y después del tratamiento? ¿Cuánto dura cada sesión?" },
+                    { name: "Preguntas sobre el Estilo de Vida", desc: "¿Qué cambios debo hacer en mi dieta? ¿Puedo seguir trabajando, viajando o haciendo ejercicio? ¿Qué recursos hay disponibles para apoyo financiero o emocional?" }
+                ],
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo médico profesional.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada de la <a href="https://www.kidney.org/es/kidney-topics/dialisis" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key] && typeof t[key] === 'string') {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Populate dynamic content
+            const usesList = document.getElementById('uses-list');
+            usesList.innerHTML = `<div class="grid sm:grid-cols-3 gap-4 mt-4">${t.uses_list.map(item => `<div class="flex items-center bg-white p-3 rounded-lg"><span class="text-2xl mr-3">${item.icon}</span><span class="text-sm">${item.text}</span></div>`).join('')}</div>`;
+
+            const hemoContent = document.getElementById('hemo-content');
+            hemoContent.innerHTML = `
+                <p class="mb-6">${t.hemo_desc}</p>
+                <h4 class="font-semibold text-gray-800 mb-4">${t.hemo_access_title}</h4>
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    ${t.hemo_access_list.map(item => `<div class="bg-gray-50 p-4 rounded-lg"><h5 class="font-bold">${item.name}</h5><p class="text-sm text-gray-600">${item.desc}</p></div>`).join('')}
+                </div>`;
+
+            const pdContent = document.getElementById('pd-content');
+            pdContent.innerHTML = `
+                <p class="mb-6">${t.pd_desc}</p>
+                <h4 class="font-semibold text-gray-800 mb-4">${t.pd_types_title}</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                     ${t.pd_types_list.map(item => `<div class="bg-gray-50 p-4 rounded-lg"><h5 class="font-bold">${item.name}</h5><p class="text-sm text-gray-600">${item.desc}</p></div>`).join('')}
+                </div>`;
+            
+            const sideEffectsList = document.getElementById('side-effects-list');
+            sideEffectsList.innerHTML = t.side_effects_list.map(item => `
+                <div class="side-effect-card border-2 border-transparent p-3 rounded-lg hover:bg-gray-50">
+                    <div class="flex items-start">
+                        <span class="text-indigo-500 mr-3 mt-1">›</span>
+                        <span>${item.name}</span>
+                    </div>
+                    <div class="side-effect-explanation text-sm text-gray-600 pl-6">${item.explanation}</div>
+                </div>`).join('');
+
+            const considerationsAccordion = document.getElementById('considerations-accordion');
+            considerationsAccordion.innerHTML = t.considerations_list.map((item, index) => createAccordionItem(item, index, 'considerations')).join('');
+
+            const preparingAccordion = document.getElementById('preparing-accordion');
+            preparingAccordion.innerHTML = t.preparing_list.map((item, index) => createAccordionItem(item, index, 'preparing')).join('');
+            
+            setupAccordions();
+            setupSideEffectCards();
+        }
+
+        function createAccordionItem(item, index, prefix) {
+            return `
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <h2>
+                        <button type="button" class="accordion-button flex items-center justify-between w-full p-4 font-semibold text-left text-gray-700 bg-gray-50 hover:bg-gray-100" data-accordion-index="${prefix}-${index}">
+                            <span>${item.name}</span>
+                            <svg class="accordion-icon w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h2>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="border-t border-gray-200 py-4">
+                            <p class="text-sm text-gray-600">${item.desc}</p>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+            setupTabs();
+        }
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            let activeTab = document.querySelector('.tab-button.active')?.dataset.tab || '1';
+
+            function setActiveTab(tab) {
+                tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
+                tabContents.forEach(content => {
+                    const contentId = content.id.includes('hemo') ? '1' : '2';
+                    content.classList.toggle('active', contentId === tab);
+                });
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    activeTab = e.currentTarget.dataset.tab;
+                    setActiveTab(activeTab);
+                });
+            });
+            
+            setActiveTab(activeTab);
+        }
+        
+        function setupAccordions() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.parentElement.nextElementSibling;
+                    button.classList.toggle('open');
+                    content.classList.toggle('open');
+                });
+            });
+        }
+        
+        function setupSideEffectCards() {
+            const cards = document.querySelectorAll('.side-effect-card');
+            cards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const currentExplanation = card.querySelector('.side-effect-explanation');
+                    const isAlreadyVisible = currentExplanation.classList.contains('visible');
+                    
+                    document.querySelectorAll('.side-effect-explanation').forEach(exp => exp.classList.remove('visible'));
+                    document.querySelectorAll('.side-effect-card').forEach(c => c.classList.remove('active'));
+
+                    if (!isAlreadyVisible) {
+                        currentExplanation.classList.add('visible');
+                        card.classList.add('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.side-effect-explanation').forEach(exp => exp.classList.remove('visible'));
+                document.querySelectorAll('.side-effect-card').forEach(c => c.classList.remove('active'));
+            });
+        }
+
+        changeLanguage('en');
+        setupTabs();
+    });
+    </script>
+
+</body>
+</html>

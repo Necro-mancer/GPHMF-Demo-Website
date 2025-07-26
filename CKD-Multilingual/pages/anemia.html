@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anemia and Chronic Kidney Disease - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Interactive Step Styles */
+        .step-button {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .step-button.active {
+            background-color: #3B82F6;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+        }
+        .step-info {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .step-info.active {
+            display: block;
+        }
+        /* Accordion Styles */
+        .accordion-button {
+            transition: background-color 0.2s;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+        /* Symptom Card Styles - UPDATED for mobile-friendliness */
+        .symptom-card {
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .symptom-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            border: 2px solid #3B82F6;
+        }
+        .symptom-explanation {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1f2937;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            width: max-content;
+            max-width: 200px;
+            margin-bottom: 0.5rem;
+            z-index: 10;
+        }
+        .symptom-explanation.visible {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <!-- Why it Happens Section -->
+            <section class="info-card bg-red-50 border border-red-200 mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-red-800 mb-2" data-translate="why_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="why_subtitle"></p>
+                
+                <div class="grid lg:grid-cols-3 gap-8 items-center">
+                    <!-- The Visual Diagram -->
+                    <div class="lg:col-span-1 flex flex-col items-center justify-center">
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-red-600 text-2xl" data-step="1">1</div>
+                        <div class="h-8 w-1 bg-red-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-red-600 text-2xl" data-step="2">2</div>
+                        <div class="h-8 w-1 bg-red-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-red-600 text-2xl" data-step="3">3</div>
+                        <div class="h-8 w-1 bg-red-200 my-2"></div>
+                        <div class="step-button w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center font-bold text-red-600 text-2xl" data-step="4">4</div>
+                    </div>
+
+                    <!-- The Explanations -->
+                    <div class="lg:col-span-2">
+                        <div id="step-1-info" class="step-info"></div>
+                        <div id="step-2-info" class="step-info"></div>
+                        <div id="step-3-info" class="step-info"></div>
+                        <div id="step-4-info" class="step-info"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Signs & Symptoms Section -->
+            <section class="info-card mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4" data-translate="symptoms_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="symptoms_subtitle"></p>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="symptoms-list">
+                    <!-- JS Populated -->
+                </div>
+            </section>
+            
+            <!-- Who is at Risk Section -->
+            <section class="info-card mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="risk_title"></h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="risk-list">
+                    <!-- JS Populated -->
+                </div>
+            </section>
+
+            <!-- Diagnosis & Treatment Section -->
+            <section class="info-card p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="diag_treat_title"></h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Diagnosis -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-700 mb-4" data-translate="diagnosis_title"></h3>
+                        <div class="space-y-4" id="diagnosis-list"></div>
+                    </div>
+                    <!-- Treatment -->
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 md:pl-8 pt-8 md:pt-0">
+                        <h3 class="text-xl font-semibold text-green-700 mb-4" data-translate="treatment_title"></h3>
+                        <div class="space-y-2" id="treatment-accordion"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "Anemia and Chronic Kidney Disease",
+                header_subtitle: "Anemia is a common complication of CKD that can make you feel weak and tired. Learn why it happens and how it's treated.",
+                btn_back: "Back",
+                why_title: "Why Anemia Happens in CKD",
+                why_subtitle: "It's a chain reaction. Click each step to see how damaged kidneys lead to fewer red blood cells.",
+                step1_title: "Healthy kidneys make a hormone called EPO.",
+                step1_desc: "Erythropoietin (EPO) is a vital hormone produced by healthy kidneys. It acts as a messenger, traveling through the bloodstream to your bone marrow.",
+                step2_title: "EPO tells your bone marrow to make red blood cells.",
+                step2_desc: "When EPO reaches the bone marrow (the spongy tissue inside your bones), it signals the marrow to start producing red blood cells. These cells are essential for carrying oxygen.",
+                step3_title: "Damaged kidneys make less EPO.",
+                step3_desc: "In Chronic Kidney Disease, the damaged kidneys can't produce enough EPO. Without this crucial signal, the bone marrow makes fewer red blood cells.",
+                step4_title: "Other factors contribute, too.",
+                step4_desc: "Besides low EPO, anemia in CKD can also be caused by low iron levels (needed to make hemoglobin) or a shorter lifespan of red blood cells due to waste products in the blood.",
+                symptoms_title: "Common Signs & Symptoms",
+                symptoms_subtitle: "Click or tap on a symptom to learn why it happens.",
+                symptoms_list: [
+                    { icon: "😴", name: "Fatigue & Weakness", explanation: "Your muscles and brain aren't getting enough oxygen to function properly." },
+                    { icon: "🤕", name: "Dizziness or Headaches", explanation: "The brain is sensitive to low oxygen levels." },
+                    { icon: "🌬️", name: "Shortness of Breath", explanation: "Your body tries to get more oxygen by breathing faster." },
+                    { icon: "🧊", name: "Feeling Cold", explanation: "Reduced blood flow to the skin as the body prioritizes vital organs." },
+                    { icon: "🧠", name: "Trouble Concentrating", explanation: "Low oxygen can affect cognitive function, sometimes called 'brain fog'." },
+                    { icon: "⚪", name: "Pale Skin", explanation: "Fewer red blood cells mean less color in your skin, gums, and nail beds." }
+                ],
+                risk_title: "Who is Most at Risk?",
+                risk_list: [
+                    { icon: "📉", name: "Lower GFR", desc: "Anemia becomes more common as kidney function (GFR) declines." },
+                    { icon: "👩", name: "Women", desc: "Especially women of childbearing age, due to blood loss during menstrual periods." },
+                    { icon: "🍬", name: "People with Diabetes", desc: "Diabetes can damage kidneys more severely, affecting EPO production." }
+                ],
+                diag_treat_title: "Diagnosis & Treatment",
+                diagnosis_title: "How is Anemia Diagnosed?",
+                diagnosis_list: [
+                    { name: "Hemoglobin (Hgb) Test", desc: "This is the main test for anemia. A normal Hgb is about 12-16 g/dL for women and 13-17 g/dL for men. Anemia is often diagnosed when Hgb is below these levels." },
+                    { name: "Iron Tests (Ferritin, TSAT)", desc: "Checks if you have enough iron stored (ferritin) and available (TSAT) to make new red blood cells." }
+                ],
+                treatment_title: "How is Anemia Treated?",
+                treatment_list: [
+                    { 
+                        name: "Erythropoiesis-Stimulating Agents (ESAs)", 
+                        desc: "ESAs are injectable medicines that work like natural EPO. They signal your bone marrow to make more red blood cells. The goal is not to reach 'normal' hemoglobin levels, but a target range (usually 10-11 g/dL) that improves symptoms without increasing risks like high blood pressure or blood clots. Common examples include Procrit® and Aranesp®."
+                    },
+                    {
+                        name: "Iron Supplements",
+                        desc: "Iron is a key building block for hemoglobin. Even with ESAs, your body can't make red blood cells without enough iron. Oral iron pills can cause stomach upset and may not be well absorbed. IV iron, given directly into a vein, is often more effective for people with CKD, especially those on dialysis."
+                    },
+                    {
+                        name: "Blood Transfusions",
+                        desc: "This is a short-term solution for very severe anemia. It involves receiving donated blood to quickly raise your red blood cell count. It's used less often due to risks and because it can make it harder to find a matching kidney for a future transplant."
+                    }
+                ],
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.kidney.org/kidney-topics/anemia-and-chronic-kidney-disease" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            },
+            es: {
+                header_title: "La Anemia y la Enfermedad Renal Crónica",
+                header_subtitle: "La anemia es una complicación común de la ERC que puede hacer que se sienta débil y cansado. Aprenda por qué ocurre y cómo se trata.",
+                btn_back: "Volver",
+                why_title: "Por Qué Ocurre la Anemia en la ERC",
+                why_subtitle: "Es una reacción en cadena. Haga clic en cada paso para ver cómo los riñones dañados conducen a menos glóbulos rojos.",
+                step1_title: "Los riñones sanos producen una hormona llamada EPO.",
+                step1_desc: "La eritropoyetina (EPO) es una hormona vital producida por los riñones sanos. Actúa como un mensajero, viajando a través del torrente sanguíneo hasta la médula ósea.",
+                step2_title: "La EPO le dice a su médula ósea que produzca glóbulos rojos.",
+                step2_desc: "Cuando la EPO llega a la médula ósea (el tejido esponjoso dentro de sus huesos), le indica a la médula que comience a producir glóbulos rojos. Estas células son esenciales para transportar oxígeno.",
+                step3_title: "Los riñones dañados producen menos EPO.",
+                step3_desc: "En la Enfermedad Renal Crónica, los riñones dañados no pueden producir suficiente EPO. Sin esta señal crucial, la médula ósea produce menos glóbulos rojos.",
+                step4_title: "Otros factores también contribuyen.",
+                step4_desc: "Además de la baja EPO, la anemia en la ERC también puede ser causada por bajos niveles de hierro (necesario para producir hemoglobina) o una vida útil más corta de los glóbulos rojos debido a los productos de desecho en la sangre.",
+                symptoms_title: "Signos y Síntomas Comunes",
+                symptoms_subtitle: "Haga clic o toque un síntoma para saber por qué ocurre.",
+                symptoms_list: [
+                    { icon: "😴", name: "Fatiga y Debilidad", explanation: "Sus músculos y cerebro no reciben suficiente oxígeno para funcionar correctamente." },
+                    { icon: "🤕", name: "Mareos o Dolores de Cabeza", explanation: "El cerebro es sensible a los bajos niveles de oxígeno." },
+                    { icon: "🌬️", name: "Falta de Aliento", explanation: "Su cuerpo intenta obtener más oxígeno respirando más rápido." },
+                    { icon: "🧊", name: "Sensación de Frío", explanation: "Reducción del flujo sanguíneo a la piel ya que el cuerpo prioriza los órganos vitales." },
+                    { icon: "🧠", name: "Dificultad para Concentrarse", explanation: "El bajo nivel de oxígeno puede afectar la función cognitiva, a veces llamada 'niebla mental'." },
+                    { icon: "⚪", name: "Piel Pálida", explanation: "Menos glóbulos rojos significan menos color en su piel, encías y lechos ungueales." }
+                ],
+                risk_title: "¿Quién está en Mayor Riesgo?",
+                risk_list: [
+                    { icon: "📉", name: "TFG más Baja", desc: "La anemia se vuelve más común a medida que disminuye la función renal (TFG)." },
+                    { icon: "👩", name: "Mujeres", desc: "Especialmente las mujeres en edad fértil, debido a la pérdida de sangre durante los períodos menstruales." },
+                    { icon: "🍬", name: "Personas con Diabetes", desc: "La diabetes puede dañar los riñones más severamente, afectando la producción de EPO." }
+                ],
+                diag_treat_title: "Diagnóstico y Tratamiento",
+                diagnosis_title: "¿Cómo se Diagnostica la Anemia?",
+                diagnosis_list: [
+                    { name: "Prueba de Hemoglobina (Hgb)", desc: "Esta es la prueba principal para la anemia. Una Hgb normal es de aproximadamente 12-16 g/dL para mujeres y 13-17 g/dL para hombres. La anemia se diagnostica a menudo cuando la Hgb está por debajo de estos niveles." },
+                    { name: "Pruebas de Hierro (Ferritina, IST)", desc: "Verifica si tiene suficiente hierro almacenado (ferritina) y disponible (IST) para producir nuevos glóbulos rojos." }
+                ],
+                treatment_title: "¿Cómo se Trata la Anemia?",
+                treatment_list: [
+                    { 
+                        name: "Agentes Estimulantes de la Eritropoyesis (AEE)", 
+                        desc: "Los AEE son medicamentos inyectables que funcionan como la EPO natural. Le indican a su médula ósea que produzca más glóbulos rojos. El objetivo no es alcanzar niveles 'normales' de hemoglobina, sino un rango objetivo (generalmente 10-11 g/dL) que mejore los síntomas sin aumentar los riesgos como la presión arterial alta o los coágulos de sangre. Ejemplos comunes incluyen Procrit® y Aranesp®."
+                    },
+                    {
+                        name: "Suplementos de Hierro",
+                        desc: "El hierro es un componente clave para la hemoglobina. Incluso con los AEE, su cuerpo no puede producir glóbulos rojos sin suficiente hierro. Las pastillas de hierro oral pueden causar malestar estomacal y no absorberse bien. El hierro IV, administrado directamente en una vena, suele ser más efectivo para las personas con ERC, especialmente las que están en diálisis."
+                    },
+                    {
+                        name: "Transfusiones de Sangre",
+                        desc: "Esta es una solución a corto plazo para la anemia muy severa. Implica recibir sangre donada para aumentar rápidamente el recuento de glóbulos rojos. Se usa con menos frecuencia debido a los riesgos y porque puede dificultar la búsqueda de un riñón compatible para un futuro trasplante."
+                    }
+                ],
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo médico profesional.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada de la <a href="https://www.kidney.org/kidney-topics/anemia-and-chronic-kidney-disease" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key] && typeof t[key] === 'string') {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Populate dynamic content
+            for (let i = 1; i <= 4; i++) {
+                const stepInfo = document.getElementById(`step-${i}-info`);
+                stepInfo.innerHTML = `<h3 class="text-xl font-bold text-red-700 mb-3">${t[`step${i}_title`]}</h3><p class="text-gray-700">${t[`step${i}_desc`]}</p>`;
+            }
+
+            const symptomsList = document.getElementById('symptoms-list');
+            symptomsList.innerHTML = t.symptoms_list.map(item => `
+                <div class="symptom-card bg-gray-50 p-4 rounded-lg text-center border-2 border-transparent">
+                    <div class="symptom-explanation">${item.explanation}</div>
+                    <p class="text-4xl mb-2">${item.icon}</p>
+                    <p class="font-semibold text-gray-800">${item.name}</p>
+                </div>`).join('');
+
+            const riskList = document.getElementById('risk-list');
+            riskList.innerHTML = t.risk_list.map(item => `<div class="bg-yellow-50 p-4 rounded-lg text-center"><p class="text-4xl mb-2">${item.icon}</p><div><h4 class="font-semibold">${item.name}</h4><p class="text-sm text-gray-600">${item.desc}</p></div></div>`).join('');
+
+            const diagnosisList = document.getElementById('diagnosis-list');
+            diagnosisList.innerHTML = t.diagnosis_list.map(item => `<div><h4 class="font-semibold text-gray-800">${item.name}</h4><p class="text-sm text-gray-600">${item.desc}</p></div>`).join('');
+
+            const treatmentAccordion = document.getElementById('treatment-accordion');
+            treatmentAccordion.innerHTML = t.treatment_list.map((item, index) => `
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <h2>
+                        <button type="button" class="accordion-button flex items-center justify-between w-full p-4 font-semibold text-left text-gray-700 bg-gray-50 hover:bg-gray-100" data-accordion-index="${index}">
+                            <span>${item.name}</span>
+                            <svg class="accordion-icon w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h2>
+                    <div class="accordion-content bg-white px-4">
+                        <div class="border-t border-gray-200 py-4">
+                            <p class="text-sm text-gray-600">${item.desc}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            setupAccordion();
+            setupSymptomCards();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        const stepButtons = document.querySelectorAll('.step-button');
+        const stepInfos = document.querySelectorAll('.step-info');
+
+        function setActiveStep(step) {
+            stepButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.step === step));
+            stepInfos.forEach(info => info.classList.toggle('active', info.id === `step-${step}-info`));
+        }
+
+        stepButtons.forEach(button => {
+            button.addEventListener('click', () => setActiveStep(button.dataset.step));
+        });
+        
+        function setupAccordion() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.parentElement.nextElementSibling;
+                    button.classList.toggle('open');
+                    content.classList.toggle('open');
+                });
+            });
+        }
+        
+        function setupSymptomCards() {
+            const symptomCards = document.querySelectorAll('.symptom-card');
+            symptomCards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const currentExplanation = card.querySelector('.symptom-explanation');
+                    const isAlreadyVisible = currentExplanation.classList.contains('visible');
+
+                    // Close all others
+                    document.querySelectorAll('.symptom-explanation').forEach(exp => exp.classList.remove('visible'));
+                    document.querySelectorAll('.symptom-card').forEach(c => c.classList.remove('active'));
+
+                    if (!isAlreadyVisible) {
+                        currentExplanation.classList.add('visible');
+                        card.classList.add('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.symptom-explanation').forEach(exp => exp.classList.remove('visible'));
+                document.querySelectorAll('.symptom-card').forEach(c => c.classList.remove('active'));
+            });
+        }
+
+        changeLanguage('en');
+        setActiveStep('1');
+    });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Chronic Kidney Disease (CKD)</title>
+    <!-- Chosen Palette: Warm Neutrals & Soft Blue -->
+    <!-- Application Structure Plan: A thematic, tabbed single-page application. This structure breaks down the dense report into manageable, user-selectable sections (Learn, Prevent & Detect, Manage, Diet Helper, Advanced Stages, Support). This is more user-friendly than a long scroll, allowing users to directly access information relevant to their current needs (e.g., a newly diagnosed patient explores 'Learn', while a long-term patient uses the 'Diet Helper'). The user flow starts with a welcoming landing page and branches out via a clear top navigation bar, promoting exploration over linear reading. This design prioritizes usability and task-orientation. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: CKD Risk Factors -> Goal: Compare -> Viz: Doughnut Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Quickly visualizes the dominant causes (Diabetes, HBP) versus others.
+        - Report Info: 5 Stages of CKD -> Goal: Organize/Inform -> Viz: Horizontal Bar Chart (Chart.js) -> Interaction: Click on a bar to show detailed text -> Justification: Transforms a static table into an interactive visual, helping users understand the disease progression spectrum.
+        - Report Info: Kidney-Friendly Diet Table -> Goal: Practical Tool -> Viz: Interactive Side-by-Side Lists (HTML/JS) -> Interaction: Click buttons for Sodium/Potassium/Phosphorus to dynamically populate 'Choose' and 'Limit' food lists -> Justification: Creates a highly practical, engaging tool from a static table, which is the "wow factor" of the app.
+        - Report Info: Kidney Functions/Complications -> Goal: Inform/Explain Relationships -> Viz: Styled Cards & Diagrams (HTML/Tailwind) -> Interaction: Click to reveal info -> Justification: Breaks down complex information into digestible, non-intimidating visual chunks.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8; /* A warmer, more inviting background */
+            color: #4A4A4A;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .nav-button.active {
+            background-color: #3B82F6;
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
+            transform: translateY(-2px);
+        }
+        .nav-button:not(.active):hover {
+            background-color: #EFF6FF;
+            border-color: #3B82F6;
+            transform: translateY(-1px);
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .link-highlight {
+            color: #2563EB;
+            font-weight: 600;
+            text-decoration: none;
+            background-image: linear-gradient(to right, #A5B4FC, #A5B4FC);
+            background-position: 0 100%;
+            background-repeat: no-repeat;
+            background-size: 0% 2px;
+            transition: background-size 0.3s;
+        }
+        .link-highlight:hover {
+            background-size: 100% 2px;
+        }
+        /* --- Language Selector Styles --- */
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <header class="text-center mb-10">
+            <div class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-1 rounded-full mb-4" data-translate="header_badge"></div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-10">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+            <button data-target="learn" class="nav-button active font-semibold py-2 px-4 rounded-full text-sm md:text-base" data-translate="nav_learn">🧠 Learn</button>
+            <button data-target="prevent" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base" data-translate="nav_prevent">🛡️ Prevent & Detect</button>
+            <button data-target="manage" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base" data-translate="nav_manage">💪 Manage</button>
+            <button data-target="diet" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base" data-translate="nav_diet">🥗 Diet Helper</button>
+            <button data-target="advanced" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base" data-translate="nav_advanced">🩺 Advanced Stages</button>
+            <button data-target="support" class="nav-button font-semibold py-2 px-4 rounded-full text-sm md:text-base" data-translate="nav_support">❤️ Support</button>
+        </nav>
+
+        <main id="main-content">
+            <!-- Sections will be populated by JS -->
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_badge: "Your Trusted Health Companion",
+                header_title: "A Patient's Guide to Living Well with CKD",
+                header_subtitle: "An interactive resource to help you understand, manage, and thrive with Chronic Kidney Disease.",
+                btn_back: "Back",
+                nav_learn: "🧠 Learn",
+                nav_prevent: "🛡️ Prevent & Detect",
+                nav_manage: "💪 Manage",
+                nav_diet: "🥗 Diet Helper",
+                nav_advanced: "🩺 Advanced Stages",
+                nav_support: "❤️ Support",
+                learn_how_link: "Learn how kidneys work →",
+                explore_prevention_link: "Explore Prevention Tips →",
+                more_meds_link: "More on CKD Medications →",
+                learn_protein_link: "Learn more about protein and CKD",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source_title: "Source Material:",
+                footer_source_text: `Information is primarily adapted from the <a href="https://www.niddk.nih.gov/" target="_blank" class="link-highlight">National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)</a>, the <a href="https://www.kidney.org/" target="_blank" class="link-highlight">National Kidney Foundation (NKF)</a>, and the <a href="https://www.kidneyfund.org/" target="_blank" class="link-highlight">American Kidney Fund (AKF)</a>.`,
+                risk_chart_title: "Primary Causes of CKD",
+                risk_chart_labels: ['Diabetes', 'High Blood Pressure', 'Other Causes'],
+                ckd_stages_chart_label: 'Kidney Function Level',
+                ckd_stages_chart_x_axis_title: 'Approximate Kidney Function',
+                ckdStageData: [
+                    { stage: 'Stage 1', egfr: '90 or higher', description: 'Normal kidney function, but other signs of kidney damage are present, such as protein in the urine.' },
+                    { stage: 'Stage 2', egfr: '60-89', description: 'Mildly reduced kidney function, with other signs of kidney damage present.' },
+                    { stage: 'Stage 3a', egfr: '45-59', description: 'Moderately reduced kidney function.' },
+                    { stage: 'Stage 3b', egfr: '30-44', description: 'Moderately reduced kidney function. Complications like anemia and bone disease may begin to appear.' },
+                    { stage: 'Stage 4', egfr: '15-29', description: 'Severely reduced kidney function. This is the last stage before kidney failure, and preparation for dialysis or a transplant may begin.' },
+                    { stage: 'Stage 5', egfr: 'Less than 15', description: 'Kidney failure (ESRD). Dialysis or a kidney transplant is necessary.' }
+                ],
+                diet_nutrient_sodium: "Sodium",
+                diet_nutrient_potassium: "Potassium",
+                diet_nutrient_phosphorus: "Phosphorus",
+                diet_choose_title: "✅ Choose These",
+                diet_limit_title: "❌ Limit or Avoid These",
+                diet_initial_prompt: "Click a nutrient button above to start.",
+                diet_low_in: "Low in",
+                diet_high_in: "High in",
+                dietData: {
+                    sodium: {
+                        choose: ['Fresh or frozen foods', 'Herbs and spices for flavor', 'Unsalted snacks', 'Home-cooked meals'],
+                        limit: ['Processed foods (canned soups, frozen dinners, deli meats)', 'Fast food', 'Table salt', 'Salty snacks', 'Cheese']
+                    },
+                    potassium: {
+                        choose: ['Apples, berries, grapes, pineapple', 'Cabbage, cauliflower, green beans', 'White bread, white rice', 'Lean beef and chicken'],
+                        limit: ['Oranges, bananas, melons', 'Potatoes, tomatoes, spinach, avocados', 'Brown rice, whole-wheat bread', 'Beans, nuts', 'Salt substitutes']
+                    },
+                    phosphorus: {
+                        choose: ['Fresh fruits and vegetables', 'White bread (French, Italian)', 'Corn or rice cereals', 'Unsalted popcorn', 'Light-colored sodas'],
+                        limit: ['Dairy products (milk, cheese, yogurt)', 'Nuts and seeds, beans', 'Whole-grain breads, oatmeal', 'Dark-colored colas', 'Processed meats with "PHOS" additives']
+                    }
+                }
+            },
+            es: {
+                header_badge: "Su Compañero de Salud de Confianza",
+                header_title: "Guía del Paciente para Vivir Bien con ERC",
+                header_subtitle: "Un recurso interactivo para ayudarle a entender, manejar y prosperar con la Enfermedad Renal Crónica.",
+                btn_back: "Volver",
+                nav_learn: "🧠 Aprender",
+                nav_prevent: "🛡️ Prevenir y Detectar",
+                nav_manage: "💪 Manejar",
+                nav_diet: "🥗 Ayudante de Dieta",
+                nav_advanced: "🩺 Etapas Avanzadas",
+                nav_support: "❤️ Apoyo",
+                learn_how_link: "Aprenda cómo funcionan los riñones →",
+                explore_prevention_link: "Explore consejos de prevención →",
+                more_meds_link: "Más sobre medicamentos para la ERC →",
+                learn_protein_link: "Aprenda más sobre la proteína y la ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source_title: "Fuente del material:",
+                footer_source_text: `La información se adapta principalmente del <a href="https://www.niddk.nih.gov/health-information/informacion-de-la-salud" target="_blank" class="link-highlight">Instituto Nacional de la Diabetes y las Enfermedades Digestivas y Renales (NIDDK)</a>, la <a href="https://www.kidney.org/es" target="_blank" class="link-highlight">Fundación Nacional del Riñón (NKF)</a> y el <a href="https://www.kidneyfund.org/es" target="_blank" class="link-highlight">Fondo Americano del Riñón (AKF)</a>.`,
+                risk_chart_title: "Causas Principales de la ERC",
+                risk_chart_labels: ['Diabetes', 'Presión Arterial Alta', 'Otras Causas'],
+                ckd_stages_chart_label: 'Nivel de Función Renal',
+                ckd_stages_chart_x_axis_title: 'Función Renal Aproximada',
+                ckdStageData: [
+                    { stage: 'Etapa 1', egfr: '90 o más', description: 'Función renal normal, pero hay otros signos de daño renal, como proteína en la orina.' },
+                    { stage: 'Etapa 2', egfr: '60-89', description: 'Función renal ligeramente reducida, con otros signos de daño renal presentes.' },
+                    { stage: 'Etapa 3a', egfr: '45-59', description: 'Función renal moderadamente reducida.' },
+                    { stage: 'Etapa 3b', egfr: '30-44', description: 'Función renal moderadamente reducida. Pueden comenzar a aparecer complicaciones como anemia y enfermedad ósea.' },
+                    { stage: 'Etapa 4', egfr: '15-29', description: 'Función renal gravemente reducida. Esta es la última etapa antes de la insuficiencia renal, y puede comenzar la preparación para la diálisis o un trasplante.' },
+                    { stage: 'Etapa 5', egfr: 'Menos de 15', description: 'Insuficiencia renal (ESRD). Se necesita diálisis o un trasplante de riñón.' }
+                ],
+                diet_nutrient_sodium: "Sodio",
+                diet_nutrient_potassium: "Potasio",
+                diet_nutrient_phosphorus: "Fósforo",
+                diet_choose_title: "✅ Elija Estos",
+                diet_limit_title: "❌ Limite o Evite Estos",
+                diet_initial_prompt: "Haga clic en un botón de nutriente para comenzar.",
+                diet_low_in: "Bajo en",
+                diet_high_in: "Alto en",
+                dietData: {
+                    sodium: {
+                        choose: ['Alimentos frescos o congelados', 'Hierbas y especias para dar sabor', 'Bocadillos sin sal', 'Comidas caseras'],
+                        limit: ['Alimentos procesados (sopas enlatadas, cenas congeladas, embutidos)', 'Comida rápida', 'Sal de mesa', 'Bocadillos salados', 'Queso']
+                    },
+                    potassium: {
+                        choose: ['Manzanas, bayas, uvas, piña', 'Repollo, coliflor, judías verdes', 'Pan blanco, arroz blanco', 'Carne de res y pollo magra'],
+                        limit: ['Naranjas, plátanos, melones', 'Patatas, tomates, espinacas, aguacates', 'Arroz integral, pan integral', 'Frijoles, nueces', 'Sustitutos de la sal']
+                    },
+                    phosphorus: {
+                        choose: ['Frutas y verduras frescas', 'Pan blanco (francés, italiano)', 'Cereales de maíz o arroz', 'Palomitas de maíz sin sal', 'Refrescos de color claro'],
+                        limit: ['Productos lácteos (leche, queso, yogur)', 'Nueces y semillas, frijoles', 'Panes integrales, avena', 'Refrescos de cola oscuros', 'Carnes procesadas con aditivos "FOS"']
+                    }
+                }
+            }
+        };
+
+        let currentLanguage = 'en';
+        let mainContent = document.getElementById('main-content');
+        let charts = {}; // To hold chart instances
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            // Render static text elements
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            // Render main content sections
+            mainContent.innerHTML = `
+                <!-- Learn Section -->
+                <section id="learn" class="content-section active">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-blue-700 mb-2">Understanding Your Kidneys & CKD</h2>
+                        <p class="text-gray-600">Get to know the vital role your kidneys play and what CKD means for your health.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 items-start">
+                        <div class="info-card">
+                            <h3 class="text-2xl font-semibold mb-3">Your Body's Hardest Workers</h3>
+                            <p class="mb-4">Your two bean-shaped kidneys are powerful filters. Every day, they clean about 37 gallons of blood to make urine. But they do much more:</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Control Blood Pressure:</strong> By managing fluid levels.</span></li>
+                                <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Make Red Blood Cells:</strong> By producing a key hormone.</span></li>
+                                <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Keep Bones Healthy:</strong> By activating Vitamin D.</span></li>
+                                <li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">●</span><span><strong class="font-semibold">Balance Minerals:</strong> Like salt, potassium, and calcium.</span></li>
+                            </ul>
+                            <a href="https://www.niddk.nih.gov/health-information/kidney-disease/kidneys-how-they-work" target="_blank" rel="noopener noreferrer" class="link-highlight mt-4 inline-block" data-translate="learn_how_link"></a>
+                        </div>
+                        <div class="info-card bg-blue-50 border border-blue-200">
+                            <h3 class="text-2xl font-semibold mb-3">What is CKD?</h3>
+                            <p><a href="https://www.niddk.nih.gov/health-information/kidney-disease/chronic-kidney-disease-ckd" target="_blank" rel="noopener noreferrer" class="link-highlight">Chronic Kidney Disease (CKD)</a> means your kidneys are damaged and can't filter blood as they should. This damage happens slowly over at least three months. Because the damage is gradual, waste can build up, leading to other health problems. Worryingly, about 90% of people with CKD don't know they have it because early symptoms are rare.</p>
+                        </div>
+                    </div>
+
+                    <hr class="my-12 border-gray-200">
+
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Who is at Risk for CKD?</h3>
+                    <div class="grid md:grid-cols-5 gap-8 items-center">
+                        <div class="md:col-span-3">
+                            <h4 class="text-xl font-semibold mb-3">The "Big Two" Causes</h4>
+                            <p class="mb-4">The vast majority of CKD cases are caused by two common conditions:</p>
+                            <p class="mb-2"><strong>1. <a href="https://www.niddk.nih.gov/health-information/diabetes/overview/what-is-diabetes" target="_blank" rel="noopener noreferrer" class="link-highlight">Diabetes</a>:</strong> High blood sugar damages kidney filters. About 1 in 3 adults with diabetes has CKD.</p>
+                            <p><strong>2. <a href="https://www.niddk.nih.gov/health-information/health-topics/high-blood-pressure" target="_blank" rel="noopener noreferrer" class="link-highlight">High Blood Pressure</a>:</strong> This weakens kidney blood vessels. About 1 in 5 adults with HBP has CKD.</p>
+                            <h4 class="text-xl font-semibold mt-6 mb-3">Other Key Risk Factors</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Heart disease or heart failure</li>
+                                <li>Age (risk increases after 40)</li>
+                                <li>Obesity</li>
+                                <li>A family history of kidney failure</li>
+                                <li>Smoking</li>
+                            </ul>
+                        </div>
+                        <div class="md:col-span-2">
+                            <p class="text-center text-gray-600 mb-2 font-semibold" data-translate="risk_chart_title"></p>
+                            <div class="chart-container">
+                                <canvas id="riskFactorsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Prevent & Detect Section -->
+                <section id="prevent" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-blue-700 mb-2">Prevention and Early Detection</h2>
+                        <p class="text-gray-600">Take control with proactive steps and understand the key tests for CKD.</p>
+                    </div>
+                    <div class="info-card mb-8">
+                        <h3 class="text-2xl font-semibold mb-4">Your Action Plan for Kidney Health</h3>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="bg-green-50 p-4 rounded-lg"><strong>Manage Blood Sugar & Pressure:</strong> The most important step.</div>
+                            <div class="bg-green-50 p-4 rounded-lg"><strong>Eat a Healthy Diet:</strong> Reduce salt to < 2,300 mg/day.</div>
+                            <div class="bg-green-50 p-4 rounded-lg"><strong>Stay Active:</strong> Aim for 30 mins/day.</div>
+                            <div class="bg-green-50 p-4 rounded-lg"><strong>Maintain a Healthy Weight.</strong></div>
+                            <div class="bg-green-50 p-4 rounded-lg"><strong>Quit Smoking & Limit Alcohol.</strong></div>
+                            <div class="bg-green-50 p-4 rounded-lg"><strong>Be Smart with Painkillers (NSAIDs).</strong></div>
+                        </div>
+                        <a href="https://www.kidney.org/prevention" target="_blank" rel="noopener noreferrer" class="link-highlight mt-4 inline-block" data-translate="explore_prevention_link"></a>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="info-card">
+                            <h3 class="text-2xl font-semibold mb-4">How We Detect CKD</h3>
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <h4 class="font-bold">1. <a href="https://www.kidney.org/atoz/content/gfr" target="_blank" rel="noopener noreferrer" class="link-highlight">eGFR Blood Test</a></h4>
+                                    <p>Measures how well your kidneys filter waste. <strong>A higher number is better.</strong></p>
+                                </div>
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <h4 class="font-bold">2. <a href="https://www.kidney.org/atoz/content/albuminuria" target="_blank" rel="noopener noreferrer" class="link-highlight">uACR Urine Test</a></h4>
+                                    <p>Checks for a protein called albumin in your urine, an early sign of damage.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <h3 class="text-2xl font-semibold text-center mb-2"><a href="https://www.kidney.org/atoz/content/stages-chronic-kidney-disease" target="_blank" rel="noopener noreferrer" class="link-highlight">Interactive Guide to the 5 Stages of CKD</a></h3>
+                            <p class="text-center text-gray-600 mb-4 text-sm">Click a bar on the chart to learn about each stage.</p>
+                            <div class="chart-container !h-64">
+                                <canvas id="ckdStagesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="stage-info" class="mt-8 bg-blue-50 p-6 rounded-lg min-h-[120px] info-card">
+                        <h4 id="stage-title" class="text-xl font-bold mb-2"></h4>
+                        <p id="stage-egfr" class="font-semibold text-gray-700 mb-2"></p>
+                        <p id="stage-description" class="text-gray-800"></p>
+                    </div>
+                </section>
+                
+                <!-- Manage Section -->
+                <section id="manage" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-blue-700 mb-2">Managing Your Health with CKD</h2>
+                        <p class="text-gray-600">Learn about treatments and how to handle common complications.</p>
+                    </div>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="info-card">
+                            <h3 class="text-2xl font-semibold mb-4">Medications That Protect Your Kidneys</h3>
+                            <div class="space-y-4">
+                                <p>💊 <strong class="font-semibold">ACE inhibitors & ARBs:</strong> Key blood pressure drugs that protect kidneys.</p>
+                                <p>💊 <strong class="font-semibold">SGLT2 inhibitors & nsMRAs:</strong> Newer drugs to slow CKD and reduce heart risks.</p>
+                                <p>💊 <strong class="font-semibold">Statins:</strong> Lower cholesterol to protect your heart.</p>
+                                <p>💊 <strong class="font-semibold">Diuretics:</strong> Help reduce fluid buildup and control blood pressure.</p>
+                            </div>
+                            <a href="https://www.kidney.org/atoz/content/medicines-for-people-with-chronic-kidney-disease" target="_blank" rel="noopener noreferrer" class="link-highlight mt-4 inline-block" data-translate="more_meds_link"></a>
+                        </div>
+                        <div class="info-card">
+                            <h3 class="text-2xl font-semibold mb-4">Navigating Complications</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                <span class="text-2xl">❤️</span>
+                                <div>
+                                    <h4 class="font-bold"><a href="https://www.kidney.org/atoz/content/heart-and-kidney-connection" target="_blank" rel="noopener noreferrer" class="link-highlight">The Kidney-Heart Connection</a></h4>
+                                    <p class="text-sm">CKD significantly increases heart disease risk.</p>
+                                </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                <span class="text-2xl">😴</span>
+                                <div>
+                                    <h4 class="font-bold"><a href="https://www.kidney.org/atoz/content/anemia" target="_blank" rel="noopener noreferrer" class="link-highlight">Anemia (Feeling Tired)</a></h4>
+                                    <p class="text-sm">Damaged kidneys make fewer red blood cells.</p>
+                                </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                <span class="text-2xl">🦴</span>
+                                <div>
+                                    <h4 class="font-bold"><a href="https://www.kidney.org/atoz/content/bone-and-mineral-disorder" target="_blank" rel="noopener noreferrer" class="link-highlight">Bone & Mineral Disorder</a></h4>
+                                    <p class="text-sm">CKD disrupts mineral balance, weakening bones.</p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Diet Helper Section -->
+                <section id="diet" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-blue-700 mb-2">Interactive Kidney-Friendly Diet Helper</h2>
+                        <p class="text-gray-600 max-w-3xl mx-auto">Nutrition is a cornerstone of managing CKD. Click a nutrient to see which foods to choose and which to limit. Always work with a <a href="https://www.kidney.org/nutrition/find-a-renal-dietitian" target="_blank" rel="noopener noreferrer" class="link-highlight">registered dietitian</a> for a personal plan.</p>
+                    </div>
+                    
+                    <div class="flex justify-center gap-3 mb-6">
+                        <button class="diet-button bg-red-500 text-white font-bold py-2 px-5 rounded-full transition-transform hover:scale-105" data-nutrient="sodium" data-translate="diet_nutrient_sodium"></button>
+                        <button class="diet-button bg-yellow-500 text-white font-bold py-2 px-5 rounded-full transition-transform hover:scale-105" data-nutrient="potassium" data-translate="diet_nutrient_potassium"></button>
+                        <button class="diet-button bg-purple-500 text-white font-bold py-2 px-5 rounded-full transition-transform hover:scale-105" data-nutrient="phosphorus" data-translate="diet_nutrient_phosphorus"></button>
+                    </div>
+
+                    <div id="diet-info-container" class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+                            <h3 id="choose-title" class="text-2xl font-semibold text-green-800 mb-3"></h3>
+                            <ul id="choose-list" class="space-y-2 text-green-900 list-disc list-inside"></ul>
+                        </div>
+                        <div class="bg-red-50 p-6 rounded-lg border border-red-200">
+                            <h3 id="limit-title" class="text-2xl font-semibold text-red-800 mb-3"></h3>
+                            <ul id="limit-list" class="space-y-2 text-red-900 list-disc list-inside"></ul>
+                        </div>
+                    </div>
+                    <div class="mt-8 info-card">
+                        <h4 class="text-xl font-bold mb-2">A Note on Protein</h4>
+                        <p>Protein is essential, but processing it creates waste. Your doctor may recommend adjusting your protein intake to reduce the burden on your kidneys. <a href="https://www.kidney.org/nutrition/protein-and-chronic-kidney-disease" target="_blank" rel="noopener noreferrer" class="link-highlight" data-translate="learn_protein_link"></a>.</p>
+                    </div>
+                </section>
+
+                <!-- Advanced Stages Section -->
+                <section id="advanced" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-blue-700 mb-2">Advanced CKD and Kidney Failure (ESRD)</h2>
+                        <p class="text-gray-600">When kidney function is critically low, treatments are needed to replace their work.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="info-card">
+                            <h3 class="text-2xl font-bold mb-2"><a href="https://www.kidney.org/atoz/content/dialysis" target="_blank" rel="noopener noreferrer" class="link-highlight">Dialysis: A Life-Sustaining Treatment</a></h3>
+                            <p class="mb-4">Dialysis is a procedure that takes over the filtering work of your kidneys. There are two main types:</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg">1. <a href="https://www.kidney.org/atoz/content/hemodialysis" target="_blank" rel="noopener noreferrer" class="link-highlight">Hemodialysis (HD)</a></h4>
+                                    <p>Uses a machine to clean your blood, usually at a clinic 3 times a week.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg">2. <a href="https://www.kidney.org/atoz/content/peritoneal" target="_blank" rel="noopener noreferrer" class="link-highlight">Peritoneal Dialysis (PD)</a></h4>
+                                    <p>Uses the lining of your abdomen as a filter, typically done daily at home.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-card bg-blue-50 border border-blue-200">
+                            <h3 class="text-2xl font-bold mb-2"><a href="https://www.kidney.org/transplantation" target="_blank" rel="noopener noreferrer" class="link-highlight">Kidney Transplant: A New Beginning</a></h3>
+                            <p>A transplant is a surgery to place a healthy kidney from a donor into your body. For many, this is the preferred treatment as it offers the closest thing to a normal life. However, it is a major surgery and requires taking anti-rejection medications for life.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Support Section -->
+                <section id="support" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-blue-700 mb-2">Finding Support and Hope</h2>
+                        <p class="text-gray-600">You are not alone on this journey. A full, meaningful life is possible.</p>
+                    </div>
+                    
+                    <div class="mb-8 p-6 bg-yellow-50 border-l-4 border-yellow-400 info-card">
+                        <p class="text-lg italic text-gray-800">“My journey so far has taught me that kidney disease is part of my life, but kidney disease does not define my life.”</p>
+                        <p class="text-right font-semibold">- A person living with CKD</p>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Reputable Resources for Help</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <a href="https://www.kidney.org/" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white hover:bg-blue-50 rounded-lg transition info-card text-center">
+                            <h4 class="font-bold text-lg">National Kidney Foundation (NKF)</h4>
+                            <p class="text-sm">Patient resources, recipes, and a helpline.</p>
+                        </a>
+                        <a href="https://www.kidneyfund.org/" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white hover:bg-blue-50 rounded-lg transition info-card text-center">
+                            <h4 class="font-bold text-lg">American Kidney Fund (AKF)</h4>
+                            <p class="text-sm">Financial assistance and health education.</p>
+                        </a>
+                        <a href="https://www.niddk.nih.gov/health-information/kidney-disease" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white hover:bg-blue-50 rounded-lg transition info-card text-center">
+                            <h4 class="font-bold text-lg">NIDDK (from NIH)</h4>
+                            <p class="text-sm">Reliable, evidence-based information.</p>
+                        </a>
+                    </div>
+                </section>
+            `;
+
+            // Re-apply static text after innerHTML change
+             document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key] && el.tagName !== 'BUTTON') el.innerHTML = t[key]; // Avoid overwriting button text
+            });
+            document.querySelector('[data-translate="diet_nutrient_sodium"]').textContent = t.diet_nutrient_sodium;
+            document.querySelector('[data-translate="diet_nutrient_potassium"]').textContent = t.diet_nutrient_potassium;
+            document.querySelector('[data-translate="diet_nutrient_phosphorus"]').textContent = t.diet_nutrient_phosphorus;
+
+
+            // Re-initialize dynamic components
+            setupNav();
+            createRiskFactorsChart(t);
+            createCkdStagesChart(t);
+            setupDietHelper(t);
+        }
+
+        function setupNav() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+                    navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.target === targetId));
+                    contentSections.forEach(section => section.classList.toggle('active', section.id === targetId));
+                });
+            });
+        }
+
+        function createRiskFactorsChart(t) {
+            if (charts.risk) charts.risk.destroy();
+            const ctx = document.getElementById('riskFactorsChart')?.getContext('2d');
+            if (!ctx) return;
+            charts.risk = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: t.risk_chart_labels,
+                    datasets: [{ data: [33, 20, 47], backgroundColor: ['#3B82F6', '#F59E0B', '#9CA3AF'], borderColor: '#FDFBF8', borderWidth: 4 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        function createCkdStagesChart(t) {
+            if (charts.stages) charts.stages.destroy();
+            const stageInfo = {
+                title: document.getElementById('stage-title'),
+                egfr: document.getElementById('stage-egfr'),
+                description: document.getElementById('stage-description')
+            };
+
+            const ctx = document.getElementById('ckdStagesChart')?.getContext('2d');
+            if (!ctx) return;
+            charts.stages = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: t.ckdStageData.map(d => d.stage),
+                    datasets: [{ label: t.ckd_stages_chart_label, data: [100, 75, 52, 37, 22, 10], backgroundColor: ['#4ADE80', '#A3E635', '#FACC15', '#FB923C', '#F87171', '#EF4444'], borderRadius: 4 }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true, max: 100, display: false }, y: { grid: { display: false } } },
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const data = t.ckdStageData[index];
+                            stageInfo.title.textContent = data.stage;
+                            stageInfo.egfr.textContent = `eGFR: ${data.egfr}`;
+                            stageInfo.description.textContent = data.description;
+                        }
+                    }
+                }
+            });
+            // Set initial info
+            const initialData = t.ckdStageData[0];
+            stageInfo.title.textContent = initialData.stage;
+            stageInfo.egfr.textContent = `eGFR: ${initialData.egfr}`;
+            stageInfo.description.textContent = initialData.description;
+        }
+        
+        function setupDietHelper(t) {
+            const buttons = document.querySelectorAll('.diet-button');
+            const chooseList = document.getElementById('choose-list');
+            const limitList = document.getElementById('limit-list');
+            const chooseTitle = document.getElementById('choose-title');
+            const limitTitle = document.getElementById('limit-title');
+
+            function updateLists(nutrient) {
+                const data = t.dietData[nutrient];
+                const nutrientName = t[`diet_nutrient_${nutrient}`];
+                chooseTitle.innerHTML = `${t.diet_choose_title} <span class="text-base font-normal">(${t.diet_low_in} ${nutrientName})</span>`;
+                limitTitle.innerHTML = `${t.diet_limit_title} <span class="text-base font-normal">(${t.diet_high_in} ${nutrientName})</span>`;
+
+                chooseList.innerHTML = data.choose.map(item => `<li>${item}</li>`).join('');
+                limitList.innerHTML = data.limit.map(item => `<li>${item}</li>`).join('');
+            }
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const nutrient = button.dataset.nutrient;
+                    updateLists(nutrient);
+                });
+            });
+            
+            updateLists('sodium'); 
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        // Language toggle listeners
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            // Revert to the last native language to clear Google's changes
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial load
+        changeLanguage('en');
+    });
+    </script>
+
+</body>
+</html>

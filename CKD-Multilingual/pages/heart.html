@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Kidney-Heart Connection - A CKD Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #0369a1 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        
+        /* Interactive InfoGraphic Styles */
+        .connection-card {
+            cursor: pointer;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .connection-card.active {
+            border-color: #3B82F6;
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .connection-info {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .connection-info.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" data-translate="header_title"></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="header_subtitle"></p>
+        </header>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-12">
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50" title="Translate to other languages">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="btn_back"></button>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <!-- What is Cardiorenal Syndrome? -->
+            <section class="info-card mb-12 bg-blue-50 border-l-4 border-blue-500 p-8">
+                <h2 class="text-2xl font-bold text-blue-800 mb-2" data-translate="syndrome_title"></h2>
+                <p class="text-gray-700" data-translate="syndrome_desc"></p>
+            </section>
+
+            <!-- Signs & Symptoms Section -->
+            <section class="info-card mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="symptoms_title"></h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-red-600 mb-4" data-translate="symptoms_heart_title"></h3>
+                        <ul class="space-y-3" id="symptoms-heart-list"></ul>
+                    </div>
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 md:pl-8 pt-8 md:pt-0">
+                        <h3 class="text-xl font-semibold text-blue-600 mb-4" data-translate="symptoms_kidney_title"></h3>
+                        <ul class="space-y-3" id="symptoms-kidney-list"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Two-Way Street Section -->
+            <section class="mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2" data-translate="twoway_title"></h2>
+                <p class="text-center text-gray-600 mb-8" data-translate="twoway_subtitle"></p>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div id="kidney-to-heart" class="connection-card info-card p-8 text-center">
+                        <svg class="w-16 h-16 mx-auto text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+                        <h3 class="text-xl font-bold mt-4" data-translate="k2h_title"></h3>
+                    </div>
+                    <div id="heart-to-kidney" class="connection-card info-card p-8 text-center">
+                         <svg class="w-16 h-16 mx-auto text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+                        <h3 class="text-xl font-bold mt-4" data-translate="h2k_title"></h3>
+                    </div>
+                </div>
+
+                <div id="connection-details" class="info-card bg-gray-50 p-8 min-h-[200px]">
+                    <div id="k2h-info" class="connection-info"></div>
+                    <div id="h2k-info" class="connection-info"></div>
+                </div>
+            </section>
+
+            <!-- Getting Diagnosed Section -->
+            <section class="info-card mb-12 p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="diagnosis_title"></h2>
+                <p class="text-center text-gray-600 mb-6" data-translate="diagnosis_subtitle"></p>
+                <div class="grid md:grid-cols-2 gap-x-8 gap-y-8" id="diagnosis-list">
+                    <!-- JS Populated -->
+                </div>
+            </section>
+
+            <!-- Breaking the Cycle Section -->
+            <section class="info-card p-8">
+                 <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8" data-translate="protect_title"></h2>
+                 <div class="max-w-2xl mx-auto">
+                    <ul class="space-y-4" id="protect-list">
+                        <!-- JS Populated -->
+                    </ul>
+                 </div>
+            </section>
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p class="mb-4">
+                <a href="../landing.html" class="text-blue-600 hover:underline" data-translate="footer_back_link"></a>
+            </p>
+            <p class="mb-2"><strong data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+            <p><strong data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+        </footer>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const translations = {
+            en: {
+                header_title: "The Kidney-Heart Connection",
+                header_subtitle: "Your heart and kidneys are powerful partners. When one is affected, the other is too. Learn how they are connected and how to protect them both.",
+                btn_back: "Back",
+                syndrome_title: "What is Cardiorenal Syndrome?",
+                syndrome_desc: "This is a medical term for when a problem with your kidneys causes a problem with your heart, or when a heart problem causes a kidney problem. Because they are so interconnected, people with kidney disease are at a much higher risk of heart disease, and vice versa. In fact, heart disease is the most common cause of death in people with CKD.",
+                symptoms_title: "Know the Signs & Symptoms",
+                symptoms_heart_title: "Of Heart Disease",
+                symptoms_kidney_title: "Of Kidney Disease",
+                symptoms_heart_list: ["Chest pain (angina)", "Shortness of breath", "Pain in the neck, jaw, or back", "Swelling in the legs, feet, or abdomen", "Fatigue or feeling very tired", "Irregular or fast heartbeat"],
+                symptoms_kidney_list: ["Often no symptoms in early stages", "Fatigue, weakness", "Swelling in legs, feet, or ankles", "Changes in urination (more often, less often)", "Foamy urine", "Puffiness around the eyes"],
+                twoway_title: "A Two-Way Street",
+                twoway_subtitle: "Click each card to see how the relationship works.",
+                k2h_title: "How Kidneys Affect the Heart",
+                h2k_title: "How the Heart Affects the Kidneys",
+                k2h_info_title: "How Damaged Kidneys Harm the Heart",
+                k2h_info_list: [
+                    "<strong>High Blood Pressure:</strong> Healthy kidneys manage blood pressure by controlling fluid levels and making a hormone that constricts blood vessels. Damaged kidneys can't, leading to high blood pressure which can cause strokes, heart failure, or heart attacks.",
+                    "<strong>Fluid Overload:</strong> Damaged kidneys can't remove extra fluid, which can build up in the body, increase blood pressure, and strain the heart, forcing it to pump harder.",
+                    "<strong>Waste Buildup (Uremia):</strong> When kidneys fail, wastes like urea build up in the blood. This uremia can damage the heart lining and blood vessels, increasing heart disease risk.",
+                    "<strong>Anemia:</strong> Healthy kidneys produce a hormone (EPO) that helps make red blood cells. With CKD, fewer red blood cells are made (anemia), so the heart has to work much harder to supply oxygen to the body, which can lead to left ventricular hypertrophy (an enlarged heart)."
+                ],
+                h2k_info_title: "How a Weak Heart Harms the Kidneys",
+                h2k_info_list: [
+                    "<strong>Reduced Blood Flow:</strong> A weak heart (due to heart failure or a heart attack) can't pump enough oxygen-rich blood to the kidneys. Without enough blood, the kidneys can't filter waste and manage fluid properly.",
+                    "<strong>High Pressure:</strong> A struggling heart can cause pressure to build up in the main vein connected to the kidneys, leading to congestion and damage.",
+                    "<strong>Blockages (Atherosclerosis):</strong> Over time, problems like high blood pressure and cholesterol can lead to hardened, blocked blood vessels throughout the body, including those supplying the kidneys, starving them of oxygen."
+                ],
+                diagnosis_title: "Getting Diagnosed",
+                diagnosis_subtitle: "If you have kidney disease, heart disease, or risk factors for either, your doctor may order these tests:",
+                diagnosis_list: [
+                    { name: "Blood Pressure Check", desc: "A simple but vital measurement." },
+                    { name: "eGFR Blood Test", desc: "Measures how well your kidneys are filtering." },
+                    { name: "Urine ACR Test", desc: "Checks for protein in the urine, a sign of kidney damage." },
+                    { name: "Cholesterol Test", desc: "Checks for fats in your blood that can clog arteries." },
+                    { name: "Electrocardiogram (EKG)", desc: "Records the heart's electrical activity." }
+                ],
+                protect_title: "Breaking the Cycle: Treatment & Prevention",
+                protect_list: [
+                    "<strong>Manage Blood Pressure:</strong> Work with your doctor to reach your goal, often below 130/80 mmHg. This is usually done with medications like ACE inhibitors or ARBs, which also protect the kidneys.",
+                    "<strong>Control Blood Sugar:</strong> If you have diabetes, keeping your A1C in your target range (often below 7%) is crucial.",
+                    "<strong>Take Medications as Prescribed:</strong> This may include blood pressure pills, cholesterol-lowering statins, or newer drugs like SGLT2 inhibitors that protect both the heart and kidneys.",
+                    "<strong>Adopt a Heart-Healthy, Kidney-Friendly Diet:</strong> This means reducing salt (sodium), sugar, and saturated fats. Focus on fresh vegetables, fruits, and lean proteins.",
+                    "<strong>Stay Active & Don't Smoke:</strong> Regular exercise strengthens the heart, and quitting smoking is the single best thing you can do for your blood vessels."
+                ],
+                footer_back_link: "← Back to Main CKD Guide",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice.",
+                footer_source_title: "Source:",
+                footer_source_text: `Information adapted from the <a href="https://www.kidney.org/kidney-topics/heart-and-kidney-connection" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            },
+            es: {
+                header_title: "La Conexión Riñón-Corazón",
+                header_subtitle: "Su corazón y sus riñones son socios poderosos. Cuando uno se ve afectado, el otro también. Aprenda cómo están conectados y cómo protegerlos a ambos.",
+                btn_back: "Volver",
+                syndrome_title: "¿Qué es el Síndrome Cardiorrenal?",
+                syndrome_desc: "Este es un término médico para cuando un problema en sus riñones causa un problema en su corazón, o cuando un problema cardíaco causa un problema renal. Debido a que están tan interconectados, las personas con enfermedad renal tienen un riesgo mucho mayor de enfermedad cardíaca, y viceversa. De hecho, la enfermedad cardíaca es la causa más común de muerte en personas con ERC.",
+                symptoms_title: "Conozca los Signos y Síntomas",
+                symptoms_heart_title: "De Enfermedad Cardíaca",
+                symptoms_kidney_title: "De Enfermedad Renal",
+                symptoms_heart_list: ["Dolor de pecho (angina)", "Falta de aliento", "Dolor en el cuello, mandíbula o espalda", "Hinchazón en piernas, pies o abdomen", "Fatiga o sentirse muy cansado", "Latidos cardíacos irregulares o rápidos"],
+                symptoms_kidney_list: ["A menudo sin síntomas en las primeras etapas", "Fatiga, debilidad", "Hinchazón en piernas, pies o tobillos", "Cambios en la micción (más o menos frecuente)", "Orina espumosa", "Hinchazón alrededor de los ojos"],
+                twoway_title: "Una Calle de Doble Sentido",
+                twoway_subtitle: "Haga clic en cada tarjeta para ver cómo funciona la relación.",
+                k2h_title: "Cómo los Riñones Afectan al Corazón",
+                h2k_title: "Cómo el Corazón Afecta a los Riñones",
+                k2h_info_title: "Cómo los Riñones Dañados Perjudican al Corazón",
+                k2h_info_list: [
+                    "<strong>Presión Arterial Alta:</strong> Los riñones sanos controlan la presión arterial. Los riñones dañados no pueden, lo que lleva a una presión arterial alta que puede causar derrames cerebrales o ataques cardíacos.",
+                    "<strong>Sobrecarga de Líquidos:</strong> Los riñones dañados no pueden eliminar el líquido extra, que puede acumularse en el cuerpo y forzar al corazón.",
+                    "<strong>Acumulación de Desechos (Uremia):</strong> Cuando los riñones fallan, los desechos se acumulan en la sangre, lo que puede dañar el corazón y los vasos sanguíneos.",
+                    "<strong>Anemia:</strong> Los riñones producen una hormona que ayuda a producir glóbulos rojos. Con la ERC, se producen menos glóbulos rojos, por lo que el corazón tiene que trabajar más para suministrar oxígeno al cuerpo."
+                ],
+                h2k_info_title: "Cómo un Corazón Débil Perjudica a los Riñones",
+                h2k_info_list: [
+                    "<strong>Flujo Sanguíneo Reducido:</strong> Un corazón débil no puede bombear suficiente sangre a los riñones. Sin suficiente sangre, los riñones no pueden filtrar los desechos y manejar los líquidos adecuadamente.",
+                    "<strong>Presión Alta:</strong> Un corazón con dificultades puede hacer que la presión se acumule en la vena principal conectada a los riñones, lo que lleva a la congestión y al daño.",
+                    "<strong>Bloqueos:</strong> Con el tiempo, problemas como la presión arterial alta y el colesterol pueden provocar el bloqueo de los vasos sanguíneos, reduciendo el flujo de sangre a los riñones."
+                ],
+                diagnosis_title: "Diagnóstico",
+                diagnosis_subtitle: "Si tiene enfermedad renal, enfermedad cardíaca o factores de riesgo para cualquiera de las dos, su médico puede ordenar estas pruebas:",
+                diagnosis_list: [
+                    { name: "Control de Presión Arterial", desc: "Una medida simple pero vital." },
+                    { name: "Análisis de Sangre eGFR", desc: "Mide qué tan bien están filtrando sus riñones." },
+                    { name: "Análisis de Orina ACR", desc: "Busca proteínas en la orina, un signo de daño renal." },
+                    { name: "Prueba de Colesterol", desc: "Busca grasas en la sangre que pueden obstruir las arterias." },
+                    { name: "Electrocardiograma (ECG)", desc: "Registra la actividad eléctrica del corazón." }
+                ],
+                protect_title: "Rompiendo el Círculo: Tratamiento y Prevención",
+                protect_list: [
+                    "<strong>Controle la presión arterial:</strong> Trabaje con su médico para alcanzar su meta, a menudo por debajo de 130/80 mmHg. Esto generalmente se hace con medicamentos como los inhibidores de la ECA o los ARA, que también protegen los riñones.",
+                    "<strong>Controle el azúcar en la sangre:</strong> Si tiene diabetes, mantener su A1C en su rango objetivo (a menudo por debajo del 7%) es crucial.",
+                    "<strong>Tome los medicamentos según lo prescrito:</strong> Esto puede incluir pastillas para la presión arterial, estatinas para bajar el colesterol o medicamentos más nuevos como los inhibidores de SGLT2 que protegen tanto el corazón como los riñones.",
+                    "<strong>Adopte una dieta saludable para el corazón y los riñones:</strong> Esto significa reducir la sal (sodio), el azúcar y las grasas saturadas. Concéntrese en verduras frescas, frutas y proteínas magras.",
+                    "<strong>Manténgase activo y no fume:</strong> El ejercicio regular fortalece el corazón, y dejar de fumar es lo mejor que puede hacer por sus vasos sanguíneos."
+                ],
+                footer_back_link: "← Volver a la Guía Principal de ERC",
+                footer_disclaimer_title: "Descargo de responsabilidad:",
+                footer_disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo médico profesional.",
+                footer_source_title: "Fuente:",
+                footer_source_text: `Información adaptada de la <a href="https://www.kidney.org/kidney-topics/heart-and-kidney-connection" target="_blank" class="text-blue-600 hover:underline">National Kidney Foundation</a>.`,
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key] && typeof t[key] === 'string') {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Populate dynamic lists
+            const k2hInfo = document.getElementById('k2h-info');
+            k2hInfo.innerHTML = `<h3 class="font-bold text-xl text-blue-800 mb-4">${t.k2h_info_title}</h3><ul class="space-y-3 list-disc list-inside text-gray-700">${t.k2h_info_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+
+            const h2kInfo = document.getElementById('h2k-info');
+            h2kInfo.innerHTML = `<h3 class="font-bold text-xl text-blue-800 mb-4">${t.h2k_info_title}</h3><ul class="space-y-3 list-disc list-inside text-gray-700">${t.h2k_info_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            
+            const heartSymptoms = document.getElementById('symptoms-heart-list');
+            heartSymptoms.innerHTML = t.symptoms_heart_list.map(item => `<li class="flex items-start"><span class="text-red-500 mr-3 mt-1">›</span><span>${item}</span></li>`).join('');
+
+            const kidneySymptoms = document.getElementById('symptoms-kidney-list');
+            kidneySymptoms.innerHTML = t.symptoms_kidney_list.map(item => `<li class="flex items-start"><span class="text-blue-500 mr-3 mt-1">›</span><span>${item}</span></li>`).join('');
+
+            const diagnosisList = document.getElementById('diagnosis-list');
+            diagnosisList.innerHTML = t.diagnosis_list.map(item => `<div class="flex items-start"><div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4 shrink-0 font-bold text-blue-600">✔</div><div><h4 class="font-semibold">${item.name}</h4><p class="text-sm text-gray-600">${item.desc}</p></div></div>`).join('');
+
+            const protectList = document.getElementById('protect-list');
+            protectList.innerHTML = t.protect_list.map(item => `<li class="flex items-start"><span class="text-green-500 mr-3 mt-1">✔</span><span>${item}</span></li>`).join('');
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const googleTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if(googleTranslateFrame) googleTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Interactive Connection Cards
+        const k2hCard = document.getElementById('kidney-to-heart');
+        const h2kCard = document.getElementById('heart-to-kidney');
+        const k2hInfo = document.getElementById('k2h-info');
+        const h2kInfo = document.getElementById('h2k-info');
+
+        function setActiveCard(cardType) {
+            if (cardType === 'k2h') {
+                k2hCard.classList.add('active');
+                h2kCard.classList.remove('active');
+                k2hInfo.classList.add('active');
+                h2kInfo.classList.remove('active');
+            } else {
+                h2kCard.classList.add('active');
+                k2hCard.classList.remove('active');
+                h2kInfo.classList.add('active');
+                k2hInfo.classList.remove('active');
+            }
+        }
+
+        k2hCard.addEventListener('click', () => setActiveCard('k2h'));
+        h2kCard.addEventListener('click', () => setActiveCard('h2k'));
+
+        // Initial load
+        changeLanguage('en');
+        setActiveCard('k2h'); // Set initial active card
+    });
+    </script>
+
+</body>
+</html>
