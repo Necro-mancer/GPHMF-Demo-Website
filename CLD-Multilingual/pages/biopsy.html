@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Liver Biopsy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="why-biopsy-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Why a Biopsy section content will be injected here -->
+        </div>
+
+        <div id="types-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Types of Biopsy section content will be injected here -->
+        </div>
+
+        <div id="procedure-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- The Procedure section content will be injected here -->
+        </div>
+
+        <div id="aftercare-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <!-- Aftercare section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "A Patient's Guide to Liver Biopsy",
+            mainIntro: "A liver biopsy is a procedure to remove a small sample of liver tissue so it can be examined under a microscope. While modern imaging tests have reduced the need for biopsies, it remains the 'gold standard' for providing a definitive look at the health of your liver.",
+            whyBiopsy: {
+                title: "Why is a Biopsy Recommended?",
+                intro: "Your doctor may recommend a biopsy to get the most accurate information about your liver, which helps in making the best treatment decisions. Key reasons include:",
+                items: [
+                    "<strong>To Confirm a Diagnosis:</strong> When blood tests and imaging are unclear, a biopsy can determine the exact cause of liver disease.",
+                    "<strong>To Stage the Disease:</strong> It is the most accurate way to measure the grade (amount of inflammation) and stage (amount of scarring/fibrosis) of liver damage.",
+                    "<strong>To Guide Treatment:</strong> The detailed information from a biopsy helps your doctor choose the most appropriate therapy for your specific condition."
+                ]
+            },
+            types: {
+                title: "Types of Liver Biopsy",
+                intro: "There are two main ways a liver biopsy is performed, depending on your specific medical situation.",
+                percutaneous: {
+                    title: "Percutaneous Biopsy (Through the Skin)",
+                    text: "This is the most common method. After numbing the skin, a thin needle is passed through the skin on your right side, between the ribs, and into the liver to collect a sample. It is a very quick procedure."
+                },
+                transjugular: {
+                    title: "Transjugular Biopsy (Through a Vein)",
+                    text: "This method is used for patients who have problems with blood clotting or a lot of fluid in their abdomen (ascites). A thin tube (catheter) is inserted into the jugular vein in your neck and guided down to the liver. A needle is then passed through the tube to get the sample."
+                }
+            },
+            procedure: {
+                title: "The Procedure: What to Expect",
+                intro: "Understanding the process can help reduce anxiety. The procedure is typically broken down into three phases.",
+                accordion: [
+                    { icon: '📅', title: "Before the Biopsy", content: "You will be asked to stop taking medications that affect blood clotting, such as aspirin, NSAIDs (ibuprofen), and blood thinners, for about a week beforehand. You will also need to fast (no food or drink) for several hours before the procedure." },
+                    { icon: '⚕️', title: "During the Biopsy", content: "You will lie on your back. The doctor will clean the area and inject a local anesthetic to numb the skin, which may sting for a moment. You may feel a deep pressure when the needle enters the liver, but it should not be sharp pain. The sample is taken very quickly, in just a few seconds." },
+                    { icon: '🛌', title: "After the Biopsy", content: "You will need to rest quietly for 2 to 4 hours at the facility for monitoring. You will be instructed to lie on your right side for the first hour or two to put pressure on the biopsy site and reduce the risk of bleeding. You will need someone to drive you home afterward." }
+                ]
+            },
+            aftercare: {
+                title: "Aftercare and When to Call the Doctor",
+                intro: "Proper care after your biopsy is important for a smooth recovery.",
+                recoveryTitle: "Recovery at Home",
+                recoveryText: "You should plan to take it easy for about a week. Avoid any strenuous activity, exercise, or heavy lifting (more than 10-15 pounds).",
+                warningTitle: "Warning Signs",
+                warningText: "While complications are rare, contact your doctor immediately or go to an emergency room if you develop:",
+                items: [
+                    "Severe pain in your abdomen or shoulder",
+                    "Fever or chills",
+                    "Dizziness, weakness, or feeling faint",
+                    "Difficulty breathing"
+                ]
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the Cleveland Clinic. Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://my.clevelandclinic.org/health/procedures/9503-liver-biopsy" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Guía del Paciente para la Biopsia Hepática",
+            mainIntro: "Una biopsia hepática es un procedimiento para extraer una pequeña muestra de tejido del hígado para que pueda ser examinada bajo un microscopio. Aunque las pruebas de imagen modernas han reducido la necesidad de biopsias, sigue siendo el 'estándar de oro' para obtener una visión definitiva de la salud de su hígado.",
+            whyBiopsy: {
+                title: "¿Por Qué se Recomienda una Biopsia?",
+                intro: "Su médico puede recomendar una biopsia para obtener la información más precisa sobre su hígado, lo que ayuda a tomar las mejores decisiones de tratamiento. Las razones clave incluyen:",
+                items: [
+                    "<strong>Para Confirmar un Diagnóstico:</strong> Cuando los análisis de sangre y las imágenes no son claros, una biopsia puede determinar la causa exacta de la enfermedad hepática.",
+                    "<strong>Para Estadiar la Enfermedad:</strong> Es la forma más precisa de medir el grado (cantidad de inflamación) y la etapa (cantidad de cicatrización/fibrosis) del daño hepático.",
+                    "<strong>Para Guiar el Tratamiento:</strong> La información detallada de una biopsia ayuda a su médico a elegir la terapia más adecuada para su condición específica."
+                ]
+            },
+            types: {
+                title: "Tipos de Biopsia Hepática",
+                intro: "Hay dos formas principales en que se realiza una biopsia hepática, dependiendo de su situación médica específica.",
+                percutaneous: {
+                    title: "Biopsia Percutánea (A través de la Piel)",
+                    text: "Este es el método más común. Después de adormecer la piel, se pasa una aguja delgada a través de la piel en su lado derecho, entre las costillas, y dentro del hígado para recolectar una muestra. Es un procedimiento muy rápido."
+                },
+                transjugular: {
+                    title: "Biopsia Transyugular (A través de una Vena)",
+                    text: "Este método se utiliza para pacientes que tienen problemas de coagulación de la sangre o mucho líquido en el abdomen (ascitis). Se inserta un tubo delgado (catéter) en la vena yugular de su cuello y se guía hasta el hígado. Luego se pasa una aguja a través del tubo para obtener la muestra."
+                }
+            },
+            procedure: {
+                title: "El Procedimiento: Qué Esperar",
+                intro: "Comprender el proceso puede ayudar a reducir la ansiedad. El procedimiento generalmente se divide en tres fases.",
+                accordion: [
+                    { icon: '📅', title: "Antes de la Biopsia", content: "Se le pedirá que deje de tomar medicamentos que afectan la coagulación de la sangre, como aspirina, AINE (ibuprofeno) y anticoagulantes, durante aproximadamente una semana antes. También deberá ayunar (sin comida ni bebida) durante varias horas antes del procedimiento." },
+                    { icon: '⚕️', title: "Durante la Biopsia", content: "Se acostará boca arriba. El médico limpiará el área e inyectará un anestésico local para adormecer la piel, lo que puede picar por un momento. Puede sentir una presión profunda cuando la aguja entra en el hígado, pero no debería ser un dolor agudo. La muestra se toma muy rápidamente, en solo unos segundos." },
+                    { icon: '🛌', title: "Después de la Biopsia", content: "Deberá descansar tranquilamente durante 2 a 4 horas en el centro para ser monitoreado. Se le indicará que se acueste sobre su lado derecho durante la primera o las dos primeras horas para presionar el sitio de la biopsia y reducir el riesgo de sangrado. Necesitará que alguien lo lleve a casa después." }
+                ]
+            },
+            aftercare: {
+                title: "Cuidados Posteriores y Cuándo Llamar al Médico",
+                intro: "El cuidado adecuado después de su biopsia es importante para una recuperación sin problemas.",
+                recoveryTitle: "Recuperación en Casa",
+                recoveryText: "Debe planear tomarlo con calma durante aproximadamente una semana. Evite cualquier actividad extenuante, ejercicio o levantamiento de objetos pesados (más de 10-15 libras).",
+                warningTitle: "Señales de Advertencia",
+                warningText: "Aunque las complicaciones son raras, contacte a su médico de inmediato o vaya a una sala de emergencias si desarrolla:",
+                items: [
+                    "Dolor severo en el abdomen o el hombro",
+                    "Fiebre o escalofríos",
+                    "Mareos, debilidad o sensación de desmayo",
+                    "Dificultad para respirar"
+                ]
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de la Cleveland Clinic. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://my.clevelandclinic.org/health/procedures/9503-liver-biopsy" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderWhyBiopsy(lang);
+        renderTypes(lang);
+        renderProcedure(lang);
+        renderAftercare(lang);
+    }
+
+    function renderWhyBiopsy(lang) {
+        const t = translations[lang].whyBiopsy;
+        const section = document.getElementById('why-biopsy-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function renderTypes(lang) {
+        const t = translations[lang].types;
+        const section = document.getElementById('types-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl mb-2">${t.percutaneous.title}</h3>
+                    <p>${t.percutaneous.text}</p>
+                </div>
+                <div class="bg-teal-50 border-l-4 border-teal-400 p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl mb-2">${t.transjugular.title}</h3>
+                    <p>${t.transjugular.text}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderProcedure(lang) {
+        const t = translations[lang].procedure;
+        const section = document.getElementById('procedure-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.accordion.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions();
+    }
+
+    function renderAftercare(lang) {
+        const t = translations[lang].aftercare;
+        const section = document.getElementById('aftercare-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-xl mb-3 text-center">${t.recoveryTitle}</h3>
+                    <p class="text-center">${t.recoveryText}</p>
+                </div>
+                <div class="bg-red-50 border border-red-200 p-6 rounded-lg">
+                    <h3 class="font-bold text-xl mb-3 text-center text-red-800">${t.warningTitle}</h3>
+                    <p class="text-center text-red-700 mb-4">${t.warningText}</p>
+                    <ul class="list-disc list-inside space-y-2 text-red-700 font-semibold max-w-xs mx-auto">
+                        ${t.items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function setupAccordions() {
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('span:last-child');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

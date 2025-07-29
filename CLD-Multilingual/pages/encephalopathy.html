@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Hepatic Encephalopathy (HE)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .stage-card.active {
+            border-color: #A9C5C5;
+            background-color: #EAE7DC;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <h2 class="text-2xl font-bold text-center mb-8" data-translate="stagesTitle"></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div id="stage-cards" class="lg:col-span-1 flex flex-col space-y-3">
+                    <!-- Stage cards will be injected here -->
+                </div>
+                <div id="stage-details" class="md:col-span-1 lg:col-span-3 bg-[#EAE7DC]/50 rounded-xl p-6 md:p-8 min-h-[300px]">
+                    <!-- Stage details will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="triggers-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Triggers section content will be injected here -->
+        </div>
+
+        <div id="caregiver-section" class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-r-lg mb-12">
+             <!-- Caregiver section content will be injected here -->
+        </div>
+
+        <div id="treatment-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <!-- Treatment section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Understanding Hepatic Encephalopathy (HE)",
+            mainIntro: "Hepatic Encephalopathy (HE) is a serious but often reversible condition that causes a decline in brain function. It occurs when a damaged liver can no longer filter toxins, like ammonia produced by bacteria in your gut, from the blood. When these toxins travel to the brain, they disrupt normal function. Recognizing the signs and understanding the triggers are crucial for managing HE.",
+            stagesTitle: "The Stages and Symptoms of HE",
+            stages: [
+                { id: '0', title: "Stage 0: Minimal HE", text: "At this stage, there are no obvious personality or behavioral changes. The person is often unaware of any issues, but specialized testing may reveal subtle deficits in thinking, memory, and coordination that can affect tasks like driving." },
+                { id: '1', title: "Stage 1: Mild HE", text: "Symptoms are mild and can be easily missed. They include a short attention span, forgetfulness, mild confusion, mood swings (like irritability or anxiety), and changes in sleep patterns (sleeping during the day, staying up at night)." },
+                { id: '2', title: "Stage 2: Moderate HE", text: "Symptoms become more noticeable. The person may feel lethargic, disoriented, and exhibit inappropriate behavior. There is often significant forgetfulness, slurred speech, and a characteristic hand tremor called asterixis. This 'flapping tremor' is seen when the person extends their arms and wrists." },
+                { id: '3', title: "Stage 3: Severe HE", text: "At this stage, the person is very sleepy but can still be roused. They are extremely confused about time and place, unable to perform basic mental tasks, and may experience extreme anxiety, paranoia, or strange behavior." },
+                { id: '4', title: "Stage 4: Coma", text: "This is the most severe stage. The person is unconscious and unresponsive to pain. Stage 4 HE is a medical emergency that requires immediate hospitalization." }
+            ],
+            triggers: {
+                title: "What Can Trigger an HE Episode?",
+                intro: "For people with chronic liver disease, certain events can trigger or worsen an HE episode. Identifying and managing these triggers is a key part of prevention.",
+                items: [
+                    { icon: '🦠', title: "Infections", text: "Any infection, such as a urinary tract infection (UTI) or pneumonia, can put stress on the body and trigger HE." },
+                    { icon: '💊', title: "Medications", text: "Taking certain drugs, especially sedatives, tranquilizers, or narcotics, can worsen brain function." },
+                    { icon: '🩸', title: "Bleeding", text: "Internal bleeding, particularly in the stomach or esophagus (variceal bleeding), releases protein into the gut, which breaks down into ammonia." },
+                    { icon: '💧', title: "Dehydration", text: "Not drinking enough fluids, or losing fluids through vomiting or diarrhea, can impair kidney function and cause toxins to build up." },
+                    { icon: '🚽', title: "Constipation", text: "When stool stays in the intestines for too long, more toxins like ammonia are absorbed into the bloodstream." }
+                ]
+            },
+            caregiver: {
+                title: "A Note for Caregivers",
+                text: "Caring for someone with HE can be challenging. Your observations are vital. Be sure to track symptoms, ensure medications are taken as prescribed, and contact their doctor immediately if you notice worsening confusion, extreme sleepiness, or any sudden changes in behavior. You are a crucial part of the care team."
+            },
+            treatment: {
+                title: "Diagnosis and Treatment of HE",
+                intro: "Diagnosing HE is based on a combination of medical history, symptoms, and a physical exam. The goal of treatment is to identify and address any triggers and to lower the level of toxins in the blood.",
+                listTitle: "Primary treatments include:",
+                items: [
+                    "<strong>Lactulose:</strong> This is a special type of sugar syrup that works as a laxative. It helps by drawing ammonia from the blood into the colon, where it is then removed from the body through frequent bowel movements (typically aiming for 2-3 soft stools per day). Adherence is key.",
+                    "<strong>Rifaximin:</strong> This is an antibiotic that is poorly absorbed by the body, so it stays in the gut. It works by reducing the number of toxin-producing bacteria in the intestines.",
+                    "<strong>Dietary Management:</strong> While protein is important, sometimes a temporary reduction may be advised during a severe episode. A balanced diet is crucial for long-term management."
+                ]
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the American Liver Foundation and the NIDDK. Always seek the advice of your physician with any questions regarding a medical condition.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Entendiendo la Encefalopatía Hepática (EH)",
+            mainIntro: "La Encefalopatía Hepática (EH) es una condición grave pero a menudo reversible que causa un deterioro de la función cerebral. Ocurre cuando un hígado dañado ya no puede filtrar las toxinas, como el amoníaco producido por las bacterias en su intestino, de la sangre. Cuando estas toxinas llegan al cerebro, alteran su función normal. Reconocer los signos y comprender los desencadenantes es crucial para manejar la EH.",
+            stagesTitle: "Las Etapas y Síntomas de la EH",
+            stages: [
+                { id: '0', title: "Etapa 0: EH Mínima", text: "En esta etapa, no hay cambios evidentes de personalidad o comportamiento. La persona a menudo no es consciente de ningún problema, pero pruebas especializadas pueden revelar déficits sutiles en el pensamiento, la memoria y la coordinación que pueden afectar tareas como conducir." },
+                { id: '1', title: "Etapa 1: EH Leve", text: "Los síntomas son leves y pueden pasar desapercibidos fácilmente. Incluyen un corto período de atención, olvidos, confusión leve, cambios de humor (como irritabilidad o ansiedad) y cambios en los patrones de sueño (dormir durante el día, permanecer despierto por la noche)." },
+                { id: '2', title: "Etapa 2: EH Moderada", text: "Los síntomas se vuelven más notorios. La persona puede sentirse letárgica, desorientada y exhibir un comportamiento inapropiado. A menudo hay olvidos significativos, dificultad para hablar y un temblor característico de la mano llamado asterixis. Este 'temblor de aleteo' se observa cuando la persona extiende los brazos y las muñecas." },
+                { id: '3', title: "Etapa 3: EH Grave", text: "En esta etapa, la persona está muy somnolienta pero aún puede ser despertada. Están extremadamente confundidos sobre el tiempo y el lugar, son incapaces de realizar tareas mentales básicas y pueden experimentar ansiedad extrema, paranoia o un comportamiento extraño." },
+                { id: '4', title: "Etapa 4: Coma", text: "Esta es la etapa más grave. La persona está inconsciente y no responde al dolor. La EH en etapa 4 es una emergencia médica que requiere hospitalización inmediata." }
+            ],
+            triggers: {
+                title: "¿Qué Puede Desencadenar un Episodio de EH?",
+                intro: "Para las personas con enfermedad hepática crónica, ciertos eventos pueden desencadenar o empeorar un episodio de EH. Identificar y manejar estos desencadenantes es una parte clave de la prevención.",
+                items: [
+                    { icon: '🦠', title: "Infecciones", text: "Cualquier infección, como una infección del tracto urinario (ITU) o neumonía, puede poner estrés en el cuerpo y desencadenar la EH." },
+                    { icon: '💊', title: "Medicamentos", text: "Tomar ciertos fármacos, especialmente sedantes, tranquilizantes o narcóticos, puede empeorar la función cerebral." },
+                    { icon: '🩸', title: "Sangrado", text: "El sangrado interno, particularmente en el estómago o el esófago (sangrado de várices), libera proteínas en el intestino, que se descomponen en amoníaco." },
+                    { icon: '💧', title: "Deshidratación", text: "No beber suficientes líquidos, o perder líquidos a través de vómitos o diarrea, puede afectar la función renal y hacer que las toxinas se acumulen." },
+                    { icon: '🚽', title: "Estreñimiento", text: "Cuando las heces permanecen en los intestinos por mucho tiempo, se absorben más toxinas como el amoníaco en el torrente sanguíneo." }
+                ]
+            },
+            caregiver: {
+                title: "Una Nota para los Cuidadores",
+                text: "Cuidar a alguien con EH puede ser un desafío. Sus observaciones son vitales. Asegúrese de hacer un seguimiento de los síntomas, garantizar que los medicamentos se tomen según lo prescrito y contactar a su médico de inmediato si nota un empeoramiento de la confusión, somnolencia extrema o cualquier cambio repentino en el comportamiento. Usted es una parte crucial del equipo de atención."
+            },
+            treatment: {
+                title: "Diagnóstico y Tratamiento de la EH",
+                intro: "El diagnóstico de la EH se basa en una combinación de historial médico, síntomas y un examen físico. El objetivo del tratamiento es identificar y abordar cualquier desencadenante y reducir el nivel de toxinas en la sangre.",
+                listTitle: "Los tratamientos principales incluyen:",
+                items: [
+                    "<strong>Lactulosa:</strong> Este es un tipo especial de jarabe de azúcar que funciona como un laxante. Ayuda a extraer el amoníaco de la sangre hacia el colon, donde luego se elimina del cuerpo a través de deposiciones frecuentes (generalmente con el objetivo de 2-3 deposiciones blandas por día). La adherencia es clave.",
+                    "<strong>Rifaximina:</strong> Este es un antibiótico que el cuerpo absorbe mal, por lo que permanece en el intestino. Funciona reduciendo la cantidad de bacterias productoras de toxinas en los intestinos.",
+                    "<strong>Manejo Dietético:</strong> Si bien las proteínas son importantes, a veces se puede recomendar una reducción temporal durante un episodio grave. Una dieta equilibrada es crucial para el manejo a largo plazo."
+                ]
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de la American Liver Foundation y el NIDDK. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderStages(lang);
+        renderTriggers(lang);
+        renderCaregiverSection(lang);
+        renderTreatment(lang);
+    }
+
+    function renderStages(lang) {
+        const t = translations[lang].stages;
+        const cardsContainer = document.getElementById('stage-cards');
+        cardsContainer.innerHTML = t.map(stage => `
+            <div class="stage-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer transition-colors duration-300" data-stage="${stage.id}">
+                <h4 class="font-semibold">${stage.title}</h4>
+            </div>
+        `).join('');
+        initStagesInteraction(lang);
+    }
+
+    function initStagesInteraction(lang) {
+        const t = translations[lang].stages;
+        const stageCards = document.querySelectorAll('.stage-card');
+        const detailsContainer = document.getElementById('stage-details');
+
+        function updateDetails(stageId) {
+            const stageData = t.find(s => s.id === stageId);
+            detailsContainer.innerHTML = `
+                <h3 class="text-xl font-bold mb-2">${stageData.title}</h3>
+                <p class="text-gray-700">${stageData.text}</p>
+            `;
+            stageCards.forEach(card => {
+                card.classList.toggle('active', card.dataset.stage === stageId);
+            });
+        }
+
+        stageCards.forEach(card => {
+            card.addEventListener('click', () => updateDetails(card.dataset.stage));
+        });
+
+        updateDetails('0');
+    }
+
+    function renderTriggers(lang) {
+        const t = translations[lang].triggers;
+        const section = document.getElementById('triggers-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${t.items.map(item => `
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <p class="text-5xl mb-2">${item.icon}</p>
+                        <h3 class="font-bold text-lg">${item.title}</h3>
+                        <p class="text-sm text-gray-600">${item.text}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderCaregiverSection(lang) {
+        const t = translations[lang].caregiver;
+        const section = document.getElementById('caregiver-section');
+        section.innerHTML = `
+            <h3 class="font-bold text-xl mb-2">${t.title}</h3>
+            <p>${t.text}</p>
+        `;
+    }
+
+    function renderTreatment(lang) {
+        const t = translations[lang].treatment;
+        const section = document.getElementById('treatment-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-semibold mb-3">${t.listTitle}</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

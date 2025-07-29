@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Medications for Chronic Liver Disease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .drug-card.active {
+            border-color: #A9C5C5;
+            background-color: #A9C5C5;
+            color: white;
+        }
+        .drug-card.active h4 {
+             color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="safety-section" class="bg-red-50 border-l-4 border-red-500 text-red-800 p-6 rounded-r-lg mb-12">
+             <!-- Safety section content will be injected here -->
+        </div>
+
+        <div id="meds-by-condition" class="space-y-12">
+            <!-- Medication sections will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Medications for Managing Liver Disease Complications",
+            mainIntro: "While some medications treat the underlying cause of liver disease (like antivirals for hepatitis), many are used to manage the serious complications that arise from cirrhosis. This guide covers the most common medications your doctor may prescribe to help your body cope with a failing liver.",
+            safety: {
+                title: "The Golden Rule: Medication Safety is Paramount",
+                text: "A damaged liver cannot process drugs, supplements, or herbs like a healthy one can. <strong>Never take any new medication, over-the-counter drug, or supplement without first talking to your liver doctor.</strong> This includes common pain relievers like NSAIDs (ibuprofen, naproxen) which must be avoided."
+            },
+            medicationGroups: [
+                {
+                    id: "fluid",
+                    title: "Managing Fluid Retention (Ascites & Edema)",
+                    icon: "💧",
+                    intro: "These medications, called diuretics or 'water pills,' help your kidneys remove excess salt and water from your body to reduce swelling.",
+                    drugs: {
+                        spironolactone: {
+                            name: "Spironolactone (Aldactone®)",
+                            use: "The primary, first-line diuretic for ascites.",
+                            moa: "Blocks a hormone that makes the body hold onto salt and water.",
+                            effects: "High potassium levels, breast tenderness or enlargement in men.",
+                            considerations: "Requires regular blood tests to monitor potassium and kidney function."
+                        },
+                        furosemide: {
+                            name: "Furosemide (Lasix®)",
+                            use: "Often added to spironolactone if fluid retention is not well-controlled.",
+                            moa: "A powerful 'loop diuretic' that makes the kidneys excrete more salt and water.",
+                            effects: "Low potassium levels, dehydration, dizziness, muscle cramps.",
+                            considerations: "Often requires taking potassium supplements. Blood tests are essential."
+                        }
+                    }
+                },
+                {
+                    id: "he",
+                    title: "Managing Hepatic Encephalopathy (HE)",
+                    icon: "🧠",
+                    intro: "These medications work in your gut to reduce the amount of toxins, like ammonia, that get absorbed into your bloodstream and travel to your brain.",
+                    drugs: {
+                        lactulose: {
+                            name: "Lactulose (Generlac®, Enulose®)",
+                            use: "The primary, first-line treatment for preventing and managing HE.",
+                            moa: "A sugar laxative that draws ammonia into the colon and removes it from the body through bowel movements.",
+                            effects: "Gas, bloating, diarrhea, abdominal cramps. These are expected effects.",
+                            considerations: "The goal is 2-3 soft bowel movements per day. The dose is adjusted to achieve this. Adherence is critical."
+                        },
+                        rifaximin: {
+                            name: "Rifaximin (Xifaxan®)",
+                            use: "Often added to lactulose to help prevent recurrent HE episodes.",
+                            moa: "An antibiotic that stays in the gut and reduces the population of ammonia-producing bacteria.",
+                            effects: "Generally well-tolerated. May cause nausea or dizziness.",
+                            considerations: "Very expensive, so it is often reserved for patients who have had multiple HE episodes despite using lactulose."
+                        }
+                    }
+                },
+                {
+                    id: "varices",
+                    title: "Managing Portal Hypertension & Varices",
+                    icon: "❤️‍🩹",
+                    intro: "These medications lower the blood pressure in the portal vein system to reduce the risk of bleeding from esophageal varices.",
+                    drugs: {
+                        nadolol: {
+                            name: "Nadolol (Corgard®) / Propranolol (Inderal®)",
+                            use: "To prevent a first variceal bleed (primary prophylaxis) or a subsequent bleed (secondary prophylaxis).",
+                            moa: "Non-selective beta-blockers that decrease pressure in the portal vein by reducing blood flow into it.",
+                            effects: "Fatigue, dizziness, lightheadedness, shortness of breath, slowed heart rate.",
+                            considerations: "The dose is carefully increased to lower the resting heart rate to a target of 55-60 beats per minute. Must not be stopped abruptly."
+                        },
+                         carvedilol: {
+                            name: "Carvedilol (Coreg®)",
+                            use: "Another non-selective beta-blocker used to prevent variceal bleeding.",
+                            moa: "Similar to nadolol/propranolol, it lowers pressure in the portal vein.",
+                            effects: "Similar side effects, including fatigue, dizziness, and low blood pressure.",
+                            considerations: "Your doctor will choose the best beta-blocker for your specific situation."
+                        }
+                    }
+                },
+                {
+                    id: "other",
+                    title: "Managing Other Symptoms",
+                    icon: "✨",
+                    intro: "Other medications may be used to manage specific symptoms of liver disease.",
+                     drugs: {
+                        cholestyramine: {
+                            name: "Cholestyramine (Questran®)",
+                            use: "To treat severe itching (pruritus) caused by the buildup of bile acids in the skin.",
+                            moa: "A powder that binds to bile acids in your intestines so they can be removed from the body in stool.",
+                            effects: "Constipation, gas, bloating, stomach upset.",
+                            considerations: "Must be mixed with liquid. It can interfere with the absorption of other medications, so it must be taken several hours apart from your other pills."
+                        }
+                    }
+                }
+            ],
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the <a href="https://liverfoundation.org/" target="_blank" rel="noopener noreferrer" class="text-link">American Liver Foundation</a> and the <a href="https://www.niddk.nih.gov/health-information/liver-disease" target="_blank" rel="noopener noreferrer" class="text-link">NIDDK</a>. Always seek the advice of your physician with any questions regarding your medications.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Medicamentos para Manejar las Complicaciones de la Enfermedad Hepática",
+            mainIntro: "Mientras que algunos medicamentos tratan la causa subyacente de la enfermedad hepática (como los antivirales para la hepatitis), muchos se utilizan para manejar las complicaciones graves que surgen de la cirrosis. Esta guía cubre los medicamentos más comunes que su médico puede recetar para ayudar a su cuerpo a sobrellevar un hígado insuficiente.",
+            safety: {
+                title: "La Regla de Oro: La Seguridad de los Medicamentos es Primordial",
+                text: "Un hígado dañado no puede procesar fármacos, suplementos o hierbas como uno sano. <strong>Nunca tome ningún medicamento nuevo, de venta libre o suplemento sin hablar primero con su médico especialista en hígado.</strong> Esto incluye analgésicos comunes como los AINE (ibuprofeno, naproxeno) que deben evitarse."
+            },
+            medicationGroups: [
+                {
+                    id: "fluid",
+                    title: "Manejo de la Retención de Líquidos (Ascitis y Edema)",
+                    icon: "💧",
+                    intro: "Estos medicamentos, llamados diuréticos o 'píldoras de agua', ayudan a sus riñones a eliminar el exceso de sal y agua de su cuerpo para reducir la hinchazón.",
+                    drugs: {
+                        spironolactone: {
+                            name: "Espironolactona (Aldactone®)",
+                            use: "El diurético principal y de primera línea para la ascitis.",
+                            moa: "Bloquea una hormona que hace que el cuerpo retenga sal y agua.",
+                            effects: "Niveles altos de potasio, sensibilidad o agrandamiento de los senos en los hombres.",
+                            considerations: "Requiere análisis de sangre regulares para monitorear el potasio y la función renal."
+                        },
+                        furosemide: {
+                            name: "Furosemida (Lasix®)",
+                            use: "A menudo se agrega a la espironolactona si la retención de líquidos no está bien controlada.",
+                            moa: "Un potente 'diurético de asa' que hace que los riñones excreten más sal y agua.",
+                            effects: "Niveles bajos de potasio, deshidratación, mareos, calambres musculares.",
+                            considerations: "A menudo requiere tomar suplementos de potasio. Los análisis de sangre son esenciales."
+                        }
+                    }
+                },
+                {
+                    id: "he",
+                    title: "Manejo de la Encefalopatía Hepática (EH)",
+                    icon: "🧠",
+                    intro: "Estos medicamentos actúan en su intestino para reducir la cantidad de toxinas, como el amoníaco, que se absorben en el torrente sanguíneo y viajan a su cerebro.",
+                    drugs: {
+                        lactulose: {
+                            name: "Lactulosa (Generlac®, Enulose®)",
+                            use: "El tratamiento principal y de primera línea para prevenir y manejar la EH.",
+                            moa: "Un laxante de azúcar que atrae el amoníaco al colon y lo elimina del cuerpo a través de las deposiciones.",
+                            effects: "Gases, hinchazón, diarrea, cólicos abdominales. Estos son efectos esperados.",
+                            considerations: "El objetivo es tener de 2 a 3 deposiciones blandas por día. La dosis se ajusta para lograr esto. La adherencia es crítica."
+                        },
+                        rifaximin: {
+                            name: "Rifaximina (Xifaxan®)",
+                            use: "A menudo se agrega a la lactulosa para ayudar a prevenir episodios recurrentes de EH.",
+                            moa: "Un antibiótico que permanece en el intestino y reduce la población de bacterias productoras de amoníaco.",
+                            effects: "Generalmente bien tolerado. Puede causar náuseas o mareos.",
+                            considerations: "Muy caro, por lo que a menudo se reserva para pacientes que han tenido múltiples episodios de EH a pesar de usar lactulosa."
+                        }
+                    }
+                },
+                {
+                    id: "varices",
+                    title: "Manejo de la Hipertensión Portal y Várices",
+                    icon: "❤️‍🩹",
+                    intro: "Estos medicamentos disminuyen la presión arterial en el sistema de la vena porta para reducir el riesgo de sangrado de las várices esofágicas.",
+                    drugs: {
+                        nadolol: {
+                            name: "Nadolol (Corgard®) / Propranolol (Inderal®)",
+                            use: "Para prevenir un primer sangrado de várices (profilaxis primaria) o un sangrado posterior (profilaxis secundaria).",
+                            moa: "Betabloqueantes no selectivos que disminuyen la presión en la vena porta al reducir el flujo sanguíneo hacia ella.",
+                            effects: "Fatiga, mareos, aturdimiento, dificultad para respirar, ritmo cardíaco lento.",
+                            considerations: "La dosis se aumenta cuidadosamente para reducir la frecuencia cardíaca en reposo a un objetivo de 55-60 latidos por minuto. No debe suspenderse bruscamente."
+                        },
+                        carvedilol: {
+                            name: "Carvedilol (Coreg®)",
+                            use: "Otro betabloqueante no selectivo utilizado para prevenir el sangrado de várices.",
+                            moa: "Similar al nadolol/propranolol, reduce la presión en la vena porta.",
+                            effects: "Efectos secundarios similares, como fatiga, mareos y presión arterial baja.",
+                            considerations: "Su médico elegirá el mejor betabloqueante para su situación específica."
+                        }
+                    }
+                },
+                {
+                    id: "other",
+                    title: "Manejo de Otros Síntomas",
+                    icon: "✨",
+                    intro: "Se pueden usar otros medicamentos para manejar síntomas específicos de la enfermedad hepática.",
+                     drugs: {
+                        cholestyramine: {
+                            name: "Colestiramina (Questran®)",
+                            use: "Para tratar la picazón severa (prurito) causada por la acumulación de ácidos biliares en la piel.",
+                            moa: "Un polvo que se une a los ácidos biliares en sus intestinos para que puedan ser eliminados del cuerpo en las heces.",
+                            effects: "Estreñimiento, gases, hinchazón, malestar estomacal.",
+                            considerations: "Debe mezclarse con líquido. Puede interferir con la absorción de otros medicamentos, por lo que debe tomarse con varias horas de diferencia de sus otras píldoras."
+                        }
+                    }
+                }
+            ],
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de la <a href="https://liverfoundation.org/" target="_blank" rel="noopener noreferrer" class="text-link">American Liver Foundation</a> y el <a href="https://www.niddk.nih.gov/health-information/liver-disease" target="_blank" rel="noopener noreferrer" class="text-link">NIDDK</a>. Siempre busque el consejo de su médico si tiene preguntas sobre sus medicamentos.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderSafety(lang);
+        renderMedicationGroups(lang);
+    }
+
+    function renderSafety(lang) {
+        const t = translations[lang].safety;
+        const section = document.getElementById('safety-section');
+        section.innerHTML = `
+            <h3 class="font-bold text-xl mb-2">${t.title}</h3>
+            <p>${t.text}</p>
+        `;
+    }
+
+    function renderMedicationGroups(lang) {
+        const t = translations[lang].medicationGroups;
+        const container = document.getElementById('meds-by-condition');
+        container.innerHTML = t.map(group => `
+            <div id="${group.id}-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-center mb-2 flex items-center justify-center"><span class="text-3xl mr-3">${group.icon}</span> ${group.title}</h2>
+                <p class="text-center text-gray-600 mb-8">${group.intro}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 flex flex-col space-y-3">
+                        ${Object.keys(group.drugs).map(key => `
+                            <button class="drug-card border-2 border-gray-300 rounded-lg p-4 text-left transition-all duration-300" data-group-id="${group.id}" data-drug-key="${key}">
+                                <h4 class="font-bold text-lg">${group.drugs[key].name}</h4>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="md:col-span-1 lg:col-span-2 bg-[#EAE7DC]/50 rounded-xl p-6 min-h-[300px]">
+                        <!-- Drug details will be injected here -->
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        initDrugInteractions(lang);
+    }
+
+    function initDrugInteractions(lang) {
+        const drugCards = document.querySelectorAll('.drug-card');
+        
+        function updateDetails(groupId, drugKey) {
+            const groupData = translations[lang].medicationGroups.find(g => g.id === groupId);
+            const drugData = groupData.drugs[drugKey];
+            const detailsContainer = document.querySelector(`#${groupId}-section .bg-\\[\\#EAE7DC\\]\\/50`);
+
+            detailsContainer.innerHTML = `
+                <h3 class="text-xl font-bold mb-4">${drugData.name}</h3>
+                <dl class="space-y-4 text-sm">
+                    <div>
+                        <dt class="font-semibold" data-translate="use">Use:</dt>
+                        <dd class="text-gray-600">${drugData.use}</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold" data-translate="moa">How it Works (MOA):</dt>
+                        <dd class="text-gray-600">${drugData.moa}</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold" data-translate="effects">Common Side Effects:</dt>
+                        <dd class="text-gray-600">${drugData.effects}</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold" data-translate="considerations">Special Considerations:</dt>
+                        <dd class="text-gray-600">${drugData.considerations}</dd>
+                    </div>
+                </dl>
+            `;
+            
+            document.querySelectorAll(`#${groupId}-section .drug-card`).forEach(card => {
+                card.classList.toggle('active', card.dataset.drugKey === drugKey);
+            });
+        }
+
+        drugCards.forEach(card => {
+            card.addEventListener('click', () => {
+                updateDetails(card.dataset.groupId, card.dataset.drugKey);
+            });
+        });
+
+        // Activate the first drug in each section by default
+        translations[lang].medicationGroups.forEach(group => {
+            const firstDrugKey = Object.keys(group.drugs)[0];
+            updateDetails(group.id, firstDrugKey);
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Stages of Chronic Liver Disease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .stage-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .stage-card.active {
+            border-color: #A9C5C5;
+            transform: translateY(-8px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        .stage-card.active .stage-icon {
+             background-color: #A9C5C5;
+            color: white;
+        }
+        .symptom-card.active {
+            border-color: #A9C5C5;
+            background-color: #EAE7DC;
+        }
+        .timeline-connector {
+            flex-grow: 1;
+            height: 2px;
+            background-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <h2 class="text-2xl font-bold text-center mb-8" data-translate="timelineTitle"></h2>
+            <div id="stages-container" class="relative">
+                <div class="flex items-center justify-center absolute w-full top-1/2 -translate-y-1/2 -z-0">
+                    <div class="timeline-connector"></div>
+                </div>
+                <div id="stage-timeline-nav" class="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Stage cards will be injected here -->
+                </div>
+            </div>
+            <div id="stage-details" class="mt-8 p-6 bg-[#EAE7DC]/50 rounded-xl min-h-[250px]">
+                <!-- Stage details will be injected here -->
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <h2 class="text-2xl font-bold text-center mb-2" data-translate="symptomsTitle"></h2>
+             <p class="text-center text-gray-600 mb-8" data-translate="symptomsIntro"></p>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-center" data-translate="earlySymptomsTitle"></h3>
+                    <div id="early-symptoms" class="space-y-3">
+                        <!-- Early symptom cards will be injected here -->
+                    </div>
+                </div>
+                 <div>
+                    <h3 class="text-xl font-semibold mb-4 text-center" data-translate="advancedSymptomsTitle"></h3>
+                    <div id="advanced-symptoms" class="space-y-3">
+                        <!-- Advanced symptom cards will be injected here -->
+                    </div>
+                </div>
+             </div>
+             <div id="symptom-details" class="mt-8 p-6 bg-[#EAE7DC]/50 rounded-xl min-h-[150px]">
+                <!-- Symptom details will be injected here -->
+             </div>
+        </div>
+
+        <div id="doctor-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <!-- New section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Understanding the Stages of Liver Disease",
+            mainIntro: "Chronic liver disease is a progressive condition, meaning it worsens over time. It typically follows four main stages, moving from inflammation to irreversible scarring. Understanding this path is empowering, as it highlights when and how interventions can make the biggest difference in your health journey.",
+            timelineTitle: "The Four-Stage Journey of Liver Damage",
+            stages: [
+                { id: 'inflammation', icon: '🔥', title: 'Stage 1: Inflammation (Hepatitis)', short: 'Inflammation', text: 'This is the first response to liver injury. Your liver becomes swollen as your immune system tries to fight off an infection or heal from a toxin (like alcohol or excess fat). Many people have no symptoms at this stage. The liver is still functioning, and the damage is often completely reversible if the underlying cause is treated.' },
+                { id: 'fibrosis', icon: '🕸️', title: 'Stage 2: Fibrosis (Scarring)', short: 'Fibrosis', text: 'If inflammation continues, the liver tries to repair itself by producing scar tissue. This process is called fibrosis. This scar tissue starts to replace healthy liver cells but doesn’t perform any function and can interfere with blood flow. Halting or even reversing fibrosis is often possible with successful treatment of the root cause.' },
+                { id: 'cirrhosis', icon: '🧱', title: 'Stage 3: Cirrhosis (Severe Scarring)', short: 'Cirrhosis', text: 'This is when scarring becomes severe, permanent, and widespread, disrupting the liver\'s structure. The liver becomes hard and lumpy. In <strong>compensated cirrhosis</strong>, the liver is still able to perform most of its jobs. In <strong>decompensated cirrhosis</strong>, function declines, leading to serious complications. While the scarring cannot be undone, further damage can be prevented.' },
+                { id: 'failure', icon: '💔', title: 'Stage 4: Liver Failure', short: 'Failure', text: 'In the final stage, liver function has declined to a life-threatening point. This is also called end-stage liver disease (ESLD). The liver can no longer perform its vital jobs, leading to severe complications. A liver transplant, evaluated using a MELD score, is often the only treatment option at this stage.' }
+            ],
+            symptomsTitle: "Signs & Symptoms Through the Stages",
+            symptomsIntro: "Click on a symptom to learn more about it.",
+            earlySymptomsTitle: "Early & Vague Signs",
+            advancedSymptomsTitle: "Signs of Advanced Disease",
+            symptoms: {
+                fatigue: { title: "Fatigue & Malaise", text: "A persistent feeling of tiredness and general unwellness is one of the most common, yet non-specific, early symptoms of liver inflammation.", group: "early" },
+                pain: { title: "Upper Abdominal Pain", text: "A dull ache or discomfort in the upper right part of the abdomen, where the liver is located, can occur as the liver becomes inflamed and swollen.", group: "early" },
+                nausea: { title: "Nausea & Loss of Appetite", text: "Feeling sick to your stomach or losing interest in food can be early signs that your liver is struggling to process nutrients and toxins effectively.", group: "early" },
+                jaundice: { title: "Jaundice (Yellow Skin/Eyes)", text: "When the liver is severely damaged, it can't process bilirubin, a yellow waste product. Bilirubin builds up in the blood, causing the skin and whites of the eyes to turn yellow.", group: "advanced" },
+                swelling: { title: "Swelling (Ascites & Edema)", text: "Severe scarring (cirrhosis) blocks blood flow, increasing pressure in the veins. This, combined with low protein levels, causes fluid to leak into the abdomen (ascites) and legs (edema).", group: "advanced" },
+                bruising: { title: "Easy Bruising & Bleeding", text: "A failing liver can't produce enough proteins needed for blood clotting. This can lead to bruising easily, nosebleeds, or bleeding gums.", group: "advanced" },
+                confusion: { title: "Confusion (Encephalopathy)", text: "When the liver fails to filter toxins from the blood, substances like ammonia can travel to the brain, causing confusion, memory problems, and personality changes.", group: "advanced" }
+            },
+            doctor: {
+                title: "When to See a Doctor",
+                intro: "Because early-stage liver disease often has no symptoms, it's important to talk to a doctor if you have risk factors or notice persistent changes in your health. Early detection is key to preventing irreversible damage.",
+                listTitle: "Consult a healthcare provider if you:",
+                items: [
+                    "Experience persistent fatigue, nausea, or abdominal discomfort.",
+                    "Notice any yellowing of your skin or eyes (jaundice).",
+                    "Have unexplained swelling in your legs or abdomen.",
+                    "Have known risk factors, such as heavy alcohol use, obesity, type 2 diabetes, or a history of viral hepatitis.",
+                    "Have a family history of liver disease."
+                ]
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the Cleveland Clinic. Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://my.clevelandclinic.org/health/diseases/17179-liver-disease" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Entendiendo las Etapas de la Enfermedad Hepática",
+            mainIntro: "La enfermedad hepática crónica es una condición progresiva, lo que significa que empeora con el tiempo. Generalmente sigue cuatro etapas principales, pasando de la inflamación a la cicatrización irreversible. Comprender este camino es empoderador, ya que resalta cuándo y cómo las intervenciones pueden marcar la mayor diferencia en su viaje de salud.",
+            timelineTitle: "El Viaje de Cuatro Etapas del Daño Hepático",
+            stages: [
+                { id: 'inflammation', icon: '🔥', title: 'Etapa 1: Inflamación (Hepatitis)', short: 'Inflamación', text: 'Esta es la primera respuesta a una lesión hepática. Su hígado se hincha mientras su sistema inmunológico intenta combatir una infección o sanar de una toxina (como el alcohol o el exceso de grasa). Muchas personas no tienen síntomas en esta etapa. El hígado sigue funcionando y el daño suele ser completamente reversible si se trata la causa subyacente.' },
+                { id: 'fibrosis', icon: '🕸️', title: 'Etapa 2: Fibrosis (Cicatrización)', short: 'Fibrosis', text: 'Si la inflamación continúa, el hígado intenta repararse produciendo tejido cicatricial. Este proceso se llama fibrosis. Este tejido cicatricial comienza a reemplazar las células hepáticas sanas pero no realiza ninguna función y puede interferir con el flujo sanguíneo. Detener o incluso revertir la fibrosis suele ser posible con un tratamiento exitoso de la causa raíz.' },
+                { id: 'cirrhosis', icon: '🧱', title: 'Etapa 3: Cirrosis (Cicatrización Severa)', short: 'Cirrosis', text: 'Esto ocurre cuando la cicatrización se vuelve severa, permanente y generalizada, alterando la estructura del hígado. El hígado se vuelve duro y grumoso. En la <strong>cirrosis compensada</strong>, el hígado todavía puede realizar la mayoría de sus trabajos. En la <strong>cirrosis descompensada</strong>, la función disminuye, lo que lleva a complicaciones graves. Si bien la cicatrización en sí no se puede deshacer, se puede prevenir un daño mayor.' },
+                { id: 'failure', icon: '💔', title: 'Etapa 4: Insuficiencia Hepática', short: 'Insuficiencia', text: 'En la etapa final, la función hepática ha disminuido a un punto potencialmente mortal. Esto también se llama enfermedad hepática en etapa terminal (ESLD). El hígado ya no puede realizar sus trabajos vitales, lo que lleva a complicaciones graves. Un trasplante de hígado, evaluado mediante un puntaje MELD, suele ser la única opción de tratamiento en esta etapa.' }
+            ],
+            symptomsTitle: "Señales y Síntomas a Través de las Etapas",
+            symptomsIntro: "Haga clic en un síntoma para aprender más sobre él.",
+            earlySymptomsTitle: "Señales Tempranas y Vagas",
+            advancedSymptomsTitle: "Señales de Enfermedad Avanzada",
+            symptoms: {
+                fatigue: { title: "Fatiga y Malestar", text: "Una sensación persistente de cansancio y malestar general es uno de los síntomas tempranos más comunes, aunque no específicos, de la inflamación hepática.", group: "early" },
+                pain: { title: "Dolor Abdominal Superior", text: "Un dolor sordo o molestia en la parte superior derecha del abdomen, donde se encuentra el hígado, puede ocurrir a medida que el hígado se inflama e hincha.", group: "early" },
+                nausea: { title: "Náuseas y Pérdida de Apetito", text: "Sentirse mal del estómago o perder el interés en la comida pueden ser señales tempranas de que su hígado está luchando por procesar nutrientes y toxinas de manera efectiva.", group: "early" },
+                jaundice: { title: "Ictericia (Piel/Ojos Amarillos)", text: "Cuando el hígado está gravemente dañado, no puede procesar la bilirrubina, un producto de desecho amarillo. La bilirrubina se acumula en la sangre, haciendo que la piel y el blanco de los ojos se vuelvan amarillos.", group: "advanced" },
+                swelling: { title: "Hinchazón (Ascitis y Edema)", text: "La cicatrización severa (cirrosis) bloquea el flujo sanguíneo, aumentando la presión en las venas. Esto, combinado con bajos niveles de proteínas, hace que el líquido se filtre hacia el abdomen (ascitis) y las piernas (edema).", group: "advanced" },
+                bruising: { title: "Moretones y Sangrado Fáciles", text: "Un hígado insuficiente no puede producir suficientes proteínas necesarias para la coagulación de la sangre. Esto puede provocar moretones con facilidad, hemorragias nasales o sangrado de encías.", group: "advanced" },
+                confusion: { title: "Confusión (Encefalopatía)", text: "Cuando el hígado no logra filtrar las toxinas de la sangre, sustancias como el amoníaco pueden viajar al cerebro, causando confusión, problemas de memoria y cambios de personalidad.", group: "advanced" }
+            },
+            doctor: {
+                title: "Cuándo Consultar a un Médico",
+                intro: "Debido a que la enfermedad hepática en etapa temprana a menudo no presenta síntomas, es importante hablar con un médico si tiene factores de riesgo o nota cambios persistentes en su salud. La detección temprana es clave para prevenir daños irreversibles.",
+                listTitle: "Consulte a un proveedor de atención médica si usted:",
+                items: [
+                    "Experimenta fatiga persistente, náuseas o molestias abdominales.",
+                    "Nota cualquier coloración amarillenta en la piel o los ojos (ictericia).",
+                    "Tiene hinchazón inexplicable en las piernas o el abdomen.",
+                    "Tiene factores de riesgo conocidos, como consumo excesivo de alcohol, obesidad, diabetes tipo 2 o antecedentes de hepatitis viral.",
+                    "Tiene antecedentes familiares de enfermedad hepática."
+                ]
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de la Cleveland Clinic. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://my.clevelandclinic.org/health/diseases/17179-liver-disease" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderTimeline(lang);
+        renderSymptoms(lang);
+        renderDoctorSection(lang);
+    }
+
+    function renderTimeline(lang) {
+        const t = translations[lang].stages;
+        const navContainer = document.getElementById('stage-timeline-nav');
+        navContainer.innerHTML = t.map(stage => `
+            <div class="stage-card relative bg-white rounded-lg shadow-sm p-4 border-2 border-transparent cursor-pointer text-center z-10" data-stage="${stage.id}">
+                <div class="stage-icon w-16 h-16 mx-auto mb-2 rounded-full bg-gray-200 flex items-center justify-center text-3xl font-bold transition-all duration-300">${stage.icon}</div>
+                <h3 class="font-bold">${stage.short}</h3>
+            </div>
+        `).join('');
+        initTimelineInteraction(lang);
+    }
+    
+    function initTimelineInteraction(lang) {
+        const t = translations[lang].stages;
+        const stageItems = document.querySelectorAll('.stage-card');
+        const detailsContainer = document.getElementById('stage-details');
+
+        function updateDetails(stageId) {
+            const stageData = t.find(s => s.id === stageId);
+            detailsContainer.innerHTML = `
+                <h3 class="text-xl font-bold mb-2">${stageData.title}</h3>
+                <p class="text-gray-700">${stageData.text}</p>
+            `;
+            stageItems.forEach(item => {
+                item.classList.toggle('active', item.dataset.stage === stageId);
+            });
+        }
+
+        stageItems.forEach(item => {
+            item.addEventListener('click', () => updateDetails(item.dataset.stage));
+        });
+
+        updateDetails('inflammation');
+    }
+
+    function renderSymptoms(lang) {
+        const t = translations[lang].symptoms;
+        const earlyContainer = document.getElementById('early-symptoms');
+        const advancedContainer = document.getElementById('advanced-symptoms');
+        earlyContainer.innerHTML = '';
+        advancedContainer.innerHTML = '';
+
+        Object.keys(t).forEach(key => {
+            const symptom = t[key];
+            const cardHtml = `
+                <div class="symptom-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer transition-colors duration-300" data-symptom="${key}">
+                    <h4 class="font-semibold">${symptom.title}</h4>
+                </div>
+            `;
+            if (symptom.group === 'early') {
+                earlyContainer.innerHTML += cardHtml;
+            } else {
+                advancedContainer.innerHTML += cardHtml;
+            }
+        });
+        initSymptomsInteraction(lang);
+    }
+
+    function initSymptomsInteraction(lang) {
+        const t = translations[lang].symptoms;
+        const symptomCards = document.querySelectorAll('.symptom-card');
+        const detailsContainer = document.getElementById('symptom-details');
+
+        function updateDetails(symptomKey) {
+            const symptomData = t[symptomKey];
+            detailsContainer.innerHTML = `
+                <h4 class="text-lg font-bold mb-1">${symptomData.title}</h4>
+                <p class="text-gray-700">${symptomData.text}</p>
+            `;
+            symptomCards.forEach(card => {
+                card.classList.toggle('active', card.dataset.symptom === symptomKey);
+            });
+        }
+
+        symptomCards.forEach(card => {
+            card.addEventListener('click', () => updateDetails(card.dataset.symptom));
+        });
+        
+        updateDetails('fatigue');
+    }
+
+    function renderDoctorSection(lang) {
+        const t = translations[lang].doctor;
+        const section = document.getElementById('doctor-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-semibold mb-3">${t.listTitle}</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

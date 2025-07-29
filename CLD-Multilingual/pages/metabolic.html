@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Metabolic Liver Disease (MASLD)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .tab-button.active {
+            border-color: #A9C5C5;
+            background-color: #A9C5C5;
+            color: white;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <h2 class="text-2xl font-bold text-center mb-8" data-translate="whatIsTitle"></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl mb-2 flex items-center"><span class="text-3xl mr-3">💧</span> <span data-translate="masld"></span></h3>
+                    <p data-translate="masldInfo"></p>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-400 p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl mb-2 flex items-center"><span class="text-3xl mr-3">🔥</span> <span data-translate="mash"></span></h3>
+                    <p data-translate="mashInfo"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="risk-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Risk factors section content will be injected here -->
+        </div>
+
+        <div id="diagnosis-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Diagnosis section content will be injected here -->
+        </div>
+
+        <div id="management-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <h2 class="text-2xl font-bold text-center mb-8" data-translate="managementTitle"></h2>
+             <div class="max-w-4xl mx-auto">
+                <div class="border-b border-gray-200 mb-6">
+                    <nav id="management-tabs" class="-mb-px flex justify-center space-x-4" aria-label="Tabs">
+                        <!-- Tabs will be injected here -->
+                    </nav>
+                </div>
+                <div id="management-content" class="min-h-[300px]">
+                    <!-- Tab content will be injected here -->
+                </div>
+             </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Metabolic Dysfunction-Associated Steatotic Liver Disease (MASLD)",
+            mainIntro: "Formerly known as NAFLD, MASLD is now the most common chronic liver condition in the world. The name was changed to better reflect its link to metabolic health. It's defined by the buildup of excess fat in the liver that is not caused by alcohol. Understanding this condition is crucial as it is closely linked to your overall metabolic health.",
+            whatIsTitle: "What is MASLD and MASH?",
+            masld: "MASLD (Simple Fatty Liver)",
+            mash: "MASH (Steatohepatitis)",
+            masldInfo: "This is the broad term for having excess fat in your liver. For many people, this stage, also called simple steatosis, is not harmful, but it is a sign that the liver is under metabolic stress.",
+            mashInfo: "About 20% of people with MASLD develop this more serious form. 'Steato' means fat and 'hepatitis' means inflammation. In MASH, the excess fat triggers chronic inflammation and liver cell damage. This is the stage that can lead to scarring (fibrosis), cirrhosis, and liver cancer.",
+            risk: {
+                title: "Who is at Risk for MASLD?",
+                intro: "MASLD is a lifestyle-related disease, strongly linked to metabolic conditions. Your risk is significantly higher if you have one or more of the following:",
+                items: [
+                    { icon: '⚖️', title: "Obesity", text: "Excess body weight is the most common risk factor." },
+                    { icon: '🍬', title: "Type 2 Diabetes", text: "Insulin resistance plays a key role in fat accumulation in the liver." },
+                    { icon: '❤️', title: "High Blood Pressure", text: "Part of the cluster of metabolic syndrome conditions." },
+                    { icon: '📊', title: "High Cholesterol/Triglycerides", text: "Abnormal blood fat levels are closely associated with MASLD." }
+                ]
+            },
+            diagnosis: {
+                title: "How is MASLD Diagnosed?",
+                intro: "MASLD is often called a 'silent' disease because it usually has no symptoms. It is often discovered incidentally through routine tests.",
+                items: [
+                    { icon: '🩸', title: 'Blood Tests', text: "Routine liver function tests (LFTs) may show elevated liver enzymes (ALT and AST), which can be a clue. However, these tests can be normal even when MASLD is present." },
+                    { icon: '🖥️', title: 'Imaging Tests', text: "An abdominal ultrasound is often the first test used to detect fat in the liver. A specialized ultrasound called a FibroScan can also be used to measure the amount of fat and, more importantly, the amount of scarring (fibrosis) in the liver." },
+                    { icon: '🔬', title: 'Liver Biopsy', text: "While not always necessary, a liver biopsy is the 'gold standard' for diagnosis. It is the only test that can definitively distinguish simple MASLD from the more severe MASH by showing inflammation and cell damage. It is typically reserved for cases where the degree of damage is unclear." }
+                ]
+            },
+            managementTitle: "The Three Pillars of Management",
+            managementTabs: {
+                diet: "Diet",
+                exercise: "Exercise",
+                weight: "Weight Loss"
+            },
+            managementContent: {
+                diet: {
+                    title: "Adopt a Liver-Healthy Diet",
+                    intro: "There is no single 'MASLD diet.' The goal is to choose a sustainable, healthy eating pattern. The Mediterranean diet is often recommended.",
+                    points: [
+                        "<strong>Limit processed foods and added sugars:</strong> Especially avoid sugary drinks and foods high in high-fructose corn syrup.",
+                        "<strong>Choose healthy fats:</strong> Focus on monounsaturated fats from sources like olive oil, avocados, and nuts.",
+                        "<strong>Eat plenty of fruits, vegetables, and whole grains:</strong> These are rich in fiber and antioxidants.",
+                        "<strong>Limit red meat:</strong> Opt for lean protein sources like fish and poultry."
+                    ]
+                },
+                exercise: {
+                    title: "Make Physical Activity a Habit",
+                    intro: "Regular exercise is crucial for improving insulin sensitivity and reducing liver fat, even without weight loss.",
+                    points: [
+                        "<strong>Aim for 150-300 minutes per week:</strong> This should be moderate-intensity aerobic activity, like brisk walking, cycling, or swimming.",
+                        "<strong>Incorporate strength training:</strong> Add resistance training 2-3 times per week to build muscle mass, which helps your body use glucose.",
+                        "<strong>Find an activity you enjoy:</strong> Consistency is key, so choose something you are likely to stick with.",
+                        "<strong>Start slow:</strong> If you are new to exercise, begin with shorter sessions and gradually increase the duration and intensity."
+                    ]
+                },
+                weight: {
+                    title: "Achieve and Maintain a Healthy Weight",
+                    intro: "Weight loss is the most effective treatment for MASLD and MASH. Even a modest reduction in body weight can make a significant difference.",
+                    points: [
+                        "<strong>Lose 3-5% of body weight:</strong> This can significantly reduce the amount of fat in your liver (steatosis).",
+                        "<strong>Lose 7-10% of body weight:</strong> This is the target for reducing liver inflammation and fibrosis (scarring) in people with MASH.",
+                        "<strong>Focus on gradual, sustainable loss:</strong> Aim to lose 1-2 pounds per week through a combination of diet and exercise.",
+                        "<strong>Consult your doctor:</strong> In some cases, medications or bariatric surgery may be considered to aid in weight loss."
+                    ]
+                }
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the American College of Gastroenterology. Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://gi.org/topics/steatotic-liver-disease-masld/" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Enfermedad Hepática Esteatósica Asociada a Disfunción Metabólica (MASLD)",
+            mainIntro: "Anteriormente conocida como NAFLD, MASLD es ahora la condición hepática crónica más común en el mundo. El nombre se cambió para reflejar mejor su vínculo con la salud metabólica. Se define por la acumulación de exceso de grasa en el hígado que no es causada por el alcohol. Comprender esta condición es crucial ya que está estrechamente relacionada con su salud metabólica general.",
+            whatIsTitle: "¿Qué es MASLD y MASH?",
+            masld: "MASLD (Hígado Graso Simple)",
+            mash: "MASH (Esteatohepatitis)",
+            masldInfo: "Este es el término general para tener un exceso de grasa en el hígado. Para muchas personas, esta etapa, también llamada esteatosis simple, no es dañina, pero es una señal de que el hígado está bajo estrés metabólico.",
+            mashInfo: "Alrededor del 20% de las personas con MASLD desarrollan esta forma más grave. 'Esteato' significa grasa y 'hepatitis' significa inflamación. En MASH, el exceso de grasa desencadena una inflamación crónica y daño a las células hepáticas. Esta es la etapa que puede llevar a la cicatrización (fibrosis), cirrosis y cáncer de hígado.",
+            risk: {
+                title: "¿Quién está en Riesgo de MASLD?",
+                intro: "MASLD es una enfermedad relacionada con el estilo de vida, fuertemente vinculada a condiciones metabólicas. Su riesgo es significativamente mayor si tiene una o más de las siguientes:",
+                items: [
+                    { icon: '⚖️', title: "Obesidad", text: "El exceso de peso corporal es el factor de riesgo más común." },
+                    { icon: '🍬', title: "Diabetes Tipo 2", text: "La resistencia a la insulina juega un papel clave en la acumulación de grasa en el hígado." },
+                    { icon: '❤️', title: "Presión Arterial Alta", text: "Parte del conjunto de condiciones del síndrome metabólico." },
+                    { icon: '📊', title: "Colesterol/Triglicéridos Altos", text: "Los niveles anormales de grasa en la sangre están estrechamente asociados con MASLD." }
+                ]
+            },
+            diagnosis: {
+                title: "¿Cómo se Diagnostica MASLD?",
+                intro: "A MASLD a menudo se le llama una enfermedad 'silenciosa' porque generalmente no tiene síntomas. A menudo se descubre de manera incidental a través de pruebas de rutina.",
+                items: [
+                    { icon: '🩸', title: 'Análisis de Sangre', text: "Las pruebas de función hepática (PFH) de rutina pueden mostrar enzimas hepáticas elevadas (ALT y AST), lo que puede ser una pista. Sin embargo, estas pruebas pueden ser normales incluso cuando MASLD está presente." },
+                    { icon: '🖥️', title: 'Pruebas de Imagen', text: "Una ecografía abdominal suele ser la primera prueba utilizada para detectar grasa en el hígado. Una ecografía especializada llamada FibroScan también se puede utilizar para medir la cantidad de grasa y, lo que es más importante, la cantidad de cicatrización (fibrosis) en el hígado." },
+                    { icon: '🔬', title: 'Biopsia Hepática', text: "Aunque no siempre es necesaria, una biopsia hepática es el 'estándar de oro' para el diagnóstico. Es la única prueba que puede distinguir definitivamente entre MASLD simple y la MASH más grave al mostrar inflamación y daño celular. Generalmente se reserva para casos en los que el grado de daño no está claro." }
+                ]
+            },
+            managementTitle: "Los Tres Pilares del Manejo",
+            managementTabs: {
+                diet: "Dieta",
+                exercise: "Ejercicio",
+                weight: "Pérdida de Peso"
+            },
+            managementContent: {
+                diet: {
+                    title: "Adopte una Dieta Saludable para el Hígado",
+                    intro: "No existe una única 'dieta para MASLD'. El objetivo es elegir un patrón de alimentación saludable y sostenible. A menudo se recomienda la dieta mediterránea.",
+                    points: [
+                        "<strong>Limite los alimentos procesados y los azúcares añadidos:</strong> Evite especialmente las bebidas azucaradas y los alimentos ricos en jarabe de maíz de alta fructosa.",
+                        "<strong>Elija grasas saludables:</strong> Concéntrese en las grasas monoinsaturadas de fuentes como el aceite de oliva, los aguacates y las nueces.",
+                        "<strong>Coma muchas frutas, verduras y granos integrales:</strong> Son ricos en fibra y antioxidantes.",
+                        "<strong>Limite la carne roja:</strong> Opte por fuentes de proteínas magras como el pescado y las aves."
+                    ]
+                },
+                exercise: {
+                    title: "Haga de la Actividad Física un Hábito",
+                    intro: "El ejercicio regular es crucial para mejorar la sensibilidad a la insulina y reducir la grasa del hígado, incluso sin perder peso.",
+                    points: [
+                        "<strong>Apunte a 150-300 minutos por semana:</strong> Debe ser actividad aeróbica de intensidad moderada, como caminar a paso ligero, andar en bicicleta o nadar.",
+                        "<strong>Incorpore entrenamiento de fuerza:</strong> Agregue entrenamiento de resistencia 2-3 veces por semana para desarrollar masa muscular, lo que ayuda a su cuerpo a usar la glucosa.",
+                        "<strong>Encuentre una actividad que disfrute:</strong> La constancia es clave, así que elija algo con lo que sea probable que continúe.",
+                        "<strong>Comience despacio:</strong> Si es nuevo en el ejercicio, comience con sesiones más cortas y aumente gradualmente la duración y la intensidad."
+                    ]
+                },
+                weight: {
+                    title: "Alcance y Mantenga un Peso Saludable",
+                    intro: "La pérdida de peso es el tratamiento más eficaz para MASLD y MASH. Incluso una reducción modesta del peso corporal puede marcar una diferencia significativa.",
+                    points: [
+                        "<strong>Pierda del 3 al 5% del peso corporal:</strong> Esto puede reducir significativamente la cantidad de grasa en su hígado (esteatosis).",
+                        "<strong>Pierda del 7 al 10% del peso corporal:</strong> Este es el objetivo para reducir la inflamación y la fibrosis (cicatrización) del hígado en personas con MASH.",
+                        "<strong>Concéntrese en una pérdida gradual y sostenible:</strong> Trate de perder de 1 a 2 libras por semana mediante una combinación de dieta y ejercicio.",
+                        "<strong>Consulte a su médico:</strong> En algunos casos, se pueden considerar medicamentos o cirugía bariátrica para ayudar en la pérdida de peso."
+                    ]
+                }
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales del American College of Gastroenterology. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://gi.org/topics/steatotic-liver-disease-masld/" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            const keys = key.split('.');
+            let value = t;
+            keys.forEach(k => { if (value) value = value[k]; });
+            if (value) el.innerHTML = value;
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+        
+        renderRiskSection(lang);
+        renderDiagnosisSection(lang);
+        renderManagement(lang);
+    }
+
+    function renderRiskSection(lang) {
+        const t = translations[lang].risk;
+        const section = document.getElementById('risk-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                ${t.items.map(item => `
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-5xl mb-2">${item.icon}</p>
+                        <h3 class="font-bold text-lg">${item.title}</h3>
+                        <p class="text-sm text-gray-600">${item.text}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderDiagnosisSection(lang) {
+        const t = translations[lang].diagnosis;
+        const section = document.getElementById('diagnosis-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.items.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.text}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions();
+    }
+
+    function setupAccordions() {
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('span:last-child');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function renderManagement(lang) {
+        const t = translations[lang];
+        const tabsContainer = document.getElementById('management-tabs');
+        tabsContainer.innerHTML = Object.keys(t.managementTabs).map(key => `
+            <button class="tab-button py-3 px-4 border-b-2 font-semibold text-gray-600 border-transparent" data-tab="${key}">${t.managementTabs[key]}</button>
+        `).join('');
+        initManagementInteraction(lang);
+    }
+
+    function initManagementInteraction(lang) {
+        const t = translations[lang].managementContent;
+        const tabs = document.querySelectorAll('#management-tabs .tab-button');
+        const contentContainer = document.getElementById('management-content');
+
+        function updateContent(tabKey) {
+            const content = t[tabKey];
+            contentContainer.innerHTML = `
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-center mb-2">${content.title}</h3>
+                    <p class="text-center text-gray-600 mb-6">${content.intro}</p>
+                    <ul class="list-disc list-inside space-y-3 max-w-xl mx-auto">
+                        ${content.points.map(point => `<li>${point}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.tab === tabKey));
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => updateContent(tab.dataset.tab));
+        });
+
+        updateContent('diet');
+    }
+
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

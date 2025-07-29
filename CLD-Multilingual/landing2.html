@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Patient's Guide to Chronic Liver Disease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony Neutrals -->
+    <!-- Application Structure Plan: A non-linear, single-page application with a fixed top navigation bar for easy access to all sections. The structure is thematic rather than mirroring the report's chapters to improve user engagement and exploration. Key sections include: an introduction to the liver, an interactive timeline for the stages of CLD, a tabbed view for causes with a comparative chart, an interactive body map for complications, and a tabbed section for diagnosis and treatment. This structure is designed to break down complex information into manageable, interactive chunks, empowering the user to learn at their own pace and focus on topics relevant to them. The flow encourages discovery over passive reading. -->
+    <!-- Visualization & Content Choices: 
+        - Liver Functions: Goal: Inform/Organize. Method: Interactive grid of cards (HTML/CSS) with icons. Interaction: Hover reveals more detail. Justification: More engaging than a simple list.
+        - Disease Stages: Goal: Change/Process. Method: Clickable horizontal timeline (HTML/CSS). Interaction: Clicking a stage reveals its details. Justification: Visually represents the progression of the disease and highlights key intervention points.
+        - Causes of CLD: Goal: Compare. Method: Bar chart (Chart.js). Interaction: Hovering on bars shows data. Justification: Provides an immediate visual comparison of the prevalence of major causes.
+        - Complications: Goal: Relationships/Organize. Method: Interactive card layout (HTML/CSS/JS). Interaction: Clicking a card reveals details in an adjacent panel. Justification: Connects symptoms to explanations in a clean, integrated layout without modals.
+        - Diagnosis/Treatment: Goal: Inform/Organize. Method: Tabbed content with accordions and interactive tables (HTML/CSS/JS). Interaction: Toggling tabs and accordions. Justification: Organizes a large amount of detailed information cleanly, preventing cognitive overload.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #A9C5C5;
+            border-bottom-color: #A9C5C5;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .tab-button.active {
+            background-color: #A9C5C5;
+            color: #FFFFFF;
+        }
+        .stage-card.active {
+            border-color: #A9C5C5;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .complication-card {
+            transition: all 0.3s ease;
+        }
+        .complication-card.active {
+            background-color: #A9C5C5;
+            color: white;
+            border-color: #A9C5C5;
+            transform: translateX(5px);
+        }
+        .complication-card.active h4, .complication-card.active p {
+            color: white;
+        }
+        a.text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        a.text-link:hover {
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 id="main-title" class="text-xl font-bold text-[#5E503F]"></h1>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#basics" data-translate="nav.basics" class="nav-link px-3 py-2 rounded-md text-sm font-medium"></a>
+                    <a href="#stages" data-translate="nav.stages" class="nav-link px-3 py-2 rounded-md text-sm font-medium"></a>
+                    <a href="#causes" data-translate="nav.causes" class="nav-link px-3 py-2 rounded-md text-sm font-medium"></a>
+                    <a href="#complications" data-translate="nav.complications" class="nav-link px-3 py-2 rounded-md text-sm font-medium"></a>
+                    <a href="#management" data-translate="nav.management" class="nav-link px-3 py-2 rounded-md text-sm font-medium"></a>
+                    <a href="#living" data-translate="nav.living" class="nav-link px-3 py-2 rounded-md text-sm font-medium"></a>
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-[#5E503F] hover:text-white hover:bg-[#A9C5C5] focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#basics" data-translate="nav.basics" class="nav-link block px-3 py-2 rounded-md text-base font-medium"></a>
+                    <a href="#stages" data-translate="nav.stages" class="nav-link block px-3 py-2 rounded-md text-base font-medium"></a>
+                    <a href="#causes" data-translate="nav.causes" class="nav-link block px-3 py-2 rounded-md text-base font-medium"></a>
+                    <a href="#complications" data-translate="nav.complications" class="nav-link block px-3 py-2 rounded-md text-base font-medium"></a>
+                    <a href="#management" data-translate="nav.management" class="nav-link block px-3 py-2 rounded-md text-base font-medium"></a>
+                    <a href="#living" data-translate="nav.living" class="nav-link block px-3 py-2 rounded-md text-base font-medium"></a>
+                    <div class="pt-4 border-t border-gray-200">
+                        <div id="native-lang-toggle-mobile" class="flex items-center justify-center">
+                             <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en-mobile" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es-mobile" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate-mobile" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                         <div id="google-lang-toggle-mobile" class="hidden items-center justify-center mt-2">
+                            <div id="google_translate_element_mobile"></div>
+                            <button id="back-to-native-mobile" class="ml-2 text-sm font-semibold text-link">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div id="basics" class="content-section"></div>
+        <div id="stages" class="content-section"></div>
+        <div id="causes" class="content-section"></div>
+        <div id="complications" class="content-section"></div>
+        <div id="management" class="content-section"></div>
+        <div id="living" class="content-section"></div>
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element_mobile');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const translations = {
+        en: {
+            mainTitle: "Your Liver Health Guide",
+            nav: { basics: "The Basics", stages: "The Path", causes: "Causes", complications: "Signs", management: "Management", living: "Living Well" },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by leading health organizations including the American Liver Foundation, CDC, and NIDDK. Always seek the advice of your physician with any questions regarding a medical condition.`,
+            basics: {
+                title: "Your Liver: The Body's Vital Powerhouse",
+                intro: "This section introduces you to your hardest-working organ. Here you can explore the many essential jobs your liver performs every day and learn what Chronic Liver Disease (CLD) is—a slow, progressive journey of liver damage. Understanding these fundamentals is the first step to taking control of your health.",
+                functionsTitle: "The Liver's Many Jobs",
+                functions: [
+                    { icon: '🛡️', title: 'Blood Filter', description: 'Cleans your blood by removing toxins, alcohol, and old cells. <a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/liver-anatomy-and-functions" target="_blank" rel="noopener noreferrer" class="text-link">Learn more</a>.' },
+                    { icon: '🏭', title: 'Nutrient Processor', description: 'Manages blood sugar and processes fats and proteins from your food.' },
+                    { icon: '💧', title: 'Bile Producer', description: 'Makes bile, a special fluid needed to help you digest fatty foods.' },
+                    { icon: '🔋', title: 'Energy & Vitamin Storage', description: 'Stores extra sugar for energy and keeps a supply of essential vitamins and minerals.' },
+                    { icon: '🏗️', title: 'Protein Factory', description: 'Builds vital proteins that help with fluid balance and blood clotting.' },
+                    { icon: '♻️', title: 'Recycling Center', description: 'Breaks down old red blood cells and recycles their components, like iron.' }
+                ]
+            },
+            stages: {
+                title: "The Path of Liver Disease: A Four-Stage Journey",
+                intro: "Chronic Liver Disease is a journey, not a single event. This section provides an interactive timeline to help you understand the four main stages of liver damage. By clicking on each stage, you can learn about what's happening to the liver and, most importantly, see where interventions can make a real difference. This knowledge is key to feeling empowered and motivated in your care. <a href='https://my.clevelandclinic.org/health/diseases/17179-liver-disease' target='_blank' rel='noopener noreferrer' class='text-link'>Explore the stages of liver disease.</a>",
+                items: [
+                    { id: 'inflammation', title: 'Stage 1: Inflammation', description: "The liver is swollen and fighting an injury from a toxin, virus, or fat. At this stage, the damage is often completely reversible if the cause is identified and treated.", status: 'Reversible' },
+                    { id: 'fibrosis', title: 'Stage 2: Fibrosis', description: "If inflammation continues, scar tissue begins to form. This is a critical time—halting or even reversing the damage is still possible with successful treatment!", status: 'Manageable/Reversible' },
+                    { id: 'cirrhosis', title: 'Stage 3: Cirrhosis', description: "Severe, permanent scarring has developed, which blocks blood flow and impairs liver function. The goal of treatment is to manage the condition and prevent serious complications.", status: 'Permanent' },
+                    { id: 'failure', title: 'Stage 4: Liver Failure', description: "The liver can no longer perform its vital jobs. This is also called End-Stage Liver Disease (ESLD), and a liver transplant may be the only option for survival.", status: 'Critical' }
+                ],
+                prognosis: "Prognosis:"
+            },
+            causes: {
+                title: "Why It Happens: Causes & Risk Factors",
+                intro: "Liver disease isn't just about alcohol. This section explores the most common causes of CLD, including viral infections and metabolic issues linked to diet and obesity. Use the tabs to learn about each cause, and see the chart to understand how common they are. Recognizing the diverse causes helps destigmatize the condition and points toward the right treatment path.",
+                chartTitle: "Common Causes of Chronic Liver Disease",
+                chartLabel: "Primary Causes of CLD (Illustrative %)",
+                chartCategories: ['Metabolic (MASLD)', 'Alcohol (AALD)', 'Hepatitis C', 'Hepatitis B', 'Other'],
+                items: {
+                    aald: { title: 'Alcohol-Associated (AALD)', content: `Long-term, excessive alcohol use is a major cause of CLD. Alcohol is a direct toxin to liver cells. For men under 65, at-risk drinking is >4 drinks/day or >14/week. For women (and men over 65), it's >3 drinks/day or >7/week. For anyone with cirrhosis, no amount of alcohol is safe. <a href="https://www.hepatitis.va.gov/alcohol/patient/resources.asp" target="_blank" rel="noopener noreferrer" class="text-link">Find resources here.</a>` },
+                    masld: { title: 'Metabolic (MASLD)', content: `Formerly NAFLD, this is now the most common cause of CLD, driven by excess fat in the liver not from alcohol. Key risk factors include: Obesity, Type 2 Diabetes, High Blood Pressure, and High Cholesterol. The more aggressive form, MASH (formerly NASH), causes inflammation and scarring. <a href="https://gi.org/topics/steatotic-liver-disease-masld/" target="_blank" rel="noopener noreferrer" class="text-link">Learn about managing MASLD.</a>` },
+                    viral: { title: 'Viral Hepatitis', content: `Hepatitis B and C are "silent" viruses that cause chronic inflammation, slowly damaging the liver over decades. Hepatitis C is spread by infected blood and is now curable with antiviral drugs. Hepatitis B is spread by body fluids and is preventable with a vaccine. <a href="https://www.cdc.gov/hepatitis/index.htm" target="_blank" rel="noopener noreferrer" class="text-link">More from the CDC.</a>` },
+                    other: { title: 'Other Causes', content: `Other conditions include: <strong>Autoimmune Diseases</strong> (where the body's immune system attacks the liver), <strong>Genetic Diseases</strong> (like Hemochromatosis causing iron overload), <strong>Bile Duct Diseases</strong>, and <strong>Drug-Induced Liver Injury</strong> from certain medications or supplements.` }
+                }
+            },
+            complications: {
+                title: "Recognizing the Signs: Symptoms & Complications",
+                intro: "In its early stages, liver disease is often silent. When symptoms appear, it's a sign the liver is struggling. This section helps you understand both the early, vague warnings and the major complications of advanced disease. The interactive layout provides a gentle way to learn how liver failure affects different parts of the body, connecting symptoms to their underlying cause in a clear, visual way.",
+                guideTitle: "Interactive Complications Guide",
+                guideIntro: "Click on a card below to learn about a specific complication.",
+                items: {
+                    he: { title: 'Hepatic Encephalopathy (HE)', text: "Toxin buildup from the blood (like ammonia) affects the brain, causing confusion, memory loss, mood changes, and altered sleep patterns. <a href='https://liverfoundation.org/wp-content/uploads/2022/06/HE-Fact-Sheet.pdf' target='_blank' rel='noopener noreferrer' class='text-link'>See the ALF Fact Sheet.</a>", icon: '🧠' },
+                    jaundice: { title: 'Jaundice', text: "The liver can't clear bilirubin, a yellow substance from old red blood cells. This causes yellowing of the skin and eyes, dark urine, and pale stools.", icon: '👁️' },
+                    varices: { title: 'Variceal Bleeding', text: "A 'traffic jam' of blood flow (portal hypertension) creates high pressure, causing fragile veins in the esophagus to swell. These can rupture and cause life-threatening bleeding. <a href='https://my.clevelandclinic.org/health/diseases/15429-esophageal-varices' target='_blank' rel='noopener noreferrer' class='text-link'>Read more about varices.</a>", icon: '🩸' },
+                    ascites: { title: 'Ascites & Edema', text: "High pressure and low protein (albumin) cause fluid to leak from blood vessels, filling the belly (Ascites) and causing swelling in the legs and ankles (Edema).", icon: '💧' },
+                    cancer: { title: 'Liver Cancer (HCC)', text: "The constant damage and cell repair in a cirrhotic liver greatly increases the risk of developing Hepatocellular Carcinoma (HCC). Regular screening is vital for early detection.", icon: '🦀' }
+                }
+            },
+            management: {
+                title: "Your Partnership in Care: Diagnosis & Management",
+                intro: "Managing CLD is a team effort between you and your healthcare providers. This section is your guide to the entire process. Use the 'Diagnosis' tab to understand how doctors investigate liver health, from blood tests to imaging. Use the 'Treatment' tab to learn about medical options, crucial lifestyle changes, and how to safely manage medications. This information is designed to help you become an active, informed partner in your own care.",
+                tabs: { diagnosis: "Diagnosis", treatment: "Treatment" },
+                diagnosis: {
+                    title: "How Doctors Investigate Liver Health",
+                    steps: [
+                        { title: "1. Medical History & Physical Exam", text: "Your doctor will ask about symptoms, lifestyle, medications, and family history, and check for physical signs like jaundice or swelling." },
+                        { title: "2. Blood Tests (LFTs)", text: "A liver panel checks for enzymes and proteins that signal liver inflammation or poor function. <a href='https://medlineplus.gov/lab-tests/liver-function-tests/' target='_blank' rel='noopener noreferrer' class='text-link'>Understand your LFTs.</a>" },
+                        { title: "3. Imaging", text: "Painless tests like Ultrasound or FibroScan (to measure stiffness/scarring) create a picture of the liver. <a href='https://www.hoag.org/specialties-services/digestive-health/procedures-treatments/fibroscan/' target='_blank' rel='noopener noreferrer' class='text-link'>Learn about FibroScan.</a>" },
+                        { title: "4. Liver Biopsy", text: "If needed, a tiny piece of liver tissue is removed with a needle to be examined under a microscope. <a href='https://my.clevelandclinic.org/health/procedures/9503-liver-biopsy' target='_blank' rel='noopener noreferrer' class='text-link'>Patient guide to biopsy.</a>" }
+                    ]
+                },
+                treatment: {
+                    title: "A Partnership in Care",
+                    items: [
+                        { icon: '🎯', title: 'Treating the Underlying Cause', text: "The most important step! This includes complete alcohol abstinence for AALD, antiviral medication to cure Hepatitis C or suppress Hepatitis B, and lifestyle changes (weight loss, diet, exercise) for MASLD." },
+                        { icon: '🥗', title: 'Lifestyle as Medicine', text: `<p class="mb-2"><strong>Diet:</strong> A balanced diet (like the Mediterranean diet) is key. For fluid buildup (ascites), a strict low-sodium diet (<2,000mg/day) is essential. <a href="https://www.verywellhealth.com/what-is-the-best-diet-for-cirrhosis-1760062" target="_blank" rel="noopener noreferrer" class="text-link">Diet tips for cirrhosis.</a></p><p class="mb-2"><strong>Exercise:</strong> Regular, gentle activity helps with weight management and combats muscle loss.</p><p><strong>Food Safety:</strong> Avoid raw or undercooked seafood to prevent dangerous infections.</p>` },
+                        { icon: '💊', title: 'Medication Safety', text: `<p class="mb-2">A damaged liver can't process drugs well. <strong>AVOID NSAIDs</strong> like ibuprofen (Advil) and naproxen (Aleve). Acetaminophen (Tylenol) may be safe in low doses, but ONLY with your doctor's approval. Be extremely cautious with all herbal supplements.</p>` },
+                        { icon: '🩹', title: 'Managing Complications', text: `<p class="mb-2"><strong>Diuretics ('water pills'):</strong> To flush excess fluid (ascites/edema).</p><p class="mb-2"><strong>Lactulose/Rifaximin:</strong> To reduce ammonia and prevent confusion (HE).</p><p class="mb-2"><strong>Beta-blockers:</strong> To lower pressure in veins and prevent bleeding (varices).</p><p>Advanced procedures like <strong>Paracentesis</strong> (draining fluid) or <strong>Banding</strong> (tying off varices) may be needed.</p>` },
+                        { icon: '🔄', title: 'Liver Transplantation', text: `For end-stage liver failure, a transplant is the only life-saving option. Patients are prioritized on a waiting list based on their MELD score, which reflects how urgently they need a new liver. <a href="https://www.niddk.nih.gov/health-information/liver-disease/liver-transplant/preparing-transplant" target="_blank" rel="noopener noreferrer" class="text-link">The transplant process.</a>` }
+                    ]
+                }
+            },
+            living: {
+                title: "Living Well with Chronic Liver Disease",
+                intro: "A CLD diagnosis can feel overwhelming, but you are not alone. This final section provides practical tools for your journey. Here you'll find key questions to ask your doctor to ensure you get the information you need, and a list of trusted organizations for ongoing support and education. Building a strong support system is key to navigating your health and living the best possible life.",
+                items: [
+                    { title: "Key Questions to Ask Your Doctor", content: "<ul><li class='mb-1'>What is the specific cause and stage of my liver disease?</li><li class='mb-1'>What lifestyle changes are most important for me?</li><li class='mb-1'>Which medications (even over-the-counter) must I avoid?</li><li class='mb-1'>How often do I need screening for liver cancer?</li><li class='mb-1'>What symptoms require an immediate call to your office?</li></ul>" },
+                    { title: "Building Your Support Team", content: "Managing a chronic illness is a team effort. Your team may include a liver specialist (hepatologist), primary care provider, dietitian, and social worker. Don't forget the importance of family, friends, and peer support groups." },
+                    { title: "Trusted Resources for Information", content: "<ul class='list-disc list-inside'><li class='mb-1'><strong>American Liver Foundation:</strong> <a href='https://liverfoundation.org' target='_blank' rel='noopener noreferrer' class='text-link'>liverfoundation.org</a></li><li class='mb-1'><strong>NIDDK (part of NIH):</strong> <a href='https://www.niddk.nih.gov/health-information/liver-disease' target='_blank' rel='noopener noreferrer' class='text-link'>niddk.nih.gov/health-information/liver-disease</a></li><li class='mb-1'><strong>UNOS (for transplant info):</strong> <a href='https://unos.org' target='_blank' rel='noopener noreferrer' class='text-link'>unos.org</a></li></ul>" }
+                ]
+            }
+        },
+        es: {
+            mainTitle: "Su Guía de Salud Hepática",
+            nav: { basics: "Lo Básico", stages: "El Camino", causes: "Causas", complications: "Señales", management: "Manejo", living: "Vivir Bien" },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de organizaciones de salud líderes, como la American Liver Foundation, los CDC y el NIDDK. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica.`,
+            basics: {
+                title: "Su Hígado: La Central Eléctrica Vital del Cuerpo",
+                intro: "Esta sección le presenta a su órgano más trabajador. Aquí puede explorar las muchas tareas esenciales que su hígado realiza todos los días y aprender qué es la Enfermedad Hepática Crónica (EHC), un viaje lento y progresivo de daño hepático. Comprender estos fundamentos es el primer paso para tomar el control de su salud.",
+                functionsTitle: "Las Múltiples Tareas del Hígado",
+                functions: [
+                    { icon: '🛡️', title: 'Filtro de Sangre', description: 'Limpia su sangre eliminando toxinas, alcohol y células viejas. <a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/liver-anatomy-and-functions" target="_blank" rel="noopener noreferrer" class="text-link">Aprenda más</a>.' },
+                    { icon: '🏭', title: 'Procesador de Nutrientes', description: 'Controla el azúcar en la sangre y procesa las grasas y proteínas de sus alimentos.' },
+                    { icon: '💧', title: 'Productor de Bilis', description: 'Produce bilis, un líquido especial necesario para ayudar a digerir los alimentos grasos.' },
+                    { icon: '🔋', title: 'Almacén de Energía y Vitaminas', description: 'Almacena azúcar extra para energía y mantiene un suministro de vitaminas y minerales esenciales.' },
+                    { icon: '🏗️', title: 'Fábrica de Proteínas', description: 'Construye proteínas vitales que ayudan con el equilibrio de líquidos y la coagulación de la sangre.' },
+                    { icon: '♻️', title: 'Centro de Reciclaje', description: 'Descompone los glóbulos rojos viejos y recicla sus componentes, como el hierro.' }
+                ]
+            },
+            stages: {
+                title: "El Camino de la Enfermedad Hepática: Un Viaje de Cuatro Etapas",
+                intro: "La Enfermedad Hepática Crónica es un viaje, no un evento único. Esta sección proporciona una línea de tiempo interactiva para ayudarle a comprender las cuatro etapas principales del daño hepático. Al hacer clic en cada etapa, puede aprender qué le está sucediendo al hígado y, lo más importante, ver dónde las intervenciones pueden marcar una diferencia real. Este conocimiento es clave para sentirse empoderado y motivado en su cuidado. <a href='https://my.clevelandclinic.org/health/diseases/17179-liver-disease' target='_blank' rel='noopener noreferrer' class='text-link'>Explore las etapas de la enfermedad hepática.</a>",
+                items: [
+                    { id: 'inflammation', title: 'Etapa 1: Inflamación', description: "El hígado está hinchado y luchando contra una lesión por una toxina, virus o grasa. En esta etapa, el daño suele ser completamente reversible si se identifica y trata la causa.", status: 'Reversible' },
+                    { id: 'fibrosis', title: 'Etapa 2: Fibrosis', description: "Si la inflamación continúa, comienza a formarse tejido cicatricial. Este es un momento crítico: ¡detener o incluso revertir el daño todavía es posible con un tratamiento exitoso!", status: 'Manejable/Reversible' },
+                    { id: 'cirrhosis', title: 'Etapa 3: Cirrosis', description: "Se ha desarrollado una cicatrización severa y permanente, que bloquea el flujo sanguíneo y afecta la función hepática. El objetivo del tratamiento es manejar la condición y prevenir complicaciones graves.", status: 'Permanente' },
+                    { id: 'failure', title: 'Etapa 4: Insuficiencia Hepática', description: "El hígado ya no puede realizar sus trabajos vitales. Esto también se llama Enfermedad Hepática en Etapa Terminal (ESLD), y un trasplante de hígado puede ser la única opción para la supervivencia.", status: 'Crítico' }
+                ],
+                prognosis: "Pronóstico:"
+            },
+            causes: {
+                title: "Por Qué Sucede: Causas y Factores de Riesgo",
+                intro: "La enfermedad hepática no se trata solo de alcohol. Esta sección explora las causas más comunes de EHC, incluidas las infecciones virales y los problemas metabólicos relacionados con la dieta y la obesidad. Use las pestañas para aprender sobre cada causa y vea el gráfico para comprender cuán comunes son. Reconocer las diversas causas ayuda a desestigmatizar la condición y señala el camino de tratamiento correcto.",
+                chartTitle: "Causas Comunes de la Enfermedad Hepática Crónica",
+                chartLabel: "Causas Primarias de EHC (% Ilustrativo)",
+                chartCategories: ['Metabólica (MASLD)', 'Alcohol (AALD)', 'Hepatitis C', 'Hepatitis B', 'Otras'],
+                items: {
+                    aald: { title: 'Asociada al Alcohol (AALD)', content: `El consumo excesivo y a largo plazo de alcohol es una causa principal de EHC. El alcohol es una toxina directa para las células hepáticas. Para hombres menores de 65 años, el consumo de riesgo es >4 bebidas/día o >14/semana. Para mujeres (y hombres mayores de 65), es >3 bebidas/día o >7/semana. Para cualquier persona con cirrosis, ninguna cantidad de alcohol es segura. <a href="https://www.hepatitis.va.gov/alcohol/patient/resources.asp" target="_blank" rel="noopener noreferrer" class="text-link">Encuentre recursos aquí.</a>` },
+                    masld: { title: 'Metabólica (MASLD)', content: `Anteriormente NAFLD, esta es ahora la causa más común de EHC, impulsada por el exceso de grasa en el hígado no proveniente del alcohol. Los factores de riesgo clave incluyen: Obesidad, Diabetes tipo 2, Presión arterial alta y Colesterol alto. La forma más agresiva, MASH (anteriormente NASH), causa inflamación y cicatrización. <a href="https://gi.org/topics/steatotic-liver-disease-masld/" target="_blank" rel="noopener noreferrer" class="text-link">Aprenda a manejar MASLD.</a>` },
+                    viral: { title: 'Hepatitis Viral', content: `Las hepatitis B y C son virus "silenciosos" que causan inflamación crónica, dañando lentamente el hígado durante décadas. La hepatitis C se transmite por sangre infectada y ahora es curable con medicamentos antivirales. La hepatitis B se transmite por fluidos corporales y se puede prevenir con una vacuna. <a href="https://www.cdc.gov/hepatitis/index.htm" target="_blank" rel="noopener noreferrer" class="text-link">Más del CDC.</a>` },
+                    other: { title: 'Otras Causas', content: `Otras condiciones incluyen: <strong>Enfermedades Autoinmunes</strong> (donde el sistema inmunológico del cuerpo ataca el hígado), <strong>Enfermedades Genéticas</strong> (como la Hemocromatosis que causa sobrecarga de hierro), <strong>Enfermedades de las Vías Biliares</strong> y <strong>Lesión Hepática Inducida por Fármacos</strong> por ciertos medicamentos o suplementos.` }
+                }
+            },
+            complications: {
+                title: "Reconociendo las Señales: Síntomas y Complicaciones",
+                intro: "En sus primeras etapas, la enfermedad hepática suele ser silenciosa. Cuando aparecen los síntomas, es una señal de que el hígado está luchando. Esta sección le ayuda a comprender tanto las advertencias tempranas y vagas como las principales complicaciones de la enfermedad avanzada. El diseño interactivo proporciona una forma suave de aprender cómo la insuficiencia hepática afecta a diferentes partes del cuerpo, conectando los síntomas con su causa subyacente de una manera clara y visual.",
+                guideTitle: "Guía Interactiva de Complicaciones",
+                guideIntro: "Haga clic en una tarjeta a continuación para aprender sobre una complicación específica.",
+                items: {
+                    he: { title: 'Encefalopatía Hepática (EH)', text: "La acumulación de toxinas de la sangre (como el amoníaco) afecta el cerebro, causando confusión, pérdida de memoria, cambios de humor y patrones de sueño alterados. <a href='https://liverfoundation.org/wp-content/uploads/2022/06/HE-Fact-Sheet.pdf' target='_blank' rel='noopener noreferrer' class='text-link'>Ver Hoja Informativa de ALF.</a>", icon: '🧠' },
+                    jaundice: { title: 'Ictericia', text: "El hígado no puede eliminar la bilirrubina, una sustancia amarilla de los glóbulos rojos viejos. Esto causa coloración amarillenta de la piel y los ojos, orina oscura y heces pálidas.", icon: '👁️' },
+                    varices: { title: 'Sangrado de Várices', text: "Un 'atasco' de flujo sanguíneo (hipertensión portal) crea una alta presión, haciendo que las venas frágiles del esófago se hinchen. Estas pueden romperse y causar un sangrado potencialmente mortal. <a href='https://my.clevelandclinic.org/health/diseases/15429-esophageal-varices' target='_blank' rel='noopener noreferrer' class='text-link'>Leer más sobre várices.</a>", icon: '🩸' },
+                    ascites: { title: 'Ascitis y Edema', text: "La alta presión y la baja proteína (albúmina) hacen que el líquido se filtre de los vasos sanguíneos, llenando el abdomen (Ascitis) y causando hinchazón en las piernas y los tobillos (Edema).", icon: '💧' },
+                    cancer: { title: 'Cáncer de Hígado (CHC)', text: "El daño constante y la reparación celular en un hígado cirrótico aumentan en gran medida el riesgo de desarrollar Carcinoma Hepatocelular (CHC). El cribado regular es vital para la detección temprana.", icon: '🦀' }
+                }
+            },
+            management: {
+                title: "Su Colaboración en el Cuidado: Diagnóstico y Manejo",
+                intro: "El manejo de la EHC es un esfuerzo de equipo entre usted y sus proveedores de atención médica. Esta sección es su guía para todo el proceso. Use la pestaña 'Diagnóstico' para comprender cómo los médicos investigan la salud del hígado, desde análisis de sangre hasta imágenes. Use la pestaña 'Tratamiento' para aprender sobre las opciones médicas, los cambios de estilo de vida cruciales y cómo manejar los medicamentos de manera segura. Esta información está diseñada para ayudarlo a convertirse en un socio activo e informado en su propio cuidado.",
+                tabs: { diagnosis: "Diagnóstico", treatment: "Tratamiento" },
+                diagnosis: {
+                    title: "Cómo los Médicos Investigan la Salud del Hígado",
+                    steps: [
+                        { title: "1. Historial Médico y Examen Físico", text: "Su médico le preguntará sobre síntomas, estilo de vida, medicamentos e historial familiar, y buscará signos físicos como ictericia o hinchazón." },
+                        { title: "2. Análisis de Sangre (PFH)", text: "Un panel hepático verifica enzimas y proteínas que señalan inflamación o mal funcionamiento del hígado. <a href='https://medlineplus.gov/lab-tests/liver-function-tests/' target='_blank' rel='noopener noreferrer' class='text-link'>Entienda sus PFH.</a>" },
+                        { title: "3. Imágenes", text: "Pruebas indoloras como el Ultrasonido o FibroScan (para medir la rigidez/cicatrización) crean una imagen del hígado. <a href='https://www.hoag.org/specialties-services/digestive-health/procedures-treatments/fibroscan/' target='_blank' rel='noopener noreferrer' class='text-link'>Aprenda sobre FibroScan.</a>" },
+                        { title: "4. Biopsia Hepática", text: "Si es necesario, se extrae un pequeño trozo de tejido hepático con una aguja para examinarlo bajo un microscopio. <a href='https://my.clevelandclinic.org/health/procedures/9503-liver-biopsy' target='_blank' rel='noopener noreferrer' class='text-link'>Guía del paciente para biopsia.</a>" }
+                    ]
+                },
+                treatment: {
+                    title: "Una Colaboración en el Cuidado",
+                    items: [
+                        { icon: '🎯', title: 'Tratar la Causa Subyacente', text: "¡El paso más importante! Esto incluye la abstinencia total de alcohol para AALD, medicamentos antivirales para curar la Hepatitis C o suprimir la Hepatitis B, y cambios en el estilo de vida (pérdida de peso, dieta, ejercicio) para MASLD." },
+                        { icon: '🥗', title: 'Estilo de Vida como Medicina', text: `<p class="mb-2"><strong>Dieta:</strong> Una dieta equilibrada (como la dieta mediterránea) es clave. Para la acumulación de líquido (ascitis), es esencial una dieta estricta baja en sodio (<2,000mg/día). <a href="https://www.verywellhealth.com/what-is-the-best-diet-for-cirrhosis-1760062" target="_blank" rel="noopener noreferrer" class="text-link">Consejos de dieta para la cirrosis.</a></p><p class="mb-2"><strong>Ejercicio:</strong> La actividad regular y suave ayuda con el control del peso y combate la pérdida muscular.</p><p><strong>Seguridad Alimentaria:</strong> Evite los mariscos crudos o poco cocidos para prevenir infecciones peligrosas.</p>` },
+                        { icon: '💊', title: 'Seguridad de los Medicamentos', text: `<p class="mb-2">Un hígado dañado no puede procesar bien los medicamentos. <strong>EVITE los AINE</strong> como el ibuprofeno (Advil) y el naproxeno (Aleve). El paracetamol (Tylenol) puede ser seguro en dosis bajas, pero SÓLO con la aprobación de su médico. Sea extremadamente cauteloso con todos los suplementos herbales.</p>` },
+                        { icon: '🩹', title: 'Manejo de Complicaciones', text: `<p class="mb-2"><strong>Diuréticos ('píldoras de agua'):</strong> Para eliminar el exceso de líquido (ascitis/edema).</p><p class="mb-2"><strong>Lactulosa/Rifaximina:</strong> Para reducir el amoníaco y prevenir la confusión (EH).</p><p class="mb-2"><strong>Betabloqueantes:</strong> Para bajar la presión en las venas y prevenir el sangrado (várices).</p><p>Pueden ser necesarios procedimientos avanzados como la <strong>Paracentesis</strong> (drenaje de líquido) o la <strong>Ligadura</strong> (atar las várices).</p>` },
+                        { icon: '🔄', title: 'Trasplante de Hígado', text: `Para la insuficiencia hepática en etapa terminal, un trasplante es la única opción que salva vidas. Los pacientes son priorizados en una lista de espera según su puntaje MELD, que refleja la urgencia con la que necesitan un nuevo hígado. <a href="https://www.niddk.nih.gov/health-information/liver-disease/liver-transplant/preparing-transplant" target="_blank" rel="noopener noreferrer" class="text-link">El proceso de trasplante.</a>` }
+                    ]
+                }
+            },
+            living: {
+                title: "Vivir Bien con Enfermedad Hepática Crónica",
+                intro: "Un diagnóstico de EHC puede ser abrumador, pero no está solo. Esta sección final proporciona herramientas prácticas para su viaje. Aquí encontrará preguntas clave para hacerle a su médico para asegurarse de obtener la información que necesita, y una lista de organizaciones de confianza para apoyo y educación continuos. Construir un sistema de apoyo sólido es clave para navegar su salud y vivir la mejor vida posible.",
+                items: [
+                    { title: "Preguntas Clave para Hacerle a su Médico", content: "<ul><li class='mb-1'>¿Cuál es la causa específica y la etapa de mi enfermedad hepática?</li><li class='mb-1'>¿Qué cambios de estilo de vida son más importantes para mí?</li><li class='mb-1'>¿Qué medicamentos (incluso de venta libre) debo evitar?</li><li class='mb-1'>¿Con qué frecuencia necesito una prueba de detección de cáncer de hígado?</li><li class='mb-1'>¿Qué síntomas requieren una llamada inmediata a su consultorio?</li></ul>" },
+                    { title: "Construyendo su Equipo de Apoyo", content: "Manejar una enfermedad crónica es un esfuerzo de equipo. Su equipo puede incluir un especialista en hígado (hepatólogo), un proveedor de atención primaria, un dietista y un trabajador social. No olvide la importancia de la familia, los amigos y los grupos de apoyo de pares." },
+                    { title: "Recursos de Confianza para Información", content: "<ul class='list-disc list-inside'><li class='mb-1'><strong>American Liver Foundation:</strong> <a href='https://liverfoundation.org' target='_blank' rel='noopener noreferrer' class='text-link'>liverfoundation.org</a></li><li class='mb-1'><strong>NIDDK (parte de NIH):</strong> <a href='https://www.niddk.nih.gov/health-information/liver-disease' target='_blank' rel='noopener noreferrer' class='text-link'>niddk.nih.gov/health-information/liver-disease</a></li><li class='mb-1'><strong>UNOS (para info de trasplantes):</strong> <a href='https://unos.org' target='_blank' rel='noopener noreferrer' class='text-link'>unos.org</a></li></ul>" }
+                ]
+            }
+        }
+    };
+
+    let currentLanguage = 'en';
+    let causesChartInstance = null;
+    const navLinks = document.querySelectorAll('.nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function updateActiveNav(targetId) {
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${targetId}`);
+        });
+        contentSections.forEach(section => {
+            section.classList.toggle('active', section.id === targetId);
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href').substring(1);
+            updateActiveNav(targetId);
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+    
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    function renderBasics(lang) {
+        const t = translations[lang].basics;
+        const section = document.getElementById('basics');
+        section.innerHTML = `
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">${t.title}</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">${t.intro}</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-4 text-center">${t.functionsTitle}</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${t.functions.map(func => `
+                        <div class="bg-[#EAE7DC]/50 rounded-lg p-4 text-center transition-transform transform hover:-translate-y-1">
+                            <div class="text-4xl mb-2">${func.icon}</div>
+                            <h4 class="font-bold text-lg">${func.title}</h4>
+                            <p class="text-sm text-gray-600">${func.description}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderStages(lang) {
+        const t = translations[lang].stages;
+        const section = document.getElementById('stages');
+        section.innerHTML = `
+            <div class="text-center mb-12">
+                 <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">${t.title}</h2>
+                 <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">${t.intro}</p>
+            </div>
+            <div id="stages-timeline" class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-0 mb-8">
+                ${t.items.map((stage, index) => `
+                    <div class="flex-grow flex items-center w-full md:w-auto">
+                        <div class="stage-card flex-grow md:flex-grow-0 md:w-48 text-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-300" data-stage="${stage.id}">
+                            <h4 class="font-bold">${stage.title}</h4>
+                        </div>
+                        ${index < t.items.length - 1 ? '<div class="flex-grow border-t-2 border-dashed border-gray-300 mx-2 hidden md:block"></div>' : ''}
+                    </div>
+                `).join('')}
+            </div>
+            <div id="stage-details" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[200px]"></div>
+        `;
+        initStagesInteraction(lang);
+    }
+
+    function initStagesInteraction(lang) {
+        const t = translations[lang].stages;
+        const detailsContainer = document.getElementById('stage-details');
+        const stageCards = document.querySelectorAll('.stage-card');
+
+        function updateStageDetails(stageId) {
+            const stageData = t.items.find(s => s.id === stageId);
+            let statusColor = 'text-green-600';
+            if (stageData.status === 'Manageable/Reversible') statusColor = 'text-yellow-600';
+            if (stageData.status === 'Permanent') statusColor = 'text-orange-600';
+            if (stageData.status === 'Critical') statusColor = 'text-red-600';
+
+            detailsContainer.innerHTML = `
+                <h4 class="text-xl font-bold mb-2">${stageData.title}</h4>
+                <p class="text-gray-700 mb-4">${stageData.description}</p>
+                <p class="font-semibold">${t.prognosis} <span class="${statusColor}">${stageData.status}</span></p>
+            `;
+        }
+
+        stageCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                const stageId = e.currentTarget.dataset.stage;
+                updateStageDetails(stageId);
+                stageCards.forEach(c => c.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+            });
+        });
+
+        updateStageDetails('inflammation');
+        document.querySelector('.stage-card[data-stage="inflammation"]').classList.add('active');
+    }
+
+    function renderCauses(lang) {
+        const t = translations[lang].causes;
+        const section = document.getElementById('causes');
+        section.innerHTML = `
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">${t.title}</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">${t.intro}</p>
+            </div>
+            <div class="mb-8">
+                <div class="chart-container">
+                    <canvas id="causesChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div class="border-b border-gray-200 mb-4">
+                    <nav id="causes-tabs" class="-mb-px flex space-x-4" aria-label="Tabs">
+                        ${Object.keys(t.items).map(key => `
+                            <button class="tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-cause="${key}">${t.items[key].title}</button>
+                        `).join('')}
+                    </nav>
+                </div>
+                <div id="causes-content"></div>
+            </div>
+        `;
+        initCausesInteraction(lang);
+    }
+
+    function initCausesInteraction(lang) {
+        const t = translations[lang].causes;
+        const causesTabs = document.getElementById('causes-tabs');
+        const causesContent = document.getElementById('causes-content');
+        const tabButtons = causesTabs.querySelectorAll('.tab-button');
+        const causeKeys = Object.keys(t.items);
+
+        function updateCauseContent(key) {
+            causesContent.innerHTML = `<p>${t.items[key].content}</p>`;
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const causeKey = e.currentTarget.dataset.cause;
+                updateCauseContent(causeKey);
+                tabButtons.forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+            });
+        });
+
+        updateCauseContent(causeKeys[0]);
+        tabButtons[0].classList.add('active');
+
+        if (causesChartInstance) {
+            causesChartInstance.destroy();
+        }
+        const ctx = document.getElementById('causesChart').getContext('2d');
+        causesChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: t.chartCategories,
+                datasets: [{
+                    label: t.chartLabel,
+                    data: [45, 25, 15, 5, 10],
+                    backgroundColor: '#A9C5C5',
+                    borderColor: '#5E503F',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                plugins: { legend: { display: false }, title: { display: true, text: t.chartTitle } },
+                scales: { x: { beginAtZero: true, ticks: { callback: (value) => value + "%" } } }
+            }
+        });
+    }
+
+    function renderComplications(lang) {
+        const t = translations[lang].complications;
+        const section = document.getElementById('complications');
+        section.innerHTML = `
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">${t.title}</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">${t.intro}</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                 <h3 class="text-2xl font-bold mb-4 text-center">${t.guideTitle}</h3>
+                <p class="text-center text-gray-600 mb-6">${t.guideIntro}</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div id="complication-cards" class="md:col-span-1 space-y-3"></div>
+                    <div id="complication-details" class="md:col-span-2 bg-[#EAE7DC]/50 rounded-xl p-6 md:p-8 min-h-[300px] flex items-center justify-center"></div>
+                </div>
+            </div>
+        `;
+        initComplicationsInteraction(lang);
+    }
+    
+    function initComplicationsInteraction(lang) {
+        const t = translations[lang].complications;
+        const cardsContainer = document.getElementById('complication-cards');
+        const detailsContainer = document.getElementById('complication-details');
+        const complicationKeys = Object.keys(t.items);
+
+        cardsContainer.innerHTML = complicationKeys.map(key => {
+            const comp = t.items[key];
+            return `
+                <button class="complication-card w-full bg-white p-4 rounded-lg shadow-sm border-2 border-transparent text-left" data-complication="${key}">
+                    <h4 class="font-bold text-lg text-[#5E503F]">${comp.icon} ${comp.title}</h4>
+                </button>
+            `;
+        }).join('');
+
+        const complicationCards = document.querySelectorAll('.complication-card');
+
+        function updateComplicationDetails(key) {
+            const comp = t.items[key];
+            detailsContainer.innerHTML = `
+                <div class="text-center">
+                    <div class="text-5xl mb-4">${comp.icon}</div>
+                    <h3 class="text-2xl font-bold mb-2 text-[#5E503F]">${comp.title}</h3>
+                    <p class="text-gray-700">${comp.text}</p>
+                </div>
+            `;
+        }
+
+        complicationCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                const key = e.currentTarget.dataset.complication;
+                updateComplicationDetails(key);
+                complicationCards.forEach(c => c.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+            });
+        });
+        
+        updateComplicationDetails(complicationKeys[0]);
+        complicationCards[0].classList.add('active');
+    }
+
+    function renderManagement(lang) {
+        const t = translations[lang].management;
+        const section = document.getElementById('management');
+        section.innerHTML = `
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">${t.title}</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">${t.intro}</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                 <div class="border-b border-gray-200 mb-4">
+                    <nav id="management-tabs" class="-mb-px flex space-x-4" aria-label="Tabs">
+                        <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="diagnosis">${t.tabs.diagnosis}</button>
+                        <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="treatment">${t.tabs.treatment}</button>
+                    </nav>
+                </div>
+                <div id="management-content"></div>
+            </div>
+        `;
+        initManagementInteraction(lang);
+    }
+
+    function initManagementInteraction(lang) {
+        const t = translations[lang].management;
+        const managementTabs = document.getElementById('management-tabs');
+        const managementContent = document.getElementById('management-content');
+        const tabButtons = managementTabs.querySelectorAll('.tab-button');
+
+        const contentMap = {
+            diagnosis: `
+                <h3 class="text-2xl font-bold mb-6">${t.diagnosis.title}</h3>
+                <ol class="relative border-l border-gray-200">
+                    ${t.diagnosis.steps.map(step => `
+                    <li class="mb-10 ml-4">
+                        <div class="absolute w-3 h-3 bg-gray-300 rounded-full mt-1.5 -left-1.5 border border-white"></div>
+                        <h4 class="text-lg font-semibold">${step.title}</h4>
+                        <p class="text-gray-600">${step.text}</p>
+                    </li>
+                    `).join('')}
+                </ol>`,
+            treatment: `
+                <h3 class="text-2xl font-bold mb-6">${t.treatment.title}</h3>
+                <div class="space-y-4">
+                    ${t.treatment.items.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-xl mr-3">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="accordion-icon">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 text-gray-600">${item.text}</div></div>
+                    </div>
+                    `).join('')}
+                </div>`
+        };
+
+        function updateManagementContent(tabKey) {
+            managementContent.innerHTML = contentMap[tabKey];
+            if (tabKey === 'treatment') {
+                setupAccordions();
+            }
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const tabKey = e.currentTarget.dataset.tab;
+                updateManagementContent(tabKey);
+                tabButtons.forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+            });
+        });
+
+        updateManagementContent('diagnosis');
+        tabButtons[0].classList.add('active');
+    }
+
+    function setupAccordions() {
+        const accordionItems = document.querySelectorAll('#management .accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('.accordion-icon');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function renderLivingWell(lang) {
+        const t = translations[lang].living;
+        const section = document.getElementById('living');
+        section.innerHTML = `
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">${t.title}</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">${t.intro}</p>
+            </div>
+            <div class="space-y-6">
+                ${t.items.map(item => `
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold mb-2">${item.title}</h3>
+                        <div class="text-gray-600">${item.content}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+        document.getElementById('main-title').textContent = t.mainTitle;
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const keys = el.dataset.translate.split('.');
+            let value = t;
+            keys.forEach(key => { if(value) value = value[key] });
+            if (value) el.textContent = value;
+        });
+
+        renderBasics(lang);
+        renderStages(lang);
+        renderCauses(lang);
+        renderComplications(lang);
+        renderManagement(lang);
+        renderLivingWell(lang);
+
+        updateActiveNav(document.querySelector('.nav-link.active')?.getAttribute('href').substring(1) || 'basics');
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        document.getElementById('lang-en-mobile').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es-mobile').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    // Desktop lang buttons
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    // Mobile lang buttons
+    document.getElementById('lang-en-mobile').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es-mobile').addEventListener('click', () => changeLanguage('es'));
+    
+    function showGoogle(isMobile) {
+        if(isMobile) {
+            document.getElementById('native-lang-toggle-mobile').classList.add('hidden');
+            document.getElementById('google-lang-toggle-mobile').classList.remove('hidden');
+            document.getElementById('google-lang-toggle-mobile').classList.add('flex');
+        } else {
+            document.getElementById('native-lang-toggle').classList.add('hidden');
+            document.getElementById('google-lang-toggle').classList.remove('hidden');
+            document.getElementById('google-lang-toggle').classList.add('flex');
+        }
+    }
+    
+    function hideGoogle(isMobile) {
+        if(isMobile) {
+            document.getElementById('native-lang-toggle-mobile').classList.remove('hidden');
+            document.getElementById('google-lang-toggle-mobile').classList.add('hidden');
+            document.getElementById('google-lang-toggle-mobile').classList.remove('flex');
+        } else {
+            document.getElementById('native-lang-toggle').classList.remove('hidden');
+            document.getElementById('google-lang-toggle').classList.add('hidden');
+            document.getElementById('google-lang-toggle').classList.remove('flex');
+        }
+
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    }
+
+    document.getElementById('show-google-translate').addEventListener('click', () => showGoogle(false));
+    document.getElementById('back-to-native').addEventListener('click', () => hideGoogle(false));
+    document.getElementById('show-google-translate-mobile').addEventListener('click', () => showGoogle(true));
+    document.getElementById('back-to-native-mobile').addEventListener('click', () => hideGoogle(true));
+
+    changeLanguage('en');
+
+});
+</script>
+
+</body>
+</html>

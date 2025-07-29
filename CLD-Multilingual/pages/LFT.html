@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Liver Function Tests (LFTs)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="why-done-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Why Done section content will be injected here -->
+        </div>
+
+        <div id="tests-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Tests section content will be injected here -->
+        </div>
+
+        <div id="results-section" class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-r-lg">
+             <!-- Results section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Decoding Your Liver Function Tests (LFTs)",
+            mainIntro: "Liver function tests (LFTs), also called a liver panel, are common blood tests used to help check the health of your liver. They measure the levels of certain proteins and enzymes in your blood. These tests can help your doctor find out if your liver is damaged or not working properly.",
+            whyDone: {
+                title: "Why Would a Doctor Order These Tests?",
+                intro: "A doctor might order LFTs for several reasons:",
+                items: [
+                    "As part of a routine checkup to screen for liver problems.",
+                    "To investigate symptoms like fatigue, jaundice, nausea, or abdominal pain.",
+                    "To monitor a known liver disease, like hepatitis or cirrhosis, and see how it's progressing.",
+                    "To check for side effects of certain medications that can affect the liver."
+                ]
+            },
+            tests: {
+                title: "What Do the Different Tests Measure?",
+                intro: "It's important to remember that doctors look at the overall pattern of your results, not just a single number. An abnormal result in one test doesn't always mean you have a liver problem.",
+                accordion: [
+                    { icon: '🔥', title: "ALT & AST (Enzymes)", content: "Alanine transaminase (ALT) and aspartate transaminase (AST) are enzymes found inside liver cells. When liver cells are damaged or inflamed, these enzymes leak into the bloodstream. High levels are a key sign of liver inflammation (hepatitis)." },
+                    { icon: '🧱', title: "ALP (Enzyme)", content: "Alkaline phosphatase (ALP) is an enzyme concentrated in the liver and bile ducts. High levels can suggest a problem with bile flow, such as a blockage in the bile ducts." },
+                    { icon: '🟡', title: "Bilirubin", content: "Bilirubin is a yellow waste product from the breakdown of old red blood cells. The liver is responsible for clearing it from the body. High levels cause jaundice (yellowing of the skin and eyes) and indicate the liver's filtering function is impaired." },
+                    { icon: '🏗️', title: "Albumin & Total Protein", content: "Albumin is a major protein made by the liver that helps keep fluid in your blood vessels. Low levels can be a sign of advanced liver disease (cirrhosis), as it shows the liver's 'factory' function is failing." },
+                    { icon: '🩸', title: "PT / INR (Clotting Time)", content: "The prothrombin time (PT), often reported as an INR, measures how long it takes your blood to clot. The liver makes the proteins needed for clotting. A longer clotting time (high INR) is a serious sign that the liver's production function is severely damaged." }
+                ]
+            },
+            results: {
+                title: "What Do Abnormal Results Mean?",
+                text: "Understanding LFT results can be complex. An abnormal result doesn't automatically mean you have a serious liver condition. Many other factors, including medications, muscle injury, or even bone disease, can affect the results. It is essential to discuss your results with your healthcare provider, who can interpret them in the context of your overall health and determine if any further investigation is needed."
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by MedlinePlus, a service of the U.S. National Library of Medicine. Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://medlineplus.gov/lab-tests/liver-function-tests/" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Descifrando sus Pruebas de Función Hepática (PFH)",
+            mainIntro: "Las pruebas de función hepática (PFH), también llamadas panel hepático, son análisis de sangre comunes que se utilizan para ayudar a verificar la salud de su hígado. Miden los niveles de ciertas proteínas y enzimas en su sangre. Estas pruebas pueden ayudar a su médico a determinar si su hígado está dañado o no funciona correctamente.",
+            whyDone: {
+                title: "¿Por Qué un Médico Ordenaría Estas Pruebas?",
+                intro: "Un médico podría ordenar PFH por varias razones:",
+                items: [
+                    "Como parte de un chequeo de rutina para detectar problemas hepáticos.",
+                    "Para investigar síntomas como fatiga, ictericia, náuseas o dolor abdominal.",
+                    "Para monitorear una enfermedad hepática conocida, como hepatitis o cirrosis, y ver cómo progresa.",
+                    "Para verificar los efectos secundarios de ciertos medicamentos que pueden afectar el hígado."
+                ]
+            },
+            tests: {
+                title: "¿Qué Miden las Diferentes Pruebas?",
+                intro: "Es importante recordar que los médicos observan el patrón general de sus resultados, no solo un número aislado. Un resultado anormal en una prueba no siempre significa que tenga un problema hepático.",
+                accordion: [
+                    { icon: '🔥', title: "ALT y AST (Enzimas)", content: "La alanina transaminasa (ALT) y la aspartato transaminasa (AST) son enzimas que se encuentran dentro de las células hepáticas. Cuando las células del hígado están dañadas o inflamadas, estas enzimas se filtran al torrente sanguíneo. Los niveles altos son una señal clave de inflamación hepática (hepatitis)." },
+                    { icon: '🧱', title: "ALP (Enzima)", content: "La fosfatasa alcalina (ALP) es una enzima concentrada en el hígado y los conductos biliares. Los niveles altos pueden sugerir un problema con el flujo de bilis, como una obstrucción en los conductos biliares." },
+                    { icon: '🟡', title: "Bilirrubina", content: "La bilirrubina es un producto de desecho amarillo de la descomposición de los glóbulos rojos viejos. El hígado es responsable de eliminarla del cuerpo. Los niveles altos causan ictericia (coloración amarillenta de la piel y los ojos) e indican que la función de filtrado del hígado está deteriorada." },
+                    { icon: '🏗️', title: "Albúmina y Proteína Total", content: "La albúmina es una proteína principal producida por el hígado que ayuda a mantener el líquido en los vasos sanguíneos. Los niveles bajos pueden ser un signo de enfermedad hepática avanzada (cirrosis), ya que muestra que la función de 'fábrica' del hígado está fallando." },
+                    { icon: '🩸', title: "TP / INR (Tiempo de Coagulación)", content: "El tiempo de protrombina (TP), a menudo informado como INR, mide cuánto tiempo tarda su sangre en coagular. El hígado produce las proteínas necesarias para la coagulación. Un tiempo de coagulación más largo (INR alto) es una señal grave de que la función de producción del hígado está severamente dañada." }
+                ]
+            },
+            results: {
+                title: "¿Qué Significan los Resultados Anormales?",
+                text: "Comprender los resultados de las PFH puede ser complejo. Un resultado anormal no significa automáticamente que tenga una condición hepática grave. Muchos otros factores, como medicamentos, lesiones musculares o incluso enfermedades óseas, pueden afectar los resultados. Es esencial discutir sus resultados con su proveedor de atención médica, quien puede interpretarlos en el contexto de su salud general y determinar si se necesita alguna investigación adicional."
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de MedlinePlus, un servicio de la Biblioteca Nacional de Medicina de EE. UU. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://medlineplus.gov/lab-tests/liver-function-tests/" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderWhyDone(lang);
+        renderTests(lang);
+        renderResults(lang);
+    }
+
+    function renderWhyDone(lang) {
+        const t = translations[lang].whyDone;
+        const section = document.getElementById('why-done-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function renderTests(lang) {
+        const t = translations[lang].tests;
+        const section = document.getElementById('tests-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.accordion.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions();
+    }
+    
+    function renderResults(lang) {
+        const t = translations[lang].results;
+        const section = document.getElementById('results-section');
+        section.innerHTML = `
+            <h3 class="font-bold text-xl mb-2">${t.title}</h3>
+            <p>${t.text}</p>
+        `;
+    }
+
+    function setupAccordions() {
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('span:last-child');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

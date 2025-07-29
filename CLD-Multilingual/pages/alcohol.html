@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Alcohol-Associated Liver Disease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .condition-card.active {
+            border-color: #A9C5C5;
+            background-color: #EAE7DC;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <h2 class="text-2xl font-bold text-center mb-2" data-translate="spectrumTitle"></h2>
+            <p class="text-center text-gray-600 mb-8" data-translate="spectrumIntro"></p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div id="condition-cards" class="md:col-span-1 space-y-3">
+                    <!-- Condition cards will be injected here -->
+                </div>
+                <div id="condition-details" class="md:col-span-2 bg-[#EAE7DC]/50 rounded-xl p-6 md:p-8 min-h-[300px]">
+                    <!-- Condition details will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <h2 class="text-2xl font-bold text-center mb-2" data-translate="drinkTitle"></h2>
+            <p class="text-center text-gray-600 mb-8" data-translate="drinkIntro"></p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-5xl mb-2">🍺</p>
+                    <p class="font-semibold" data-translate="drinkBeer"></p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-5xl mb-2">🍷</p>
+                    <p class="font-semibold" data-translate="drinkWine"></p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-5xl mb-2">🥃</p>
+                    <p class="font-semibold" data-translate="drinkLiquor"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="risk-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Risk factors section content will be injected here -->
+        </div>
+
+        <div id="abstinence-section" class="bg-red-50 border-l-4 border-red-500 text-red-800 p-6 rounded-r-lg mb-12">
+             <!-- Abstinence section content will be injected here -->
+        </div>
+
+        <div id="treatment-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <!-- Treatment section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Alcohol-Associated Liver Disease (AALD)",
+            mainIntro: "Alcohol is a direct toxin to the liver. Over time, heavy drinking can cause a range of liver problems, from reversible fat buildup to severe, permanent scarring. It is a leading cause of liver-related death, but it is also preventable. Understanding these conditions is the first step toward protecting your liver health.",
+            spectrumTitle: "The Spectrum of AALD",
+            spectrumIntro: "AALD isn't one single condition, but a range of diseases that can occur alone or together. Click on a condition to learn more.",
+            conditions: {
+                fatty: { title: "Alcoholic Fatty Liver (Steatosis)", text: "This is the earliest and most common form of AALD, developing in about 90% of people who drink heavily, even after just a short period. Heavy drinking causes fat to build up inside liver cells. It usually causes no symptoms, but it's a warning sign that the liver is under stress. This condition is often completely reversible within weeks if a person stops drinking alcohol." },
+                hepatitis: { title: "Alcoholic Hepatitis", text: "This is a more serious condition where the liver becomes inflamed and swollen due to alcohol toxicity. Symptoms can include fever, jaundice (yellow skin/eyes), nausea, and abdominal pain. It can range from mild, only detectable by blood tests, to severe, causing life-threatening complications. Stopping alcohol is crucial to allow the inflammation to heal." },
+                cirrhosis: { title: "Alcohol-Associated Cirrhosis", text: "This is the most advanced stage, where years of chronic inflammation have led to severe, permanent scarring (fibrosis) of the liver. This scar tissue replaces healthy cells and disrupts liver function, leading to serious complications like fluid buildup (ascites) and internal bleeding. The damage from cirrhosis is irreversible, but stopping alcohol can prevent it from worsening." }
+            },
+            drinkTitle: "What is a Standard Drink?",
+            drinkIntro: "Understanding serving sizes is key to tracking your intake. In the U.S., a standard drink contains about 14 grams of pure alcohol.",
+            drinkBeer: "12 ounces of regular beer (5% alcohol)",
+            drinkWine: "5 ounces of wine (12% alcohol)",
+            drinkLiquor: "1.5 ounces of distilled spirits (40% alcohol)",
+            risk: {
+                title: "Who is Most at Risk?",
+                intro: "Not everyone who drinks heavily will develop severe liver disease. Other factors can increase your risk and how quickly the disease progresses.",
+                listTitle: "Key risk factors include:",
+                items: [
+                    "<strong>Genetics:</strong> Family history can play a role in how your body processes alcohol and your susceptibility to liver damage.",
+                    "<strong>Gender:</strong> Women tend to develop AALD more quickly and at lower levels of alcohol consumption than men.",
+                    "<strong>Obesity:</strong> Excess body weight can cause fat to accumulate in the liver, making it more vulnerable to alcohol-related damage.",
+                    "<strong>Other Liver Diseases:</strong> Having a condition like chronic Hepatitis C greatly accelerates liver damage from alcohol."
+                ]
+            },
+            abstinence: {
+                title: "The Most Important Step: Stop Drinking",
+                text: "For any stage of AALD, the single most important part of treatment is to stop drinking alcohol completely. This is called abstinence. Continuing to drink will only cause more damage and worsen the disease. Quitting alcohol can be difficult, but it is essential for your health and can significantly improve your prognosis. Many resources are available to help."
+            },
+            treatment: {
+                title: "Treatment and Management",
+                intro: "Beyond stopping alcohol, managing AALD involves supporting your liver and overall health.",
+                listTitle: "Key components of care include:",
+                items: [
+                    "<strong>Nutrition:</strong> A healthy, balanced diet is vital. Malnutrition is common in people with AALD. Your doctor may recommend a diet low in sodium to manage fluid buildup.",
+                    "<strong>Medications:</strong> There are no specific medications to cure AALD, but your doctor may prescribe treatments for complications, such as diuretics ('water pills') for fluid retention or medications to prevent bleeding.",
+                    "<strong>Regular Monitoring:</strong> This includes regular blood tests and imaging (like ultrasounds) to check your liver's health.",
+                    "<strong>Cancer Screening:</strong> Because cirrhosis greatly increases the risk of liver cancer, regular screening with an ultrasound every 6 months is a critical part of care.",
+                    "<strong>Support:</strong> Getting help for alcohol use disorder through counseling, support groups (like Alcoholics Anonymous), or other treatment programs is a critical part of long-term success."
+                ]
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from the U.S. Department of Veterans Affairs patient guide on AALD. Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://www.hepatitis.va.gov/pdf/alcohol-assoc-liver-disease-patient.pdf" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Enfermedad Hepática Asociada al Alcohol (AALD)",
+            mainIntro: "El alcohol es una toxina directa para el hígado. Con el tiempo, el consumo excesivo de alcohol puede causar una variedad de problemas hepáticos, desde la acumulación reversible de grasa hasta cicatrices graves y permanentes. Es una de las principales causas de muerte relacionada con el hígado, pero también es prevenible. Comprender estas condiciones es el primer paso para proteger la salud de su hígado.",
+            spectrumTitle: "El Espectro de la AALD",
+            spectrumIntro: "La AALD no es una sola condición, sino una gama de enfermedades que pueden ocurrir solas o juntas. Haga clic en una condición para obtener más información.",
+            conditions: {
+                fatty: { title: "Hígado Graso Alcohólico (Esteatosis)", text: "Esta es la forma más temprana y común de AALD, que se desarrolla en aproximadamente el 90% de las personas que beben en exceso, incluso después de un corto período. El consumo excesivo de alcohol provoca la acumulación de grasa dentro de las células hepáticas. Generalmente no causa síntomas, pero es una señal de advertencia de que el hígado está bajo estrés. Esta condición suele ser completamente reversible en semanas si una persona deja de beber alcohol." },
+                hepatitis: { title: "Hepatitis Alcohólica", text: "Esta es una condición más grave en la que el hígado se inflama e hincha debido a la toxicidad del alcohol. Los síntomas pueden incluir fiebre, ictericia (piel/ojos amarillos), náuseas y dolor abdominal. Puede variar de leve, detectable solo por análisis de sangre, a grave, causando complicaciones potencialmente mortales. Dejar el alcohol es crucial para permitir que la inflamación sane." },
+                cirrhosis: { title: "Cirrosis Asociada al Alcohol", text: "Esta es la etapa más avanzada, donde años de inflamación crónica han llevado a una cicatrización severa y permanente (fibrosis) del hígado. Este tejido cicatricial reemplaza a las células sanas y altera la función hepática, lo que lleva a complicaciones graves como la acumulación de líquido (ascitis) y hemorragias internas. El daño de la cirrosis es irreversible, pero dejar el alcohol puede evitar que empeore." }
+            },
+            drinkTitle: "¿Qué es una Bebida Estándar?",
+            drinkIntro: "Comprender el tamaño de las porciones es clave para controlar su consumo. En los EE. UU., una bebida estándar contiene aproximadamente 14 gramos de alcohol puro.",
+            drinkBeer: "12 onzas de cerveza regular (5% alcohol)",
+            drinkWine: "5 onzas de vino (12% alcohol)",
+            drinkLiquor: "1.5 onzas de licores destilados (40% alcohol)",
+            risk: {
+                title: "¿Quién tiene Mayor Riesgo?",
+                intro: "No todas las personas que beben en exceso desarrollarán una enfermedad hepática grave. Otros factores pueden aumentar su riesgo y la rapidez con que progresa la enfermedad.",
+                listTitle: "Los factores de riesgo clave incluyen:",
+                items: [
+                    "<strong>Genética:</strong> Los antecedentes familiares pueden influir en cómo su cuerpo procesa el alcohol y su susceptibilidad al daño hepático.",
+                    "<strong>Género:</strong> Las mujeres tienden a desarrollar AALD más rápidamente y con niveles más bajos de consumo de alcohol que los hombres.",
+                    "<strong>Obesidad:</strong> El exceso de peso corporal puede hacer que se acumule grasa en el hígado, haciéndolo más vulnerable al daño relacionado con el alcohol.",
+                    "<strong>Otras Enfermedades Hepáticas:</strong> Tener una condición como la Hepatitis C crónica acelera enormemente el daño hepático por el alcohol."
+                ]
+            },
+            abstinence: {
+                title: "El Paso Más Importante: Dejar de Beber",
+                text: "Para cualquier etapa de la AALD, la parte más importante del tratamiento es dejar de beber alcohol por completo. Esto se llama abstinencia. Continuar bebiendo solo causará más daño y empeorará la enfermedad. Dejar el alcohol puede ser difícil, pero es esencial para su salud y puede mejorar significativamente su pronóstico. Hay muchos recursos disponibles para ayudar."
+            },
+            treatment: {
+                title: "Tratamiento y Manejo",
+                intro: "Más allá de dejar el alcohol, el manejo de la AALD implica apoyar a su hígado y su salud en general.",
+                listTitle: "Los componentes clave del cuidado incluyen:",
+                items: [
+                    "<strong>Nutrición:</strong> Una dieta sana y equilibrada es vital. La desnutrición es común en personas con AALD. Su médico puede recomendar una dieta baja en sodio para controlar la acumulación de líquidos.",
+                    "<strong>Medicamentos:</strong> No existen medicamentos específicos para curar la AALD, pero su médico puede recetar tratamientos para las complicaciones, como diuréticos ('píldoras de agua') para la retención de líquidos o medicamentos para prevenir el sangrado.",
+                    "<strong>Monitoreo Regular:</strong> Esto incluye análisis de sangre regulares e imágenes (como ultrasonidos) para verificar la salud de su hígado.",
+                    "<strong>Detección de Cáncer:</strong> Debido a que la cirrosis aumenta considerablemente el riesgo de cáncer de hígado, la detección regular con un ultrasonido cada 6 meses es una parte fundamental del cuidado.",
+                    "<strong>Apoyo:</strong> Obtener ayuda para el trastorno por consumo de alcohol a través de consejería, grupos de apoyo (como Alcohólicos Anónimos) u otros programas de tratamiento es una parte fundamental del éxito a largo plazo."
+                ]
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de la guía para pacientes del Departamento de Asuntos de Veteranos de EE. UU. sobre AALD. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://www.hepatitis.va.gov/pdf/alcohol-assoc-liver-disease-patient.pdf" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderSpectrum(lang);
+        renderRiskSection(lang);
+        renderAbstinence(lang);
+        renderTreatment(lang);
+    }
+
+    function renderSpectrum(lang) {
+        const t = translations[lang].conditions;
+        const cardsContainer = document.getElementById('condition-cards');
+        cardsContainer.innerHTML = Object.keys(t).map(key => {
+            const condition = t[key];
+            return `
+                <div class="condition-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer transition-colors duration-300" data-condition="${key}">
+                    <h4 class="font-semibold">${condition.title}</h4>
+                </div>
+            `;
+        }).join('');
+        initSpectrumInteraction(lang);
+    }
+    
+    function initSpectrumInteraction(lang) {
+        const t = translations[lang].conditions;
+        const conditionCards = document.querySelectorAll('.condition-card');
+        const detailsContainer = document.getElementById('condition-details');
+
+        function updateDetails(conditionKey) {
+            const conditionData = t[conditionKey];
+            detailsContainer.innerHTML = `
+                <h3 class="text-xl font-bold mb-2">${conditionData.title}</h3>
+                <p class="text-gray-700">${conditionData.text}</p>
+            `;
+            conditionCards.forEach(card => {
+                card.classList.toggle('active', card.dataset.condition === conditionKey);
+            });
+        }
+
+        conditionCards.forEach(card => {
+            card.addEventListener('click', () => updateDetails(card.dataset.condition));
+        });
+
+        updateDetails('fatty');
+    }
+
+    function renderRiskSection(lang) {
+        const t = translations[lang].risk;
+        const section = document.getElementById('risk-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-semibold mb-3">${t.listTitle}</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function renderAbstinence(lang) {
+        const t = translations[lang].abstinence;
+        const section = document.getElementById('abstinence-section');
+        section.innerHTML = `
+            <h3 class="font-bold text-xl mb-2">${t.title}</h3>
+            <p>${t.text}</p>
+        `;
+    }
+
+    function renderTreatment(lang) {
+        const t = translations[lang].treatment;
+        const section = document.getElementById('treatment-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-semibold mb-3">${t.listTitle}</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

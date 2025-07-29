@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Esophageal Varices</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="portal-hypertension-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Portal Hypertension content will be injected here -->
+        </div>
+
+        <div id="symptoms-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Symptoms section content will be injected here -->
+        </div>
+
+        <div id="diagnosis-treatment-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Diagnosis and Treatment section content will be injected here -->
+        </div>
+
+        <div id="prevention-outlook-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <!-- Prevention and Outlook section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Understanding Esophageal Varices",
+            mainIntro: "Esophageal varices are swollen, abnormal veins in the lower part of the esophagus — the tube that connects the throat and stomach. They are a serious and life-threatening complication of advanced liver disease, specifically cirrhosis, which is their most common cause in the Western world.",
+            portalHypertension: {
+                title: "Why Do Varices Form? The Problem of Portal Hypertension",
+                intro: "Varices don't form on their own. They are a direct result of a condition called portal hypertension, which is high blood pressure in the portal vein. This vein carries all the blood from your digestive organs to your liver.",
+                analogyTitle: "The 'Traffic Jam' Analogy",
+                steps: [
+                    { icon: '➡️', title: "Normal Flow", text: "In a healthy liver, blood flows easily through it, like traffic on an open highway." },
+                    { icon: '🧱', title: "The Roadblock (Cirrhosis)", text: "In cirrhosis, severe scar tissue acts like a massive roadblock, preventing blood from flowing freely through the liver." },
+                    { icon: '↩️', title: "The Detour", text: "This blockage causes a 'traffic jam,' forcing the blood to find detours through smaller, fragile veins, like those in the esophagus." },
+                    { icon: '💥', title: "The Result (Varices)", text: "These small veins swell under the high pressure, becoming varices. Because they aren't designed for this pressure, they can easily rupture and bleed." }
+                ]
+            },
+            symptoms: {
+                title: "Symptoms: The Silent Danger",
+                intro: "The most dangerous aspect of varices is that they cause no symptoms until they start to bleed. The goal of medical care is to find and treat them before this happens.",
+                silentTitle: "Before a Bleed",
+                silentText: "You will not feel the varices in your throat. There is no pain, difficulty swallowing, or other warning signs that they are there.",
+                bleedingTitle: "Signs of a Bleeding Emergency",
+                bleedingText: "A bleeding varix is a medical emergency. Seek immediate help if you experience:",
+                items: [
+                    "Vomiting large amounts of blood",
+                    "Black, tarry, or bloody stools",
+                    "Lightheadedness or dizziness",
+                    "Loss of consciousness"
+                ]
+            },
+            diagnosisTreatment: {
+                title: "Diagnosis and Treatment",
+                intro: "Because varices are silent, screening is essential for anyone with cirrhosis. Treatment focuses on preventing a first bleed or stopping an active one.",
+                accordion: [
+                    { icon: '📹', title: "Diagnosis: Upper Endoscopy", content: "The only way to diagnose varices is with an upper endoscopy (EGD). A doctor passes a thin tube with a camera through your mouth to look at your esophagus. This allows them to see if varices are present and assess their size and risk of bleeding. Routine screening endoscopy is recommended for everyone diagnosed with cirrhosis." },
+                    { icon: '🛡️', title: "Preventing a First Bleed", content: "If varices are found, the primary goal is to prevent them from bleeding. The main treatments are: <br><strong>- Beta-Blockers:</strong> Medications like propranolol or nadolol lower the pressure in the portal vein, reducing the risk of rupture. <br><strong>- Variceal Banding (Ligation):</strong> During an endoscopy, tiny elastic bands are placed around the varices to tie them off. This cuts off their blood supply, causing them to shrink and disappear over time." },
+                    { icon: '🩹', title: "Stopping an Active Bleed", content: "Treating an active bleed is a medical emergency that takes place in a hospital. It involves: <br><strong>- Restoring Blood Volume:</strong> Giving fluids and blood transfusions to stabilize the patient. <br><strong>- Medications:</strong> Drugs like octreotide are given to reduce blood flow to the liver. <br><strong>- Emergency Endoscopy:</strong> Banding is performed immediately to stop the source of the bleeding. <br><strong>- TIPS Procedure:</strong> If bleeding cannot be controlled, a procedure called a Transjugular Intrahepatic Portosystemic Shunt (TIPS) may be needed to create a new path for blood flow and relieve the pressure." }
+                ]
+            },
+            preventionOutlook: {
+                title: "Prevention and Outlook",
+                intro: "While specific treatments for varices are crucial, the long-term strategy always involves managing the underlying liver disease.",
+                listTitle: "Key considerations include:",
+                items: [
+                    "<strong>Treating the Cause:</strong> The best way to prevent varices from forming or worsening is to treat the root cause of the liver disease. This means complete abstinence from alcohol, taking antiviral medication for hepatitis, or managing weight and metabolic health for MASLD.",
+                    "<strong>Outlook:</strong> Once varices form, the risk of bleeding is significant, about 5% to 15% per year. A first bleed is fatal in up to 20% of cases. This is why screening and preventative treatment with beta-blockers or banding are so critically important.",
+                    "<strong>Long-Term Management:</strong> Patients with varices require lifelong monitoring with regular endoscopies to check if the varices have returned or worsened."
+                ]
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the Cleveland Clinic. Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://my.clevelandclinic.org/health/diseases/15429-esophageal-varices" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Entendiendo las Várices Esofágicas",
+            mainIntro: "Las várices esofágicas son venas hinchadas y anormales en la parte inferior del esófago, el tubo que conecta la garganta y el estómago. Son una complicación grave y potencialmente mortal de la enfermedad hepática avanzada, específicamente la cirrosis, que es su causa más común en el mundo occidental.",
+            portalHypertension: {
+                title: "¿Por Qué se Forman las Várices? El Problema de la Hipertensión Portal",
+                intro: "Las várices no se forman por sí solas. Son el resultado directo de una condición llamada hipertensión portal, que es la presión arterial alta en la vena porta. Esta vena transporta toda la sangre de sus órganos digestivos a su hígado.",
+                analogyTitle: "La Analogía del 'Atasco de Tráfico'",
+                steps: [
+                    { icon: '➡️', title: "Flujo Normal", text: "En un hígado sano, la sangre fluye fácilmente a través de él, como el tráfico en una autopista abierta." },
+                    { icon: '🧱', title: "El Bloqueo (Cirrosis)", text: "En la cirrosis, el tejido cicatricial severo actúa como un enorme bloqueo, impidiendo que la sangre fluya libremente a través del hígado." },
+                    { icon: '↩️', title: "El Desvío", text: "Este bloqueo causa un 'atasco de tráfico', forzando a la sangre a encontrar desvíos a través de venas más pequeñas y frágiles, como las del esófago." },
+                    { icon: '💥', title: "El Resultado (Várices)", text: "Estas pequeñas venas se hinchan bajo la alta presión, convirtiéndose en várices. Como no están diseñadas para esta presión, pueden romperse y sangrar fácilmente." }
+                ]
+            },
+            symptoms: {
+                title: "Síntomas: El Peligro Silencioso",
+                intro: "El aspecto más peligroso de las várices es que no causan síntomas hasta que comienzan a sangrar. El objetivo de la atención médica es encontrarlas y tratarlas antes de que esto suceda.",
+                silentTitle: "Antes de un Sangrado",
+                silentText: "No sentirá las várices en la garganta. No hay dolor, dificultad para tragar u otras señales de advertencia de que están allí.",
+                bleedingTitle: "Señales de una Emergencia por Sangrado",
+                bleedingText: "Una várice sangrante es una emergencia médica. Busque ayuda inmediata si experimenta:",
+                items: [
+                    "Vómitos de grandes cantidades de sangre",
+                    "Heces negras, alquitranadas o con sangre",
+                    "Mareos o aturdimiento",
+                    "Pérdida del conocimiento"
+                ]
+            },
+            diagnosisTreatment: {
+                title: "Diagnóstico y Tratamiento",
+                intro: "Debido a que las várices son silenciosas, la detección es esencial para cualquier persona con cirrosis. El tratamiento se enfoca en prevenir un primer sangrado o detener uno activo.",
+                accordion: [
+                    { icon: '📹', title: "Diagnóstico: Endoscopia Superior", content: "La única forma de diagnosticar las várices es con una endoscopia superior (EGD). Un médico pasa un tubo delgado con una cámara a través de la boca para observar el esófago. Esto les permite ver si hay várices y evaluar su tamaño y riesgo de sangrado. Se recomienda una endoscopia de detección de rutina para todas las personas diagnosticadas con cirrosis." },
+                    { icon: '🛡️', title: "Prevención de un Primer Sangrado", content: "Si se encuentran várices, el objetivo principal es evitar que sangren. Los tratamientos principales son: <br><strong>- Betabloqueantes:</strong> Medicamentos como el propranolol o el nadolol reducen la presión en la vena porta, disminuyendo el riesgo de ruptura. <br><strong>- Ligadura de Várices (Bandas):</strong> Durante una endoscopia, se colocan pequeñas bandas elásticas alrededor de las várices para atarlas. Esto corta su suministro de sangre, haciendo que se encojan y desaparezcan con el tiempo." },
+                    { icon: '🩹', title: "Detener un Sangrado Activo", content: "Tratar un sangrado activo es una emergencia médica que se realiza en un hospital. Implica: <br><strong>- Restaurar el Volumen Sanguíneo:</strong> Administrar líquidos y transfusiones de sangre para estabilizar al paciente. <br><strong>- Medicamentos:</strong> Se administran fármacos como el octreótido para reducir el flujo sanguíneo al hígado. <br><strong>- Endoscopia de Emergencia:</strong> Se realiza la ligadura de inmediato para detener la fuente del sangrado. <br><strong>- Procedimiento TIPS:</strong> Si el sangrado no se puede controlar, puede ser necesario un procedimiento llamado Derivación Portosistémica Intrahepática Transyugular (TIPS) para crear una nueva vía para el flujo sanguíneo y aliviar la presión." }
+                ]
+            },
+            preventionOutlook: {
+                title: "Prevención y Pronóstico",
+                intro: "Si bien los tratamientos específicos para las várices son cruciales, la estrategia a largo plazo siempre implica el manejo de la enfermedad hepática subyacente.",
+                listTitle: "Las consideraciones clave incluyen:",
+                items: [
+                    "<strong>Tratar la Causa:</strong> La mejor manera de prevenir la formación o el empeoramiento de las várices es tratar la causa raíz de la enfermedad hepática. Esto significa la abstinencia total de alcohol, tomar medicamentos antivirales para la hepatitis o controlar el peso y la salud metabólica para la MASLD.",
+                    "<strong>Pronóstico:</strong> Una vez que se forman las várices, el riesgo de sangrado es significativo, de aproximadamente un 5% a un 15% por año. Un primer sangrado es fatal en hasta el 20% de los casos. Es por eso que la detección y el tratamiento preventivo con betabloqueantes o bandas son tan importantes.",
+                    "<strong>Manejo a Largo Plazo:</strong> Los pacientes con várices requieren un seguimiento de por vida con endoscopias regulares para verificar si las várices han regresado o empeorado."
+                ]
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de la Cleveland Clinic. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://my.clevelandclinic.org/health/diseases/15429-esophageal-varices" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderPortalHypertension(lang);
+        renderSymptoms(lang);
+        renderDiagnosisTreatment(lang);
+        renderPreventionOutlook(lang);
+    }
+
+    function renderPortalHypertension(lang) {
+        const t = translations[lang].portalHypertension;
+        const section = document.getElementById('portal-hypertension-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="max-w-4xl mx-auto">
+                <h3 class="text-xl font-semibold text-center mb-6">${t.analogyTitle}</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    ${t.steps.map((step, index) => `
+                        <div class="flex items-center w-full md:w-auto">
+                            <div class="bg-gray-50 p-4 rounded-lg text-center flex-grow">
+                                <p class="text-4xl mb-2">${step.icon}</p>
+                                <h4 class="font-bold">${step.title}</h4>
+                                <p class="text-sm text-gray-600">${step.text}</p>
+                            </div>
+                            ${index < t.steps.length - 1 ? '<div class="hidden md:block w-12 h-1 bg-gray-300"></div>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderSymptoms(lang) {
+        const t = translations[lang].symptoms;
+        const section = document.getElementById('symptoms-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-xl mb-3 text-center">${t.silentTitle}</h3>
+                    <p class="text-center">${t.silentText}</p>
+                </div>
+                <div class="bg-red-50 border border-red-200 p-6 rounded-lg">
+                    <h3 class="font-bold text-xl mb-3 text-center text-red-800">${t.bleedingTitle}</h3>
+                    <p class="text-center text-red-700 mb-4">${t.bleedingText}</p>
+                    <ul class="list-disc list-inside space-y-2 text-red-700 font-semibold max-w-xs mx-auto">
+                        ${t.items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderDiagnosisTreatment(lang) {
+        const t = translations[lang].diagnosisTreatment;
+        const section = document.getElementById('diagnosis-treatment-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.accordion.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions('#diagnosis-treatment-section');
+    }
+
+    function renderPreventionOutlook(lang) {
+        const t = translations[lang].preventionOutlook;
+        const section = document.getElementById('prevention-outlook-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-semibold mb-3">${t.listTitle}</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function setupAccordions(selector) {
+        const accordionItems = document.querySelectorAll(`${selector || ''} .accordion-item`);
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('span:last-child');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

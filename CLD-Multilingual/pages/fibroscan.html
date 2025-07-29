@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to FibroScan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .score-card.active {
+            border-color: #A9C5C5;
+            background-color: #A9C5C5;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="how-it-works-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- How it works content will be injected here -->
+        </div>
+
+        <div id="results-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Results section content will be injected here -->
+        </div>
+
+        <div id="preparation-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <!-- Preparation section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "A Patient's Guide to FibroScan",
+            mainIntro: "A FibroScan is a quick, painless, and non-invasive test that helps your doctor assess the health of your liver. It uses a special ultrasound technology to measure liver stiffness (a sign of scarring) and fatty change, providing a safe alternative to a liver biopsy in many cases.",
+            howItWorks: {
+                title: "How Does a FibroScan Work?",
+                intro: "The test uses a technology called transient elastography. It's a simple process that takes only 5-10 minutes.",
+                steps: [
+                    { icon: '눕기', title: "1. Position", text: "You will lie comfortably on your back with your right arm raised behind your head to expose the skin over your liver." },
+                    { icon: '💧', title: "2. Gel & Probe", text: "A technician will apply a water-based gel to your skin and place a small, handheld probe between your ribs." },
+                    { icon: '〰️', title: "3. Pulse & Measure", text: "The probe sends a painless, low-frequency energy pulse through your liver. The machine measures how fast this wave travels, which directly corresponds to the stiffness of your liver tissue." }
+                ]
+            },
+            results: {
+                title: "Understanding Your Results",
+                intro: "The FibroScan provides two important measurements:",
+                fibrosis: {
+                    title: "Fibrosis Score (Stiffness)",
+                    intro: "This measures the amount of scarring in your liver. The result is given as a score from F0 to F4. Click a score to learn more.",
+                    scores: [
+                        { score: "F0 - F1", color: "bg-green-200", text: "Indicates no or mild scarring. This is considered a normal or near-normal result." },
+                        { score: "F2", color: "bg-yellow-200", text: "Indicates moderate scarring. This is a sign that significant liver damage has occurred." },
+                        { score: "F3", color: "bg-orange-200", text: "Indicates severe scarring. This is an advanced stage of liver disease." },
+                        { score: "F4", color: "bg-red-200", text: "Indicates advanced scarring, also known as cirrhosis. This is the most severe stage." }
+                    ]
+                },
+                cap: {
+                    title: "CAP Score (Fatty Change)",
+                    intro: "The Controlled Attenuation Parameter (CAP) score measures the amount of fat in your liver (steatosis). It is given as a grade from S0 to S3. Click a grade to learn more.",
+                    scores: [
+                        { score: "S0", color: "bg-green-200", text: "Indicates a normal, healthy liver with little to no fat accumulation." },
+                        { score: "S1", color: "bg-yellow-200", text: "Indicates mild fatty liver. Up to 33% of your liver cells contain fat." },
+                        { score: "S2", color: "bg-orange-200", text: "Indicates moderate fatty liver. Between 34% and 66% of your liver cells contain fat." },
+                        { score: "S3", color: "bg-red-200", text: "Indicates severe fatty liver. More than 66% of your liver cells contain fat." }
+                    ]
+                }
+            },
+            preparation: {
+                title: "How to Prepare for Your Test",
+                intro: "Preparation for a FibroScan is simple.",
+                items: [
+                    "<strong>Do not eat or drink anything for at least 3 hours before your appointment.</strong> This ensures an accurate reading.",
+                    "Wear loose, comfortable clothing that allows easy access to the right side of your rib cage.",
+                    "You can take your usual medications unless your doctor tells you otherwise.",
+                    "The procedure requires no sedation, so you can drive yourself home immediately afterward."
+                ]
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by Hoag Hospital. Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://www.hoag.org/specialties-services/digestive-health/procedures-treatments/fibroscan/" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Guía del Paciente para el FibroScan",
+            mainIntro: "Un FibroScan es una prueba rápida, indolora y no invasiva que ayuda a su médico a evaluar la salud de su hígado. Utiliza una tecnología especial de ultrasonido para medir la rigidez del hígado (un signo de cicatrización) y el cambio graso, proporcionando una alternativa segura a la biopsia hepática en muchos casos.",
+            howItWorks: {
+                title: "¿Cómo Funciona un FibroScan?",
+                intro: "La prueba utiliza una tecnología llamada elastografía transitoria. Es un proceso simple que solo toma de 5 a 10 minutos.",
+                steps: [
+                    { icon: '눕기', title: "1. Posición", text: "Se acostará cómodamente boca arriba con el brazo derecho levantado detrás de la cabeza para exponer la piel sobre el hígado." },
+                    { icon: '💧', title: "2. Gel y Sonda", text: "Un técnico aplicará un gel a base de agua en su piel y colocará una pequeña sonda de mano entre sus costillas." },
+                    { icon: '〰️', title: "3. Pulso y Medición", text: "La sonda envía un pulso de energía indoloro de baja frecuencia a través de su hígado. La máquina mide qué tan rápido viaja esta onda, lo que corresponde directamente a la rigidez del tejido hepático." }
+                ]
+            },
+            results: {
+                title: "Entendiendo Sus Resultados",
+                intro: "El FibroScan proporciona dos mediciones importantes:",
+                fibrosis: {
+                    title: "Puntuación de Fibrosis (Rigidez)",
+                    intro: "Esto mide la cantidad de cicatrices en su hígado. El resultado se da como una puntuación de F0 a F4. Haga clic en una puntuación para obtener más información.",
+                    scores: [
+                        { score: "F0 - F1", color: "bg-green-200", text: "Indica ninguna o leve cicatrización. Esto se considera un resultado normal o casi normal." },
+                        { score: "F2", color: "bg-yellow-200", text: "Indica cicatrización moderada. Es una señal de que ha ocurrido un daño hepático significativo." },
+                        { score: "F3", color: "bg-orange-200", text: "Indica cicatrización severa. Esta es una etapa avanzada de la enfermedad hepática." },
+                        { score: "F4", color: "bg-red-200", text: "Indica cicatrización avanzada, también conocida como cirrosis. Esta es la etapa más grave." }
+                    ]
+                },
+                cap: {
+                    title: "Puntuación CAP (Cambio Graso)",
+                    intro: "La puntuación del Parámetro de Atenuación Controlada (CAP) mide la cantidad de grasa en su hígado (esteatosis). Se da como un grado de S0 a S3. Haga clic en un grado para obtener más información.",
+                    scores: [
+                        { score: "S0", color: "bg-green-200", text: "Indica un hígado normal y sano con poca o ninguna acumulación de grasa." },
+                        { score: "S1", color: "bg-yellow-200", text: "Indica hígado graso leve. Hasta el 33% de las células de su hígado contienen grasa." },
+                        { score: "S2", color: "bg-orange-200", text: "Indica hígado graso moderado. Entre el 34% y el 66% de las células de su hígado contienen grasa." },
+                        { score: "S3", color: "bg-red-200", text: "Indica hígado graso severo. Más del 66% de las células de su hígado contienen grasa." }
+                    ]
+                }
+            },
+            preparation: {
+                title: "Cómo Prepararse para su Prueba",
+                intro: "La preparación para un FibroScan es sencilla.",
+                items: [
+                    "<strong>No coma ni beba nada durante al menos 3 horas antes de su cita.</strong> Esto asegura una lectura precisa.",
+                    "Use ropa holgada y cómoda que permita un fácil acceso al lado derecho de su caja torácica.",
+                    "Puede tomar sus medicamentos habituales a menos que su médico le indique lo contrario.",
+                    "El procedimiento no requiere sedación, por lo que puede conducir a casa inmediatamente después."
+                ]
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales del Hospital Hoag. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://www.hoag.org/specialties-services/digestive-health/procedures-treatments/fibroscan/" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderHowItWorks(lang);
+        renderResults(lang);
+        renderPreparation(lang);
+    }
+
+    function renderHowItWorks(lang) {
+        const t = translations[lang].howItWorks;
+        const section = document.getElementById('how-it-works-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                ${t.steps.map(step => `
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <p class="text-5xl mb-3">${step.icon}</p>
+                        <h3 class="font-bold text-lg mb-2">${step.title}</h3>
+                        <p class="text-sm text-gray-600">${step.text}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderResults(lang) {
+        const t = translations[lang].results;
+        const section = document.getElementById('results-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3">${t.fibrosis.title}</h3>
+                    <p class="text-sm text-gray-600 mb-4">${t.fibrosis.intro}</p>
+                    <div id="fibrosis-cards" class="flex flex-wrap gap-2"></div>
+                    <div id="fibrosis-details" class="mt-4 p-4 rounded-lg min-h-[80px]"></div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3">${t.cap.title}</h3>
+                    <p class="text-sm text-gray-600 mb-4">${t.cap.intro}</p>
+                    <div id="cap-cards" class="flex flex-wrap gap-2"></div>
+                    <div id="cap-details" class="mt-4 p-4 rounded-lg min-h-[80px]"></div>
+                </div>
+            </div>
+        `;
+        initResultsInteraction(lang);
+    }
+
+    function initResultsInteraction(lang) {
+        const t = translations[lang].results;
+
+        function setupInteraction(type) {
+            const cardsContainer = document.getElementById(`${type}-cards`);
+            const detailsContainer = document.getElementById(`${type}-details`);
+            const data = t[type];
+
+            cardsContainer.innerHTML = data.scores.map((s, i) => `
+                <button class="score-card border-2 border-gray-300 rounded-full px-4 py-2 font-semibold transition-all duration-300" data-type="${type}" data-index="${i}">${s.score}</button>
+            `).join('');
+
+            const cards = cardsContainer.querySelectorAll('.score-card');
+
+            function updateDetails(index) {
+                const scoreData = data.scores[index];
+                detailsContainer.innerHTML = `<p>${scoreData.text}</p>`;
+                detailsContainer.className = `mt-4 p-4 rounded-lg min-h-[80px] ${scoreData.color}`;
+                cards.forEach((card, i) => {
+                    card.classList.toggle('active', i === index);
+                });
+            }
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => updateDetails(parseInt(card.dataset.index)));
+            });
+
+            updateDetails(0);
+        }
+
+        setupInteraction('fibrosis');
+        setupInteraction('cap');
+    }
+
+    function renderPreparation(lang) {
+        const t = translations[lang].preparation;
+        const section = document.getElementById('preparation-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-md mx-auto bg-gray-50 p-6 rounded-lg">
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

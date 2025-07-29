@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Liver Transplantation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="journey-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Journey section content will be injected here -->
+        </div>
+
+        <div id="meld-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- MELD score section content will be injected here -->
+        </div>
+
+        <div id="donation-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Donation types section content will be injected here -->
+        </div>
+
+        <div id="aftercare-section" class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-r-lg">
+             <!-- Aftercare section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "A Patient's Guide to Liver Transplantation",
+            mainIntro: "For people with end-stage liver disease (ESLD) or acute liver failure, a liver transplant is a life-saving surgery that replaces a diseased liver with a healthy one. The journey to transplant is a complex process involving careful evaluation, waiting, and a lifelong commitment to health afterward.",
+            journey: {
+                title: "The Transplant Journey: A Step-by-Step Guide",
+                intro: "The path to receiving a new liver is a structured process managed by a specialized transplant center.",
+                accordion: [
+                    { icon: '1️⃣', title: "Referral", content: "The first step is a referral from your liver doctor (hepatologist) to a transplant center. This happens when they determine that the risks of your liver disease outweigh the risks of the transplant surgery." },
+                    { icon: '2️⃣', title: "Evaluation", content: "You will undergo a comprehensive evaluation at the transplant center. This involves numerous tests (blood work, imaging, heart and lung tests) and meetings with the transplant team (surgeons, social workers, dietitians) to ensure you are physically and mentally prepared for the surgery and the care required afterward." },
+                    { icon: '3️⃣', title: "Getting Listed", content: "If the team approves you as a candidate, you will be placed on the national transplant waiting list, which is managed by the United Network for Organ Sharing (UNOS). Your place on the list is determined by your medical urgency, not how long you have been waiting." },
+                    { icon: '4️⃣', title: "The Wait & The Call", content: "Waiting for a suitable donor liver can take months or even years. During this time, you must stay in close contact with the transplant center. When a donor liver becomes available, you will receive a call and must get to the hospital immediately." },
+                    { icon: '5️⃣', title: "Surgery & Recovery", content: "The transplant surgery is a major operation that can last several hours. After surgery, you will spend time in the intensive care unit (ICU) and then a regular hospital room for several weeks. Full recovery can take six months or more." }
+                ]
+            },
+            meld: {
+                title: "The MELD Score: Prioritizing Who Needs a Liver Most",
+                intro: "The Model for End-Stage Liver Disease (MELD) score is a crucial number that determines your priority on the transplant waiting list. It is a reliable measure of how urgently you need a new liver.",
+                calculation: "It's calculated using three standard blood tests:",
+                items: [
+                    { test: "Bilirubin", reflects: "How well the liver is clearing waste." },
+                    { test: "INR", reflects: "How well the liver is making clotting proteins." },
+                    { test: "Creatinine", reflects: "How well your kidneys are functioning, which is often affected by severe liver disease." }
+                ],
+                score: "The score ranges from 6 (less ill) to 40 (critically ill). A higher MELD score means you are sicker and have a higher priority on the waiting list for a deceased donor liver."
+            },
+            donation: {
+                title: "Types of Liver Donation",
+                intro: "Healthy livers for transplantation come from two sources:",
+                deceased: {
+                    title: "Deceased Donation",
+                    text: "This is the most common type of donation. The liver comes from a person who has been declared brain dead and whose family has consented to organ donation. The entire liver is transplanted into the recipient."
+                },
+                living: {
+                    title: "Living Donation",
+                    text: "Because the liver has a unique ability to regenerate, a healthy person can donate a portion of their liver. The donated segment is transplanted into the recipient, and both the donor's remaining liver and the transplanted portion grow back to a full, functional size within a few months."
+                }
+            },
+            aftercare: {
+                title: "Life After Transplant: A Lifelong Commitment",
+                text: "A transplant is not a cure, but a second chance at life that requires lifelong care. After surgery, you must take powerful anti-rejection medications (immunosuppressants) every day for the rest of your life to prevent your body from attacking the new liver. This requires regular follow-up appointments, blood tests, and a commitment to a healthy lifestyle to protect your precious gift."
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK). Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://www.niddk.nih.gov/health-information/liver-disease/liver-transplant" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Guía del Paciente para el Trasplante de Hígado",
+            mainIntro: "Para las personas con enfermedad hepática en etapa terminal (ESLD) o insuficiencia hepática aguda, un trasplante de hígado es una cirugía que salva vidas y que reemplaza un hígado enfermo por uno sano. El camino hacia el trasplante es un proceso complejo que implica una evaluación cuidadosa, espera y un compromiso de por vida con la salud después.",
+            journey: {
+                title: "El Viaje del Trasplante: Una Guía Paso a Paso",
+                intro: "El camino para recibir un nuevo hígado es un proceso estructurado manejado por un centro de trasplantes especializado.",
+                accordion: [
+                    { icon: '1️⃣', title: "Referencia", content: "El primer paso es una referencia de su médico especialista en hígado (hepatólogo) a un centro de trasplantes. Esto ocurre cuando determinan que los riesgos de su enfermedad hepática superan los riesgos de la cirugía de trasplante." },
+                    { icon: '2️⃣', title: "Evaluación", content: "Se someterá a una evaluación exhaustiva en el centro de trasplantes. Esto implica numerosas pruebas (análisis de sangre, imágenes, pruebas cardíacas y pulmonares) y reuniones con el equipo de trasplantes (cirujanos, trabajadores sociales, dietistas) para asegurar que está física y mentalmente preparado para la cirugía y el cuidado requerido después." },
+                    { icon: '3️⃣', title: "Inclusión en la Lista", content: "Si el equipo lo aprueba como candidato, se le incluirá en la lista de espera nacional de trasplantes, gestionada por la Red Unida para la Compartición de Órganos (UNOS). Su lugar en la lista se determina por su urgencia médica, no por el tiempo que ha estado esperando." },
+                    { icon: '4️⃣', title: "La Espera y La Llamada", content: "Esperar un hígado de donante adecuado puede llevar meses o incluso años. Durante este tiempo, debe mantenerse en contacto cercano con el centro de trasplantes. Cuando un hígado de donante esté disponible, recibirá una llamada y deberá llegar al hospital de inmediato." },
+                    { icon: '5️⃣', title: "Cirugía y Recuperación", content: "La cirugía de trasplante es una operación mayor que puede durar varias horas. Después de la cirugía, pasará tiempo en la unidad de cuidados intensivos (UCI) y luego en una habitación de hospital regular durante varias semanas. La recuperación completa puede llevar seis meses o más." }
+                ]
+            },
+            meld: {
+                title: "La Puntuación MELD: Priorizando Quién Necesita Más un Hígado",
+                intro: "La puntuación del Modelo para la Enfermedad Hepática en Etapa Terminal (MELD) es un número crucial que determina su prioridad en la lista de espera de trasplantes. Es una medida confiable de la urgencia con la que necesita un nuevo hígado.",
+                calculation: "Se calcula utilizando tres análisis de sangre estándar:",
+                items: [
+                    { test: "Bilirrubina", reflects: "Qué tan bien el hígado está eliminando los desechos." },
+                    { test: "INR", reflects: "Qué tan bien el hígado está produciendo proteínas de coagulación." },
+                    { test: "Creatinina", reflects: "Qué tan bien están funcionando sus riñones, que a menudo se ven afectados por una enfermedad hepática grave." }
+                ],
+                score: "La puntuación va de 6 (menos enfermo) a 40 (críticamente enfermo). Una puntuación MELD más alta significa que está más enfermo y tiene una mayor prioridad en la lista de espera para un hígado de donante fallecido."
+            },
+            donation: {
+                title: "Tipos de Donación de Hígado",
+                intro: "Los hígados sanos para trasplante provienen de dos fuentes:",
+                deceased: {
+                    title: "Donación de Fallecido",
+                    text: "Este es el tipo más común de donación. El hígado proviene de una persona que ha sido declarada con muerte cerebral y cuya familia ha consentido la donación de órganos. El hígado completo se trasplanta al receptor."
+                },
+                living: {
+                    title: "Donación en Vida",
+                    text: "Debido a la capacidad única del hígado para regenerarse, una persona sana puede donar una porción de su hígado. El segmento donado se trasplanta al receptor, y tanto el hígado restante del donante como la porción trasplantada vuelven a crecer a un tamaño funcional completo en unos pocos meses."
+                }
+            },
+            aftercare: {
+                title: "Vida Después del Trasplante: Un Compromiso de por Vida",
+                text: "Un trasplante no es una cura, sino una segunda oportunidad de vida que requiere cuidados de por vida. Después de la cirugía, debe tomar potentes medicamentos antirrechazo (inmunosupresores) todos los días por el resto de su vida para evitar que su cuerpo ataque el nuevo hígado. Esto requiere citas de seguimiento regulares, análisis de sangre y un compromiso con un estilo de vida saludable para proteger su preciado regalo."
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales del Instituto Nacional de Diabetes y Enfermedades Digestivas y Renales (NIDDK). Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://www.niddk.nih.gov/health-information/liver-disease/liver-transplant" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderJourney(lang);
+        renderMeld(lang);
+        renderDonation(lang);
+        renderAftercare(lang);
+    }
+
+    function renderJourney(lang) {
+        const t = translations[lang].journey;
+        const section = document.getElementById('journey-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.accordion.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions('#journey-section');
+    }
+
+    function renderMeld(lang) {
+        const t = translations[lang].meld;
+        const section = document.getElementById('meld-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-3xl mx-auto bg-gray-50 p-6 rounded-lg">
+                <p class="font-semibold mb-3">${t.calculation}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                    ${t.items.map(item => `
+                        <div class="bg-white p-4 rounded-md shadow-sm">
+                            <div class="font-bold text-lg text-blue-800">${item.test}</div>
+                            <div class="text-sm">${item.reflects}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <p class="mt-4 text-center font-semibold">${t.score}</p>
+            </div>
+        `;
+    }
+    
+    function renderDonation(lang) {
+        const t = translations[lang].donation;
+        const section = document.getElementById('donation-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl mb-2">${t.deceased.title}</h3>
+                    <p>${t.deceased.text}</p>
+                </div>
+                <div class="bg-teal-50 border-l-4 border-teal-400 p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl mb-2">${t.living.title}</h3>
+                    <p>${t.living.text}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderAftercare(lang) {
+        const t = translations[lang].aftercare;
+        const section = document.getElementById('aftercare-section');
+        section.innerHTML = `
+            <h3 class="font-bold text-xl mb-2">${t.title}</h3>
+            <p>${t.text}</p>
+        `;
+    }
+
+    function setupAccordions(selector) {
+        const accordionItems = document.querySelectorAll(`${selector} .accordion-item`);
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('span:last-child');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

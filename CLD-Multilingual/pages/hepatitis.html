@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Viral Hepatitis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="hepb-section" class="bg-white rounded-xl shadow-lg mb-12">
+            <!-- Hepatitis B content will be injected here -->
+        </div>
+
+        <div id="hepc-section" class="bg-white rounded-xl shadow-lg mb-12">
+            <!-- Hepatitis C content will be injected here -->
+        </div>
+
+        <div id="other-hep-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Other Hepatitis types content will be injected here -->
+        </div>
+
+        <div id="comparison-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+            <!-- Comparison content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "A Guide to Viral Hepatitis",
+            mainIntro: "Viral hepatitis is inflammation of the liver caused by a virus. While there are several types, Hepatitis B and Hepatitis C are the most common causes of chronic, long-term liver disease that can lead to cirrhosis and liver cancer. Understanding the differences between them is key to prevention and treatment.",
+            hepb: {
+                title: "Hepatitis B (HBV)",
+                intro: "Hepatitis B can be a short-term (acute) illness, but for some, it becomes a long-term, chronic infection that can cause serious health issues. The risk of it becoming chronic is much higher for infants than for adults.",
+                accordion: [
+                    { icon: '↔️', title: "How is it Spread?", content: "HBV is transmitted through blood, semen, and other body fluids. Common ways include from an infected mother to her baby at birth, sexual contact with an infected partner, and by sharing needles, syringes, or other drug-injection equipment." },
+                    { icon: '🩺', title: "Symptoms", content: "Many people with chronic Hepatitis B have no symptoms. If symptoms do occur, they can include fatigue, fever, nausea, abdominal pain, dark urine, and jaundice (yellowing of skin and eyes)." },
+                    { icon: '🔬', title: "Who Should Get Tested?", content: "The CDC recommends screening for all adults at least once in their lifetime. Testing is also recommended for pregnant women, people who inject drugs, people with multiple sexual partners, and those with other liver diseases like Hepatitis C or HIV." },
+                    { icon: '🛡️', title: "Prevention: The Vaccine is Key", content: "The best way to prevent Hepatitis B is to get vaccinated. The Hepatitis B vaccine is safe and highly effective. The CDC recommends it for all infants at birth and for adults who were not vaccinated as children." },
+                    { icon: '💊', title: "Testing & Treatment", content: "A simple blood test can detect Hepatitis B. While there is no cure for chronic Hepatitis B, there are effective antiviral medications that can suppress the virus, reduce liver inflammation, and lower the risk of long-term complications." }
+                ]
+            },
+            hepc: {
+                title: "Hepatitis C (HCV)",
+                intro: "Hepatitis C is almost always a chronic condition. It is often called a 'silent epidemic' because most people have no symptoms for decades while the virus slowly damages their liver. It is a leading cause of cirrhosis and liver transplants.",
+                accordion: [
+                    { icon: '↔️', title: "How is it Spread?", content: "HCV is spread primarily through contact with infected blood. The most common route is by sharing needles or other drug-injection equipment. Less common ways include unregulated tattoos, sexual contact, or from mother to baby at birth." },
+                    { icon: '🩺', title: "Symptoms", content: "Most people with chronic Hepatitis C are asymptomatic or have general symptoms like fatigue or depression. Because symptoms are rare, many people live with the infection for years without knowing it." },
+                    { icon: '🔬', title: "Who Should Get Tested?", content: "The CDC recommends universal screening for all adults at least once in their lifetime, and for all pregnant women during each pregnancy. Regular testing is advised for people with ongoing risk factors, such as injection drug use." },
+                    { icon: '🛡️', title: "Prevention & Screening", content: "There is currently no vaccine to prevent Hepatitis C. The best prevention is to avoid behaviors that can spread the disease, especially sharing needles. Screening is critical for finding and curing the infection before it causes severe damage." },
+                    { icon: '💊', title: "Treatment: Hepatitis C is Curable", content: "This is a critical point: modern medicine can now cure Hepatitis C. Treatment typically involves taking oral antiviral pills for 8-12 weeks. These treatments cure over 95% of patients with very few side effects, stopping the liver damage and preventing further transmission." }
+                ]
+            },
+            otherHep: {
+                title: "Other Types of Viral Hepatitis",
+                accordion: [
+                    { icon: 'A', title: "Hepatitis A (HAV)", content: "Hepatitis A is an acute (short-term) infection and does not cause chronic liver disease. It is typically spread through the fecal-oral route, such as by consuming contaminated food or water. It is preventable with a safe and effective vaccine." },
+                    { icon: 'D', title: "Hepatitis D (HDV)", content: "Hepatitis D is a unique virus that can only infect people who are already infected with Hepatitis B. Co-infection with HDV can make a Hepatitis B infection more severe and accelerate the progression to cirrhosis. Prevention of Hepatitis D is achieved through Hepatitis B vaccination." },
+                    { icon: 'E', title: "Hepatitis E (HEV)", content: "Similar to Hepatitis A, HEV is usually an acute infection spread through contaminated water. However, it can become chronic in people with weakened immune systems. It poses a particularly high risk of liver failure for pregnant women." }
+                ]
+            },
+            comparison: {
+                title: "Hepatitis B vs. Hepatitis C at a Glance",
+                feature: "Feature",
+                hepb: "Hepatitis B",
+                hepc: "Hepatitis C",
+                transmission: "Transmission",
+                transmissionText: "Blood, semen, other body fluids",
+                transmissionTextC: "Primarily blood-to-blood",
+                chronicRisk: "Risk of Chronic Infection",
+                chronicRiskText: "High in infants, low in adults",
+                chronicRiskTextC: "High for all ages",
+                vaccine: "Vaccine Available?",
+                vaccineText: "Yes, highly effective",
+                vaccineTextC: "No",
+                cure: "Curable (Chronic Form)?",
+                cureText: "No, but can be suppressed",
+                cureTextC: "Yes, with oral medication"
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the U.S. Centers for Disease Control and Prevention (CDC). Always seek the advice of your physician with any questions regarding a medical condition. <a href="https://www.cdc.gov/hepatitis/index.html" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Una Guía sobre la Hepatitis Viral",
+            mainIntro: "La hepatitis viral es la inflamación del hígado causada por un virus. Aunque existen varios tipos, la Hepatitis B y la Hepatitis C son las causas más comunes de enfermedad hepática crónica a largo plazo que puede llevar a la cirrosis y al cáncer de hígado. Comprender las diferencias entre ellas es clave para la prevención y el tratamiento.",
+            hepb: {
+                title: "Hepatitis B (VHB)",
+                intro: "La Hepatitis B puede ser una enfermedad a corto plazo (aguda), pero para algunos se convierte en una infección crónica a largo plazo que puede causar graves problemas de salud. El riesgo de que se vuelva crónica es mucho mayor en los bebés que en los adultos.",
+                accordion: [
+                    { icon: '↔️', title: "¿Cómo se transmite?", content: "El VHB se transmite a través de la sangre, el semen y otros fluidos corporales. Las formas comunes incluyen de una madre infectada a su bebé durante el parto, el contacto sexual con una pareja infectada y al compartir agujas, jeringas u otro equipo de inyección de drogas." },
+                    { icon: '🩺', title: "Síntomas", content: "Muchas personas con Hepatitis B crónica no tienen síntomas. Si los síntomas ocurren, pueden incluir fatiga, fiebre, náuseas, dolor abdominal, orina oscura e ictericia (coloración amarillenta de la piel y los ojos)." },
+                    { icon: '🔬', title: "¿Quién debe hacerse la prueba?", content: "Los CDC recomiendan la detección para todos los adultos al menos una vez en la vida. También se recomienda la prueba para mujeres embarazadas, personas que se inyectan drogas, personas con múltiples parejas sexuales y aquellas con otras enfermedades hepáticas como Hepatitis C o VIH." },
+                    { icon: '🛡️', title: "Prevención: La Vacuna es Clave", content: "La mejor manera de prevenir la Hepatitis B es vacunándose. La vacuna contra la Hepatitis B es segura y muy eficaz. Los CDC la recomiendan para todos los bebés al nacer y para los adultos que no fueron vacunados en la infancia." },
+                    { icon: '💊', title: "Pruebas y Tratamiento", content: "Un simple análisis de sangre puede detectar la Hepatitis B. Aunque no hay cura para la Hepatitis B crónica, existen medicamentos antivirales eficaces que pueden suprimir el virus, reducir la inflamación del hígado y disminuir el riesgo de complicaciones a largo plazo." }
+                ]
+            },
+            hepc: {
+                title: "Hepatitis C (VHC)",
+                intro: "La Hepatitis C es casi siempre una condición crónica. A menudo se le llama una 'epidemia silenciosa' porque la mayoría de las personas no tienen síntomas durante décadas mientras el virus daña lentamente su hígado. Es una de las principales causas de cirrosis y trasplantes de hígado.",
+                accordion: [
+                    { icon: '↔️', title: "¿Cómo se transmite?", content: "El VHC se transmite principalmente a través del contacto con sangre infectada. La ruta más común es al compartir agujas u otro equipo de inyección de drogas. Formas menos comunes incluyen tatuajes no regulados, contacto sexual o de madre a bebé durante el parto." },
+                    { icon: '🩺', title: "Síntomas", content: "La mayoría de las personas con Hepatitis C crónica son asintomáticas o tienen síntomas generales como fatiga o depresión. Debido a que los síntomas son raros, muchas personas viven con la infección durante años sin saberlo." },
+                    { icon: '🔬', title: "¿Quién debe hacerse la prueba?", content: "Los CDC recomiendan una prueba de detección universal para todos los adultos al menos una vez en la vida, y para todas las mujeres embarazadas durante cada embarazo. Se aconsejan pruebas regulares para personas con factores de riesgo continuos, como el uso de drogas inyectables." },
+                    { icon: '🛡️', title: "Prevención y Detección", content: "Actualmente no existe una vacuna para prevenir la Hepatitis C. La mejor prevención es evitar comportamientos que puedan propagar la enfermedad, especialmente compartir agujas. La detección es fundamental para encontrar y curar la infección antes de que cause un daño grave." },
+                    { icon: '💊', title: "Tratamiento: La Hepatitis C es Curable", content: "Este es un punto crítico: la medicina moderna ahora puede curar la Hepatitis C. El tratamiento generalmente implica tomar píldoras antivirales por vía oral durante 8-12 semanas. Estos tratamientos curan a más del 95% de los pacientes con muy pocos efectos secundarios, deteniendo el daño hepático y previniendo una mayor transmisión." }
+                ]
+            },
+            otherHep: {
+                title: "Otros Tipos de Hepatitis Viral",
+                accordion: [
+                    { icon: 'A', title: "Hepatitis A (VHA)", content: "La Hepatitis A es una infección aguda (a corto plazo) y no causa enfermedad hepática crónica. Generalmente se transmite por la vía fecal-oral, como al consumir alimentos o agua contaminados. Se puede prevenir con una vacuna segura y eficaz." },
+                    { icon: 'D', title: "Hepatitis D (VHD)", content: "La Hepatitis D es un virus único que solo puede infectar a personas que ya están infectadas con Hepatitis B. La coinfección con VHD puede agravar una infección por Hepatitis B y acelerar la progresión a cirrosis. La prevención de la Hepatitis D se logra mediante la vacunación contra la Hepatitis B." },
+                    { icon: 'E', title: "Hepatitis E (VHE)", content: "Similar a la Hepatitis A, el VHE suele ser una infección aguda que se transmite a través de agua contaminada. Sin embargo, puede volverse crónica en personas con sistemas inmunitarios debilitados. Representa un riesgo particularmente alto de insuficiencia hepática para las mujeres embarazadas." }
+                ]
+            },
+            comparison: {
+                title: "Hepatitis B vs. Hepatitis C de un Vistazo",
+                feature: "Característica",
+                hepb: "Hepatitis B",
+                hepc: "Hepatitis C",
+                transmission: "Transmisión",
+                transmissionText: "Sangre, semen, otros fluidos",
+                transmissionTextC: "Principalmente sangre a sangre",
+                chronicRisk: "Riesgo de Infección Crónica",
+                chronicRiskText: "Alto en bebés, bajo en adultos",
+                chronicRiskTextC: "Alto para todas las edades",
+                vaccine: "¿Vacuna Disponible?",
+                vaccineText: "Sí, muy eficaz",
+                vaccineTextC: "No",
+                cure: "¿Curable (Forma Crónica)?",
+                cureText: "No, pero se puede suprimir",
+                cureTextC: "Sí, con medicación oral"
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de los Centros para el Control y la Prevención de Enfermedades de EE. UU. (CDC). Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica. <a href="https://www.cdc.gov/hepatitis/index.html" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderHepB(lang);
+        renderHepC(lang);
+        renderOtherHep(lang);
+        renderComparison(lang);
+    }
+
+    function renderHepB(lang) {
+        const t = translations[lang].hepb;
+        const section = document.getElementById('hepb-section');
+        section.innerHTML = `
+            <div class="p-4 bg-blue-100 rounded-t-xl">
+                <h2 class="text-2xl font-bold text-blue-800">${t.title}</h2>
+            </div>
+            <div class="p-6">
+                <p class="mb-6 text-gray-600">${t.intro}</p>
+                <div class="space-y-4">
+                    ${t.accordion.map(item => `
+                        <div class="accordion-item bg-gray-50 rounded-lg">
+                            <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                                <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                                <span class="transform transition-transform duration-300">&#9662;</span>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        setupAccordions('#hepb-section');
+    }
+
+    function renderHepC(lang) {
+        const t = translations[lang].hepc;
+        const section = document.getElementById('hepc-section');
+        section.innerHTML = `
+            <div class="p-4 bg-teal-100 rounded-t-xl">
+                <h2 class="text-2xl font-bold text-teal-800">${t.title}</h2>
+            </div>
+            <div class="p-6">
+                <p class="mb-6 text-gray-600">${t.intro}</p>
+                <div class="space-y-4">
+                    ${t.accordion.map(item => `
+                        <div class="accordion-item bg-gray-50 rounded-lg">
+                            <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                                <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                                <span class="transform transition-transform duration-300">&#9662;</span>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        setupAccordions('#hepc-section');
+    }
+
+    function renderOtherHep(lang) {
+        const t = translations[lang].otherHep;
+        const section = document.getElementById('other-hep-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-6">${t.title}</h2>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.accordion.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl font-bold text-gray-500 mr-4 w-8 text-center">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-16 text-gray-600">${item.content}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions('#other-hep-section');
+    }
+
+    function setupAccordions(selector) {
+        const accordionItems = document.querySelectorAll(`${selector} .accordion-item`);
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('span:last-child');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function renderComparison(lang) {
+        const t = translations[lang].comparison;
+        const section = document.getElementById('comparison-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-6">${t.title}</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full max-w-2xl mx-auto text-left">
+                    <thead>
+                        <tr class="border-b-2 border-gray-300 bg-gray-50">
+                            <th class="p-3 font-bold">${t.feature}</th>
+                            <th class="p-3 font-bold">${t.hepb}</th>
+                            <th class="p-3 font-bold">${t.hepc}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-3 font-semibold">${t.transmission}</td>
+                            <td class="p-3">${t.transmissionText}</td>
+                            <td class="p-3">${t.transmissionTextC}</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-gray-50">
+                            <td class="p-3 font-semibold">${t.chronicRisk}</td>
+                            <td class="p-3">${t.chronicRiskText}</td>
+                            <td class="p-3">${t.chronicRiskTextC}</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-3 font-semibold">${t.vaccine}</td>
+                            <td class="p-3 text-green-700 font-bold">${t.vaccineText}</td>
+                            <td class="p-3 text-red-700 font-bold">${t.vaccineTextC}</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="p-3 font-semibold">${t.cure}</td>
+                            <td class="p-3">${t.cureText}</td>
+                            <td class="p-3 text-green-700 font-bold">${t.cureTextC}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

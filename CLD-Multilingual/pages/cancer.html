@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Liver Cancer (HCC)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="risk-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Risk Factors section content will be injected here -->
+        </div>
+
+        <div id="symptoms-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Symptoms section content will be injected here -->
+        </div>
+
+        <div id="diagnosis-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <!-- Diagnosis section content will be injected here -->
+        </div>
+
+        <div id="staging-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Staging section content will be injected here -->
+        </div>
+
+        <div id="treatment-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+             <!-- Treatment section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "A Patient's Guide to Liver Cancer (HCC)",
+            mainIntro: "Primary liver cancer, most commonly Hepatocellular Carcinoma (HCC), is a serious complication of chronic liver disease. It develops when the constant cycle of damage and repair in a diseased liver leads to the growth of cancerous cells. Understanding the risks, the importance of screening, and the available treatments is key to managing this condition.",
+            risk: {
+                title: "Risk Factors and the Cirrhosis Connection",
+                intro: "The single greatest risk factor for developing HCC is cirrhosis. The chronic inflammation and scarring from any cause create an environment where cancer is much more likely to develop. Key causes of cirrhosis that increase HCC risk include:",
+                items: [
+                    { icon: '🦠', title: "Chronic Viral Hepatitis", text: "Long-term infection with Hepatitis B or C is a leading cause of HCC worldwide." },
+                    { icon: '🍺', title: "Alcohol-Associated Liver Disease", text: "Years of heavy alcohol use leading to cirrhosis significantly increases risk." },
+                    { icon: '⚖️', title: "MASLD and MASH", text: "The inflammation from MASH is an increasingly common pathway to cirrhosis and subsequent liver cancer." }
+                ]
+            },
+            symptoms: {
+                title: "Symptoms of Liver Cancer",
+                intro: "Like many other forms of chronic liver disease, early-stage liver cancer often causes no symptoms. This is why regular screening is so critical. When symptoms do appear, it often indicates the tumor has grown larger. These can include:",
+                items: [
+                    "Unexplained weight loss",
+                    "Loss of appetite or feeling very full after a small meal",
+                    "Pain in the upper abdomen or on the right side",
+                    "A hard lump under the ribs on the right side",
+                    "Worsening of cirrhosis symptoms, like increased jaundice or ascites"
+                ]
+            },
+            diagnosis: {
+                title: "Diagnosis and Screening",
+                intro: "The goal of liver cancer management is to find tumors when they are small and treatable. This is achieved through regular screening for all patients with cirrhosis.",
+                accordion: [
+                    { icon: '🗓️', title: "Screening (Surveillance)", content: "If you have cirrhosis, you should be enrolled in a screening program. This involves getting an abdominal ultrasound every 6 months to look for any suspicious spots on your liver. Sometimes a blood test for a tumor marker called alpha-fetoprotein (AFP) is also used." },
+                    { icon: '🖥️', title: "Diagnostic Imaging", content: "If an ultrasound finds a suspicious nodule, a more detailed imaging test like a CT scan or MRI with contrast dye is performed. For liver cancer, the appearance on these scans is often so characteristic that a biopsy is not needed to confirm the diagnosis." },
+                    { icon: '🔬', title: "Biopsy", content: "A biopsy, where a small piece of the tumor is removed with a needle, is only performed if the imaging results are not 100% clear. It is used to definitively confirm the presence of cancer cells." }
+                ]
+            },
+            staging: {
+                title: "Understanding Staging",
+                intro: "After diagnosis, doctors 'stage' the cancer to determine its extent and choose the best treatment plan. Staging for HCC is complex, but can be simplified into three main groups based on tumor size, liver function, and your overall health:",
+                items: [
+                    { stage: "Early Stage", desc: "Small tumor(s) are found, and liver function is still good. The goal is a cure." },
+                    { stage: "Intermediate Stage", desc: "Tumors are larger or more numerous, but still confined to the liver. The goal is to control the cancer." },
+                    { stage: "Advanced Stage", desc: "The cancer has spread outside the liver or into major blood vessels. The goal is to prolong life and manage symptoms." }
+                ]
+            },
+            treatment: {
+                title: "Treatment Options for Liver Cancer",
+                intro: "Treatment for HCC is complex and depends on the size and number of tumors, the health of the remaining liver (i.e., the severity of the cirrhosis), and the patient's overall health. Treatments are often categorized by their goal: curative or palliative.",
+                accordion: [
+                    { icon: '✅', title: "Curative Treatments (For Early-Stage Cancer)", content: "These treatments aim to completely remove or destroy the cancer. They are only possible when the cancer is found early and liver function is still reasonably good. Options include: <br><strong>- Surgical Resection:</strong> Removing the part of the liver containing the tumor. <br><strong>- Liver Transplant:</strong> Replacing the entire diseased liver with a healthy one. This is the best option as it treats both the cancer and the underlying cirrhosis. <br><strong>- Ablation:</strong> Destroying the tumor with heat (radiofrequency ablation) or cold (cryoablation) delivered through a needle." },
+                    { icon: '🎯', title: "Palliative Treatments (To Control Cancer)", content: "When the cancer is more advanced or liver function is poor, the goal is to control the cancer's growth, prolong life, and manage symptoms. These are not cures. Options include: <br><strong>- Transarterial Chemoembolization (TACE):</strong> Injecting chemotherapy directly into the tumor's blood supply to kill cancer cells and cut off their circulation. <br><strong>- Radiation Therapy:</strong> Using high-energy beams to target and destroy cancer cells. <br><strong>- Targeted Therapy & Immunotherapy:</strong> Newer systemic drugs (pills or IV infusions) that target specific pathways in cancer cells or help the body's own immune system fight the cancer. These are the standard of care for advanced HCC." }
+                ]
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by the <a href="https://www.cancer.org/cancer/types/liver-cancer.html" target="_blank" rel="noopener noreferrer" class="text-link">American Cancer Society</a> and the <a href="https://www.cancer.gov/types/liver" target="_blank" rel="noopener noreferrer" class="text-link">National Cancer Institute</a>. Always seek the advice of your physician with any questions regarding a medical condition.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Guía del Paciente sobre el Cáncer de Hígado (CHC)",
+            mainIntro: "El cáncer primario de hígado, más comúnmente el Carcinoma Hepatocelular (CHC), es una complicación grave de la enfermedad hepática crónica. Se desarrolla cuando el ciclo constante de daño y reparación en un hígado enfermo conduce al crecimiento de células cancerosas. Comprender los riesgos, la importancia de la detección y los tratamientos disponibles es clave para manejar esta condición.",
+            risk: {
+                title: "Factores de Riesgo y la Conexión con la Cirrosis",
+                intro: "El mayor factor de riesgo para desarrollar CHC es la cirrosis. La inflamación crónica y la cicatrización por cualquier causa crean un ambiente donde es mucho más probable que se desarrolle el cáncer. Las causas clave de la cirrosis que aumentan el riesgo de CHC incluyen:",
+                items: [
+                    { icon: '🦠', title: "Hepatitis Viral Crónica", text: "La infección a largo plazo con Hepatitis B o C es una de las principales causas de CHC en todo el mundo." },
+                    { icon: '🍺', title: "Enfermedad Hepática Asociada al Alcohol", text: "Años de consumo excesivo de alcohol que conducen a la cirrosis aumentan significativamente el riesgo." },
+                    { icon: '⚖️', title: "MASLD y MASH", text: "La inflamación de la MASH es una vía cada vez más común hacia la cirrosis y el subsiguiente cáncer de hígado." }
+                ]
+            },
+            symptoms: {
+                title: "Síntomas del Cáncer de Hígado",
+                intro: "Al igual que muchas otras formas de enfermedad hepática crónica, el cáncer de hígado en etapa temprana a menudo no causa síntomas. Por eso es tan fundamental la detección regular. Cuando aparecen los síntomas, a menudo indica que el tumor ha crecido. Estos pueden incluir:",
+                items: [
+                    "Pérdida de peso inexplicable",
+                    "Pérdida de apetito o sensación de saciedad después de una comida pequeña",
+                    "Dolor en la parte superior del abdomen o en el lado derecho",
+                    "Un bulto duro debajo de las costillas en el lado derecho",
+                    "Empeoramiento de los síntomas de la cirrosis, como aumento de la ictericia o ascitis"
+                ]
+            },
+            diagnosis: {
+                title: "Diagnóstico y Detección",
+                intro: "El objetivo del manejo del cáncer de hígado es encontrar tumores cuando son pequeños y tratables. Esto se logra mediante la detección regular para todos los pacientes con cirrosis.",
+                accordion: [
+                    { icon: '🗓️', title: "Detección (Vigilancia)", content: "Si tiene cirrosis, debe estar inscrito en un programa de detección. Esto implica realizarse una ecografía abdominal cada 6 meses para buscar cualquier punto sospechoso en su hígado. A veces también se utiliza un análisis de sangre para un marcador tumoral llamado alfafetoproteína (AFP)." },
+                    { icon: '🖥️', title: "Imágenes Diagnósticas", content: "Si una ecografía encuentra un nódulo sospechoso, se realiza una prueba de imagen más detallada como una tomografía computarizada (TC) o una resonancia magnética (RM) con contraste. Para el cáncer de hígado, la apariencia en estas exploraciones es a menudo tan característica que no se necesita una biopsia para confirmar el diagnóstico." },
+                    { icon: '🔬', title: "Biopsia", content: "Una biopsia, donde se extrae un pequeño trozo del tumor con una aguja, solo se realiza si los resultados de las imágenes no son 100% claros. Se utiliza para confirmar definitivamente la presencia de células cancerosas." }
+                ]
+            },
+            staging: {
+                title: "Entendiendo la Estadificación",
+                intro: "Después del diagnóstico, los médicos 'estadifican' el cáncer para determinar su extensión y elegir el mejor plan de tratamiento. La estadificación del CHC es compleja, pero se puede simplificar en tres grupos principales según el tamaño del tumor, la función hepática y su salud general:",
+                items: [
+                    { stage: "Etapa Temprana", desc: "Se encuentran tumores pequeños y la función hepática aún es buena. El objetivo es la cura." },
+                    { stage: "Etapa Intermedia", desc: "Los tumores son más grandes o numerosos, pero todavía están confinados al hígado. El objetivo es controlar el cáncer." },
+                    { stage: "Etapa Avanzada", desc: "El cáncer se ha extendido fuera del hígado o hacia los principales vasos sanguíneos. El objetivo es prolongar la vida y manejar los síntomas." }
+                ]
+            },
+            treatment: {
+                title: "Opciones de Tratamiento para el Cáncer de Hígado",
+                intro: "El tratamiento para el CHC es complejo y depende del tamaño y número de tumores, la salud del hígado restante (es decir, la gravedad de la cirrosis) y la salud general del paciente. Los tratamientos a menudo se clasifican por su objetivo: curativo o paliativo.",
+                accordion: [
+                    { icon: '✅', title: "Tratamientos Curativos (Para Cáncer en Etapa Temprana)", content: "Estos tratamientos tienen como objetivo eliminar o destruir por completo el cáncer. Solo son posibles cuando el cáncer se encuentra temprano y la función hepática todavía es razonablemente buena. Las opciones incluyen: <br><strong>- Resección Quirúrgica:</strong> Extirpar la parte del hígado que contiene el tumor. <br><strong>- Trasplante de Hígado:</strong> Reemplazar todo el hígado enfermo por uno sano. Esta es la mejor opción ya que trata tanto el cáncer como la cirrosis subyacente. <br><strong>- Ablación:</strong> Destruir el tumor con calor (ablación por radiofrecuencia) o frío (crioablación) administrado a través de una aguja." },
+                    { icon: '🎯', title: "Tratamientos Paliativos (Para Controlar el Cáncer)", content: "Cuando el cáncer está más avanzado o la función hepática es deficiente, el objetivo es controlar el crecimiento del cáncer, prolongar la vida y manejar los síntomas. No son curas. Las opciones incluyen: <br><strong>- Quimioembolización Transarterial (TACE):</strong> Inyectar quimioterapia directamente en el suministro de sangre del tumor para matar las células cancerosas y cortar su circulación. <br><strong>- Radioterapia:</strong> Usar haces de alta energía para apuntar y destruir las células cancerosas. <br><strong>- Terapia Dirigida e Inmunoterapia:</strong> Fármacos sistémicos más nuevos (píldoras o infusiones intravenosas) que se dirigen a vías específicas en las células cancerosas o ayudan al propio sistema inmunológico del cuerpo a combatir el cáncer. Estos son el estándar de atención para el CHC avanzado." }
+                ]
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de la <a href="https://www.cancer.org/cancer/types/liver-cancer.html" target="_blank" rel="noopener noreferrer" class="text-link">Sociedad Americana contra el Cáncer</a> y el <a href="https://www.cancer.gov/types/liver" target="_blank" rel="noopener noreferrer" class="text-link">Instituto Nacional del Cáncer</a>. Siempre busque el consejo de su médico si tiene preguntas sobre una condición médica.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderRiskSection(lang);
+        renderSymptomsSection(lang);
+        renderDiagnosisSection(lang);
+        renderStagingSection(lang);
+        renderTreatmentSection(lang);
+    }
+
+    function renderRiskSection(lang) {
+        const t = translations[lang].risk;
+        const section = document.getElementById('risk-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                ${t.items.map(item => `
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <p class="text-5xl mb-3">${item.icon}</p>
+                        <h3 class="font-bold text-lg mb-2">${item.title}</h3>
+                        <p class="text-sm text-gray-600">${item.text}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderSymptomsSection(lang) {
+        const t = translations[lang].symptoms;
+        const section = document.getElementById('symptoms-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-6">${t.intro}</p>
+            <div class="max-w-2xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-6 rounded-r-lg">
+                <ul class="list-disc list-inside space-y-2">
+                    ${t.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function renderDiagnosisSection(lang) {
+        const t = translations[lang].diagnosis;
+        const section = document.getElementById('diagnosis-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.accordion.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions('#diagnosis-section');
+    }
+
+    function renderStagingSection(lang) {
+        const t = translations[lang].staging;
+        const section = document.getElementById('staging-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                ${t.items.map(item => `
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2">${item.stage}</h3>
+                        <p class="text-sm text-gray-600">${item.desc}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderTreatmentSection(lang) {
+        const t = translations[lang].treatment;
+        const section = document.getElementById('treatment-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                ${t.accordion.map(item => `
+                    <div class="accordion-item bg-gray-50 rounded-lg">
+                        <button class="accordion-header w-full text-left p-4 font-semibold flex justify-between items-center">
+                            <span class="flex items-center"><span class="text-2xl mr-4">${item.icon}</span><span>${item.title}</span></span>
+                            <span class="transform transition-transform duration-300">&#9662;</span>
+                        </button>
+                        <div class="accordion-content"><div class="px-4 pb-4 pl-12 text-gray-600">${item.content}</div></div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        setupAccordions('#treatment-section');
+    }
+
+    function setupAccordions(selector) {
+        const accordionItems = document.querySelectorAll(`${selector} .accordion-item`);
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('span:last-child');
+            
+            header.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                if (isOpen) {
+                    content.style.maxHeight = null;
+                    icon.innerHTML = '&#9662;';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = '&#9652;';
+                }
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>

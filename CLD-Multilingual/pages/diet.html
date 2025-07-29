@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Diet for Cirrhosis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #5E503F;
+        }
+        .lang-btn.active {
+            background-color: #5E503F;
+            color: white;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #A9C5C5 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #5E503F !important;
+        }
+        .text-link {
+            color: #6a8b8b;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .text-link:hover {
+            color: #5E503F;
+        }
+        .tab-button.active {
+            border-color: #A9C5C5;
+            background-color: #A9C5C5;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="../landing.html" class="flex items-center text-sm font-semibold text-link hover:text-[#5E503F]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span data-translate="backLink">Back to Main Guide</span>
+                </a>
+                <div class="flex items-center">
+                     <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" title="More Languages" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-link">Back</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" data-translate="mainTitle"></h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600" data-translate="mainIntro"></p>
+        </div>
+
+        <div id="goals-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+            <!-- Goals section content will be injected here -->
+        </div>
+
+        <div id="plate-section" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+             <h2 class="text-2xl font-bold text-center mb-8" data-translate="plateTitle"></h2>
+             <div class="max-w-4xl mx-auto">
+                <div class="border-b border-gray-200 mb-6">
+                    <nav id="plate-tabs" class="-mb-px flex justify-center space-x-2 md:space-x-4" aria-label="Tabs">
+                        <!-- Tabs will be injected here -->
+                    </nav>
+                </div>
+                <div id="plate-content" class="min-h-[300px]">
+                    <!-- Tab content will be injected here -->
+                </div>
+             </div>
+        </div>
+
+        <div id="safety-section" class="bg-red-50 border-l-4 border-red-500 text-red-800 p-6 rounded-r-lg">
+             <!-- Safety section content will be injected here -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#EAE7DC] mt-12">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[#5E503F]">
+            <p id="footer-disclaimer"></p>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const translations = {
+        en: {
+            backLink: "Back to Main Guide",
+            mainTitle: "Eating Well with Cirrhosis",
+            mainIntro: "When you have cirrhosis, your liver's ability to process nutrients, filter toxins, and produce essential proteins is impaired. A proper diet is not just about general health—it's a critical part of managing your condition, preventing complications, and improving your quality of life.",
+            goals: {
+                title: "The Main Goals of a Cirrhosis Diet",
+                intro: "Your diet should focus on three key objectives:",
+                items: [
+                    { icon: '💪', title: "Prevent Malnutrition", text: "People with cirrhosis are often malnourished and lose muscle mass. Getting enough calories and protein is essential to fight this." },
+                    { icon: '🧂', title: "Limit Sodium (Salt)", text: "This is the most important rule to prevent fluid buildup in your abdomen (ascites) and legs (edema). The target is less than 2,000 mg of sodium per day." },
+                    { icon: '🧠', title: "Provide Stable Energy", text: "A damaged liver can't store energy well. Eating regular meals and snacks, including one before bed, helps prevent your body from breaking down muscle for fuel." }
+                ]
+            },
+            plateTitle: "Building Your Plate: Do's and Don'ts",
+            plateTabs: {
+                protein: "Protein",
+                sodium: "Sodium",
+                fruitsVeggies: "Fruits & Veggies",
+                fluids: "Fluids & Drinks"
+            },
+            plateContent: {
+                protein: {
+                    title: "Focus on Lean and Plant-Based Protein",
+                    eat: "Eat This:",
+                    eatItems: ["Skinless poultry (chicken, turkey)", "Fish (especially those rich in omega-3s like salmon)", "Eggs and egg whites", "Low-fat dairy (Greek yogurt, cottage cheese)", "Plant-based proteins (beans, lentils, tofu)"],
+                    limit: "Limit This:",
+                    limitItems: ["Red meat (beef, pork)", "Processed meats (bacon, sausage, deli meats)", "Full-fat cheeses and dairy products"]
+                },
+                sodium: {
+                    title: "Be a Detective: Find and Eliminate High-Sodium Foods",
+                    eat: "Flavor With This:",
+                    eatItems: ["Herbs and spices (garlic powder, onion powder, oregano, etc.)", "Vinegar and citrus juices (lemon, lime)", "Salt-free seasoning blends", "Fresh, whole foods you cook yourself"],
+                    limit: "Avoid This:",
+                    limitItems: ["Table salt", "Canned soups, vegetables, and meals", "Frozen dinners", "Processed snacks (chips, pretzels)", "Fast food and restaurant meals (often very high in salt)"]
+                },
+                fruitsVeggies: {
+                    title: "Fill Up on Fruits and Vegetables",
+                    eat: "Eat Plenty Of:",
+                    eatItems: ["Fresh fruits and vegetables of all kinds", "Frozen vegetables (without added salt or sauces)", "Low-sodium canned vegetables (rinsed well)", "Antioxidant-rich choices like berries, grapes, and leafy greens"],
+                    limit: "Be Mindful Of:",
+                    limitItems: ["Canned vegetables with added salt", "Vegetable juices (can be high in sodium)", "Pickled vegetables (pickles, olives, sauerkraut)"]
+                },
+                fluids: {
+                    title: "Stay Hydrated Wisely",
+                    eat: "Drink This:",
+                    eatItems: ["Water, sparkling water, or seltzer", "Milk and fortified milk alternatives", "Unsweetened tea and coffee in moderation", "Nutritional supplement drinks (if recommended by your doctor)"],
+                    limit: "Avoid This:",
+                    limitItems: ["<strong>ALL ALCOHOL.</strong> No amount is safe with cirrhosis.", "Sugary drinks like soda and juice", "Energy drinks"]
+                }
+            },
+            safety: {
+                title: "Crucial Note on Food Safety",
+                text: "Cirrhosis weakens your immune system, making you more vulnerable to foodborne illnesses. To protect yourself, you must avoid all raw or undercooked seafood (like oysters and sushi), meat, and eggs. Ensure all foods are cooked to the proper temperature."
+            },
+            footerDisclaimer: `This website is for educational purposes only and is not a substitute for professional medical advice. Content is adapted from materials by Verywell Health. Always seek the advice of your physician or a registered dietitian with any questions regarding your specific dietary needs. <a href="https://www.verywellhealth.com/what-is-the-best-diet-for-cirrhosis-1760062" target="_blank" rel="noopener noreferrer" class="text-link">View Original Source</a>.`
+        },
+        es: {
+            backLink: "Volver a la Guía Principal",
+            mainTitle: "Comer Bien con Cirrosis",
+            mainIntro: "Cuando tiene cirrosis, la capacidad de su hígado para procesar nutrientes, filtrar toxinas y producir proteínas esenciales se ve afectada. Una dieta adecuada no se trata solo de salud general, es una parte fundamental del manejo de su condición, la prevención de complicaciones y la mejora de su calidad de vida.",
+            goals: {
+                title: "Los Objetivos Principales de una Dieta para la Cirrosis",
+                intro: "Su dieta debe centrarse en tres objetivos clave:",
+                items: [
+                    { icon: '💪', title: "Prevenir la Desnutrición", text: "Las personas con cirrosis a menudo están desnutridas y pierden masa muscular. Obtener suficientes calorías y proteínas es esencial para combatir esto." },
+                    { icon: '🧂', title: "Limitar el Sodio (Sal)", text: "Esta es la regla más importante para prevenir la acumulación de líquido en el abdomen (ascitis) y las piernas (edema). El objetivo es menos de 2,000 mg de sodio por día." },
+                    { icon: '🧠', title: "Proporcionar Energía Estable", text: "Un hígado dañado no puede almacenar bien la energía. Comer comidas y refrigerios regulares, incluido uno antes de acostarse, ayuda a evitar que su cuerpo descomponga los músculos para obtener combustible." }
+                ]
+            },
+            plateTitle: "Construyendo su Plato: Qué Hacer y Qué No Hacer",
+            plateTabs: {
+                protein: "Proteína",
+                sodium: "Sodio",
+                fruitsVeggies: "Frutas y Verduras",
+                fluids: "Líquidos y Bebidas"
+            },
+            plateContent: {
+                protein: {
+                    title: "Enfóquese en Proteínas Magras y de Origen Vegetal",
+                    eat: "Coma Esto:",
+                    eatItems: ["Aves sin piel (pollo, pavo)", "Pescado (especialmente ricos en omega-3 como el salmón)", "Huevos y claras de huevo", "Lácteos bajos en grasa (yogur griego, requesón)", "Proteínas de origen vegetal (frijoles, lentejas, tofu)"],
+                    limit: "Limite Esto:",
+                    limitItems: ["Carne roja (res, cerdo)", "Carnes procesadas (tocino, salchichas, embutidos)", "Quesos y productos lácteos enteros"]
+                },
+                sodium: {
+                    title: "Sea un Detective: Encuentre y Elimine Alimentos Altos en Sodio",
+                    eat: "Sazone Con Esto:",
+                    eatItems: ["Hierbas y especias (ajo en polvo, cebolla en polvo, orégano, etc.)", "Vinagre y jugos cítricos (limón, lima)", "Mezclas de condimentos sin sal", "Alimentos frescos e integrales que cocine usted mismo"],
+                    limit: "Evite Esto:",
+                    limitItems: ["Sal de mesa", "Sopas, verduras y comidas enlatadas", "Cenas congeladas", "Bocadillos procesados (papas fritas, pretzels)", "Comida rápida y comidas de restaurante (a menudo muy altas en sal)"]
+                },
+                fruitsVeggies: {
+                    title: "Llénese de Frutas y Verduras",
+                    eat: "Coma en Abundancia:",
+                    eatItems: ["Frutas y verduras frescas de todo tipo", "Verduras congeladas (sin sal ni salsas añadidas)", "Verduras enlatadas bajas en sodio (bien enjuagadas)", "Opciones ricas en antioxidantes como bayas, uvas y verduras de hoja verde"],
+                    limit: "Tenga Cuidado Con:",
+                    limitItems: ["Verduras enlatadas con sal añadida", "Jugos de verduras (pueden ser altos en sodio)", "Verduras en escabeche (pepinillos, aceitunas, chucrut)"]
+                },
+                fluids: {
+                    title: "Manténgase Hidratado Sabiamente",
+                    eat: "Beba Esto:",
+                    eatItems: ["Agua, agua con gas o seltzer", "Leche y alternativas de leche fortificadas", "Té y café sin azúcar con moderación", "Bebidas de suplementos nutricionales (si lo recomienda su médico)"],
+                    limit: "Evite Esto:",
+                    limitItems: ["<strong>TODO EL ALCOHOL.</strong> Ninguna cantidad es segura con cirrosis.", "Bebidas azucaradas como refrescos y jugos", "Bebidas energéticas"]
+                }
+            },
+            safety: {
+                title: "Nota Crucial sobre la Seguridad Alimentaria",
+                text: "La cirrosis debilita su sistema inmunológico, haciéndolo más vulnerable a las enfermedades transmitidas por los alimentos. Para protegerse, debe evitar todos los mariscos (como ostras y sushi), carnes y huevos crudos o poco cocidos. Asegúrese de que todos los alimentos se cocinen a la temperatura adecuada."
+            },
+            footerDisclaimer: `Este sitio web es solo para fines educativos y no sustituye el consejo médico profesional. El contenido está adaptado de materiales de Verywell Health. Siempre busque el consejo de su médico o un dietista registrado si tiene preguntas sobre sus necesidades dietéticas específicas. <a href="https://www.verywellhealth.com/what-is-the-best-diet-for-cirrhosis-1760062" target="_blank" rel="noopener noreferrer" class="text-link">Ver Fuente Original</a>.`
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderPage(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.getElementById('footer-disclaimer').innerHTML = t.footerDisclaimer;
+
+        renderGoals(lang);
+        renderPlate(lang);
+        renderSafety(lang);
+    }
+
+    function renderGoals(lang) {
+        const t = translations[lang].goals;
+        const section = document.getElementById('goals-section');
+        section.innerHTML = `
+            <h2 class="text-2xl font-bold text-center mb-2">${t.title}</h2>
+            <p class="text-center text-gray-600 mb-8">${t.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                ${t.items.map(item => `
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <p class="text-5xl mb-3">${item.icon}</p>
+                        <h3 class="font-bold text-lg mb-2">${item.title}</h3>
+                        <p class="text-sm text-gray-600">${item.text}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderPlate(lang) {
+        const t = translations[lang];
+        const tabsContainer = document.getElementById('plate-tabs');
+        tabsContainer.innerHTML = Object.keys(t.plateTabs).map(key => `
+            <button class="tab-button py-3 px-2 md:px-4 border-b-2 font-semibold text-gray-600 border-transparent text-sm md:text-base" data-tab="${key}">${t.plateTabs[key]}</button>
+        `).join('');
+        initPlateInteraction(lang);
+    }
+
+    function initPlateInteraction(lang) {
+        const t = translations[lang].plateContent;
+        const tabs = document.querySelectorAll('#plate-tabs .tab-button');
+        const contentContainer = document.getElementById('plate-content');
+
+        function updateContent(tabKey) {
+            const content = t[tabKey];
+            contentContainer.innerHTML = `
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-center mb-6">${content.title}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">${content.eat}</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm">
+                                ${content.eatItems.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-red-800 mb-2">${content.limit}</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm">
+                                ${content.limitItems.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.tab === tabKey));
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => updateContent(tab.dataset.tab));
+        });
+
+        updateContent('protein');
+    }
+
+    function renderSafety(lang) {
+        const t = translations[lang].safety;
+        const section = document.getElementById('safety-section');
+        section.innerHTML = `
+            <h3 class="font-bold text-xl mb-2">${t.title}</h3>
+            <p>${t.text}</p>
+        `;
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        renderPage(lang);
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) *googtrans=([^;]*)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        changeLanguage(currentLanguage);
+        location.reload();
+    });
+
+    renderPage('en');
+});
+</script>
+
+</body>
+</html>
