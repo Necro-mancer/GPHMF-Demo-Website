@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Surgical Options for Arthritis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/health-wellness/treatment/joint-surgery/safety-and-risks/understand-your-joint-surgery-options" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://orthoinfo.aaos.org/en/treatment/total-joint-replacement/" target="_blank" class="text-sky-600 hover:underline">American Academy of Orthopaedic Surgeons</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "A Guide to Surgical Options for Arthritis",
+                main_subtitle: "Understanding when surgery is needed and what the procedures involve.",
+                back_button: "Back",
+                
+                when_title: "When is Surgery Considered?",
+                when_intro: "The decision to have surgery is a significant one, made in partnership between you and your orthopedic surgeon. It is typically considered only after all conservative, non-surgical treatments have failed to provide adequate relief.",
+                when_step1_title: "Severe, Daily Pain",
+                when_step1_desc: "The pain is no longer managed by medication, limits your daily activities (like walking, climbing stairs, or sleeping), and is present even at rest.",
+                when_step2_title: "Significant Loss of Function",
+                when_step2_desc: "The arthritis has progressed to the point where you have significant stiffness and a loss of mobility that prevents you from performing essential daily tasks.",
+                when_step3_title: "Failure of Conservative Care",
+                when_step3_desc: "You have already tried and failed to get relief from a comprehensive non-surgical plan, which includes physical therapy, weight management, NSAIDs, and joint injections.",
+                when_step4_title: "Advanced Joint Damage",
+                when_step4_desc: "X-rays show advanced changes, such as 'bone-on-bone' contact, where the protective cartilage has been completely worn away.",
+
+                procedures_title: "Common Surgical Procedures for Arthritis",
+                procedures_intro: "Different types of surgery are available depending on the joint affected, the type of arthritis, and the extent of the damage.",
+                proc_tjr_name: "Total Joint Replacement (Arthroplasty)",
+                proc_tjr_desc: "This is the most common and successful surgery for advanced arthritis. The surgeon removes the damaged cartilage and bone surfaces and replaces them with a highly durable artificial joint (prosthesis) made of metal and plastic. The primary goal is to relieve pain and restore function. Hips and knees are the most commonly replaced joints.",
+                proc_pjr_name: "Partial Joint Replacement",
+                proc_pjr_desc: "In some cases, particularly in the knee, if the damage is confined to only one compartment of the joint, it may be possible to replace only the damaged part. This is a less invasive procedure with a potentially faster recovery than a total joint replacement.",
+                proc_fusion_name: "Joint Fusion (Arthrodesis)",
+                proc_fusion_desc: "In this procedure, the surgeon removes the damaged cartilage and then uses pins, plates, or screws to permanently fuse the two bones of the joint together. This eliminates the joint and all movement, but it also provides significant pain relief. It is most often used for smaller joints like those in the ankle, wrist, fingers, or spine.",
+                proc_osteotomy_name: "Osteotomy",
+                proc_osteotomy_desc: "This procedure involves cutting and reshaping one of the bones to realign the joint. The goal is to shift the body's weight from the damaged, worn-out part of the joint to a healthier, less-damaged area. It is most commonly performed on the knee in younger, more active patients to delay the need for a total joint replacement.",
+                proc_synovectomy_name: "Synovectomy",
+                proc_synovectomy_desc: "This procedure is used for inflammatory arthritis like RA. The surgeon removes the inflamed joint lining (synovium) to reduce pain and swelling and slow down joint damage. It can be performed as an open surgery or arthroscopically (using small incisions and a camera).",
+
+                prep_title: "Preparing for a Successful Surgery",
+                prep_intro: "Preparation is key to a smooth surgery and a successful recovery. Your healthcare team will guide you, but there are several things you can do to get ready.",
+                prep_card1_title: "Medical Optimization",
+                prep_card1_desc: "Work with your primary care doctor to get any other health conditions, like diabetes or high blood pressure, under the best possible control. You may also need to stop taking certain medications, like blood thinners, before surgery.",
+                prep_card2_title: "Pre-habilitation",
+                prep_card2_desc: "This means doing physical therapy *before* your surgery. Strengthening the muscles around the joint ahead of time can make your recovery after surgery much faster and easier. The stronger you are going in, the stronger you'll be coming out.",
+                prep_card3_title: "Home Preparation",
+                prep_card3_desc: "Make your home safe and easy to navigate for your recovery. This might include removing tripping hazards like rugs, setting up a temporary sleeping area on the main floor, and placing essential items within easy reach.",
+                prep_card4_title: "Arrange for Help",
+                prep_card4_desc: "You will need help for the first few days or weeks after you return home. Arrange for a family member or friend to assist with meals, errands, and personal care.",
+                
+                risks_title: "Understanding Risks and Complications",
+                risks_intro: "All surgeries carry some risk. Your surgeon will discuss these with you in detail, but it's important to be aware of the potential complications.",
+                risk_infection_title: "Infection",
+                risk_infection_desc: "Infection can occur at the incision site or deep within the new joint. While the risk is low (around 1%), it is a serious complication that may require further surgery to treat.",
+                risk_clots_title: "Blood Clots",
+                risk_clots_desc: "Surgery, especially on the lower body, increases the risk of blood clots forming in the leg veins (DVT). These can be dangerous if they travel to the lungs. You will likely be on blood thinners and use compression stockings after surgery to prevent this.",
+                risk_implant_title: "Implant Problems",
+                risk_implant_desc: "Over time, an artificial joint can wear out or loosen. Dislocation, where the ball of the joint comes out of the socket, can also occur, though it is uncommon with modern implants and techniques.",
+                risk_nerve_title: "Nerve or Blood Vessel Injury",
+                risk_nerve_desc: "It is possible, though rare, for nerves or blood vessels near the joint to be stretched or damaged during surgery, which can cause weakness or numbness.",
+
+                after_title: "Life After Joint Surgery",
+                after_intro: "Recovery is a process that requires patience and active participation. Your outcome depends heavily on the rehabilitation that follows the procedure.",
+                after_hospital_title: "In the Hospital",
+                after_hospital_desc: "You will likely be encouraged to get up and move within hours of your surgery. A physical therapist will teach you how to walk with an assistive device and begin gentle exercises.",
+                after_rehab_title: "Rehabilitation and PT",
+                after_rehab_desc: "This is the most critical phase. You will have a structured physical therapy program for several weeks to months to regain your strength, flexibility, and range of motion. Consistently doing your home exercises is essential for a great result.",
+                after_long_term_title: "Long-Term Outlook",
+                after_long_term_desc: "Modern joint replacements are very durable, often lasting 15-20 years or more. You will likely be able to return to most low-impact activities like walking, swimming, and golfing. High-impact activities like running are generally discouraged.",
+
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Guía de Opciones Quirúrgicas para la Artritis",
+                main_subtitle: "Comprendiendo cuándo es necesaria la cirugía y en qué consisten los procedimientos.",
+                back_button: "Volver",
+
+                when_title: "¿Cuándo se Considera la Cirugía?",
+                when_intro: "La decisión de someterse a una cirugía es importante y se toma en conjunto entre usted y su cirujano ortopédico. Generalmente se considera solo después de que todos los tratamientos conservadores y no quirúrgicos no han logrado proporcionar un alivio adecuado.",
+                when_step1_title: "Dolor Severo y Diario",
+                when_step1_desc: "El dolor ya no se controla con medicamentos, limita sus actividades diarias (como caminar, subir escaleras o dormir) y está presente incluso en reposo.",
+                when_step2_title: "Pérdida Significativa de la Función",
+                when_step2_desc: "La artritis ha progresado hasta el punto en que tiene una rigidez significativa y una pérdida de movilidad que le impide realizar las tareas diarias esenciales.",
+                when_step3_title: "Fracaso del Cuidado Conservador",
+                when_step3_desc: "Ya ha intentado y no ha logrado obtener alivio con un plan no quirúrgico completo, que incluye fisioterapia, control de peso, AINEs e inyecciones articulares.",
+                when_step4_title: "Daño Articular Avanzado",
+                when_step4_desc: "Las radiografías muestran cambios avanzados, como el contacto 'hueso con hueso', donde el cartílago protector se ha desgastado por completo.",
+
+                procedures_title: "Procedimientos Quirúrgicos Comunes para la Artritis",
+                procedures_intro: "Existen diferentes tipos de cirugía según la articulación afectada, el tipo de artritis y el grado del daño.",
+                proc_tjr_name: "Reemplazo Total de Articulación (Artroplastia)",
+                proc_tjr_desc: "Esta es la cirugía más común y exitosa para la artritis avanzada. El cirujano retira las superficies dañadas de cartílago y hueso y las reemplaza con una articulación artificial (prótesis) muy duradera de metal y plástico. El objetivo principal es aliviar el dolor y restaurar la función. Las caderas y las rodillas son las articulaciones que se reemplazan con más frecuencia.",
+                proc_pjr_name: "Reemplazo Parcial de Articulación",
+                proc_pjr_desc: "En algunos casos, particularmente en la rodilla, si el daño se limita a un solo compartimento de la articulación, es posible reemplazar solo la parte dañada. Este es un procedimiento menos invasivo con una recuperación potencialmente más rápida que un reemplazo total.",
+                proc_fusion_name: "Fusión Articular (Artrodesis)",
+                proc_fusion_desc: "En este procedimiento, el cirujano retira el cartílago dañado y luego utiliza clavos, placas o tornillos para fusionar permanentemente los dos huesos de la articulación. Esto elimina la articulación y todo movimiento, pero también proporciona un alivio significativo del dolor. Se utiliza con mayor frecuencia en articulaciones más pequeñas como las del tobillo, la muñeca, los dedos o la columna.",
+                proc_osteotomy_name: "Osteotomía",
+                proc_osteotomy_desc: "Este procedimiento implica cortar y remodelar uno de los huesos para realinear la articulación. El objetivo es desplazar el peso del cuerpo de la parte dañada y desgastada de la articulación a un área más sana y menos dañada. Se realiza más comúnmente en la rodilla en pacientes más jóvenes y activos para retrasar la necesidad de un reemplazo total de la articulación.",
+                proc_synovectomy_name: "Sinovectomía",
+                proc_synovectomy_desc: "Este procedimiento se utiliza para la artritis inflamatoria como la AR. El cirujano extirpa el revestimiento articular inflamado (sinovial) para reducir el dolor y la hinchazón y para frenar el daño articular. Se puede realizar como una cirugía abierta o artroscópicamente (usando pequeñas incisiones y una cámara).",
+
+                prep_title: "Preparándose para una Cirugía Exitosa",
+                prep_intro: "La preparación es clave para una cirugía sin contratiempos y una recuperación exitosa. Su equipo de atención médica lo guiará, pero hay varias cosas que puede hacer para prepararse.",
+                prep_card1_title: "Optimización Médica",
+                prep_card1_desc: "Trabaje con su médico de atención primaria para tener bajo el mejor control posible cualquier otra condición de salud, como la diabetes o la presión arterial alta. También es posible que deba dejar de tomar ciertos medicamentos, como los anticoagulantes, antes de la cirugía.",
+                prep_card2_title: "Pre-habilitación",
+                prep_card2_desc: "Esto significa hacer fisioterapia *antes* de su cirugía. Fortalecer los músculos alrededor de la articulación con anticipación puede hacer que su recuperación después de la cirugía sea mucho más rápida y fácil. Cuanto más fuerte entre, más fuerte saldrá.",
+                prep_card3_title: "Preparación del Hogar",
+                prep_card3_desc: "Haga que su hogar sea seguro y fácil de navegar para su recuperación. Esto podría incluir eliminar peligros de tropiezo como alfombras, establecer un área para dormir temporal en el piso principal y colocar los artículos esenciales al alcance de la mano.",
+                prep_card4_title: "Organice la Ayuda",
+                prep_card4_desc: "Necesitará ayuda durante los primeros días o semanas después de regresar a casa. Coordine con un familiar o amigo para que lo ayude con las comidas, los recados y el cuidado personal.",
+                
+                risks_title: "Comprendiendo los Riesgos y Complicaciones",
+                risks_intro: "Todas las cirugías conllevan algún riesgo. Su cirujano discutirá estos con usted en detalle, pero es importante estar al tanto de las posibles complicaciones.",
+                risk_infection_title: "Infección",
+                risk_infection_desc: "Puede ocurrir una infección en el sitio de la incisión o en la profundidad de la nueva articulación. Aunque el riesgo es bajo (alrededor del 1%), es una complicación grave que puede requerir más cirugía para tratarla.",
+                risk_clots_title: "Coágulos de Sangre",
+                risk_clots_desc: "La cirugía, especialmente en la parte inferior del cuerpo, aumenta el riesgo de que se formen coágulos de sangre en las venas de las piernas (TVP). Estos pueden ser peligrosos si viajan a los pulmones. Es probable que le receten anticoagulantes y use medias de compresión después de la cirugía para prevenir esto.",
+                risk_implant_title: "Problemas con el Implante",
+                risk_implant_desc: "Con el tiempo, una articulación artificial puede desgastarse o aflojarse. También puede ocurrir una luxación, donde la bola de la articulación se sale de su cavidad, aunque es poco común con los implantes y técnicas modernas.",
+                risk_nerve_title: "Lesión de Nervios o Vasos Sanguíneos",
+                risk_nerve_desc: "Es posible, aunque raro, que los nervios o los vasos sanguíneos cercanos a la articulación se estiren o dañen durante la cirugía, lo que puede causar debilidad o entumecimiento.",
+
+                after_title: "La Vida Después de la Cirugía Articular",
+                after_intro: "La recuperación es un proceso que requiere paciencia y participación activa. Su resultado depende en gran medida de la rehabilitación que sigue al procedimiento.",
+                after_hospital_title: "En el Hospital",
+                after_hospital_desc: "Es probable que lo animen a levantarse y moverse a las pocas horas de su cirugía. Un fisioterapeuta le enseñará a caminar con un dispositivo de asistencia y a comenzar ejercicios suaves.",
+                after_rehab_title: "Rehabilitación y Fisioterapia",
+                after_rehab_desc: "Esta es la fase más crítica. Tendrá un programa de fisioterapia estructurado durante varias semanas o meses para recuperar su fuerza, flexibilidad y rango de movimiento. Hacer sus ejercicios en casa de manera constante es esencial para un gran resultado.",
+                after_long_term_title: "Perspectiva a Largo Plazo",
+                after_long_term_desc: "Los reemplazos de articulaciones modernos son muy duraderos, a menudo duran 15-20 años o más. Es probable que pueda volver a la mayoría de las actividades de bajo impacto como caminar, nadar y jugar al golf. Generalmente se desaconsejan las actividades de alto impacto como correr.",
+
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const whenSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="when_title">${t.when_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="when_intro">${t.when_intro}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">1</div><div><h3 class="font-bold text-lg" data-translate="when_step1_title">${t.when_step1_title}</h3><p class="text-slate-600" data-translate="when_step1_desc">${t.when_step1_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">2</div><div><h3 class="font-bold text-lg" data-translate="when_step2_title">${t.when_step2_title}</h3><p class="text-slate-600" data-translate="when_step2_desc">${t.when_step2_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">3</div><div><h3 class="font-bold text-lg" data-translate="when_step3_title">${t.when_step3_title}</h3><p class="text-slate-600" data-translate="when_step3_desc">${t.when_step3_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">4</div><div><h3 class="font-bold text-lg" data-translate="when_step4_title">${t.when_step4_title}</h3><p class="text-slate-600" data-translate="when_step4_desc">${t.when_step4_desc}</p></div></div>
+                    </div>
+                </section>
+            `;
+
+            const proceduresSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center" data-translate="procedures_title">${t.procedures_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-center" data-translate="procedures_intro">${t.procedures_intro}</p>
+                    <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">🦾</span><span class="font-semibold text-slate-800" data-translate="proc_tjr_name">${t.proc_tjr_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="proc_tjr_desc">${t.proc_tjr_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">🧩</span><span class="font-semibold text-slate-800" data-translate="proc_pjr_name">${t.proc_pjr_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="proc_pjr_desc">${t.proc_pjr_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">🔩</span><span class="font-semibold text-slate-800" data-translate="proc_fusion_name">${t.proc_fusion_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="proc_fusion_desc">${t.proc_fusion_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">📐</span><span class="font-semibold text-slate-800" data-translate="proc_osteotomy_name">${t.proc_osteotomy_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="proc_osteotomy_desc">${t.proc_osteotomy_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">✂️</span><span class="font-semibold text-slate-800" data-translate="proc_synovectomy_name">${t.proc_synovectomy_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="proc_synovectomy_desc">${t.proc_synovectomy_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const prepSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center" data-translate="prep_title">${t.prep_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-center" data-translate="prep_intro">${t.prep_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🩺</span><span class="font-semibold text-slate-800" data-translate="prep_card1_title">${t.prep_card1_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card1_desc">${t.prep_card1_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-lime-100"><span class="flex items-center"><span class="text-2xl mr-3">💪</span><span class="font-semibold text-slate-800" data-translate="prep_card2_title">${t.prep_card2_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card2_desc">${t.prep_card2_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-orange-100"><span class="flex items-center"><span class="text-2xl mr-3">🏠</span><span class="font-semibold text-slate-800" data-translate="prep_card3_title">${t.prep_card3_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card3_desc">${t.prep_card3_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">🤝</span><span class="font-semibold text-slate-800" data-translate="prep_card4_title">${t.prep_card4_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card4_desc">${t.prep_card4_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+            
+            const risksSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center" data-translate="risks_title">${t.risks_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-center" data-translate="risks_intro">${t.risks_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🦠</span><span class="font-semibold text-slate-800" data-translate="risk_infection_title">${t.risk_infection_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="risk_infection_desc">${t.risk_infection_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🩸</span><span class="font-semibold text-slate-800" data-translate="risk_clots_title">${t.risk_clots_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="risk_clots_desc">${t.risk_clots_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">⚙️</span><span class="font-semibold text-slate-800" data-translate="risk_implant_title">${t.risk_implant_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="risk_implant_desc">${t.risk_implant_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">⚡</span><span class="font-semibold text-slate-800" data-translate="risk_nerve_title">${t.risk_nerve_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="risk_nerve_desc">${t.risk_nerve_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const afterSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center" data-translate="after_title">${t.after_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-center" data-translate="after_intro">${t.after_intro}</p>
+                    <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🏥</span><span class="font-semibold text-slate-800" data-translate="after_hospital_title">${t.after_hospital_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="after_hospital_desc">${t.after_hospital_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🏃‍♀️</span><span class="font-semibold text-slate-800" data-translate="after_rehab_title">${t.after_rehab_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="after_rehab_desc">${t.after_rehab_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🗓️</span><span class="font-semibold text-slate-800" data-translate="after_long_term_title">${t.after_long_term_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="after_long_term_desc">${t.after_long_term_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            mainContent.innerHTML = whenSection + proceduresSection + prepSection + risksSection + afterSection;
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>

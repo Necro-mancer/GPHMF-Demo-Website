@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Deeper Dive: Osteoarthritis (OA)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/diseases/osteoarthritis" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://www.mayoclinic.org/diseases-conditions/osteoarthritis/symptoms-causes/syc-20351925" target="_blank" class="text-sky-600 hover:underline">Mayo Clinic</a>
+                    <a href="https://www.cdc.gov/arthritis/osteoarthritis/index.html" target="_blank" class="text-sky-600 hover:underline">CDC</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "A Deeper Dive: Osteoarthritis",
+                main_subtitle: "Understanding the most common form of arthritis and how to manage it.",
+                back_button: "Back",
+                what_is_oa_title: "What is Osteoarthritis?",
+                what_is_oa_intro: "Osteoarthritis (OA) is the most common chronic joint condition. It was once thought of as simple 'wear and tear,' but it's now understood as a disease of the entire joint, involving the cartilage, joint lining, ligaments, and bone.",
+                what_is_oa_p1: "The process begins with the breakdown of cartilage, the smooth, rubbery tissue that cushions the ends of bones. As it wears away, the bones can begin to rub against each other, causing pain, swelling, and loss of motion. The body's faulty attempts to repair this damage can lead to bony growths called spurs and a low-grade inflammatory response.",
+                risk_factors_title: "Who is at Risk for Osteoarthritis?",
+                risk_factors_intro: "Several factors can increase your chances of developing OA. While some, like age and genetics, can't be changed, others can be managed to lower your risk.",
+                risk_factors_chart_label: "Relative Impact on Risk",
+                diagnosis_title: "How is Osteoarthritis Diagnosed?",
+                diagnosis_intro: "A diagnosis is typically made by combining your medical history, a physical exam, and imaging tests. It's a process of gathering clues to get a full picture of your joint health.",
+                diagnosis_step1_title: "Patient History & Symptom Review",
+                diagnosis_step1_desc: "Your doctor will ask detailed questions about your pain (when it occurs, what it feels like), stiffness (especially in the morning), and how symptoms affect your daily life. This is the most important first step.",
+                diagnosis_step2_title: "Physical Examination",
+                diagnosis_step2_desc: "The doctor will examine the affected joints, checking for tenderness, swelling, crepitus (a grating sound), and flexibility. They will assess your range of motion and muscle strength.",
+                diagnosis_step3_title: "Imaging Tests",
+                diagnosis_step3_desc: "X-rays are commonly used to confirm the diagnosis. They can show cartilage loss (seen as a narrowing of the space between bones), changes in the bone, and the presence of bone spurs.",
+                diagnosis_step4_title: "Lab Tests (To Rule Out Other Conditions)",
+                diagnosis_step4_desc: "While there's no blood test for OA, your doctor might order tests like a rheumatoid factor (RF) test to rule out other types of inflammatory arthritis.",
+                treatment_title: "Your Treatment Options for Osteoarthritis",
+                treatment_intro: "The goal of treatment is to reduce pain, improve function, and maintain a good quality of life. A comprehensive plan often involves multiple approaches tailored to your specific needs.",
+                treatment_exercise_title: "Exercise & Physical Activity",
+                treatment_exercise_desc: "Strengthening the muscles around the joint provides better support and reduces stress. Low-impact activities like swimming, cycling, and walking are ideal. A physical therapist can design a safe and effective program.",
+                treatment_weight_title: "Weight Management",
+                treatment_weight_desc: "Losing excess weight is one of the most effective ways to manage OA. Every pound of weight lost reduces the load on the knee joints by four pounds, significantly decreasing pain and slowing disease progression.",
+                treatment_meds_title: "Oral & Topical Medications",
+                treatment_meds_desc: "Over-the-counter pain relievers like acetaminophen and NSAIDs (ibuprofen, naproxen) can help. Your doctor may also recommend prescription-strength NSAIDs or topical creams and gels that are applied directly to the skin over the painful joint.",
+                treatment_injections_title: "Injections",
+                treatment_injections_desc: "Corticosteroid injections can provide powerful, short-term relief from inflammation and pain. Hyaluronic acid injections, sometimes called 'gel shots,' can provide lubrication and cushioning to the knee joint for some patients.",
+                treatment_therapy_title: "Therapy & Assistive Devices",
+                treatment_therapy_desc: "An occupational therapist can teach you ways to perform daily tasks without stressing your joints. They may recommend assistive devices like canes, walkers, or special tools to help with gripping and reaching.",
+                treatment_surgery_title: "Surgical Procedures",
+                treatment_surgery_desc: "If conservative treatments are no longer effective, surgery may be an option. The most common procedure is joint replacement (arthroplasty), where the damaged joint is replaced with a durable artificial one.",
+                living_with_oa_title: "Living Well with Osteoarthritis",
+                living_with_oa_intro: "Managing OA is a daily process. Incorporating these strategies can help you maintain an active and fulfilling life.",
+                living_joint_protection_title: "Joint Protection",
+                living_joint_protection_desc: "Be mindful of how you use your joints. Use larger, stronger joints to carry loads (e.g., use your shoulder to push open a door). Avoid tight grips and take regular breaks from activities that stress your joints.",
+                living_assistive_devices_title: "Using Assistive Devices",
+                living_assistive_devices_desc: "Using a cane, walker, or brace can improve stability and reduce the load on painful joints. Don't view them as a sign of weakness, but as a smart tool to maintain your mobility and independence.",
+                living_emotional_health_title: "Mental & Emotional Health",
+                living_emotional_health_desc: "Living with chronic pain can be challenging. It's important to acknowledge feelings of frustration or sadness. Techniques like mindfulness, meditation, and connecting with support groups can be very beneficial.",
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Un Vistazo Profundo: Osteoartritis",
+                main_subtitle: "Entendiendo la forma más común de artritis y cómo manejarla.",
+                back_button: "Volver",
+                what_is_oa_title: "¿Qué es la Osteoartritis?",
+                what_is_oa_intro: "La osteoartritis (OA) es la condición articular crónica más común. Antes se consideraba un simple 'desgaste por el uso', pero ahora se entiende como una enfermedad de toda la articulación, que involucra el cartílago, el revestimiento articular, los ligamentos y el hueso.",
+                what_is_oa_p1: "El proceso comienza con la degradación del cartílago, el tejido liso y elástico que amortigua los extremos de los huesos. A medida que se desgasta, los huesos pueden comenzar a rozarse entre sí, causando dolor, hinchazón y pérdida de movimiento. Los intentos fallidos del cuerpo por reparar este daño pueden llevar a crecimientos óseos llamados espolones y a una respuesta inflamatoria de bajo grado.",
+                risk_factors_title: "¿Quién está en Riesgo de Osteoartritis?",
+                risk_factors_intro: "Varios factores pueden aumentar sus probabilidades de desarrollar OA. Mientras que algunos, como la edad y la genética, no se pueden cambiar, otros se pueden manejar para reducir su riesgo.",
+                risk_factors_chart_label: "Impacto Relativo en el Riesgo",
+                diagnosis_title: "¿Cómo se Diagnostica la Osteoartritis?",
+                diagnosis_intro: "Un diagnóstico generalmente se realiza combinando su historial médico, un examen físico y pruebas de imagen. Es un proceso de recopilación de pistas para obtener una imagen completa de la salud de sus articulaciones.",
+                diagnosis_step1_title: "Historial del Paciente y Revisión de Síntomas",
+                diagnosis_step1_desc: "Su médico le hará preguntas detalladas sobre su dolor (cuándo ocurre, cómo se siente), rigidez (especialmente por la mañana) y cómo los síntomas afectan su vida diaria. Este es el primer paso más importante.",
+                diagnosis_step2_title: "Examen Físico",
+                diagnosis_step2_desc: "El médico examinará las articulaciones afectadas, buscando sensibilidad, hinchazón, crepitación (un sonido de rechinamiento) y flexibilidad. Evaluará su rango de movimiento y fuerza muscular.",
+                diagnosis_step3_title: "Pruebas de Imagen",
+                diagnosis_step3_desc: "Las radiografías se usan comúnmente para confirmar el diagnóstico. Pueden mostrar la pérdida de cartílago (vista como un estrechamiento del espacio entre los huesos), cambios en el hueso y la presencia de espolones óseos.",
+                diagnosis_step4_title: "Pruebas de Laboratorio (Para Descartar Otras Afecciones)",
+                diagnosis_step4_desc: "Aunque no hay un análisis de sangre para la OA, su médico podría ordenar pruebas como la del factor reumatoide (FR) para descartar otros tipos de artritis inflamatoria.",
+                treatment_title: "Sus Opciones de Tratamiento para la Osteoartritis",
+                treatment_intro: "El objetivo del tratamiento es reducir el dolor, mejorar la función y mantener una buena calidad de vida. Un plan integral a menudo involucra múltiples enfoques adaptados a sus necesidades específicas.",
+                treatment_exercise_title: "Ejercicio y Actividad Física",
+                treatment_exercise_desc: "Fortalecer los músculos alrededor de la articulación proporciona un mejor soporte y reduce la tensión. Las actividades de bajo impacto como nadar, andar en bicicleta y caminar son ideales. Un fisioterapeuta puede diseñar un programa seguro y efectivo.",
+                treatment_weight_title: "Control de Peso",
+                treatment_weight_desc: "Perder el exceso de peso es una de las formas más efectivas de manejar la OA. Cada libra de peso perdida reduce la carga en las articulaciones de la rodilla en cuatro libras, disminuyendo significativamente el dolor y ralentizando la progresión de la enfermedad.",
+                treatment_meds_title: "Medicamentos Orales y Tópicos",
+                treatment_meds_desc: "Analgésicos de venta libre como el paracetamol y los AINE (ibuprofeno, naproxeno) pueden ayudar. Su médico también puede recomendar AINE de prescripción o cremas y geles tópicos que se aplican directamente sobre la piel de la articulación dolorida.",
+                treatment_injections_title: "Inyecciones",
+                treatment_injections_desc: "Las inyecciones de corticosteroides pueden proporcionar un alivio potente y a corto plazo de la inflamación y el dolor. Las inyecciones de ácido hialurónico, a veces llamadas 'inyecciones de gel', pueden proporcionar lubricación y amortiguación a la articulación de la rodilla para algunos pacientes.",
+                treatment_therapy_title: "Terapia y Dispositivos de Asistencia",
+                treatment_therapy_desc: "Un terapeuta ocupacional puede enseñarle formas de realizar las tareas diarias sin forzar las articulaciones. Pueden recomendar dispositivos de asistencia como bastones, andadores o herramientas especiales para ayudar a agarrar y alcanzar.",
+                treatment_surgery_title: "Procedimientos Quirúrgicos",
+                treatment_surgery_desc: "Si los tratamientos conservadores ya no son efectivos, la cirugía puede ser una opción. El procedimiento más común es el reemplazo articular (artroplastia), donde la articulación dañada se reemplaza por una artificial duradera.",
+                living_with_oa_title: "Viviendo Bien con Osteoartritis",
+                living_with_oa_intro: "Manejar la OA es un proceso diario. Incorporar estas estrategias puede ayudarle a mantener una vida activa y plena.",
+                living_joint_protection_title: "Protección de las Articulaciones",
+                living_joint_protection_desc: "Sea consciente de cómo usa sus articulaciones. Use articulaciones más grandes y fuertes para llevar cargas (p. ej., use el hombro para empujar una puerta). Evite agarres apretados y tome descansos regulares de las actividades que fuerzan sus articulaciones.",
+                living_assistive_devices_title: "Uso de Dispositivos de Asistencia",
+                living_assistive_devices_desc: "Usar un bastón, andador o rodillera puede mejorar la estabilidad y reducir la carga en las articulaciones doloridas. No los vea como un signo de debilidad, sino como una herramienta inteligente para mantener su movilidad e independencia.",
+                living_emotional_health_title: "Salud Mental y Emocional",
+                living_emotional_health_desc: "Vivir con dolor crónico puede ser un desafío. Es importante reconocer los sentimientos de frustración o tristeza. Técnicas como la atención plena, la meditación y conectarse con grupos de apoyo pueden ser muy beneficiosas.",
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentChart = null;
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+
+        function createRiskFactorChart() {
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            const ctx = document.getElementById('riskFactorChart');
+            if (!ctx) return;
+            
+            const riskData = {
+                labels: ['Obesity', 'Joint Injury', 'Older Age', 'Female Sex', 'Genetics', 'Repetitive Stress'],
+                data: [10, 8, 7, 6, 5, 4]
+            };
+
+            currentChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: riskData.labels,
+                    datasets: [{
+                        label: translations[currentLanguage].risk_factors_chart_label,
+                        data: riskData.data,
+                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
+                        borderColor: 'rgba(2, 132, 199, 1)',
+                        borderWidth: 1.5,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { display: false }, ticks: { display: false } },
+                        y: { grid: { display: false }, ticks: { font: { size: 12, weight: '500' }, color: '#334155' } }
+                    }
+                }
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const whatIsOaSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="what_is_oa_title">${t.what_is_oa_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-4" data-translate="what_is_oa_intro">${t.what_is_oa_intro}</p>
+                    <p class="text-slate-600 leading-relaxed" data-translate="what_is_oa_p1">${t.what_is_oa_p1}</p>
+                </section>
+            `;
+
+            const riskFactorsSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="risk_factors_title">${t.risk_factors_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6" data-translate="risk_factors_intro">${t.risk_factors_intro}</p>
+                    <div class="chart-container">
+                        <canvas id="riskFactorChart"></canvas>
+                    </div>
+                </section>
+            `;
+
+            const diagnosisSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="diagnosis_title">${t.diagnosis_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="diagnosis_intro">${t.diagnosis_intro}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">1</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step1_title">${t.diagnosis_step1_title}</h3><p class="text-slate-600" data-translate="diagnosis_step1_desc">${t.diagnosis_step1_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">2</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step2_title">${t.diagnosis_step2_title}</h3><p class="text-slate-600" data-translate="diagnosis_step2_desc">${t.diagnosis_step2_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">3</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step3_title">${t.diagnosis_step3_title}</h3><p class="text-slate-600" data-translate="diagnosis_step3_desc">${t.diagnosis_step3_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">4</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step4_title">${t.diagnosis_step4_title}</h3><p class="text-slate-600" data-translate="diagnosis_step4_desc">${t.diagnosis_step4_desc}</p></div></div>
+                    </div>
+                </section>
+            `;
+
+            const treatmentSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="treatment_title">${t.treatment_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="treatment_intro">${t.treatment_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🏃</span><span class="font-semibold text-slate-800" data-translate="treatment_exercise_title">${t.treatment_exercise_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_exercise_desc">${t.treatment_exercise_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">⚖️</span><span class="font-semibold text-slate-800" data-translate="treatment_weight_title">${t.treatment_weight_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_weight_desc">${t.treatment_weight_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="treatment_meds_title">${t.treatment_meds_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_meds_desc">${t.treatment_meds_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">💉</span><span class="font-semibold text-slate-800" data-translate="treatment_injections_title">${t.treatment_injections_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_injections_desc">${t.treatment_injections_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">🦾</span><span class="font-semibold text-slate-800" data-translate="treatment_therapy_title">${t.treatment_therapy_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_therapy_desc">${t.treatment_therapy_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">⚕️</span><span class="font-semibold text-slate-800" data-translate="treatment_surgery_title">${t.treatment_surgery_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_surgery_desc">${t.treatment_surgery_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+            
+            const livingSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="living_with_oa_title">${t.living_with_oa_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="living_with_oa_intro">${t.living_with_oa_intro}</p>
+                     <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">🤲</span><span class="font-semibold text-slate-800" data-translate="living_joint_protection_title">${t.living_joint_protection_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_joint_protection_desc">${t.living_joint_protection_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🦯</span><span class="font-semibold text-slate-800" data-translate="living_assistive_devices_title">${t.living_assistive_devices_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_assistive_devices_desc">${t.living_assistive_devices_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-rose-100"><span class="flex items-center"><span class="text-2xl mr-3">😊</span><span class="font-semibold text-slate-800" data-translate="living_emotional_health_title">${t.living_emotional_health_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_emotional_health_desc">${t.living_emotional_health_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            mainContent.innerHTML = whatIsOaSection + riskFactorsSection + diagnosisSection + treatmentSection + livingSection;
+            createRiskFactorChart();
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>

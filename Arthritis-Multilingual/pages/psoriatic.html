@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Deeper Dive: Psoriatic Arthritis (PsA)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/diseases/psoriatic-arthritis" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://www.mayoclinic.org/diseases-conditions/psoriatic-arthritis/symptoms-causes/syc-20354076" target="_blank" class="text-sky-600 hover:underline">Mayo Clinic</a>
+                    <a href="https://www.psoriasis.org/about-psoriatic-arthritis/" target="_blank" class="text-sky-600 hover:underline">National Psoriasis Foundation</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "A Deeper Dive: Psoriatic Arthritis",
+                main_subtitle: "Understanding the connection between skin, joints, and overall health.",
+                back_button: "Back",
+                what_is_psa_title: "What is Psoriatic Arthritis?",
+                what_is_psa_intro: "Psoriatic Arthritis (PsA) is a chronic autoimmune condition that causes inflammation in the joints and the places where tendons and ligaments attach to bone (entheses). It occurs in up to 30% of people who have the skin condition psoriasis.",
+                what_is_psa_p1: "In PsA, the same overactive immune response that causes the red, scaly patches of psoriasis also attacks the joints. This can lead to pain, stiffness, and swelling. If not treated effectively, this inflammation can cause permanent joint damage. Most people develop psoriasis first, sometimes years before PsA appears, but for some, the joint problems begin before any skin issues are noticeable.",
+                risk_factors_title: "Who is at Risk for PsA?",
+                risk_factors_intro: "While the exact cause is unknown, having psoriasis is the single biggest risk factor. Genetics also play a major role.",
+                risk_factors_chart_label: "Relative Impact on Risk",
+                symptoms_title: "Hallmark Symptoms of PsA",
+                symptoms_intro: "PsA can be complex and varied, but there are several unique signs that doctors look for beyond general joint pain.",
+                symptom_dactylitis_title: "Dactylitis ('Sausage Digits')",
+                symptom_dactylitis_desc: "This is a very characteristic sign where an entire finger or toe swells up, resembling a small sausage. It's caused by inflammation of the entire digit.",
+                symptom_enthesitis_title: "Enthesitis (Tendon Pain)",
+                symptom_enthesitis_desc: "PsA often causes inflammation where tendons and ligaments attach to bone. This commonly causes pain at the back of the heel (Achilles tendinitis) or the sole of the foot (plantar fasciitis).",
+                symptom_nail_changes_title: "Nail Changes",
+                symptom_nail_changes_desc: "Tiny pits in the fingernails or toenails, crumbling, or separation of the nail from the nail bed are very common in people with PsA and can be an important diagnostic clue.",
+                symptom_back_pain_title: "Inflammatory Back Pain",
+                symptom_back_pain_desc: "PsA can affect the spine (spondylitis), causing pain and stiffness in the lower back, buttocks, and neck that is typically worse with rest and improves with activity.",
+                types_title: "The Five Types of Psoriatic Arthritis",
+                types_intro: "PsA can present in several different patterns, and a person can have more than one type over the course of their disease.",
+                type_symmetric_title: "Symmetric PsA",
+                type_symmetric_desc: "This is the most common type, affecting the same joints in pairs on both sides of the body (e.g., both knees, both wrists). It closely resembles rheumatoid arthritis.",
+                type_asymmetric_title: "Asymmetric PsA",
+                type_asymmetric_desc: "This type affects a joint on only one side of the body, or different joints on each side. It is often milder than the symmetric form.",
+                type_dip_title: "Distal Interphalangeal Predominant (DIP)",
+                type_dip_desc: "This type primarily affects the small joints closest to the nails of the fingers and toes. It is often associated with significant nail changes.",
+                type_spondylitis_title: "Spondylitis",
+                type_spondylitis_desc: "This pattern is characterized by inflammation in the spine, leading to pain and stiffness in the neck, lower back, and sacroiliac joints (where the spine meets the pelvis).",
+                type_mutilans_title: "Arthritis Mutilans",
+                type_mutilans_desc: "This is a rare but very severe and destructive form of PsA. It causes significant inflammation that damages the small bones in the hands and feet, leading to permanent deformity.",
+                treatment_title: "Treating Psoriatic Arthritis",
+                treatment_intro: "Treatment goals for PsA are to control inflammation in both the skin and joints, relieve pain, and prevent permanent joint damage. Early and aggressive treatment is key.",
+                treatment_nsaids_title: "NSAIDs",
+                treatment_nsaids_desc: "For mild symptoms, over-the-counter or prescription nonsteroidal anti-inflammatory drugs (NSAIDs) can help reduce pain and swelling.",
+                treatment_dmards_title: "Conventional DMARDs",
+                treatment_dmards_desc: "For more persistent PsA, medications like methotrexate are used to suppress the underlying immune system and prevent joint damage.",
+                treatment_biologics_title: "Biologic DMARDs",
+                treatment_biologics_desc: "These are highly effective drugs that target specific parts of the immune system that cause inflammation. There are several types, including TNF inhibitors, IL-17 inhibitors, and IL-12/23 inhibitors.",
+                treatment_jak_title: "Targeted DMARDs (JAK inhibitors)",
+                treatment_jak_desc: "These are newer medications taken as pills that also work on specific pathways within immune cells to block inflammation.",
+                 living_with_psa_title: "Living Well with PsA",
+                living_with_psa_intro: "Managing PsA is a daily process that goes beyond medication. These strategies can help you maintain an active and fulfilling life.",
+                living_fatigue_title: "Managing Fatigue",
+                living_fatigue_desc: "PsA fatigue is profound and not relieved by sleep. Pacing your activities, incorporating gentle exercise, and prioritizing tasks are key strategies. Talk to your doctor, as fatigue can also be related to anemia or other conditions.",
+                living_exercise_title: "The Role of Exercise",
+                living_exercise_desc: "Regular, low-impact exercise is crucial. It helps maintain joint flexibility, strengthens supporting muscles, reduces pain, and combats fatigue. Activities like swimming, yoga, and tai chi are excellent choices.",
+                living_diet_title: "Diet and Nutrition",
+                living_diet_desc: "An anti-inflammatory diet, similar to the Mediterranean diet, may help manage symptoms. Focus on fish, nuts, fruits, and vegetables. Limiting processed foods, sugar, and red meat can also be beneficial for reducing overall inflammation.",
+                living_flares_title: "Managing Flares",
+                living_flares_desc: "Flares are temporary increases in disease activity. Have a plan with your doctor. This may include short-term medication adjustments, resting the affected joints, and using heat or cold packs to manage pain and swelling.",
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Un Vistazo Profundo: Artritis Psoriásica",
+                main_subtitle: "Entendiendo la conexión entre la piel, las articulaciones y la salud general.",
+                back_button: "Volver",
+                what_is_psa_title: "¿Qué es la Artritis Psoriásica?",
+                what_is_psa_intro: "La Artritis Psoriásica (APs) es una condición autoinmune crónica que causa inflamación en las articulaciones y en los lugares donde los tendones y ligamentos se unen al hueso (entesis). Ocurre en hasta un 30% de las personas que tienen la condición de la piel psoriasis.",
+                what_is_psa_p1: "En la APs, la misma respuesta inmunitaria hiperactiva que causa las placas rojas y escamosas de la psoriasis también ataca las articulaciones. Esto puede provocar dolor, rigidez e hinchazón. Si no se trata eficazmente, esta inflamación puede causar daño articular permanente. La mayoría de las personas desarrollan psoriasis primero, a veces años antes de que aparezca la APs, pero para algunos, los problemas articulares comienzan antes de que se noten problemas en la piel.",
+                risk_factors_title: "¿Quién está en Riesgo de APs?",
+                risk_factors_intro: "Aunque la causa exacta es desconocida, tener psoriasis es el factor de riesgo más importante. La genética también juega un papel fundamental.",
+                risk_factors_chart_label: "Impacto Relativo en el Riesgo",
+                symptoms_title: "Síntomas Característicos de la APs",
+                symptoms_intro: "La APs puede ser compleja y variada, pero hay varios signos únicos que los médicos buscan más allá del dolor articular general.",
+                symptom_dactylitis_title: "Dactilitis ('Dedos en Salchicha')",
+                symptom_dactylitis_desc: "Este es un signo muy característico donde un dedo entero de la mano o del pie se hincha, pareciendo una pequeña salchicha. Es causado por la inflamación de todo el dedo.",
+                symptom_enthesitis_title: "Entesitis (Dolor en el Tendón)",
+                symptom_enthesitis_desc: "La APs a menudo causa inflamación donde los tendones y ligamentos se unen al hueso. Esto comúnmente causa dolor en la parte posterior del talón (tendinitis de Aquiles) o en la planta del pie (fascitis plantar).",
+                symptom_nail_changes_title: "Cambios en las Uñas",
+                symptom_nail_changes_desc: "Pequeñas hendiduras en las uñas de las manos o de los pies, desmoronamiento o separación de la uña del lecho ungueal son muy comunes en personas con APs y pueden ser una pista diagnóstica importante.",
+                symptom_back_pain_title: "Dolor de Espalda Inflamatorio",
+                symptom_back_pain_desc: "La APs puede afectar la columna vertebral (espondilitis), causando dolor y rigidez en la parte baja de la espalda, los glúteos y el cuello, que típicamente empeora con el reposo y mejora con la actividad.",
+                types_title: "Los Cinco Tipos de Artritis Psoriásica",
+                types_intro: "La APs puede presentarse en varios patrones diferentes, y una persona puede tener más de un tipo a lo largo de su enfermedad.",
+                type_symmetric_title: "APs Simétrica",
+                type_symmetric_desc: "Este es el tipo más común, afectando las mismas articulaciones en pares en ambos lados del cuerpo (por ejemplo, ambas rodillas, ambas muñecas). Se parece mucho a la artritis reumatoide.",
+                type_asymmetric_title: "APs Asimétrica",
+                type_asymmetric_desc: "Este tipo afecta una articulación en un solo lado del cuerpo, o diferentes articulaciones en cada lado. A menudo es más leve que la forma simétrica.",
+                type_dip_title: "Predominante Interfalángica Distal (IFD)",
+                type_dip_desc: "Este tipo afecta principalmente a las pequeñas articulaciones más cercanas a las uñas de los dedos de las manos y los pies. A menudo se asocia con cambios significativos en las uñas.",
+                type_spondylitis_title: "Espondilitis",
+                type_spondylitis_desc: "Este patrón se caracteriza por la inflamación en la columna vertebral, lo que lleva a dolor y rigidez en el cuello, la parte baja de la espalda y las articulaciones sacroilíacas (donde la columna se une a la pelvis).",
+                type_mutilans_title: "Artritis Mutilante",
+                type_mutilans_desc: "Esta es una forma rara pero muy grave y destructiva de APs. Causa una inflamación significativa que daña los pequeños huesos de las manos y los pies, lo que lleva a una deformidad permanente.",
+                treatment_title: "Tratamiento de la Artritis Psoriásica",
+                treatment_intro: "Los objetivos del tratamiento para la APs son controlar la inflamación tanto en la piel como en las articulaciones, aliviar el dolor y prevenir el daño articular permanente. El tratamiento temprano y agresivo es clave.",
+                treatment_nsaids_title: "AINEs",
+                treatment_nsaids_desc: "Para síntomas leves, los antiinflamatorios no esteroideos (AINEs) de venta libre o recetados pueden ayudar a reducir el dolor y la hinchazón.",
+                treatment_dmards_title: "FARMEs Convencionales",
+                treatment_dmards_desc: "Para la APs más persistente, se utilizan medicamentos como el metotrexato para suprimir el sistema inmunitario subyacente y prevenir el daño articular.",
+                treatment_biologics_title: "FARMEs Biológicos",
+                treatment_biologics_desc: "Estos son medicamentos altamente efectivos que se dirigen a partes específicas del sistema inmunitario que causan inflamación. Hay varios tipos, incluidos los inhibidores de TNF, los inhibidores de IL-17 y los inhibidores de IL-12/23.",
+                treatment_jak_title: "FARMEs Dirigidos (Inhibidores de JAK)",
+                treatment_jak_desc: "Estos son medicamentos más nuevos que se toman en pastillas y que también actúan sobre vías específicas dentro de las células inmunitarias para bloquear la inflamación.",
+                living_with_psa_title: "Viviendo Bien con APs",
+                living_with_psa_intro: "Manejar la APs es un proceso diario que va más allá de la medicación. Estas estrategias pueden ayudarle a mantener una vida activa y plena.",
+                living_fatigue_title: "Manejo de la Fatiga",
+                living_fatigue_desc: "La fatiga de la APs es profunda y no se alivia con el sueño. Marcar el ritmo de sus actividades, incorporar ejercicio suave y priorizar tareas son estrategias clave. Hable con su médico, ya que la fatiga también puede estar relacionada con la anemia u otras condiciones.",
+                living_exercise_title: "El Papel del Ejercicio",
+                living_exercise_desc: "El ejercicio regular y de bajo impacto es crucial. Ayuda a mantener la flexibilidad de las articulaciones, fortalece los músculos de soporte, reduce el dolor y combate la fatiga. Actividades como la natación, el yoga y el tai chi son excelentes opciones.",
+                living_diet_title: "Dieta y Nutrición",
+                living_diet_desc: "Una dieta antiinflamatoria, similar a la dieta mediterránea, puede ayudar a controlar los síntomas. Concéntrese en el pescado, las nueces, las frutas y las verduras. Limitar los alimentos procesados, el azúcar y la carne roja también puede ser beneficioso para reducir la inflamación general.",
+                living_flares_title: "Manejo de los Brotes",
+                living_flares_desc: "Los brotes son aumentos temporales de la actividad de la enfermedad. Tenga un plan con su médico. Esto puede incluir ajustes de medicamentos a corto plazo, descansar las articulaciones afectadas y usar compresas de calor o frío para controlar el dolor y la hinchazón.",
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentChart = null;
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+
+        function createRiskFactorChart() {
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            const ctx = document.getElementById('riskFactorChart');
+            if (!ctx) return;
+            
+            const riskData = {
+                labels: ['Having Psoriasis', 'Family History', 'Age (30-55)', 'Environmental Trigger'],
+                data: [10, 9, 7, 5]
+            };
+
+            currentChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: riskData.labels,
+                    datasets: [{
+                        label: translations[currentLanguage].risk_factors_chart_label,
+                        data: riskData.data,
+                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
+                        borderColor: 'rgba(2, 132, 199, 1)',
+                        borderWidth: 1.5,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { display: false }, ticks: { display: false } },
+                        y: { grid: { display: false }, ticks: { font: { size: 12, weight: '500' }, color: '#334155' } }
+                    }
+                }
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const whatIsPsaSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="what_is_psa_title">${t.what_is_psa_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-4" data-translate="what_is_psa_intro">${t.what_is_psa_intro}</p>
+                    <p class="text-slate-600 leading-relaxed" data-translate="what_is_psa_p1">${t.what_is_psa_p1}</p>
+                </section>
+            `;
+
+            const symptomsSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="symptoms_title">${t.symptoms_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="symptoms_intro">${t.symptoms_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🌭</span><span class="font-semibold text-slate-800" data-translate="symptom_dactylitis_title">${t.symptom_dactylitis_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="symptom_dactylitis_desc">${t.symptom_dactylitis_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🦶</span><span class="font-semibold text-slate-800" data-translate="symptom_enthesitis_title">${t.symptom_enthesitis_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="symptom_enthesitis_desc">${t.symptom_enthesitis_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">💅</span><span class="font-semibold text-slate-800" data-translate="symptom_nail_changes_title">${t.symptom_nail_changes_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="symptom_nail_changes_desc">${t.symptom_nail_changes_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">🦴</span><span class="font-semibold text-slate-800" data-translate="symptom_back_pain_title">${t.symptom_back_pain_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="symptom_back_pain_desc">${t.symptom_back_pain_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            const typesSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="types_title">${t.types_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="types_intro">${t.types_intro}</p>
+                    <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="font-semibold text-slate-800" data-translate="type_symmetric_title">${t.type_symmetric_title}</span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="type_symmetric_desc">${t.type_symmetric_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="font-semibold text-slate-800" data-translate="type_asymmetric_title">${t.type_asymmetric_title}</span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="type_asymmetric_desc">${t.type_asymmetric_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="font-semibold text-slate-800" data-translate="type_dip_title">${t.type_dip_title}</span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="type_dip_desc">${t.type_dip_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="font-semibold text-slate-800" data-translate="type_spondylitis_title">${t.type_spondylitis_title}</span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="type_spondylitis_desc">${t.type_spondylitis_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="font-semibold text-slate-800" data-translate="type_mutilans_title">${t.type_mutilans_title}</span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="type_mutilans_desc">${t.type_mutilans_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            const riskFactorsSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="risk_factors_title">${t.risk_factors_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6" data-translate="risk_factors_intro">${t.risk_factors_intro}</p>
+                    <div class="chart-container">
+                        <canvas id="riskFactorChart"></canvas>
+                    </div>
+                </section>
+            `;
+
+            const treatmentSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="treatment_title">${t.treatment_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="treatment_intro">${t.treatment_intro}</p>
+                     <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">🩹</span><span class="font-semibold text-slate-800" data-translate="treatment_nsaids_title">${t.treatment_nsaids_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_nsaids_desc">${t.treatment_nsaids_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">🎯</span><span class="font-semibold text-slate-800" data-translate="treatment_dmards_title">${t.treatment_dmards_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_dmards_desc">${t.treatment_dmards_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🧬</span><span class="font-semibold text-slate-800" data-translate="treatment_biologics_title">${t.treatment_biologics_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_biologics_desc">${t.treatment_biologics_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="treatment_jak_title">${t.treatment_jak_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_jak_desc">${t.treatment_jak_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+            
+             const livingSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="living_with_psa_title">${t.living_with_psa_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="living_with_psa_intro">${t.living_with_psa_intro}</p>
+                     <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">🔋</span><span class="font-semibold text-slate-800" data-translate="living_fatigue_title">${t.living_fatigue_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_fatigue_desc">${t.living_fatigue_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🧘</span><span class="font-semibold text-slate-800" data-translate="living_exercise_title">${t.living_exercise_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_exercise_desc">${t.living_exercise_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">🥗</span><span class="font-semibold text-slate-800" data-translate="living_diet_title">${t.living_diet_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_diet_desc">${t.living_diet_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🔥</span><span class="font-semibold text-slate-800" data-translate="living_flares_title">${t.living_flares_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_flares_desc">${t.living_flares_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            mainContent.innerHTML = whatIsPsaSection + symptomsSection + typesSection + riskFactorsSection + treatmentSection + livingSection;
+            createRiskFactorChart();
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>

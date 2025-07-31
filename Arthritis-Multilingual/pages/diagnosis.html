@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Arthritis Diagnostic Tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://www.rheumatology.org/" target="_blank" class="text-sky-600 hover:underline">American College of Rheumatology</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "A Guide to Diagnostic Tests for Arthritis",
+                main_subtitle: "Understanding the tools doctors use to diagnose different types of arthritis.",
+                back_button: "Back",
+                
+                intro_title: "The Diagnostic Process: A Partnership",
+                intro_desc: "Diagnosing arthritis is like solving a puzzle. There is rarely a single test that gives the whole answer. Instead, your doctor acts as a detective, combining clues from your symptoms, a physical exam, blood tests, and imaging to arrive at an accurate diagnosis. Your input is the most important piece of this puzzle.",
+                
+                prep_title: "Preparing for Your Diagnostic Journey",
+                prep_card1_title: "Track Your Symptoms",
+                prep_card1_desc: "Keep a simple log. Note which joints hurt, the time of day stiffness is worst, how long it lasts, and how symptoms affect your daily activities. This detailed history is invaluable to your doctor.",
+                prep_card2_title: "Know Your Family History",
+                prep_card2_desc: "Many types of inflammatory arthritis have a genetic component. Knowing if relatives have RA, lupus, psoriasis, or other autoimmune conditions provides important clues.",
+                prep_card3_title: "List Your Medications",
+                prep_card3_desc: "Bring a complete list of all medications, including over-the-counter drugs, vitamins, and supplements. Some medications can cause joint pain or affect test results.",
+                prep_card4_title: "Ask Questions",
+                prep_card4_desc: "It's your health. Don't hesitate to ask questions like, 'What are you looking for with this test?' or 'What do these results mean for me?' An informed patient is an empowered patient.",
+
+                oa_title: "Tests for Osteoarthritis (OA)",
+                ra_title: "Tests for Rheumatoid Arthritis (RA)",
+                psa_title: "Tests for Psoriatic Arthritis (PsA)",
+                gout_title: "Tests for Gout",
+                other_title: "Tests for Other Related Conditions",
+
+                what_it_is: "What it is",
+                what_doc_looks_for: "What Doctors Look For",
+
+                // OA Tests
+                oa_xray_name: "X-Rays",
+                oa_xray_what: "An X-ray is an imaging test that uses a small amount of radiation to create pictures of the bones inside your body.",
+                oa_xray_look: "<strong>Joint Space Narrowing:</strong> The main sign of OA. As cartilage wears away, the space between the bones gets smaller. <strong>Bone Spurs (Osteophytes):</strong> Small, bony growths that can form on the edges of the joint. <strong>Sclerosis:</strong> Increased bone density or hardening of the bone just beneath the cartilage.",
+                oa_mri_name: "MRI (Magnetic Resonance Imaging)",
+                oa_mri_what: "An MRI uses a powerful magnetic field and radio waves to create detailed images of both bones and soft tissues like cartilage, ligaments, and tendons.",
+                oa_mri_look: "A much more detailed view of cartilage loss than an X-ray. It can also show early damage, bone marrow lesions (a sign of stress on the bone), and problems with soft tissues like the meniscus in the knee.",
+
+                // RA Tests
+                ra_blood_name: "Blood Tests: Antibodies & Inflammation",
+                ra_blood_what: "A series of blood tests that look for specific antibodies associated with autoimmune diseases and general markers of inflammation in the body.",
+                ra_blood_look: "<strong>Rheumatoid Factor (RF):</strong> An antibody present in about 80% of people with RA. <strong>Anti-CCP:</strong> A more specific antibody for RA; its presence is a strong indicator of the disease. <strong>High ESR and CRP:</strong> These are general markers that indicate the level of inflammation in the body.",
+                ra_imaging_name: "Imaging (X-ray & Ultrasound)",
+                ra_imaging_what: "Imaging tests are used to assess the impact of inflammation on the joints and establish a baseline for monitoring disease progression.",
+                ra_imaging_look: "<strong>On X-ray:</strong> Soft tissue swelling in early stages. Later, doctors look for juxta-articular osteopenia (bone thinning near the joint) and classic 'erosions' (small areas where bone has been eaten away by inflammation). <strong>On Ultrasound:</strong> Can detect synovitis (inflammation of the joint lining) and fluid in the joint much earlier than an X-ray.",
+
+                // PsA Tests
+                psa_no_test_name: "No Single Definitive Test",
+                psa_no_test_what: "There is no single blood test to diagnose PsA. The diagnosis is 'clinical,' meaning it's based on a combination of your symptoms, physical exam, and ruling out other conditions.",
+                psa_no_test_look: "The presence of psoriasis (now or in the past), hallmark symptoms like dactylitis and enthesitis, nail changes, and a family history of psoriasis or PsA. Blood tests are used to rule out RA (RF and anti-CCP are usually negative).",
+                psa_imaging_name: "Imaging (X-ray & MRI)",
+                psa_imaging_what: "Imaging helps to see the specific pattern of joint damage that is characteristic of PsA.",
+                psa_imaging_look: "A unique combination of bone erosion and new bone formation in the same joint. Doctors look for a 'pencil-in-cup' deformity in the small joints of the hands and feet, as well as signs of spondylitis (inflammation in the spine).",
+
+                // Gout Tests
+                gout_fluid_name: "Joint Fluid Analysis (Gold Standard)",
+                gout_fluid_what: "A procedure where a small amount of synovial fluid is withdrawn from an inflamed joint using a needle. This is the most definitive test for gout.",
+                gout_fluid_look: "The presence of needle-shaped monosodium urate crystals when the fluid is examined under a polarized light microscope. This is conclusive proof of gout.",
+                gout_imaging_name: "Imaging (Ultrasound & DECT)",
+                gout_imaging_what: "Advanced imaging can visualize the crystal deposits within the joints, which is especially helpful when a fluid sample cannot be obtained.",
+                gout_imaging_look: "<strong>On Ultrasound:</strong> A 'double contour sign,' which looks like a bright line of crystals coating the surface of the cartilage. <strong>On Dual-Energy CT (DECT):</strong> This specialized scan uses two X-ray energies to specifically identify and color-code uric acid deposits, making them clearly visible.",
+                gout_uric_acid_name: "Serum Uric Acid Level",
+                gout_uric_acid_what: "A blood test to measure the amount of uric acid circulating in the blood.",
+                gout_uric_acid_look: "While a high uric acid level (hyperuricemia) is a prerequisite for gout, the level itself has limited utility during an acute flare. Uric acid levels can be normal or even low during an attack. Therefore, this test is more useful for monitoring the effectiveness of long-term uric acid-lowering therapy than for diagnosing an acute flare.",
+
+                // Other Conditions
+                other_ana_name: "Antinuclear Antibody (ANA) Test",
+                other_ana_what: "A sensitive blood test used to screen for autoimmune diseases, particularly Systemic Lupus Erythematosus (Lupus).",
+                other_ana_look: "A positive result means autoantibodies are present, which can be a sign of lupus, but can also be positive in other conditions or even in healthy individuals. If positive, more specific antibody tests are needed.",
+                other_hlab27_name: "HLA-B27 Genetic Marker Test",
+                other_hlab27_what: "A blood test that looks for a specific genetic marker (HLA-B27) that is strongly associated with a group of inflammatory diseases called spondyloarthropathies.",
+                other_hlab27_look: "The presence of the HLA-B27 gene. It is found in over 90% of people with Ankylosing Spondylitis. However, many people have the gene and never develop the disease, so it is not a standalone diagnostic test.",
+                other_sjogrens_name: "Sjögren's Syndrome Antibodies",
+                other_sjogrens_what: "A set of blood tests for specific autoantibodies (Anti-SSA/Ro and Anti-SSB/La) associated with Sjögren's Syndrome, an autoimmune condition causing severe dry eyes and mouth that often co-occurs with RA.",
+                other_sjogrens_look: "The presence of Anti-SSA (Ro) and/or Anti-SSB (La) antibodies. A positive result, combined with symptoms of dryness and sometimes a lip biopsy, helps confirm the diagnosis.",
+                
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Guía de Pruebas Diagnósticas para la Artritis",
+                main_subtitle: "Comprendiendo las herramientas que los médicos usan para diagnosticar diferentes tipos de artritis.",
+                back_button: "Volver",
+                
+                intro_title: "El Proceso Diagnóstico: Una Colaboración",
+                intro_desc: "Diagnosticar la artritis es como resolver un rompecabezas. Rara vez hay una sola prueba que dé la respuesta completa. En cambio, su médico actúa como un detective, combinando pistas de sus síntomas, un examen físico, análisis de sangre e imágenes para llegar a un diagnóstico preciso. Su contribución es la pieza más importante de este rompecabezas.",
+                
+                prep_title: "Preparándose para su Viaje Diagnóstico",
+                prep_card1_title: "Rastree sus Síntomas",
+                prep_card1_desc: "Lleve un registro simple. Anote qué articulaciones duelen, la hora del día en que la rigidez es peor, cuánto dura y cómo los síntomas afectan sus actividades diarias. Este historial detallado es invaluable para su médico.",
+                prep_card2_title: "Conozca su Historial Familiar",
+                prep_card2_desc: "Muchos tipos de artritis inflamatoria tienen un componente genético. Saber si sus familiares tienen AR, lupus, psoriasis u otras afecciones autoinmunes proporciona pistas importantes.",
+                prep_card3_title: "Liste sus Medicamentos",
+                prep_card3_desc: "Traiga una lista completa de todos los medicamentos, incluidos los de venta libre, vitaminas y suplementos. Algunos medicamentos pueden causar dolor en las articulaciones o afectar los resultados de las pruebas.",
+                prep_card4_title: "Haga Preguntas",
+                prep_card4_desc: "Es su salud. No dude en hacer preguntas como: '¿Qué busca con esta prueba?' o '¿Qué significan estos resultados para mí?' Un paciente informado es un paciente empoderado.",
+
+                oa_title: "Pruebas para la Osteoartritis (OA)",
+                ra_title: "Pruebas para la Artritis Reumatoide (AR)",
+                psa_title: "Pruebas para la Artritis Psoriásica (APs)",
+                gout_title: "Pruebas para la Gota",
+                other_title: "Pruebas para Otras Afecciones Relacionadas",
+
+                what_it_is: "Qué es",
+                what_doc_looks_for: "Qué Buscan los Médicos",
+
+                oa_xray_name: "Radiografías",
+                oa_xray_what: "Una radiografía es una prueba de imagen que utiliza una pequeña cantidad de radiación para crear imágenes de los huesos dentro de su cuerpo.",
+                oa_xray_look: "<strong>Estrechamiento del espacio articular:</strong> El principal signo de OA. A medida que el cartílago se desgasta, el espacio entre los huesos se reduce. <strong>Espolones óseos (Osteofitos):</strong> Pequeños crecimientos óseos que pueden formarse en los bordes de la articulación. <strong>Esclerosis:</strong> Aumento de la densidad ósea o endurecimiento del hueso justo debajo del cartílago.",
+                oa_mri_name: "Resonancia Magnética (RM)",
+                oa_mri_what: "Una RM utiliza un potente campo magnético y ondas de radio para crear imágenes detalladas tanto de los huesos como de los tejidos blandos como el cartílago, los ligamentos y los tendones.",
+                oa_mri_look: "Una vista mucho más detallada de la pérdida de cartílago que una radiografía. También puede mostrar daños tempranos, lesiones en la médula ósea (un signo de estrés en el hueso) y problemas con los tejidos blandos como el menisco en la rodilla.",
+
+                ra_blood_name: "Análisis de Sangre: Anticuerpos e Inflamación",
+                ra_blood_what: "Una serie de análisis de sangre que buscan anticuerpos específicos asociados con enfermedades autoinmunes y marcadores generales de inflamación en el cuerpo.",
+                ra_blood_look: "<strong>Factor Reumatoide (FR):</strong> Un anticuerpo presente en aproximadamente el 80% de las personas con AR. <strong>Anti-PCC:</strong> Un anticuerpo más específico para la AR; su presencia es un fuerte indicador de la enfermedad. <strong>VSG y PCR elevadas:</strong> Son marcadores generales que indican el nivel de inflamación en el cuerpo.",
+                ra_imaging_name: "Imágenes (Radiografía y Ecografía)",
+                ra_imaging_what: "Las pruebas de imagen se utilizan para evaluar el impacto de la inflamación en las articulaciones y establecer una línea de base para monitorear la progresión de la enfermedad.",
+                ra_imaging_look: "<strong>En la radiografía:</strong> Hinchazón de los tejidos blandos en las primeras etapas. Más tarde, los médicos buscan osteopenia yuxtaarticular (adelgazamiento del hueso cerca de la articulación) y las clásicas 'erosiones' (pequeñas áreas donde el hueso ha sido desgastado por la inflamación). <strong>En la ecografía:</strong> Puede detectar sinovitis (inflamación del revestimiento articular) y líquido en la articulación mucho antes que una radiografía.",
+
+                psa_no_test_name: "Ninguna Prueba Definitiva Única",
+                psa_no_test_what: "No existe un único análisis de sangre para diagnosticar la APs. El diagnóstico es 'clínico', lo que significa que se basa en una combinación de sus síntomas, examen físico y el descarte de otras afecciones.",
+                psa_no_test_look: "La presencia de psoriasis (actual o pasada), síntomas característicos como dactilitis y entesitis, cambios en las uñas y antecedentes familiares de psoriasis o APs. Los análisis de sangre se utilizan para descartar la AR (el FR y el anti-PCC suelen ser negativos).",
+                psa_imaging_name: "Imágenes (Radiografía y RM)",
+                psa_imaging_what: "Las imágenes ayudan a ver el patrón específico de daño articular que es característico de la APs.",
+                psa_imaging_look: "Una combinación única de erosión ósea y formación de hueso nuevo en la misma articulación. Los médicos buscan una deformidad de 'lápiz en copa' en las pequeñas articulaciones de las manos y los pies, así como signos de espondilitis (inflamación en la columna).",
+
+                gout_fluid_name: "Análisis del Líquido Articular (Estándar de Oro)",
+                gout_fluid_what: "Un procedimiento en el que se extrae una pequeña cantidad de líquido sinovial de una articulación inflamada con una aguja. Esta es la prueba más definitiva para la gota.",
+                gout_fluid_look: "La presencia de cristales de urato monosódico en forma de aguja cuando se examina el líquido bajo un microscopio de luz polarizada. Esta es una prueba concluyente de gota.",
+                gout_imaging_name: "Imágenes (Ecografía y TCMD)",
+                gout_imaging_what: "Las imágenes avanzadas pueden visualizar los depósitos de cristales dentro de las articulaciones, lo que es especialmente útil cuando no se puede obtener una muestra de líquido.",
+                gout_imaging_look: "<strong>En la ecografía:</strong> Un 'signo del doble contorno', que parece una línea brillante de cristales que recubre la superficie del cartílago. <strong>En la Tomografía Computarizada de Energía Dual (TCMD):</strong> Este escáner especializado utiliza dos energías de rayos X para identificar y codificar por colores específicamente los depósitos de ácido úrico, haciéndolos claramente visibles.",
+                gout_uric_acid_name: "Nivel de Ácido Úrico en Suero",
+                gout_uric_acid_what: "Un análisis de sangre para medir la cantidad de ácido úrico que circula en la sangre.",
+                gout_uric_acid_look: "Aunque un nivel alto de ácido úrico (hiperuricemia) es un requisito previo para la gota, el nivel en sí tiene una utilidad limitada durante un brote agudo. Los niveles de ácido úrico pueden ser normales o incluso bajos durante un ataque. Por lo tanto, esta prueba es más útil para monitorear la efectividad de la terapia para reducir el ácido úrico a largo plazo que para diagnosticar un brote agudo.",
+
+                other_ana_name: "Prueba de Anticuerpos Antinucleares (ANA)",
+                other_ana_what: "Un análisis de sangre sensible utilizado para detectar enfermedades autoinmunes, en particular el Lupus Eritematoso Sistémico (Lupus).",
+                other_ana_look: "Un resultado positivo significa que hay autoanticuerpos presentes, lo que puede ser un signo de lupus, pero también puede ser positivo en otras afecciones o incluso en individuos sanos. Si es positivo, se necesitan pruebas de anticuerpos más específicas.",
+                other_hlab27_name: "Prueba del Marcador Genético HLA-B27",
+                other_hlab27_what: "Un análisis de sangre que busca un marcador genético específico (HLA-B27) que está fuertemente asociado con un grupo de enfermedades inflamatorias llamadas espondiloartropatías.",
+                other_hlab27_look: "La presencia del gen HLA-B27. Se encuentra en más del 90% de las personas con Espondilitis Anquilosante. Sin embargo, muchas personas tienen el gen y nunca desarrollan la enfermedad, por lo que no es una prueba diagnóstica independiente.",
+                other_sjogrens_name: "Anticuerpos del Síndrome de Sjögren",
+                other_sjogrens_what: "Un conjunto de análisis de sangre para autoanticuerpos específicos (Anti-SSA/Ro y Anti-SSB/La) asociados con el Síndrome de Sjögren, una afección autoinmune que causa sequedad severa en ojos y boca y que a menudo coexiste con la AR.",
+                other_sjogrens_look: "La presencia de anticuerpos Anti-SSA (Ro) y/o Anti-SSB (La). Un resultado positivo, combinado con síntomas de sequedad y a veces una biopsia de labio, ayuda a confirmar el diagnóstico.",
+                
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const introSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg text-center">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="intro_title">${t.intro_title}</h2>
+                    <p class="text-slate-600 leading-relaxed max-w-3xl mx-auto" data-translate="intro_desc">${t.intro_desc}</p>
+                </section>
+            `;
+            
+            const prepSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="prep_title">${t.prep_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">📝</span><span class="font-semibold text-slate-800" data-translate="prep_card1_title">${t.prep_card1_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card1_desc">${t.prep_card1_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">👨‍👩‍👧‍👦</span><span class="font-semibold text-slate-800" data-translate="prep_card2_title">${t.prep_card2_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card2_desc">${t.prep_card2_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="prep_card3_title">${t.prep_card3_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card3_desc">${t.prep_card3_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">❓</span><span class="font-semibold text-slate-800" data-translate="prep_card4_title">${t.prep_card4_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="prep_card4_desc">${t.prep_card4_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const oaSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="oa_title">${t.oa_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">🦴</span><span class="font-semibold text-slate-800" data-translate="oa_xray_name">${t.oa_xray_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="oa_xray_what">${t.oa_xray_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="oa_xray_look">${t.oa_xray_look}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">🧠</span><span class="font-semibold text-slate-800" data-translate="oa_mri_name">${t.oa_mri_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="oa_mri_what">${t.oa_mri_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="oa_mri_look">${t.oa_mri_look}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const raSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="ra_title">${t.ra_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">🩸</span><span class="font-semibold text-slate-800" data-translate="ra_blood_name">${t.ra_blood_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="ra_blood_what">${t.ra_blood_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="ra_blood_look">${t.ra_blood_look}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">📸</span><span class="font-semibold text-slate-800" data-translate="ra_imaging_name">${t.ra_imaging_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="ra_imaging_what">${t.ra_imaging_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="ra_imaging_look">${t.ra_imaging_look}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+            
+            const psaSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="psa_title">${t.psa_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🧩</span><span class="font-semibold text-slate-800" data-translate="psa_no_test_name">${t.psa_no_test_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="psa_no_test_what">${t.psa_no_test_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="psa_no_test_look">${t.psa_no_test_look}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🦴</span><span class="font-semibold text-slate-800" data-translate="psa_imaging_name">${t.psa_imaging_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="psa_imaging_what">${t.psa_imaging_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="psa_imaging_look">${t.psa_imaging_look}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const goutSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="gout_title">${t.gout_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🔬</span><span class="font-semibold text-slate-800" data-translate="gout_fluid_name">${t.gout_fluid_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="gout_fluid_what">${t.gout_fluid_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="gout_fluid_look">${t.gout_fluid_look}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">📸</span><span class="font-semibold text-slate-800" data-translate="gout_imaging_name">${t.gout_imaging_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="gout_imaging_what">${t.gout_imaging_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="gout_imaging_look">${t.gout_imaging_look}</p></div></div></div>
+                        <div class="md:col-span-2"><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🩸</span><span class="font-semibold text-slate-800" data-translate="gout_uric_acid_name">${t.gout_uric_acid_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="gout_uric_acid_what">${t.gout_uric_acid_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="gout_uric_acid_look">${t.gout_uric_acid_look}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+            
+            const otherSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="other_title">${t.other_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">🦋</span><span class="font-semibold text-slate-800" data-translate="other_ana_name">${t.other_ana_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="other_ana_what">${t.other_ana_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="other_ana_look">${t.other_ana_look}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">🧬</span><span class="font-semibold text-slate-800" data-translate="other_hlab27_name">${t.other_hlab27_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="other_hlab27_what">${t.other_hlab27_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="other_hlab27_look">${t.other_hlab27_look}</p></div></div></div>
+                        <div class="md:col-span-2"><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">💧</span><span class="font-semibold text-slate-800" data-translate="other_sjogrens_name">${t.other_sjogrens_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="what_it_is">${t.what_it_is}</h4><p data-translate="other_sjogrens_what">${t.other_sjogrens_what}</p><h4 class="font-bold" data-translate="what_doc_looks_for">${t.what_doc_looks_for}</h4><p data-translate="other_sjogrens_look">${t.other_sjogrens_look}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            mainContent.innerHTML = introSection + prepSection + oaSection + raSection + psaSection + goutSection + otherSection;
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</ht

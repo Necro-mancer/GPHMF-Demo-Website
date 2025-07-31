@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Living Well with Arthritis: A Patient's Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: A tab-based single-page application is used to organize the vast amount of information into logical, digestible sections that mirror a patient's learning journey: 1) Welcome/Basics, 2) Types of Arthritis, 3) Diagnosis & Treatment, 4) Self-Management. This non-linear structure allows users to navigate directly to the information most relevant to them, reducing cognitive load. Interactive elements like a clickable body map and a self-management wheel are central to each section, transforming passive reading into active exploration and improving engagement and knowledge retention. -->
+    <!-- Visualization & Content Choices: Report Info: Core concepts and data points from the arthritis guide. Goal: Inform, compare, and organize information for patient education. Viz/Presentation Method: 1. Interactive Body Map (Inline SVG/HTML/CSS) for symptoms. 2. Grouped Bar Charts (Chart.js) for comparing arthritis types. 3. Interactive "Self-Management Wheel" (HTML/CSS) for lifestyle strategies. 4. Tabbed and accordion layouts for detailed text. Interaction: Clicks on nav tabs, buttons, and diagram elements update the main content view. Justification: This approach turns a dense document into an exploratory tool. Visual, interactive elements are more memorable and easier to understand than text alone, empowering patients to take control of their health. Library/Method: Vanilla JS for logic, Chart.js for canvas-based charts, and Tailwind CSS for styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            scroll-behavior: smooth;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #0284c7; /* sky-600 */
+            color: white;
+            box-shadow: 0 4px 14px 0 rgb(0 119 255 / 39%);
+        }
+        .content-card {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .accordion-button {
+            transition: background-color 0.3s ease;
+        }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <header class="text-center mb-4">
+            <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600" data-translate="main_subtitle"></p>
+        </header>
+
+        <nav id="main-nav" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+        </nav>
+
+        <main id="main-content">
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <p class="mt-4 font-semibold" data-translate="sources_text"></p>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const appData = {
+            sections: ['welcome', 'types', 'diagnosis', 'management'],
+            types: {
+                options: ['Osteoarthritis', 'Rheumatoid Arthritis', 'Gout', 'Psoriatic Arthritis', 'Comparison'],
+                data: {
+                    'Osteoarthritis': {
+                        riskFactors: { labels: ['Older Age', 'Female Sex', 'Obesity', 'Joint Injury', 'Repetitive Stress', 'Genetics'], data: [9, 8, 10, 7, 6, 5] },
+                    },
+                    'Rheumatoid Arthritis': {
+                        riskFactors: { labels: ['Female Sex', 'Age (30-60)', 'Genetics', 'Smoking', 'Obesity', 'Environment'], data: [9, 7, 8, 10, 6, 5] },
+                    },
+                    'Gout': {
+                        riskFactors: { labels: ['Medical Conditions (Kidney disease, HBP)', 'Diet (High Purine)', 'Sugary Drinks/Alcohol', 'Male Sex', 'Genetics', 'Medications (Diuretics)'], data: [9, 8, 9, 8, 7, 6] },
+                    },
+                    'Psoriatic Arthritis': {
+                        riskFactors: { labels: ['Having Psoriasis', 'Family History', 'Age (30-55)', 'Environmental Trigger (Infection/Trauma)'], data: [10, 9, 7, 6] },
+                    },
+                }
+            },
+        };
+
+        const translations = {
+            en: {
+                main_title: "Living Well with Arthritis",
+                main_subtitle: "A Patient's Guide to Understanding and Managing Joint Health",
+                back_button: "Back",
+                nav_welcome: "Welcome",
+                nav_types: "Types of Arthritis",
+                nav_diagnosis: "Diagnosis & Treatment",
+                nav_management: "Self-Management",
+                
+                welcome_title: "Understanding Your Joints",
+                welcome_intro: "A diagnosis of arthritis can feel overwhelming, but understanding your condition is the first and most powerful step toward managing it effectively. This guide provides clear, evidence-based information to help you become an active partner in your healthcare. Arthritis isn't a single disease but a term for over 100 conditions affecting the joints. At its core, it involves inflammation—your body's natural healing response gone awry, causing persistent pain, stiffness, and potential joint damage over time.",
+                symptoms_title: "Common Signs of Arthritis",
+                symptoms_intro: "Recognizing the key symptoms is crucial because early diagnosis and treatment can significantly improve outcomes. If you experience any of the following four key symptoms for more than a few days, it is important to consult a healthcare provider. Click on each sign to learn more.",
+                symptom_pain_name: "Pain",
+                symptom_pain_desc: "Arthritis pain can be constant or it can come and go. It may be felt in a single joint or in multiple joints throughout the body. The character of the pain can also vary, from a dull ache to a sharp, stabbing sensation.",
+                symptom_stiffness_name: "Stiffness",
+                symptom_stiffness_desc: "This is a hallmark symptom of arthritis. It is often most pronounced after periods of inactivity, such as first thing in the morning or after sitting for a long time. The duration of this stiffness can be an important clue for diagnosis.",
+                symptom_swelling_name: "Swelling",
+                symptom_swelling_desc: "In many types of arthritis, the affected joint may become swollen. The skin over the joint might look puffy and feel warm to the touch. Sometimes, redness is also present, particularly during an acute flare.",
+                symptom_motion_name: "Reduced Motion",
+                symptom_motion_desc: "Arthritis can lead to a decreased range of motion, making it hard or painful to move a joint fully. This can interfere with everyday activities, such as bending down, gripping an object, or getting up from a chair.",
+                families_title: "The Main Families of Arthritis",
+                families_intro: "Doctors group the many types of arthritis into families based on their cause. Understanding the 'why' behind your condition helps determine the 'how' of managing it.",
+                family_degenerative_name: "Degenerative Arthritis",
+                family_degenerative_desc: "Caused by the breakdown of joint cartilage. Osteoarthritis (OA) is the main example. It's a disease of the whole joint, not just 'wear and tear'.",
+                family_inflammatory_name: "Inflammatory Arthritis",
+                family_inflammatory_desc: "Caused by a malfunctioning immune system attacking the body's own tissues. Examples include Rheumatoid Arthritis (RA) and Psoriatic Arthritis (PsA).",
+                family_metabolic_name: "Metabolic Arthritis",
+                family_metabolic_desc: "Linked to the body's metabolism. Gout is the classic example, caused by a buildup of uric acid crystals in the joints.",
+                family_infectious_name: "Infectious Arthritis",
+                family_infectious_desc: "Caused by a germ (bacterium, virus, or fungus) that enters a joint, triggering powerful inflammation.",
+
+                types_title: "A Deep Dive into Common Types of Arthritis",
+                types_intro: "While over 100 types of arthritis exist, a few are responsible for most cases. This section allows you to explore the unique 'fingerprint' of the most common conditions—their causes, symptoms, and risk factors. Understanding your specific type is key to effective management.",
+                oa_subtitle: "More Than Just 'Wear and Tear'",
+                oa_what: "The most common type, OA is a disease of the entire joint where the protective cartilage on the ends of your bones wears down over time. The body's faulty attempts to repair the damage lead to changes in the bone, deterioration of connective tissues, and inflammation.",
+                oa_symptoms: ["Pain during or after movement", "Stiffness after rest (usually < 30 mins)", "Tenderness when pressure is applied", "Loss of flexibility", "Grating sensation (crepitus)", "Bone spurs (hard lumps)"],
+                oa_risk_explanation: "Obesity is a major modifiable risk factor, as it increases stress on joints and fat tissue produces inflammatory proteins.",
+                oa_complications: "Chronic pain can impact independence and lead to depression and sleep disturbances. Difficulty exercising can worsen other conditions like heart disease and diabetes.",
+                ra_subtitle: "When Your Immune System Attacks Your Joints",
+                ra_what: "RA is a chronic autoimmune and inflammatory disease. The immune system mistakenly attacks the body's own tissues, primarily the lining of the joints (synovium). This causes painful swelling that can eventually result in bone erosion and joint deformity. It is a systemic disease that can affect the whole body.",
+                ra_symptoms: ["Painful, warm, swollen joints", "Symmetrical joint involvement (e.g., both wrists)", "Prolonged morning stiffness (> 45 mins)", "Fatigue, fever, and loss of appetite", "Often starts in small joints (hands, feet)", "Rheumatoid nodules (firm bumps under skin)"],
+                ra_risk_explanation: "Smoking is a major risk factor that not only increases risk but can also make the disease more severe and treatment less effective.",
+                ra_complications: "Systemic inflammation increases the risk of cardiovascular disease (heart attack, stroke), lung disease, osteoporosis, eye problems (dry eyes), and infections.",
+                gout_subtitle: "The Crystal-Driven Arthritis",
+                gout_what: "Gout is a common and intensely painful form of inflammatory arthritis caused by too much uric acid in the bloodstream (hyperuricemia). This excess uric acid can form sharp, needle-like crystals in a joint, triggering sudden, severe episodes of pain and inflammation known as gout attacks or 'flares'.",
+                gout_symptoms: ["Sudden, excruciating pain (often at night)", "Extreme swelling, redness, and warmth", "Most common in the big toe initially", "Tophi (chalky lumps of urate crystals under the skin in chronic cases)"],
+                gout_risk_explanation: "Diet and beverages play a major role. Red meat, some seafood, beer, and sugary drinks can raise uric acid levels and trigger attacks.",
+                gout_complications: "Untreated gout can lead to recurrent, more severe attacks, permanent joint damage, kidney stones, and chronic kidney disease.",
+                psa_subtitle: "The Skin and Joint Connection",
+                psa_what: "PsA is a chronic, inflammatory autoimmune disease affecting both the skin (psoriasis) and joints. The same faulty immune response that causes scaly skin patches also triggers inflammation in the joints and where tendons and ligaments attach to bone.",
+                psa_symptoms: ["Joint pain, stiffness, and swelling", "Dactylitis ('sausage-like' fingers or toes)", "Enthesitis (pain where tendons attach to bone, e.g., heel)", "Lower back pain (spondylitis)", "Nail changes (pitting, crumbling)", "Psoriasis skin rash"],
+                psa_risk_explanation: "Having psoriasis is the single greatest risk factor. A family history of psoriasis or PsA also strongly increases risk.",
+                psa_complications: "Systemic inflammation can lead to eye inflammation (uveitis), increased risk of cardiovascular disease, and metabolic syndrome.",
+                comparison_subtitle: "Arthritis Types at a Glance",
+                table_feature: "Feature",
+                table_cause: "Primary Cause",
+                table_pattern: "Joint Pattern",
+                table_stiffness: "Morning Stiffness",
+                table_symptoms: "Key Symptoms",
+                table_systemic: "Systemic Effects?",
+                table_oa_cause: "Cartilage Breakdown",
+                table_ra_cause: "Autoimmune Attack",
+                table_gout_cause: "Uric Acid Crystals",
+                table_psa_cause: "Autoimmune Attack",
+                table_oa_pattern: "Asymmetrical",
+                table_ra_pattern: "Symmetrical",
+                table_gout_pattern: "Usually one joint at start",
+                table_psa_pattern: "Asymmetrical or Symmetrical",
+                table_oa_stiffness: "< 30 min",
+                table_ra_stiffness: "> 45 min",
+                table_gout_stiffness: "Severe during attack",
+                table_psa_stiffness: "> 30 min",
+                table_oa_symptoms: "Pain with activity, grating",
+                table_ra_symptoms: "Symmetrical swelling, fatigue",
+                table_gout_symptoms: "Sudden, intense pain, redness",
+                table_psa_symptoms: "Sausage digits, nail pitting",
+                table_oa_systemic: "No",
+                table_ra_systemic: "Yes (Heart, Lungs, Eyes)",
+                table_gout_systemic: "Yes (Kidneys, Skin)",
+                table_psa_systemic: "Yes (Skin, Eyes, Heart)",
+                what_is_it: "What It Is",
+                common_symptoms: "Common Symptoms",
+                complications: "Complications",
+                key_risk_factors: "Key Risk Factors",
+
+                diagnosis_title: "The Path to Diagnosis and Treatment",
+                diagnosis_intro: "Receiving an accurate diagnosis is the first step, followed by creating a comprehensive treatment plan. This process is a partnership between you and your healthcare team. This section explains what to expect, from your first doctor's visit to the various treatment options available to manage your condition effectively.",
+                diag_getting_diagnosed: "Getting Diagnosed",
+                diag_doctors_visit_title: "Your Doctor's Visit",
+                diag_doctors_visit_text: "The most valuable information comes from you. Before your visit, write down your symptoms, when they started, what makes them better or worse, and any family history of arthritis. During the exam, your doctor will check for swelling, warmth, tenderness, and your joint's range of motion.",
+                diag_blood_tests_title: "Blood Tests",
+                diag_blood_tests_text: "Tests for inflammation markers (ESR, CRP) can show general inflammation. Specific antibody tests (RF, anti-CCP) can help diagnose RA. A uric acid level test is used for suspected gout.",
+                diag_imaging_tests_title: "Imaging Tests",
+                diag_imaging_tests_text: "X-rays show bone damage and cartilage loss. Ultrasound and MRI are more sensitive and can detect early soft tissue inflammation. A special DECT scan can visualize uric acid crystals to diagnose gout.",
+                diag_fluid_analysis_title: "Joint Fluid Analysis",
+                diag_fluid_analysis_text: "This is the 'gold standard' for diagnosing gout. A sample of fluid from the joint is examined under a microscope for the presence of needle-shaped urate crystals.",
+                diag_treatment_options: "Your Treatment Options",
+                diag_meds_title: "Medications",
+                diag_meds_text: "Medications are a cornerstone of treatment. They range from simple pain relievers (Analgesics) and anti-inflammatories (NSAIDs, Corticosteroids) to powerful Disease-Modifying Antirheumatic Drugs (DMARDs) for inflammatory arthritis, which slow or stop the disease. For gout, Uric Acid-Lowering medications are used for long-term prevention.",
+                diag_therapies_title: "Therapies",
+                diag_therapies_text: "Physical Therapy (PT) helps improve strength, flexibility, and range of motion. Occupational Therapy (OT) teaches you how to perform daily tasks more easily, protect your joints, and conserve energy.",
+                diag_surgery_title: "Surgical Options",
+                diag_surgery_text: "When joint damage is severe, surgery may be an option. The most common is Joint Replacement (arthroplasty), where a damaged joint is replaced with a prosthesis. Joint Fusion (arthrodesis) may be used for smaller joints.",
+
+                management_title: "Proactive Self-Management: Taking Control",
+                management_intro: "The most effective treatment plans are those where you play a central, active role. Your daily choices regarding exercise, diet, and self-care are a primary form of therapy. This section provides practical, empowering strategies for living well with arthritis every day. Click on each strategy to learn more.",
+                mgmt_movement_name: "Movement as Medicine",
+                mgmt_movement_text: "Physical activity is one of the most effective non-drug treatments. A balanced program includes: <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Flexibility Exercises:</b> Gentle stretching to reduce stiffness.</li><li><b>Strengthening Exercises:</b> Building muscle to support and protect joints.</li><li><b>Low-Impact Aerobic Exercise:</b> Brisk walking, swimming, or cycling to improve overall health and manage weight.</li></ul> Aim for 150 minutes of moderate activity per week.",
+                mgmt_nutrition_name: "Nutrition for Joint Health",
+                mgmt_nutrition_text: "Maintaining a healthy weight is crucial. An anti-inflammatory diet, like the Mediterranean diet, can help. Emphasize fruits, vegetables, oily fish (salmon), nuts, and whole grains. Limit processed foods, sugar, and red meat. <br><br><b>For Gout:</b> Also limit high-purine foods (organ meats, some seafood), alcohol (especially beer), and sugary drinks.",
+                mgmt_protection_name: "Protecting Your Joints",
+                mgmt_protection_text: "Make small adjustments to daily tasks to reduce strain. <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Respect Pain:</b> If it hurts, stop or change how you're doing it.</li><li><b>Use Larger Joints:</b> Carry bags on your shoulder, not with your fingers.</li><li><b>Avoid Tight Grips:</b> Use tools with larger, padded handles.</li><li><b>Use Assistive Devices:</b> Smart tools like jar openers can make life easier.</li></ul>",
+                mgmt_pacing_name: "Pacing & Rest",
+                mgmt_pacing_text: "Pacing is crucial for managing pain and fatigue. <ul class='list-disc list-inside mt-2 space-y-1'><li>Alternate between heavy and light tasks.</li><li>Schedule short rest breaks throughout the day to avoid overdoing it.</li><li>Listen to your body's signals. Rest is not a sign of weakness, but a key management strategy.</li></ul>",
+                mgmt_stress_name: "Stress Management",
+                mgmt_stress_text: "Living with a chronic condition has an emotional component. Stress can worsen pain. <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Cope with Flares:</b> Rest joints, use medications as prescribed, and apply heat or cold packs.</li><li><b>Manage Stress:</b> Try relaxation techniques like deep breathing, meditation, or gentle yoga.</li><li><b>Build Support:</b> Connect with family, friends, or a support group. You are not alone.</li></ul>",
+                mgmt_partnering_name: "Partnering with Your Doctor",
+                mgmt_partnering_text: "You are the most important member of your healthcare team. <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Communicate Openly:</b> Be honest about your symptoms, concerns, and treatment goals.</li><li><b>Ask Questions:</b> Don't hesitate to ask for clarification about your condition or treatment plan.</li><li><b>Follow the Plan:</b> Adhere to your prescribed medication and therapy schedule for the best results.</li></ul>",
+
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Do not disregard professional medical advice or delay in seeking it because of something you have read on this page.",
+                sources_text: "Information compiled from leading health organizations, including the Arthritis Foundation and the Centers for Disease Control and Prevention (CDC)."
+            },
+            es: {
+                main_title: "Viviendo Bien con Artritis",
+                main_subtitle: "Una Guía para Pacientes para Entender y Manejar la Salud de las Articulaciones",
+                back_button: "Volver",
+                nav_welcome: "Bienvenida",
+                nav_types: "Tipos de Artritis",
+                nav_diagnosis: "Diagnóstico y Tratamiento",
+                nav_management: "Autocuidado",
+
+                welcome_title: "Entendiendo sus Articulaciones",
+                welcome_intro: "Un diagnóstico de artritis puede ser abrumador, pero entender su condición es el primer y más poderoso paso para manejarla eficazmente. Esta guía proporciona información clara y basada en evidencia para ayudarle a ser un socio activo en su atención médica. La artritis no es una sola enfermedad, sino un término para más de 100 condiciones que afectan las articulaciones. En esencia, implica inflamación—la respuesta de curación natural de su cuerpo que se ha descontrolado, causando dolor persistente, rigidez y daño potencial a las articulaciones con el tiempo.",
+                symptoms_title: "Señales Comunes de Artritis",
+                symptoms_intro: "Reconocer los síntomas clave es crucial porque el diagnóstico y tratamiento tempranos pueden mejorar significativamente los resultados. Si experimenta alguno de los siguientes cuatro síntomas clave durante más de unos pocos días, es importante consultar a un proveedor de atención médica. Haga clic en cada señal para obtener más información.",
+                symptom_pain_name: "Dolor",
+                symptom_pain_desc: "El dolor de la artritis puede ser constante o intermitente. Puede sentirse en una sola articulación o en múltiples articulaciones en todo el cuerpo. El carácter del dolor también puede variar, desde un dolor sordo hasta una sensación aguda y punzante.",
+                symptom_stiffness_name: "Rigidez",
+                symptom_stiffness_desc: "Este es un síntoma característico de la artritis. A menudo es más pronunciado después de períodos de inactividad, como a primera hora de la mañana o después de estar sentado por mucho tiempo. La duración de esta rigidez puede ser una pista importante para el diagnóstico.",
+                symptom_swelling_name: "Hinchazón",
+                symptom_swelling_desc: "En muchos tipos de artritis, la articulación afectada puede hincharse. La piel sobre la articulación puede verse abultada y sentirse caliente al tacto. A veces, también hay enrojecimiento, particularmente durante un brote agudo.",
+                symptom_motion_name: "Movimiento Reducido",
+                symptom_motion_desc: "La artritis puede llevar a una disminución del rango de movimiento, lo que dificulta o hace doloroso mover una articulación por completo. Esto puede interferir con las actividades diarias, como agacharse, agarrar un objeto o levantarse de una silla.",
+                families_title: "Las Principales Familias de Artritis",
+                families_intro: "Los médicos agrupan los más de 100 tipos de artritis en varias familias principales según su causa subyacente. Entender a qué familia pertenece un tipo específico de artritis es fundamental, ya que la causa determina directamente el comportamiento de la enfermedad, sus síntomas y las estrategias de tratamiento más efectivas.",
+                family_degenerative_name: "Artritis Degenerativa",
+                family_degenerative_desc: "Causada por el desgaste del cartílago articular. La osteoartritis (OA) es el principal ejemplo. Es una enfermedad de toda la articulación, no solo 'desgaste por el uso'.",
+                family_inflammatory_name: "Artritis Inflamatoria",
+                family_inflammatory_desc: "Causada por un sistema inmunitario defectuoso que ataca los propios tejidos del cuerpo. Ejemplos incluyen la Artritis Reumatoide (AR) y la Artritis Psoriásica (APs).",
+                family_metabolic_name: "Artritis Metabólica",
+                family_metabolic_desc: "Vinculada al metabolismo del cuerpo. La gota es el ejemplo clásico, causada por una acumulación de cristales de ácido úrico en las articulaciones.",
+                family_infectious_name: "Artritis Infecciosa",
+                family_infectious_desc: "Causada por un germen (bacteria, virus u hongo) que entra en una articulación, desencadenando una potente inflamación.",
+
+                types_title: "Un Vistazo Profundo a los Tipos Comunes de Artritis",
+                types_intro: "Aunque existen más de 100 tipos de artritis, unos pocos son responsables de la mayoría de los casos. Esta sección le permite explorar la 'huella digital' única de las condiciones más comunes: sus causas, síntomas y factores de riesgo. Entender su tipo específico es clave para un manejo efectivo.",
+                oa_subtitle: "Más que solo 'Desgaste por el Uso'",
+                oa_what: "El tipo más común, la OA es una enfermedad de toda la articulación donde el cartílago protector en los extremos de los huesos se desgasta con el tiempo. Los intentos fallidos del cuerpo por reparar el daño conducen a cambios en el hueso, deterioro de los tejidos conectivos e inflamación.",
+                oa_symptoms: ["Dolor durante o después del movimiento", "Rigidez después del reposo (generalmente < 30 mins)", "Sensibilidad al aplicar presión", "Pérdida de flexibilidad", "Sensación de crujido (crepitación)", "Espolones óseos (bultos duros)"],
+                oa_risk_explanation: "La obesidad es un factor de riesgo modificable importante, ya que aumenta la tensión en las articulaciones y el tejido graso produce proteínas inflamatorias.",
+                oa_complications: "El dolor crónico puede afectar la independencia y provocar depresión y trastornos del sueño. La dificultad para hacer ejercicio puede empeorar otras condiciones como enfermedades cardíacas y diabetes.",
+                ra_subtitle: "Cuando su Sistema Inmunitario Ataca sus Articulaciones",
+                ra_what: "La AR es una enfermedad autoinmune e inflamatoria crónica. El sistema inmunitario ataca por error los propios tejidos del cuerpo, principalmente el revestimiento de las articulaciones (sinovial). Esto causa una hinchazón dolorosa que eventualmente puede resultar en erosión ósea y deformidad articular. Es una enfermedad sistémica que puede afectar a todo el cuerpo.",
+                ra_symptoms: ["Articulaciones dolorosas, calientes e hinchadas", "Afectación simétrica de las articulaciones (p. ej., ambas muñecas)", "Rigidez matutina prolongada (> 45 mins)", "Fatiga, fiebre y pérdida de apetito", "A menudo comienza en articulaciones pequeñas (manos, pies)", "Nódulos reumatoides (bultos firmes bajo la piel)"],
+                ra_risk_explanation: "Fumar es un factor de riesgo importante que no solo aumenta el riesgo, sino que también puede agravar la enfermedad y hacer que el tratamiento sea menos efectivo.",
+                ra_complications: "La inflamación sistémica aumenta el riesgo de enfermedad cardiovascular (infarto, accidente cerebrovascular), enfermedad pulmonar, osteoporosis, problemas oculares (ojos secos) e infecciones.",
+                gout_subtitle: "La Artritis Impulsada por Cristales",
+                gout_what: "La gota es una forma común e intensamente dolorosa de artritis inflamatoria causada por un exceso de ácido úrico en el torrente sanguíneo (hiperuricemia). Este exceso de ácido úrico puede formar cristales afilados en forma de aguja en una articulación, desencadenando episodios repentinos y severos de dolor e inflamación conocidos como ataques de gota o 'brotes'.",
+                gout_symptoms: ["Dolor repentino e insoportable (a menudo por la noche)", "Hinchazón extrema, enrojecimiento y calor", "Más común inicialmente en el dedo gordo del pie", "Tofos (bultos calcáreos de cristales de urato bajo la piel en casos crónicos)"],
+                gout_risk_explanation: "La dieta y las bebidas juegan un papel importante. La carne roja, algunos mariscos, la cerveza y las bebidas azucaradas pueden elevar los niveles de ácido úrico y desencadenar ataques.",
+                gout_complications: "La gota no tratada puede provocar ataques recurrentes y más severos, daño articular permanente, cálculos renales y enfermedad renal crónica.",
+                psa_subtitle: "La Conexión entre la Piel y las Articulaciones",
+                psa_what: "La APs es una enfermedad autoinmune, inflamatoria y crónica que afecta tanto a la piel (psoriasis) como a las articulaciones. La misma respuesta inmunitaria defectuosa que causa las placas escamosas en la piel también desencadena la inflamación en las articulaciones y donde los tendones y ligamentos se unen al hueso.",
+                psa_symptoms: ["Dolor, rigidez e hinchazón en las articulaciones", "Dactilitis (dedos de manos o pies 'en salchicha')", "Entesitis (dolor donde los tendones se unen al hueso, p. ej., talón)", "Dolor lumbar (espondilitis)", "Cambios en las uñas (picaduras, desmoronamiento)", "Erupción cutánea de psoriasis"],
+                psa_risk_explanation: "Tener psoriasis es el mayor factor de riesgo. Un historial familiar de psoriasis o APs también aumenta fuertemente el riesgo.",
+                psa_complications: "La inflamación sistémica puede provocar inflamación ocular (uveítis), un mayor riesgo de enfermedad cardiovascular y síndrome metabólico.",
+                comparison_subtitle: "Tipos de Artritis de un Vistazo",
+                table_feature: "Característica",
+                table_cause: "Causa Principal",
+                table_pattern: "Patrón Articular",
+                table_stiffness: "Rigidez Matutina",
+                table_symptoms: "Síntomas Clave",
+                table_systemic: "Efectos Sistémicos",
+                table_oa_cause: "Desgaste del cartílago",
+                table_ra_cause: "Ataque autoinmune",
+                table_gout_cause: "Cristales de ácido úrico",
+                table_psa_cause: "Ataque autoinmune",
+                table_oa_pattern: "Asimétrico",
+                table_ra_pattern: "Simétrico",
+                table_gout_pattern: "Generalmente una articulación al inicio",
+                table_psa_pattern: "Asimétrico o Simétrico",
+                table_oa_stiffness: "< 30 min",
+                table_ra_stiffness: "> 45 min",
+                table_gout_stiffness: "Severa durante el ataque",
+                table_psa_stiffness: "> 30 min",
+                table_oa_symptoms: "Dolor con actividad, crujidos",
+                table_ra_symptoms: "Hinchazón simétrica, fatiga",
+                table_gout_symptoms: "Dolor súbito e intenso, enrojecimiento",
+                table_psa_symptoms: "Dedos en salchicha, picaduras en uñas",
+                table_oa_systemic: "No",
+                table_ra_systemic: "Sí (Corazón, Pulmones, Ojos)",
+                table_gout_systemic: "Sí (Riñones, Piel)",
+                table_psa_systemic: "Sí (Piel, Ojos, Corazón)",
+                what_is_it: "Qué es",
+                common_symptoms: "Síntomas Comunes",
+                complications: "Complicaciones",
+                key_risk_factors: "Factores de Riesgo Clave",
+
+                diagnosis_title: "El Camino hacia el Diagnóstico y Tratamiento",
+                diagnosis_intro: "Recibir un diagnóstico preciso es el primer paso, seguido de la creación de un plan de tratamiento integral. Este proceso es una asociación entre usted y su equipo de atención médica. Esta sección explica qué esperar, desde su primera visita al médico hasta las diversas opciones de tratamiento disponibles para manejar su condición de manera efectiva.",
+                diag_getting_diagnosed: "Obteniendo un Diagnóstico",
+                diag_doctors_visit_title: "Su Visita al Médico",
+                diag_doctors_visit_text: "La información más valiosa proviene de usted. Antes de su visita, anote sus síntomas, cuándo comenzaron, qué los mejora o empeora, y cualquier antecedente familiar de artritis. Durante el examen, su médico buscará hinchazón, calor, sensibilidad y el rango de movimiento de su articulación.",
+                diag_blood_tests_title: "Análisis de Sangre",
+                diag_blood_tests_text: "Las pruebas de marcadores de inflamación (VSG, PCR) pueden mostrar inflamación general. Las pruebas de anticuerpos específicos (FR, anti-PCC) pueden ayudar a diagnosticar la AR. Se utiliza una prueba de nivel de ácido úrico para sospecha de gota.",
+                diag_imaging_tests_title: "Pruebas de Imagen",
+                diag_imaging_tests_text: "Las radiografías muestran daño óseo y pérdida de cartílago. La ecografía y la resonancia magnética son más sensibles y pueden detectar inflamación temprana de tejidos blandos. Una exploración especial DECT puede visualizar cristales de ácido úrico para diagnosticar la gota.",
+                diag_fluid_analysis_title: "Análisis del Líquido Articular",
+                diag_fluid_analysis_text: "Este es el 'estándar de oro' para diagnosticar la gota. Se examina una muestra de líquido de la articulación bajo un microscopio para detectar la presencia de cristales de urato en forma de aguja.",
+                diag_treatment_options: "Sus Opciones de Tratamiento",
+                diag_meds_title: "Medicamentos",
+                diag_meds_text: "Los medicamentos son una piedra angular del tratamiento. Van desde analgésicos simples (Analgésicos) y antiinflamatorios (AINE, Corticosteroides) hasta potentes Fármacos Antirreumáticos Modificadores de la Enfermedad (FARME) para la artritis inflamatoria, que ralentizan o detienen la enfermedad. Para la gota, se utilizan medicamentos que reducen el ácido úrico para la prevención a largo plazo.",
+                diag_therapies_title: "Terapias",
+                diag_therapies_text: "La Fisioterapia (FT) ayuda a mejorar la fuerza, la flexibilidad y el rango de movimiento. La Terapia Ocupacional (TO) le enseña cómo realizar las tareas diarias más fácilmente, proteger sus articulaciones y conservar energía.",
+                diag_surgery_title: "Opciones Quirúrgicas",
+                diag_surgery_text: "Cuando el daño articular es severo, la cirugía puede ser una opción. La más común es el Reemplazo Articular (artroplastia), donde una articulación dañada se reemplaza con una prótesis. La Fusión Articular (artrodesis) se puede usar para articulaciones más pequeñas.",
+
+                management_title: "Autocuidado Proactivo: Tomando el Control",
+                management_intro: "Los planes de tratamiento más efectivos son aquellos en los que usted juega un papel central y activo. Sus elecciones diarias con respecto al ejercicio, la dieta y el autocuidado son una forma primaria de terapia. Esta sección proporciona estrategias prácticas y empoderadoras para vivir bien con artritis todos los días. Haga clic en cada estrategia para obtener más información.",
+                mgmt_movement_name: "Movimiento como Medicina",
+                mgmt_movement_text: "La actividad física es uno de los tratamientos no farmacológicos más efectivos. Un programa equilibrado incluye: <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Ejercicios de flexibilidad:</b> Estiramientos suaves para reducir la rigidez.</li><li><b>Ejercicios de fortalecimiento:</b> Desarrollar músculos para apoyar y proteger las articulaciones.</li><li><b>Ejercicio aeróbico de bajo impacto:</b> Caminar a paso ligero, nadar o andar en bicicleta para mejorar la salud general y controlar el peso.</li></ul> Intente hacer 150 minutos de actividad moderada por semana.",
+                mgmt_nutrition_name: "Nutrición para la Salud Articular",
+                mgmt_nutrition_text: "Mantener un peso saludable es crucial. Una dieta antiinflamatoria, como la dieta mediterránea, puede ayudar. Enfatice frutas, verduras, pescado azul (salmón), nueces y granos integrales. Limite los alimentos procesados, el azúcar y la carne roja. <br><br><b>Para la gota:</b> Limite también los alimentos ricos en purinas (vísceras, algunos mariscos), el alcohol (especialmente la cerveza) y las bebidas azucaradas.",
+                mgmt_protection_name: "Protegiendo sus Articulaciones",
+                mgmt_protection_text: "Haga pequeños ajustes en las tareas diarias para reducir la tensión. <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Respete el dolor:</b> Si duele, deténgase o cambie la forma en que lo está haciendo.</li><li><b>Use articulaciones más grandes:</b> Lleve las bolsas en el hombro, no con los dedos.</li><li><b>Evite agarres apretados:</b> Use herramientas con mangos más grandes y acolchados.</li><li><b>Use dispositivos de asistencia:</b> Herramientas inteligentes como abridores de frascos pueden facilitar la vida.</li></ul>",
+                mgmt_pacing_name: "Ritmo y Descanso",
+                mgmt_pacing_text: "Marcar el ritmo es crucial para manejar el dolor y la fatiga. <ul class='list-disc list-inside mt-2 space-y-1'><li>Alterne entre tareas pesadas y ligeras.</li><li>Programe breves descansos durante el día para evitar excederse.</li><li>Escuche las señales de su cuerpo. El descanso no es un signo de debilidad, sino una estrategia de manejo clave.</li></ul>",
+                mgmt_stress_name: "Manejo del Estrés",
+                mgmt_stress_text: "Vivir con una condición crónica tiene un componente emocional. El estrés puede empeorar el dolor. <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Afronte los brotes:</b> Descanse las articulaciones, use los medicamentos según lo prescrito y aplique compresas de calor o frío.</li><li><b>Maneje el estrés:</b> Pruebe técnicas de relajación como la respiración profunda, la meditación o el yoga suave.</li><li><b>Construya apoyo:</b> Conéctese con familiares, amigos o un grupo de apoyo. No está solo.</li></ul>",
+                mgmt_partnering_name: "Asociarse con su Médico",
+                mgmt_partnering_text: "Usted es el miembro más importante de su equipo de atención médica. <ul class='list-disc list-inside mt-2 space-y-1'><li><b>Comuníquese abiertamente:</b> Sea honesto acerca de sus síntomas, preocupaciones y objetivos de tratamiento.</li><li><b>Haga preguntas:</b> No dude en pedir aclaraciones sobre su condición o plan de tratamiento.</li><li><b>Siga el plan:</b> Adhiérase a su programa de medicamentos y terapia prescrito para obtener los mejores resultados.</li></ul>",
+
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica. No ignore el consejo médico profesional ni se demore en buscarlo por algo que haya leído en esta página.",
+                sources_text: "Información recopilada de organizaciones de salud líderes, incluyendo la Arthritis Foundation y los Centros para el Control y la Prevención de Enfermedades (CDC)."
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        const mainNav = document.getElementById('main-nav');
+        let currentChart = null;
+        let currentLanguage = 'en';
+        let currentSection = 'welcome';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+
+        function renderWelcome() {
+            const t = translations[currentLanguage];
+            const symptoms = [
+                { icon: '⚡', name: t.symptom_pain_name, desc: t.symptom_pain_desc, color: 'bg-red-100' },
+                { icon: '⏰', name: t.symptom_stiffness_name, desc: t.symptom_stiffness_desc, color: 'bg-blue-100' },
+                { icon: '💧', name: t.symptom_swelling_name, desc: t.symptom_swelling_desc, color: 'bg-green-100' },
+                { icon: '↔️', name: t.symptom_motion_name, desc: t.symptom_motion_desc, color: 'bg-yellow-100' }
+            ];
+            const families = [
+                { name: t.family_degenerative_name, desc: t.family_degenerative_desc },
+                { name: t.family_inflammatory_name, desc: t.family_inflammatory_desc },
+                { name: t.family_metabolic_name, desc: t.family_metabolic_desc },
+                { name: t.family_infectious_name, desc: t.family_infectious_desc }
+            ];
+
+            const symptomsHtml = symptoms.map(item => `
+                <div class="mb-3">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg shadow-sm hover:shadow-md transition-all ${item.color}">
+                        <span class="flex items-center">
+                            <span class="text-3xl mr-4">${item.icon}</span>
+                            <span class="font-semibold text-slate-800 text-lg">${item.name}</span>
+                        </span>
+                        <span class="accordion-icon text-2xl text-slate-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </button>
+                    <div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600 leading-relaxed">${item.desc}</p></div></div>
+                </div>
+            `).join('');
+            const familiesHtml = families.map(f => `
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-lg hover:scale-105 transition-all">
+                    <h4 class="font-semibold text-sky-700">${f.name}</h4>
+                    <p class="mt-1 text-slate-600 text-sm">${f.desc}</p>
+                </div>
+            `).join('');
+
+            const html = `
+                <div class="content-card bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">${t.welcome_title}</h2>
+                    <p class="text-slate-600 leading-relaxed">${t.welcome_intro}</p>
+                    <div class="mt-10 pt-8 border-t border-slate-200">
+                        <h3 class="text-2xl font-bold text-slate-800">${t.symptoms_title}</h3>
+                        <p class="text-slate-600 mt-2 max-w-3xl mb-6">${t.symptoms_intro}</p>
+                        <div class="max-w-2xl mx-auto">${symptomsHtml}</div>
+                    </div>
+                    <div class="mt-12 pt-8 border-t border-slate-200">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">${t.families_title}</h3>
+                        <p class="text-slate-600 leading-relaxed mb-6">${t.families_intro}</p>
+                        <div class="grid md:grid-cols-2 gap-4">${familiesHtml}</div>
+                    </div>
+                </div>
+            `;
+            mainContent.innerHTML = html;
+            addAccordionListeners();
+        }
+        
+        function renderTypes(selectedType = 'Osteoarthritis') {
+            const t = translations[currentLanguage];
+            const data = appData.types;
+            const typeData = data.data[selectedType];
+
+            const buttonsHtml = data.options.map(opt => `
+                <button data-type="${opt}" class="type-button text-sm md:text-base font-semibold py-2 px-5 rounded-full shadow-sm transition-all duration-300 ${selectedType === opt ? 'bg-sky-600 text-white scale-110 shadow-lg' : 'bg-white text-slate-700 hover:bg-sky-100 hover:scale-105'}">${opt}</button>
+            `).join('');
+            
+            let contentHtml = '';
+            if (selectedType === 'Comparison') {
+                const tableData = [
+                    { feature: t.table_cause, oa: t.table_oa_cause, ra: t.table_ra_cause, gout: t.table_gout_cause, psa: t.table_psa_cause },
+                    { feature: t.table_pattern, oa: t.table_oa_pattern, ra: t.table_ra_pattern, gout: t.table_gout_pattern, psa: t.table_psa_pattern },
+                    { feature: t.table_stiffness, oa: t.table_oa_stiffness, ra: t.table_ra_stiffness, gout: t.table_gout_stiffness, psa: t.table_psa_stiffness },
+                    { feature: t.table_symptoms, oa: t.table_oa_symptoms, ra: t.table_ra_symptoms, gout: t.table_gout_symptoms, psa: t.table_psa_symptoms },
+                    { feature: t.table_systemic, oa: t.table_oa_systemic, ra: t.table_ra_systemic, gout: t.table_gout_systemic, psa: t.table_psa_systemic }
+                ];
+                const tableHeader = `<th class="p-3 text-left font-semibold text-slate-600 w-1/4">${t.table_feature}</th><th class="p-3 text-left font-semibold text-slate-600">OA</th><th class="p-3 text-left font-semibold text-slate-600">RA</th><th class="p-3 text-left font-semibold text-slate-600">Gout</th><th class="p-3 text-left font-semibold text-slate-600">PsA</th>`;
+                const tableRows = tableData.map(row => `
+                    <tr class="border-b border-slate-200 last:border-b-0">
+                        <td class="p-3 font-semibold text-slate-700">${row.feature}</td>
+                        <td class="p-3 text-slate-600">${row.oa}</td>
+                        <td class="p-3 text-slate-600">${row.ra}</td>
+                        <td class="p-3 text-slate-600">${row.gout}</td>
+                        <td class="p-3 text-slate-600">${row.psa}</td>
+                    </tr>
+                `).join('');
+                contentHtml = `
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">${t.comparison_subtitle}</h3>
+                    <div class="overflow-x-auto mt-6 bg-slate-50 rounded-lg p-1">
+                        <table class="w-full text-sm md:text-base">
+                            <thead><tr class="bg-slate-200">${tableHeader}</tr></thead>
+                            <tbody>${tableRows}</tbody>
+                        </table>
+                    </div>
+                `;
+            } else {
+                 const typeKeyMap = {
+                    'Osteoarthritis': 'oa',
+                    'Rheumatoid Arthritis': 'ra',
+                    'Gout': 'gout',
+                    'Psoriatic Arthritis': 'psa'
+                };
+                const typeKey = typeKeyMap[selectedType];
+                const symptomsList = t[`${typeKey}_symptoms`].map(s => `<li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 text-lg font-bold">✓</span><span>${s}</span></li>`).join('');
+                contentHtml = `
+                    <div class="grid md:grid-cols-5 gap-8">
+                        <div class="md:col-span-3">
+                            <h3 class="text-2xl font-bold text-slate-800">${selectedType}</h3>
+                            <p class="text-lg font-medium text-sky-700 mb-4">${t[`${typeKey}_subtitle`]}</p>
+                            <div class="space-y-6 text-slate-600 leading-relaxed">
+                                <div><h4 class="font-semibold text-slate-700 text-lg">${t.what_is_it}</h4><p>${t[`${typeKey}_what`]}</p></div>
+                                <div><h4 class="font-semibold text-slate-700 text-lg">${t.common_symptoms}</h4><ul class="space-y-2 mt-2">${symptomsList}</ul></div>
+                                <div><h4 class="font-semibold text-slate-700 text-lg">${t.complications}</h4><p>${t[`${typeKey}_complications`]}</p></div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 bg-slate-50 p-4 rounded-lg">
+                             <h4 class="font-semibold text-slate-700 text-center mb-2 text-lg">${t.key_risk_factors}</h4>
+                             <div class="chart-container"><canvas id="riskFactorChart"></canvas></div>
+                             <p class="text-sm text-slate-500 mt-4 text-center p-2 bg-sky-100/50 rounded-md">${t[`${typeKey}_risk_explanation`]}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const html = `
+                <div class="content-card bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">${t.types_title}</h2>
+                    <p class="text-slate-600 leading-relaxed max-w-4xl mb-6">${t.types_intro}</p>
+                    <div class="flex flex-wrap justify-center gap-4 mb-8">${buttonsHtml}</div>
+                    <div id="type-content" class="mt-4 pt-6 border-t border-slate-200">
+                        ${contentHtml}
+                    </div>
+                </div>
+            `;
+            mainContent.innerHTML = html;
+
+            if (selectedType !== 'Comparison') {
+                createRiskFactorChart(typeData.riskFactors);
+            }
+
+            document.querySelectorAll('.type-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const type = e.currentTarget.dataset.type;
+                    if (type) renderTypes(type);
+                });
+            });
+        }
+
+        function createRiskFactorChart(riskData) {
+            if (currentChart) currentChart.destroy();
+            const ctx = document.getElementById('riskFactorChart');
+            if (!ctx) return;
+            currentChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar', data: { labels: riskData.labels, datasets: [{ label: 'Relative Risk Impact', data: riskData.data, backgroundColor: 'rgba(56, 189, 248, 0.6)', borderColor: 'rgba(2, 132, 199, 1)', borderWidth: 1.5, borderRadius: 4, hoverBackgroundColor: 'rgba(2, 132, 199, 0.8)' }] },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1f2937', titleFont: { weight: 'bold' }, bodyFont: { size: 12 }, displayColors: false, padding: 10 } }, scales: { x: { beginAtZero: true, display: false, grid: { display: false } }, y: { ticks: { font: { size: 12, weight: '500' }, color: '#334155' }, grid: { display: false } } } }
+            });
+        }
+
+        function renderDiagnosis() {
+            const t = translations[currentLanguage];
+            const sections = [
+                { name: t.diag_getting_diagnosed, content: [
+                    { title: t.diag_doctors_visit_title, text: t.diag_doctors_visit_text },
+                    { title: t.diag_blood_tests_title, text: t.diag_blood_tests_text },
+                    { title: t.diag_imaging_tests_title, text: t.diag_imaging_tests_text },
+                    { title: t.diag_fluid_analysis_title, text: t.diag_fluid_analysis_text }
+                ]},
+                { name: t.diag_treatment_options, content: [
+                    { title: t.diag_meds_title, text: t.diag_meds_text },
+                    { title: t.diag_therapies_title, text: t.diag_therapies_text },
+                    { title: t.diag_surgery_title, text: t.diag_surgery_text }
+                ]}
+            ];
+            const sectionsHtml = sections.map(section => {
+                const contentHtml = section.content.map(item => `
+                    <div class="mb-4 bg-white p-4 rounded-lg shadow-sm">
+                        <h4 class="font-semibold text-sky-700">${item.title}</h4>
+                        <p class="mt-1 text-slate-600">${item.text}</p>
+                    </div>
+                `).join('');
+                return `<div class="mb-8"><h3 class="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b-2 border-sky-200">${section.name}</h3><div class="space-y-3">${contentHtml}</div></div>`;
+            }).join('');
+            const html = `<div class="content-card bg-slate-50 p-6 md:p-8 rounded-xl shadow-lg"><h2 class="text-3xl font-bold text-slate-800 mb-2">${t.diagnosis_title}</h2><p class="text-slate-600 leading-relaxed max-w-4xl mb-8">${t.diagnosis_intro}</p><div class="mt-4">${sectionsHtml}</div></div>`;
+            mainContent.innerHTML = html;
+        }
+
+        function renderManagement() {
+            const t = translations[currentLanguage];
+            const strategies = [
+                { name: t.mgmt_movement_name, color: "bg-green-100", text: t.mgmt_movement_text },
+                { name: t.mgmt_nutrition_name, color: "bg-blue-100", text: t.mgmt_nutrition_text },
+                { name: t.mgmt_protection_name, color: "bg-yellow-100", text: t.mgmt_protection_text },
+                { name: t.mgmt_pacing_name, color: "bg-purple-100", text: t.mgmt_pacing_text },
+                { name: t.mgmt_stress_name, color: "bg-red-100", text: t.mgmt_stress_text },
+                { name: t.mgmt_partnering_name, color: "bg-indigo-100", text: t.mgmt_partnering_text }
+            ];
+            const strategiesHtml = strategies.map(item => `
+                 <div class="mb-3">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg shadow-sm hover:shadow-md transition-all ${item.color}">
+                        <span class="font-semibold text-slate-800 text-lg">${item.name}</span>
+                        <span class="accordion-icon text-2xl text-slate-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                    </button>
+                    <div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600 leading-relaxed">${item.text}</p></div></div>
+                </div>
+            `).join('');
+            const html = `<div class="content-card bg-white p-6 md:p-8 rounded-xl shadow-lg"><h2 class="text-3xl font-bold text-slate-800 mb-2">${t.management_title}</h2><p class="text-slate-600 leading-relaxed max-w-4xl mb-8">${t.management_intro}</p><div class="max-w-3xl mx-auto">${strategiesHtml}</div></div>`;
+            mainContent.innerHTML = html;
+            addAccordionListeners();
+        }
+
+        function renderAllContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            mainNav.innerHTML = appData.sections.map(sectionId => `
+                <button data-section="${sectionId}" class="nav-button text-sm md:text-base font-semibold py-2 px-4 rounded-full bg-white text-slate-700 shadow-sm hover:bg-sky-100">
+                    ${t[`nav_${sectionId}`]}
+                </button>
+            `).join('');
+            mainNav.querySelectorAll('.nav-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    currentSection = e.target.dataset.section;
+                    updateContent();
+                });
+            });
+
+            updateContent();
+        }
+
+        function updateContent() {
+            mainNav.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.toggle('active', button.dataset.section === currentSection);
+            });
+
+            if (currentChart) {
+                currentChart.destroy();
+                currentChart = null;
+            }
+            
+            let renderFunction;
+            switch (currentSection) {
+                case 'welcome': renderFunction = renderWelcome; break;
+                case 'types': renderFunction = renderTypes; break;
+                case 'diagnosis': renderFunction = renderDiagnosis; break;
+                case 'management': renderFunction = renderManagement; break;
+                default: renderFunction = renderWelcome;
+            }
+            renderFunction();
+            
+            const card = mainContent.querySelector('.content-card');
+            if (card) {
+                card.classList.add('visible');
+            }
+        }
+        
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderAllContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</ht

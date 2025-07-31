@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Deeper Dive: Rheumatoid Arthritis (RA)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/diseases/rheumatoid-arthritis" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://www.mayoclinic.org/diseases-conditions/rheumatoid-arthritis/symptoms-causes/syc-20353648" target="_blank" class="text-sky-600 hover:underline">Mayo Clinic</a>
+                    <a href="https://www.cdc.gov/arthritis/rheumatoid-arthritis/index.html" target="_blank" class="text-sky-600 hover:underline">CDC</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "A Deeper Dive: Rheumatoid Arthritis",
+                main_subtitle: "Understanding this autoimmune condition and the path to effective management.",
+                back_button: "Back",
+                what_is_ra_title: "What is Rheumatoid Arthritis?",
+                what_is_ra_intro: "Rheumatoid Arthritis (RA) is a chronic autoimmune disease. This means the body's immune system, which normally protects us from infection, mistakenly attacks its own healthy tissues. In RA, the primary target of this attack is the synovium, the soft lining inside our joints.",
+                what_is_ra_p1: "This attack causes inflammation, making the synovium thick and swollen. If left uncontrolled, this inflammation can gradually destroy the cartilage and bone within the joint, leading to pain, deformity, and loss of function. Unlike Osteoarthritis, which is a degenerative disease, RA is a systemic condition, meaning the underlying inflammation can affect the entire body.",
+                risk_factors_title: "Who is at Risk for RA?",
+                risk_factors_intro: "The exact cause of RA is unknown, but it's believed to be a combination of genetic and environmental factors. Certain factors can increase a person's risk.",
+                risk_factors_chart_label: "Relative Impact on Risk",
+                diagnosis_title: "The Diagnostic Process for RA",
+                diagnosis_intro: "Diagnosing RA early is crucial to prevent joint damage. Doctors use a combination of patient history, physical exams, blood tests, and imaging to make a diagnosis.",
+                diagnosis_step1_title: "Symptom Review & Physical Exam",
+                diagnosis_step1_desc: "Your doctor will look for key signs like symmetrical joint swelling (affecting both sides of the body), prolonged morning stiffness (lasting over 30 minutes), and tenderness in the small joints of the hands and feet.",
+                diagnosis_step2_title: "Blood Tests for Antibodies",
+                diagnosis_step2_desc: "Blood tests look for specific antibodies, such as Rheumatoid Factor (RF) and anti-CCP. While not everyone with RA has them, their presence strongly suggests the diagnosis. Doctors also check for general inflammation markers like CRP and ESR.",
+                diagnosis_step3_title: "Imaging Tests",
+                diagnosis_step3_desc: "X-rays can show joint damage like bone erosions in later stages. Ultrasound and MRI are more sensitive and can detect early inflammation in the joint lining (synovitis) before permanent damage occurs.",
+                systemic_title: "RA's Impact Beyond the Joints",
+                systemic_intro: "The chronic inflammation of RA is body-wide and can affect many organs. Controlling the disease is not just about joint pain; it's about protecting your overall health.",
+                systemic_heart_title: "Heart & Blood Vessels",
+                systemic_heart_desc: "RA significantly increases the risk of cardiovascular disease, including heart attack and stroke. Inflammation can damage blood vessels and contribute to atherosclerosis (hardening of the arteries).",
+                systemic_lungs_title: "Lungs",
+                systemic_lungs_desc: "Inflammation can cause scarring in the lung tissue (interstitial lung disease), leading to shortness of breath and a dry cough. People with RA are also more prone to lung infections.",
+                systemic_eyes_title: "Eyes",
+                systemic_eyes_desc: "Dry eye syndrome (Sjögren's syndrome) is common. More seriously, inflammation can affect the white part of the eye (scleritis), which can be painful and threaten vision if untreated.",
+                systemic_bones_title: "Bones",
+                systemic_bones_desc: "Chronic inflammation, combined with the use of some steroid medications, can lead to a loss of bone density, causing osteoporosis and increasing the risk of fractures.",
+                systemic_skin_title: "Skin",
+                systemic_skin_desc: "About 25% of people with RA develop rheumatoid nodules, which are firm lumps under the skin, usually over pressure points like the elbows.",
+                treatment_title: "Treating Rheumatoid Arthritis",
+                treatment_intro: "Modern RA treatment focuses on a 'treat-to-target' strategy: aggressively controlling inflammation to achieve remission or low disease activity, thereby preventing joint damage and protecting overall health.",
+                treatment_dmards_title: "Disease-Modifying Drugs (DMARDs)",
+                treatment_dmards_desc: "These are the most important medications for RA. They work by suppressing the overactive immune system to slow or stop the disease process. Methotrexate is the most common conventional DMARD.",
+                treatment_biologics_title: "Biologics & Biosimilars",
+                treatment_biologics_desc: "These are a newer class of DMARDs that target specific inflammatory pathways. They are highly effective and are given by injection or infusion. Examples include TNF inhibitors.",
+                treatment_jak_title: "JAK Inhibitors",
+                treatment_jak_desc: "This is the newest class of DMARDs, taken as pills. They work inside immune cells to block inflammation signals, offering another powerful treatment option.",
+                treatment_symptom_title: "Symptom Management",
+                treatment_symptom_desc: "While DMARDs control the disease, other medications like NSAIDs (ibuprofen) and short-term corticosteroids (prednisone) are used to manage pain and inflammation during flares.",
+                living_with_ra_title: "Living Well with RA",
+                living_with_ra_intro: "Managing RA is a daily process that goes beyond medication. These strategies can help you maintain an active and fulfilling life.",
+                living_activity_title: "Balancing Rest and Activity",
+                living_activity_desc: "RA causes fatigue that is more than just being tired. It's essential to listen to your body. Alternate periods of activity with periods of rest. Gentle range-of-motion exercises and low-impact cardio (like swimming) are crucial, but avoid overdoing it, especially during a flare.",
+                living_diet_title: "Diet and Nutrition",
+                living_diet_desc: "While no diet can cure RA, an anti-inflammatory diet rich in fruits, vegetables, whole grains, and omega-3 fatty acids (found in fish like salmon) can help manage inflammation. Limiting processed foods and sugar is also beneficial.",
+                living_protection_title: "Joint Protection",
+                living_protection_desc: "Make small changes to protect your joints. Use assistive devices like jar openers, use larger joints to carry objects (e.g., use your forearm instead of your hand), and maintain good posture to reduce strain.",
+                living_flares_title: "Managing Flares",
+                living_flares_desc: "Flares are temporary increases in disease activity. Have a plan with your doctor. This may include short-term medication adjustments, resting the affected joints, and using heat or cold packs to manage pain and swelling.",
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Un Vistazo Profundo: Artritis Reumatoide",
+                main_subtitle: "Entendiendo esta condición autoinmune y el camino hacia un manejo efectivo.",
+                back_button: "Volver",
+                what_is_ra_title: "¿Qué es la Artritis Reumatoide?",
+                what_is_ra_intro: "La Artritis Reumatoide (AR) es una enfermedad autoinmune crónica. Esto significa que el sistema inmunitario del cuerpo, que normalmente nos protege de las infecciones, ataca por error a sus propios tejidos sanos. En la AR, el objetivo principal de este ataque es la sinovial, el revestimiento blando dentro de nuestras articulaciones.",
+                what_is_ra_p1: "Este ataque causa inflamación, haciendo que la sinovial se engrose e hinche. Si no se controla, esta inflamación puede destruir gradualmente el cartílago y el hueso dentro de la articulación, lo que lleva a dolor, deformidad y pérdida de función. A diferencia de la Osteoartritis, que es una enfermedad degenerativa, la AR es una condición sistémica, lo que significa que la inflamación subyacente puede afectar a todo el cuerpo.",
+                risk_factors_title: "¿Quién está en Riesgo de AR?",
+                risk_factors_intro: "La causa exacta de la AR es desconocida, pero se cree que es una combinación de factores genéticos y ambientales. Ciertos factores pueden aumentar el riesgo de una persona.",
+                risk_factors_chart_label: "Impacto Relativo en el Riesgo",
+                diagnosis_title: "El Proceso Diagnóstico de la AR",
+                diagnosis_intro: "Diagnosticar la AR de forma temprana es crucial para prevenir el daño articular. Los médicos utilizan una combinación de historial del paciente, exámenes físicos, análisis de sangre e imágenes para hacer un diagnóstico.",
+                diagnosis_step1_title: "Revisión de Síntomas y Examen Físico",
+                diagnosis_step1_desc: "Su médico buscará signos clave como hinchazón articular simétrica (que afecta a ambos lados del cuerpo), rigidez matutina prolongada (que dura más de 30 minutos) y sensibilidad en las pequeñas articulaciones de las manos y los pies.",
+                diagnosis_step2_title: "Análisis de Sangre para Anticuerpos",
+                diagnosis_step2_desc: "Los análisis de sangre buscan anticuerpos específicos, como el Factor Reumatoide (FR) y anti-PCC. Aunque no todas las personas con AR los tienen, su presencia sugiere fuertemente el diagnóstico. Los médicos también verifican marcadores de inflamación general como PCR y VSG.",
+                diagnosis_step3_title: "Pruebas de Imagen",
+                diagnosis_step3_desc: "Las radiografías pueden mostrar daño articular como erosiones óseas en etapas posteriores. La ecografía y la resonancia magnética son más sensibles y pueden detectar inflamación temprana en el revestimiento de la articulación (sinovitis) antes de que ocurra un daño permanente.",
+                systemic_title: "El Impacto de la AR Más Allá de las Articulaciones",
+                systemic_intro: "La inflamación crónica de la AR afecta a todo el cuerpo y puede dañar muchos órganos. Controlar la enfermedad no se trata solo del dolor articular; se trata de proteger su salud en general.",
+                systemic_heart_title: "Corazón y Vasos Sanguíneos",
+                systemic_heart_desc: "La AR aumenta significativamente el riesgo de enfermedad cardiovascular, incluyendo infartos y accidentes cerebrovasculares. La inflamación puede dañar los vasos sanguíneos y contribuir a la aterosclerosis (endurecimiento de las arterias).",
+                systemic_lungs_title: "Pulmones",
+                systemic_lungs_desc: "La inflamación puede causar cicatrices en el tejido pulmonar (enfermedad pulmonar intersticial), lo que provoca dificultad para respirar y tos seca. Las personas con AR también son más propensas a las infecciones pulmonares.",
+                systemic_eyes_title: "Ojos",
+                systemic_eyes_desc: "El síndrome del ojo seco (síndrome de Sjögren) es común. Más grave aún, la inflamación puede afectar la parte blanca del ojo (escleritis), lo que puede ser doloroso y amenazar la visión si no se trata.",
+                systemic_bones_title: "Huesos",
+                systemic_bones_desc: "La inflamación crónica, combinada con el uso de algunos medicamentos esteroides, puede llevar a una pérdida de densidad ósea, causando osteoporosis y aumentando el riesgo de fracturas.",
+                systemic_skin_title: "Piel",
+                systemic_skin_desc: "Alrededor del 25% de las personas con AR desarrollan nódulos reumatoides, que son bultos firmes debajo de la piel, generalmente sobre puntos de presión como los codos.",
+                treatment_title: "Tratamiento de la Artritis Reumatoide",
+                treatment_intro: "El tratamiento moderno de la AR se centra en una estrategia de 'tratar hasta alcanzar el objetivo': controlar agresivamente la inflamación para lograr la remisión o una baja actividad de la enfermedad, previniendo así el daño articular y protegiendo la salud en general.",
+                treatment_dmards_title: "Fármacos Modificadores de la Enfermedad (FARME)",
+                treatment_dmards_desc: "Estos son los medicamentos más importantes para la AR. Actúan suprimiendo el sistema inmunitario hiperactivo para ralentizar o detener el proceso de la enfermedad. El metotrexato es el FARME convencional más común.",
+                treatment_biologics_title: "Biológicos y Biosimilares",
+                treatment_biologics_desc: "Esta es una clase más nueva de FARME que se dirige a vías inflamatorias específicas. Son muy eficaces y se administran por inyección o infusión. Ejemplos incluyen los inhibidores de TNF.",
+                treatment_jak_title: "Inhibidores de JAK",
+                treatment_jak_desc: "Esta es la clase más nueva de FARME, que se toma en pastillas. Actúan dentro de las células inmunitarias para bloquear las señales de inflamación, ofreciendo otra potente opción de tratamiento.",
+                treatment_symptom_title: "Manejo de Síntomas",
+                treatment_symptom_desc: "Mientras que los FARME controlan la enfermedad, otros medicamentos como los AINE (ibuprofeno) y los corticosteroides a corto plazo (prednisona) se utilizan para manejar el dolor y la inflamación durante los brotes.",
+                living_with_ra_title: "Viviendo Bien con AR",
+                living_with_ra_intro: "Manejar la AR es un proceso diario que va más allá de la medicación. Estas estrategias pueden ayudarle a mantener una vida activa y plena.",
+                living_activity_title: "Equilibrar Descanso y Actividad",
+                living_activity_desc: "La AR causa una fatiga que es más que simplemente estar cansado. Es esencial escuchar a su cuerpo. Alterne períodos de actividad con períodos de descanso. Los ejercicios suaves de rango de movimiento y el cardio de bajo impacto (como nadar) son cruciales, pero evite excederse, especialmente durante un brote.",
+                living_diet_title: "Dieta y Nutrición",
+                living_diet_desc: "Si bien ninguna dieta puede curar la AR, una dieta antiinflamatoria rica en frutas, verduras, granos integrales y ácidos grasos omega-3 (que se encuentran en pescados como el salmón) puede ayudar a controlar la inflamación. Limitar los alimentos procesados y el azúcar también es beneficioso.",
+                living_protection_title: "Protección de las Articulaciones",
+                living_protection_desc: "Haga pequeños cambios para proteger sus articulaciones. Use dispositivos de asistencia como abridores de frascos, use articulaciones más grandes para transportar objetos (p. ej., use el antebrazo en lugar de la mano) y mantenga una buena postura para reducir la tensión.",
+                living_flares_title: "Manejo de los Brotes",
+                living_flares_desc: "Los brotes son aumentos temporales de la actividad de la enfermedad. Tenga un plan con su médico. Esto puede incluir ajustes de medicamentos a corto plazo, descansar las articulaciones afectadas y usar compresas de calor o frío para controlar el dolor y la hinchazón.",
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentChart = null;
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+
+        function createRiskFactorChart() {
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            const ctx = document.getElementById('riskFactorChart');
+            if (!ctx) return;
+            
+            const riskData = {
+                labels: ['Smoking', 'Genetics', 'Female Sex', 'Age (30-60)', 'Obesity', 'Environment'],
+                data: [10, 8, 7, 6, 5, 4]
+            };
+
+            currentChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: riskData.labels,
+                    datasets: [{
+                        label: translations[currentLanguage].risk_factors_chart_label,
+                        data: riskData.data,
+                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
+                        borderColor: 'rgba(2, 132, 199, 1)',
+                        borderWidth: 1.5,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { display: false }, ticks: { display: false } },
+                        y: { grid: { display: false }, ticks: { font: { size: 12, weight: '500' }, color: '#334155' } }
+                    }
+                }
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const whatIsRaSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="what_is_ra_title">${t.what_is_ra_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-4" data-translate="what_is_ra_intro">${t.what_is_ra_intro}</p>
+                    <p class="text-slate-600 leading-relaxed" data-translate="what_is_ra_p1">${t.what_is_ra_p1}</p>
+                </section>
+            `;
+
+            const riskFactorsSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="risk_factors_title">${t.risk_factors_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6" data-translate="risk_factors_intro">${t.risk_factors_intro}</p>
+                    <div class="chart-container">
+                        <canvas id="riskFactorChart"></canvas>
+                    </div>
+                </section>
+            `;
+
+            const diagnosisSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="diagnosis_title">${t.diagnosis_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="diagnosis_intro">${t.diagnosis_intro}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">1</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step1_title">${t.diagnosis_step1_title}</h3><p class="text-slate-600" data-translate="diagnosis_step1_desc">${t.diagnosis_step1_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">2</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step2_title">${t.diagnosis_step2_title}</h3><p class="text-slate-600" data-translate="diagnosis_step2_desc">${t.diagnosis_step2_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">3</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step3_title">${t.diagnosis_step3_title}</h3><p class="text-slate-600" data-translate="diagnosis_step3_desc">${t.diagnosis_step3_desc}</p></div></div>
+                    </div>
+                </section>
+            `;
+
+            const systemicSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="systemic_title">${t.systemic_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="systemic_intro">${t.systemic_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">❤️</span><span class="font-semibold text-slate-800" data-translate="systemic_heart_title">${t.systemic_heart_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="systemic_heart_desc">${t.systemic_heart_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">🫁</span><span class="font-semibold text-slate-800" data-translate="systemic_lungs_title">${t.systemic_lungs_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="systemic_lungs_desc">${t.systemic_lungs_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">👁️</span><span class="font-semibold text-slate-800" data-translate="systemic_eyes_title">${t.systemic_eyes_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="systemic_eyes_desc">${t.systemic_eyes_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-gray-200"><span class="flex items-center"><span class="text-2xl mr-3">🦴</span><span class="font-semibold text-slate-800" data-translate="systemic_bones_title">${t.systemic_bones_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="systemic_bones_desc">${t.systemic_bones_desc}</p></div></div></div>
+                        <div class="md:col-span-2"><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-orange-100"><span class="flex items-center"><span class="text-2xl mr-3">🖐️</span><span class="font-semibold text-slate-800" data-translate="systemic_skin_title">${t.systemic_skin_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="systemic_skin_desc">${t.systemic_skin_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            const treatmentSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="treatment_title">${t.treatment_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="treatment_intro">${t.treatment_intro}</p>
+                     <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">🎯</span><span class="font-semibold text-slate-800" data-translate="treatment_dmards_title">${t.treatment_dmards_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_dmards_desc">${t.treatment_dmards_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🧬</span><span class="font-semibold text-slate-800" data-translate="treatment_biologics_title">${t.treatment_biologics_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_biologics_desc">${t.treatment_biologics_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="treatment_jak_title">${t.treatment_jak_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_jak_desc">${t.treatment_jak_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">🩹</span><span class="font-semibold text-slate-800" data-translate="treatment_symptom_title">${t.treatment_symptom_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_symptom_desc">${t.treatment_symptom_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            const livingSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="living_with_ra_title">${t.living_with_ra_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="living_with_ra_intro">${t.living_with_ra_intro}</p>
+                     <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🧘</span><span class="font-semibold text-slate-800" data-translate="living_activity_title">${t.living_activity_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_activity_desc">${t.living_activity_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">🥗</span><span class="font-semibold text-slate-800" data-translate="living_diet_title">${t.living_diet_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_diet_desc">${t.living_diet_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">🤲</span><span class="font-semibold text-slate-800" data-translate="living_protection_title">${t.living_protection_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_protection_desc">${t.living_protection_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🔥</span><span class="font-semibold text-slate-800" data-translate="living_flares_title">${t.living_flares_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_flares_desc">${t.living_flares_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            mainContent.innerHTML = whatIsRaSection + riskFactorsSection + diagnosisSection + systemicSection + treatmentSection + livingSection;
+            createRiskFactorChart();
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>

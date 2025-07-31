@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Deeper Dive: Gout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/diseases/gout" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://www.mayoclinic.org/diseases-conditions/gout/symptoms-causes/syc-20372897" target="_blank" class="text-sky-600 hover:underline">Mayo Clinic</a>
+                    <a href="https://www.cdc.gov/arthritis/gout/index.html" target="_blank" class="text-sky-600 hover:underline">CDC</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "A Deeper Dive: Gout",
+                main_subtitle: "Understanding the causes, symptoms, and management of this painful condition.",
+                back_button: "Back",
+                what_is_gout_title: "What is Gout?",
+                what_is_gout_intro: "Gout is a common and intensely painful form of inflammatory arthritis. It's caused by a condition called hyperuricemia, where there is too much uric acid in the blood. Uric acid is a normal waste product from the breakdown of purines, substances found in our bodies and in many foods.",
+                what_is_gout_p1: "When uric acid levels become too high, it can form sharp, needle-like crystals in and around the joints. A gout 'attack' or 'flare' occurs when these crystals trigger a massive inflammatory response, leading to sudden and severe pain, swelling, and redness.",
+                risk_factors_title: "Risk Factors vs. Attack Triggers",
+                risk_factors_intro: "It's important to understand the difference between underlying risk factors that make you susceptible to gout, and specific triggers that can set off an individual attack.",
+                risk_factors_chart_label: "Relative Impact on Risk",
+                diagnosis_title: "How Gout is Diagnosed",
+                diagnosis_intro: "Because a gout attack can resemble other conditions like a joint infection, an accurate diagnosis is essential. Doctors use a combination of methods to confirm the presence of gout.",
+                diagnosis_step1_title: "Symptom Review & Physical Exam",
+                diagnosis_step1_desc: "The classic story of a sudden, intensely painful, red, and swollen joint (especially the big toe) is a strong clue. Your doctor will examine the joint for these hallmark signs.",
+                diagnosis_step2_title: "Joint Fluid Analysis (The 'Gold Standard')",
+                diagnosis_step2_desc: "The most definitive way to diagnose gout is to take a sample of fluid from the inflamed joint with a needle (arthrocentesis) and examine it under a microscope. Finding the signature needle-shaped urate crystals confirms the diagnosis.",
+                diagnosis_step3_title: "Blood Test for Uric Acid",
+                diagnosis_step3_desc: "A blood test can measure your uric acid level. However, this can be misleading, as levels can be normal or even low during an attack. It's more useful for monitoring long-term risk.",
+                diagnosis_step4_title: "Imaging",
+                diagnosis_step4_desc: "Ultrasound or a specialized CT scan (dual-energy CT) can detect urate crystal deposits in the joints, even between attacks, which can help confirm a diagnosis in unclear cases.",
+                treatment_title: "A Two-Part Treatment Strategy",
+                treatment_intro: "Gout management has two distinct goals: treating the acute pain and inflammation of a flare, and managing uric acid levels long-term to prevent future attacks and complications.",
+                treatment_flare_title: "Treating an Acute Flare",
+                treatment_flare_desc: "The goal is rapid pain relief. This is typically achieved with anti-inflammatory medications like NSAIDs (e.g., naproxen, indomethacin), colchicine, or corticosteroids (like prednisone).",
+                treatment_long_term_title: "Long-Term Uric Acid Reduction",
+                treatment_long_term_desc: "For people with recurrent attacks, this is the most important part of treatment. Daily medications like allopurinol or febuxostat reduce the body's production of uric acid, preventing crystal formation and future flares.",
+                living_with_gout_title: "Living Well with Gout",
+                living_with_gout_intro: "Lifestyle plays a huge role in managing gout and preventing attacks. These strategies work alongside your medication to keep you healthy.",
+                living_diet_title: "Gout-Friendly Diet",
+                living_diet_desc: "Limit high-purine foods like red meat, organ meats, and some seafood. Reduce or avoid alcohol (especially beer) and sugary drinks, particularly those with high-fructose corn syrup. Focus on a diet rich in vegetables, fruits, and whole grains.",
+                living_hydration_title: "Stay Hydrated",
+                living_hydration_desc: "Drinking plenty of water is crucial. Good hydration helps your kidneys flush uric acid out of your system, reducing the risk of crystal formation. Aim for at least 8-10 glasses of water a day.",
+                living_medication_title: "Medication Adherence",
+                living_medication_desc: "It's vital to take your long-term uric acid-lowering medication every day as prescribed, not just during a flare. Consistent use is the key to preventing future attacks and long-term joint damage.",
+                stages_title: "The Four Stages of Gout",
+                stages_intro: "Gout typically progresses through four stages. Understanding these stages can help you and your doctor make the best management decisions.",
+                stage1_title: "Stage 1: Asymptomatic Hyperuricemia",
+                stage1_desc: "In this stage, a person has high levels of uric acid in the blood, but no symptoms. Treatment is not usually required at this point, but it's a warning sign to consider lifestyle changes.",
+                stage2_title: "Stage 2: Acute Gout Flare",
+                stage2_desc: "This is the stage that people associate with gout. It's the sudden onset of intense pain and swelling in a joint. Flares can last from days to weeks and are treated with anti-inflammatory medications.",
+                stage3_title: "Stage 3: Intercritical Gout",
+                stage3_desc: "This is the period between gout attacks. Although there are no symptoms, urate crystals are still being deposited in the joints, and low-level inflammation may be causing silent damage.",
+                stage4_title: "Stage 4: Chronic Tophaceous Gout",
+                stage4_desc: "This is the most debilitating stage, which can develop after many years of recurrent flares. Hard nodules of urate crystals (tophi) form in the joints, causing chronic pain, stiffness, and permanent joint damage.",
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Un Vistazo Profundo: Gota",
+                main_subtitle: "Entendiendo las causas, síntomas y manejo de esta dolorosa condición.",
+                back_button: "Volver",
+                what_is_gout_title: "¿Qué es la Gota?",
+                what_is_gout_intro: "La gota es una forma común e intensamente dolorosa de artritis inflamatoria. Es causada por una condición llamada hiperuricemia, donde hay demasiado ácido úrico en la sangre. El ácido úrico es un producto de desecho normal de la descomposición de las purinas, sustancias que se encuentran en nuestros cuerpos y en muchos alimentos.",
+                what_is_gout_p1: "Cuando los niveles de ácido úrico se vuelven demasiado altos, puede formar cristales afilados en forma de aguja en y alrededor de las articulaciones. Un 'ataque' o 'brote' de gota ocurre cuando estos cristales desencadenan una respuesta inflamatoria masiva, lo que lleva a un dolor, hinchazón y enrojecimiento repentinos y severos.",
+                risk_factors_title: "Factores de Riesgo vs. Desencadenantes de Ataques",
+                risk_factors_intro: "Es importante entender la diferencia entre los factores de riesgo subyacentes que lo hacen susceptible a la gota y los desencadenantes específicos que pueden provocar un ataque individual.",
+                risk_factors_chart_label: "Impacto Relativo en el Riesgo",
+                diagnosis_title: "Cómo se Diagnostica la Gota",
+                diagnosis_intro: "Debido a que un ataque de gota puede parecerse a otras condiciones como una infección articular, un diagnóstico preciso es esencial. Los médicos utilizan una combinación de métodos para confirmar la presencia de gota.",
+                diagnosis_step1_title: "Revisión de Síntomas y Examen Físico",
+                diagnosis_step1_desc: "La historia clásica de una articulación repentinamente dolorosa, roja e hinchada (especialmente el dedo gordo del pie) es una pista muy fuerte. Su médico examinará la articulación en busca de estos signos característicos.",
+                diagnosis_step2_title: "Análisis del Líquido Articular (El 'Estándar de Oro')",
+                diagnosis_step2_desc: "La forma más definitiva de diagnosticar la gota es tomar una muestra de líquido de la articulación inflamada con una aguja (artrocentesis) y examinarla bajo un microscopio. Encontrar los característicos cristales de urato en forma de aguja confirma el diagnóstico.",
+                diagnosis_step3_title: "Análisis de Sangre para Ácido Úrico",
+                diagnosis_step3_desc: "Un análisis de sangre puede medir su nivel de ácido úrico. Sin embargo, esto puede ser engañoso, ya que los niveles pueden ser normales o incluso bajos durante un ataque. Es más útil para monitorear el riesgo a largo plazo.",
+                diagnosis_step4_title: "Imágenes",
+                diagnosis_step4_desc: "La ecografía o una tomografía computarizada especializada (TC de energía dual) pueden detectar depósitos de cristales de urato en las articulaciones, incluso entre ataques, lo que puede ayudar a confirmar un diagnóstico en casos dudosos.",
+                treatment_title: "Una Estrategia de Tratamiento de Dos Partes",
+                treatment_intro: "El manejo de la gota tiene dos objetivos distintos: tratar el dolor agudo y la inflamación de un brote, y manejar los niveles de ácido úrico a largo plazo para prevenir futuros ataques y complicaciones.",
+                treatment_flare_title: "Tratamiento de un Brote Agudo",
+                treatment_flare_desc: "El objetivo es el alivio rápido del dolor. Esto generalmente se logra con medicamentos antiinflamatorios como los AINE (por ejemplo, naproxeno, indometacina), colchicina o corticosteroides (como la prednisona).",
+                treatment_long_term_title: "Reducción de Ácido Úrico a Largo Plazo",
+                treatment_long_term_desc: "Para las personas con ataques recurrentes, esta es la parte más importante del tratamiento. Medicamentos diarios como alopurinol o febuxostat reducen la producción de ácido úrico en el cuerpo, previniendo la formación de cristales y futuros brotes.",
+                living_with_gout_title: "Viviendo Bien con Gota",
+                living_with_gout_intro: "El estilo de vida juega un papel muy importante en el manejo de la gota y la prevención de ataques. Estas estrategias funcionan junto con su medicación para mantenerlo saludable.",
+                living_diet_title: "Dieta Amigable con la Gota",
+                living_diet_desc: "Limite los alimentos ricos en purinas como la carne roja, las vísceras y algunos mariscos. Reduzca o evite el alcohol (especialmente la cerveza) y las bebidas azucaradas, particularmente aquellas con jarabe de maíz de alta fructosa. Concéntrese en una dieta rica en verduras, frutas y granos integrales.",
+                living_hydration_title: "Manténgase Hidratado",
+                living_hydration_desc: "Beber mucha agua es crucial. Una buena hidratación ayuda a sus riñones a eliminar el ácido úrico de su sistema, reduciendo el riesgo de formación de cristales. Trate de beber al menos 8-10 vasos de agua al día.",
+                living_medication_title: "Adherencia a la Medicación",
+                living_medication_desc: "Es vital tomar su medicamento para reducir el ácido úrico a largo plazo todos los días según lo prescrito, no solo durante un brote. El uso constante es la clave para prevenir futuros ataques y daños articulares a largo plazo.",
+                stages_title: "Las Cuatro Etapas de la Gota",
+                stages_intro: "La gota generalmente progresa a través de cuatro etapas. Comprender estas etapas puede ayudarlo a usted y a su médico a tomar las mejores decisiones de manejo.",
+                stage1_title: "Etapa 1: Hiperuricemia Asintomática",
+                stage1_desc: "En esta etapa, una persona tiene altos niveles de ácido úrico en la sangre, pero no presenta síntomas. Generalmente no se requiere tratamiento en este punto, pero es una señal de advertencia para considerar cambios en el estilo de vida.",
+                stage2_title: "Etapa 2: Brote Agudo de Gota",
+                stage2_desc: "Esta es la etapa que la gente asocia con la gota. Es la aparición repentina de dolor intenso e hinchazón en una articulación. Los brotes pueden durar de días a semanas y se tratan con medicamentos antiinflamatorios.",
+                stage3_title: "Etapa 3: Gota Intercrítica",
+                stage3_desc: "Este es el período entre los ataques de gota. Aunque no hay síntomas, los cristales de urato todavía se están depositando en las articulaciones, y una inflamación de bajo nivel puede estar causando un daño silencioso.",
+                stage4_title: "Etapa 4: Gota Tofácea Crónica",
+                stage4_desc: "Esta es la etapa más debilitante, que puede desarrollarse después de muchos años de brotes recurrentes. Se forman nódulos duros de cristales de urato (tofos) en las articulaciones, causando dolor crónico, rigidez y daño articular permanente.",
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentChart = null;
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+
+        function createRiskFactorChart() {
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            const ctx = document.getElementById('riskFactorChart');
+            if (!ctx) return;
+            
+            const riskData = {
+                labels: ['Diet/Alcohol', 'Medical Conditions', 'Male Sex', 'Genetics', 'Medications'],
+                data: [10, 8, 7, 6, 5]
+            };
+
+            currentChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: riskData.labels,
+                    datasets: [{
+                        label: translations[currentLanguage].risk_factors_chart_label,
+                        data: riskData.data,
+                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
+                        borderColor: 'rgba(2, 132, 199, 1)',
+                        borderWidth: 1.5,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { display: false }, ticks: { display: false } },
+                        y: { grid: { display: false }, ticks: { font: { size: 12, weight: '500' }, color: '#334155' } }
+                    }
+                }
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const whatIsGoutSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="what_is_gout_title">${t.what_is_gout_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-4" data-translate="what_is_gout_intro">${t.what_is_gout_intro}</p>
+                    <p class="text-slate-600 leading-relaxed" data-translate="what_is_gout_p1">${t.what_is_gout_p1}</p>
+                </section>
+            `;
+
+            const stagesSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="stages_title">${t.stages_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="stages_intro">${t.stages_intro}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-gray-400 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">1</div><div><h3 class="font-bold text-lg" data-translate="stage1_title">${t.stage1_title}</h3><p class="text-slate-600" data-translate="stage1_desc">${t.stage1_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-red-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">2</div><div><h3 class="font-bold text-lg" data-translate="stage2_title">${t.stage2_title}</h3><p class="text-slate-600" data-translate="stage2_desc">${t.stage2_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-blue-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">3</div><div><h3 class="font-bold text-lg" data-translate="stage3_title">${t.stage3_title}</h3><p class="text-slate-600" data-translate="stage3_desc">${t.stage3_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-purple-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">4</div><div><h3 class="font-bold text-lg" data-translate="stage4_title">${t.stage4_title}</h3><p class="text-slate-600" data-translate="stage4_desc">${t.stage4_desc}</p></div></div>
+                    </div>
+                </section>
+            `;
+
+            const riskFactorsSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="risk_factors_title">${t.risk_factors_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6" data-translate="risk_factors_intro">${t.risk_factors_intro}</p>
+                    <div class="chart-container">
+                        <canvas id="riskFactorChart"></canvas>
+                    </div>
+                </section>
+            `;
+
+            const diagnosisSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="diagnosis_title">${t.diagnosis_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="diagnosis_intro">${t.diagnosis_intro}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">1</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step1_title">${t.diagnosis_step1_title}</h3><p class="text-slate-600" data-translate="diagnosis_step1_desc">${t.diagnosis_step1_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">2</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step2_title">${t.diagnosis_step2_title}</h3><p class="text-slate-600" data-translate="diagnosis_step2_desc">${t.diagnosis_step2_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">3</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step3_title">${t.diagnosis_step3_title}</h3><p class="text-slate-600" data-translate="diagnosis_step3_desc">${t.diagnosis_step3_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">4</div><div><h3 class="font-bold text-lg" data-translate="diagnosis_step4_title">${t.diagnosis_step4_title}</h3><p class="text-slate-600" data-translate="diagnosis_step4_desc">${t.diagnosis_step4_desc}</p></div></div>
+                    </div>
+                </section>
+            `;
+
+            const treatmentSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="treatment_title">${t.treatment_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="treatment_intro">${t.treatment_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🔥</span><span class="font-semibold text-slate-800" data-translate="treatment_flare_title">${t.treatment_flare_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_flare_desc">${t.treatment_flare_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🛡️</span><span class="font-semibold text-slate-800" data-translate="treatment_long_term_title">${t.treatment_long_term_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="treatment_long_term_desc">${t.treatment_long_term_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+            
+            const livingSection = `
+                 <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="living_with_gout_title">${t.living_with_gout_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="living_with_gout_intro">${t.living_with_gout_intro}</p>
+                     <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">🥩</span><span class="font-semibold text-slate-800" data-translate="living_diet_title">${t.living_diet_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_diet_desc">${t.living_diet_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">💧</span><span class="font-semibold text-slate-800" data-translate="living_hydration_title">${t.living_hydration_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_hydration_desc">${t.living_hydration_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="living_medication_title">${t.living_medication_title}</span></span><span class="accordion-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="living_medication_desc">${t.living_medication_desc}</p></div></div></div>
+                    </div>
+                 </section>
+            `;
+
+            mainContent.innerHTML = whatIsGoutSection + stagesSection + riskFactorsSection + diagnosisSection + treatmentSection + livingSection;
+            createRiskFactorChart();
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>

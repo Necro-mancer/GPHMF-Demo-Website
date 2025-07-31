@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Physical Therapy for Arthritis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/health-wellness/treatment/complementary-therapies/physical-therapies/physical-therapy-for-arthritis" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://www.choosept.com/guide/physical-therapy-guide-osteoarthritis" target="_blank" class="text-sky-600 hover:underline">American Physical Therapy Association</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "Physical Therapy for Arthritis",
+                main_subtitle: "Your Partner in Managing Pain and Improving Function.",
+                back_button: "Back",
+                
+                intro_title: "The Role of Physical Therapy in Arthritis Care",
+                intro_desc: "Physical therapy (PT) is a cornerstone of comprehensive arthritis management. A physical therapist is a movement expert who can design a personalized program to reduce your pain, improve your mobility, and teach you how to manage your condition effectively. PT is much more than just exercise; it's an active partnership focused on restoring function and empowering you to live your best life.",
+
+                expect_title: "What to Expect From Your Physical Therapist",
+                expect_intro: "Your first visit will involve a thorough evaluation to create a treatment plan tailored specifically to you.",
+                expect_step1_title: "Comprehensive Assessment",
+                expect_step1_desc: "Your therapist will discuss your symptoms and medical history. They will perform a physical exam to assess your posture, muscle strength, joint alignment, and range of motion. They may also watch you walk (gait analysis) or perform a task like getting up from a chair.",
+                expect_step2_title: "Goal Setting",
+                expect_step2_desc: "You and your therapist will work together to set realistic, meaningful goals. This could be anything from walking to your mailbox without pain to being able to play with your grandchildren. Clear goals help guide your therapy and measure your progress.",
+                expect_step3_title: "Personalized Treatment Plan",
+                expect_step3_desc: "Based on your assessment and goals, your therapist will create a customized plan that includes a combination of the techniques and exercises described below. This plan will be regularly reviewed and adjusted as you improve.",
+
+                pillars_title: "The Pillars of Physical Therapy for Arthritis",
+                pillars_intro: "A PT program for arthritis is multifaceted, using a variety of tools to achieve your goals.",
+                pillar1_title: "Pain Management Techniques",
+                pillar1_desc: "Before you can move effectively, pain needs to be controlled. Therapists use modalities like heat packs to relax muscles, cold packs to reduce inflammation and swelling, and sometimes techniques like electrical stimulation (TENS) to block pain signals.",
+                pillar2_title: "Manual Therapy",
+                pillar2_desc: "This involves hands-on techniques where the therapist skillfully moves your joints and soft tissues. This can help reduce stiffness, improve joint mobility, and decrease pain.",
+                pillar3_title: "Flexibility & Range of Motion",
+                pillar3_desc: "Gentle stretching and range-of-motion exercises are essential to combat the stiffness caused by arthritis. These exercises help lubricate the joints and maintain their ability to move freely.",
+                pillar4_title: "Strengthening Exercises",
+                pillar4_desc: "Strong muscles act as shock absorbers and provide crucial support for your joints. Your therapist will prescribe specific exercises (isometric, isotonic, isokinetic) to strengthen the muscles around the affected joints, reducing strain and improving stability.",
+                pillar5_title: "Low-Impact Aerobic Conditioning",
+                pillar5_desc: "Activities that raise your heart rate without stressing your joints, like walking, swimming, or cycling, are vital. Aerobic exercise helps with weight management, improves sleep, boosts mood, and reduces overall pain.",
+                pillar6_title: "Joint Protection Education",
+                pillar6_desc: "A key role of your therapist is to teach you how to perform daily activities in ways that reduce stress on your joints. This includes proper body mechanics for lifting, bending, and carrying.",
+                pillar7_title: "Balance & Proprioception",
+                pillar7_desc: "Arthritis can affect your sense of joint position (proprioception), increasing your risk of falls. Your therapist will include exercises to improve your balance and stability, making you safer and more confident on your feet.",
+                pillar8_title: "Assistive Device Training",
+                pillar8_desc: "If needed, your therapist will teach you how to properly use assistive devices like a cane, walker, or brace to improve your mobility and reduce the load on painful joints.",
+
+                types_title: "PT for Different Types of Arthritis",
+                types_intro: "While many principles are the same, a good physical therapist will tailor your program based on the type of arthritis you have.",
+                types_inflammatory_title: "For Inflammatory Arthritis (RA, PsA)",
+                types_inflammatory_desc: "The key is working with the disease, not against it. Therapy will be gentler during flares, focusing on pain relief and maintaining motion. During remission, the focus shifts to progressively building strength and endurance. The therapist plays a crucial role in teaching you how to modify your activities based on your disease activity.",
+                types_oa_title: "For Osteoarthritis (OA)",
+                types_oa_desc: "The focus is often on improving muscle strength to better support the joint and on correcting any movement patterns or muscle imbalances that may be contributing to joint stress. Manual therapy to improve joint mobility can also be very effective.",
+                
+                hep_title: "Your Home Exercise Program (HEP)",
+                hep_intro: "The most important part of your physical therapy happens outside the clinic. Your Home Exercise Program (HEP) is the set of exercises your therapist gives you to do on your own. Consistency is the key to long-term success.",
+                hep_card1_title: "Make it a Habit",
+                hep_card1_desc: "Try to do your exercises at the same time each day to build a routine. Link it to an existing habit, like doing your stretches while you watch the morning news.",
+                hep_card2_title: "Quality Over Quantity",
+                hep_card2_desc: "It's better to do fewer repetitions with good form than many repetitions with poor form. Focus on the specific muscles your therapist wants you to activate.",
+                hep_card3_title: "Communicate with Your PT",
+                hep_card3_desc: "If an exercise is causing sharp pain or you're unsure if you're doing it correctly, don't just stop. Let your therapist know so they can modify the program for you.",
+
+                find_pt_title: "Finding the Right Physical Therapist",
+                find_pt_intro: "Finding a therapist who is a good fit for you is an important step.",
+                find_pt_step1_title: "Ask for a Referral",
+                find_pt_step1_desc: "Start by asking your rheumatologist or primary care doctor for a referral. They often work with physical therapists who have experience treating patients with arthritis.",
+                find_pt_step2_title: "Look for a Specialist",
+                find_pt_step2_desc: "Some physical therapists are board-certified clinical specialists in orthopaedics (OCS) or geriatrics (GCS), which can be beneficial for arthritis care. You can search for specialists on the American Physical Therapy Association (APTA) website.",
+                find_pt_step3_title: "Check Your Insurance",
+                find_pt_step3_desc: "Before your first appointment, contact your insurance provider to understand your coverage for physical therapy services.",
+                
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Fisioterapia para la Artritis",
+                main_subtitle: "Su Aliado en el Manejo del Dolor y la Mejora de la Función.",
+                back_button: "Volver",
+                
+                intro_title: "El Papel de la Fisioterapia en el Cuidado de la Artritis",
+                intro_desc: "La fisioterapia (FT) es una piedra angular del manejo integral de la artritis. Un fisioterapeuta es un experto en movimiento que puede diseñar un programa personalizado para reducir su dolor, mejorar su movilidad y enseñarle a manejar su condición de manera efectiva. La FT es mucho más que solo ejercicio; es una asociación activa enfocada en restaurar la función y empoderarlo para vivir su mejor vida.",
+
+                expect_title: "Qué Esperar de su Fisioterapeuta",
+                expect_intro: "Su primera visita implicará una evaluación exhaustiva para crear un plan de tratamiento adaptado específicamente para usted.",
+                expect_step1_title: "Evaluación Integral",
+                expect_step1_desc: "Su terapeuta discutirá sus síntomas e historial médico. Realizará un examen físico para evaluar su postura, fuerza muscular, alineación de las articulaciones y rango de movimiento. También puede que lo observe caminar (análisis de la marcha) o realizar una tarea como levantarse de una silla.",
+                expect_step2_title: "Establecimiento de Metas",
+                expect_step2_desc: "Usted y su terapeuta trabajarán juntos para establecer metas realistas y significativas. Esto podría ser cualquier cosa, desde caminar hasta su buzón sin dolor hasta poder jugar con sus nietos. Las metas claras ayudan a guiar su terapia y a medir su progreso.",
+                expect_step3_title: "Plan de Tratamiento Personalizado",
+                expect_step3_desc: "Basado en su evaluación y metas, su terapeuta creará un plan personalizado que incluye una combinación de las técnicas y ejercicios que se describen a continuación. Este plan se revisará y ajustará regularmente a medida que mejore.",
+
+                pillars_title: "Los Pilares de la Fisioterapia para la Artritis",
+                pillars_intro: "Un programa de FT para la artritis es multifacético y utiliza una variedad de herramientas para alcanzar sus objetivos.",
+                pillar1_title: "Técnicas de Manejo del Dolor",
+                pillar1_desc: "Antes de que pueda moverse eficazmente, es necesario controlar el dolor. Los terapeutas utilizan modalidades como compresas calientes para relajar los músculos, compresas frías para reducir la inflamación y la hinchazón, y a veces técnicas como la estimulación eléctrica (TENS) para bloquear las señales de dolor.",
+                pillar2_title: "Terapia Manual",
+                pillar2_desc: "Esto implica técnicas prácticas en las que el terapeuta mueve hábilmente sus articulaciones y tejidos blandos. Esto puede ayudar a reducir la rigidez, mejorar la movilidad de las articulaciones y disminuir el dolor.",
+                pillar3_title: "Flexibilidad y Rango de Movimiento",
+                pillar3_desc: "Los estiramientos suaves y los ejercicios de rango de movimiento son esenciales para combatir la rigidez causada por la artritis. Estos ejercicios ayudan a lubricar las articulaciones y a mantener su capacidad de moverse libremente.",
+                pillar4_title: "Ejercicios de Fortalecimiento",
+                pillar4_desc: "Los músculos fuertes actúan como amortiguadores y proporcionan un soporte crucial para sus articulaciones. Su terapeuta le prescribirá ejercicios específicos (isométricos, isotónicos, isocinéticos) para fortalecer los músculos alrededor de las articulaciones afectadas, reduciendo la tensión y mejorando la estabilidad.",
+                pillar5_title: "Acondicionamiento Aeróbico de Bajo Impacto",
+                pillar5_desc: "Las actividades que elevan su ritmo cardíaco sin forzar sus articulaciones, como caminar, nadar o andar en bicicleta, son vitales. El ejercicio aeróbico ayuda con el control del peso, mejora el sueño, eleva el estado de ánimo y reduce el dolor en general.",
+                pillar6_title: "Educación sobre Protección Articular",
+                pillar6_desc: "Un papel clave de su terapeuta es enseñarle cómo realizar las actividades diarias de manera que se reduzca la tensión en sus articulaciones. Esto incluye la mecánica corporal adecuada para levantar, agacharse y transportar objetos.",
+                pillar7_title: "Equilibrio y Propiocepción",
+                pillar7_desc: "La artritis puede afectar su sentido de la posición de las articulaciones (propiocepción), aumentando su riesgo de caídas. Su terapeuta incluirá ejercicios para mejorar su equilibrio y estabilidad, haciéndolo más seguro y confiado al caminar.",
+                pillar8_title: "Entrenamiento con Dispositivos de Asistencia",
+                pillar8_desc: "Si es necesario, su terapeuta le enseñará cómo usar correctamente dispositivos de asistencia como un bastón, andador o férula para mejorar su movilidad y reducir la carga en las articulaciones doloridas.",
+
+                types_title: "FT para Diferentes Tipos de Artritis",
+                types_intro: "Aunque muchos principios son los mismos, un buen fisioterapeuta adaptará su programa según el tipo de artritis que tenga.",
+                types_inflammatory_title: "Para Artritis Inflamatoria (AR, APs)",
+                types_inflammatory_desc: "La clave es trabajar con la enfermedad, no contra ella. La terapia será más suave durante los brotes, centrándose en el alivio del dolor y el mantenimiento del movimiento. Durante la remisión, el enfoque cambia a desarrollar progresivamente la fuerza y la resistencia. El terapeuta juega un papel crucial en enseñarle cómo modificar sus actividades según la actividad de su enfermedad.",
+                types_oa_title: "Para Osteoartritis (OA)",
+                types_oa_desc: "El enfoque a menudo está en mejorar la fuerza muscular para soportar mejor la articulación y en corregir cualquier patrón de movimiento o desequilibrio muscular que pueda estar contribuyendo a la tensión articular. La terapia manual para mejorar la movilidad articular también puede ser muy efectiva.",
+
+                hep_title: "Su Programa de Ejercicios en Casa (PEC)",
+                hep_intro: "La parte más importante de su fisioterapia ocurre fuera de la clínica. Su Programa de Ejercicios en Casa (PEC) es el conjunto de ejercicios que su terapeuta le da para que los haga por su cuenta. La constancia es la clave del éxito a largo plazo.",
+                hep_card1_title: "Conviértalo en un Hábito",
+                hep_card1_desc: "Intente hacer sus ejercicios a la misma hora todos los días para crear una rutina. Vincúlelo a un hábito existente, como hacer sus estiramientos mientras ve las noticias de la mañana.",
+                hep_card2_title: "Calidad sobre Cantidad",
+                hep_card2_desc: "Es mejor hacer menos repeticiones con buena forma que muchas repeticiones con mala forma. Concéntrese en los músculos específicos que su terapeuta quiere que active.",
+                hep_card3_title: "Comuníquese con su FT",
+                hep_card3_desc: "Si un ejercicio le causa un dolor agudo o no está seguro de si lo está haciendo correctamente, no se detenga sin más. Informe a su terapeuta para que pueda modificar el programa para usted.",
+
+                find_pt_title: "Encontrar al Fisioterapeuta Adecuado",
+                find_pt_intro: "Encontrar un terapeuta que sea una buena opción para usted es un paso importante.",
+                find_pt_step1_title: "Pida una Referencia",
+                find_pt_step1_desc: "Comience pidiendo una referencia a su reumatólogo o médico de atención primaria. A menudo trabajan con fisioterapeutas que tienen experiencia en el tratamiento de pacientes con artritis.",
+                find_pt_step2_title: "Busque un Especialista",
+                find_pt_step2_desc: "Algunos fisioterapeutas son especialistas clínicos certificados en ortopedia (OCS) o geriatría (GCS), lo que puede ser beneficioso para el cuidado de la artritis. Puede buscar especialistas en el sitio web de la Asociación Americana de Fisioterapia (APTA).",
+                find_pt_step3_title: "Verifique su Seguro",
+                find_pt_step3_desc: "Antes de su primera cita, comuníquese con su proveedor de seguros para comprender su cobertura para los servicios de fisioterapia.",
+                
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const introSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg text-center">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="intro_title">${t.intro_title}</h2>
+                    <p class="text-slate-600 leading-relaxed max-w-3xl mx-auto" data-translate="intro_desc">${t.intro_desc}</p>
+                </section>
+            `;
+            
+            const expectSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="expect_title">${t.expect_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="expect_intro">${t.expect_intro}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">1</div><div><h3 class="font-bold text-lg" data-translate="expect_step1_title">${t.expect_step1_title}</h3><p class="text-slate-600" data-translate="expect_step1_desc">${t.expect_step1_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">2</div><div><h3 class="font-bold text-lg" data-translate="expect_step2_title">${t.expect_step2_title}</h3><p class="text-slate-600" data-translate="expect_step2_desc">${t.expect_step2_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">3</div><div><h3 class="font-bold text-lg" data-translate="expect_step3_title">${t.expect_step3_title}</h3><p class="text-slate-600" data-translate="expect_step3_desc">${t.expect_step3_desc}</p></div></div>
+                    </div>
+                </section>
+            `;
+
+            const pillarsSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center" data-translate="pillars_title">${t.pillars_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-center" data-translate="pillars_intro">${t.pillars_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🌡️</span><span class="font-semibold text-slate-800" data-translate="pillar1_title">${t.pillar1_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar1_desc">${t.pillar1_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-orange-100"><span class="flex items-center"><span class="text-2xl mr-3">🤲</span><span class="font-semibold text-slate-800" data-translate="pillar2_title">${t.pillar2_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar2_desc">${t.pillar2_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">🤸</span><span class="font-semibold text-slate-800" data-translate="pillar3_title">${t.pillar3_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar3_desc">${t.pillar3_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🏋️</span><span class="font-semibold text-slate-800" data-translate="pillar4_title">${t.pillar4_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar4_desc">${t.pillar4_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🏊</span><span class="font-semibold text-slate-800" data-translate="pillar5_title">${t.pillar5_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar5_desc">${t.pillar5_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">📘</span><span class="font-semibold text-slate-800" data-translate="pillar6_title">${t.pillar6_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar6_desc">${t.pillar6_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">👣</span><span class="font-semibold text-slate-800" data-translate="pillar7_title">${t.pillar7_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar7_desc">${t.pillar7_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">🦯</span><span class="font-semibold text-slate-800" data-translate="pillar8_title">${t.pillar8_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="pillar8_desc">${t.pillar8_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const typesSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center" data-translate="types_title">${t.types_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-center" data-translate="types_intro">${t.types_intro}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-rose-100"><span class="flex items-center"><span class="text-2xl mr-3">🔥</span><span class="font-semibold text-slate-800" data-translate="types_inflammatory_title">${t.types_inflammatory_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="types_inflammatory_desc">${t.types_inflammatory_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-lime-100"><span class="flex items-center"><span class="text-2xl mr-3">⚙️</span><span class="font-semibold text-slate-800" data-translate="types_oa_title">${t.types_oa_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="types_oa_desc">${t.types_oa_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const hepSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="hep_title">${t.hep_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="hep_intro">${t.hep_intro}</p>
+                    <div class="space-y-3">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">🗓️</span><span class="font-semibold text-slate-800" data-translate="hep_card1_title">${t.hep_card1_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="hep_card1_desc">${t.hep_card1_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">🎯</span><span class="font-semibold text-slate-800" data-translate="hep_card2_title">${t.hep_card2_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="hep_card2_desc">${t.hep_card2_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">🗣️</span><span class="font-semibold text-slate-800" data-translate="hep_card3_title">${t.hep_card3_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="hep_card3_desc">${t.hep_card3_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const findPtSection = `
+                <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2" data-translate="find_pt_title">${t.find_pt_title}</h2>
+                    <p class="text-slate-600 leading-relaxed mb-8" data-translate="find_pt_intro">${t.find_pt_intro}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">1</div><div><h3 class="font-bold text-lg" data-translate="find_pt_step1_title">${t.find_pt_step1_title}</h3><p class="text-slate-600" data-translate="find_pt_step1_desc">${t.find_pt_step1_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">2</div><div><h3 class="font-bold text-lg" data-translate="find_pt_step2_title">${t.find_pt_step2_title}</h3><p class="text-slate-600" data-translate="find_pt_step2_desc">${t.find_pt_step2_desc}</p></div></div>
+                        <div class="flex items-start"><div class="flex-shrink-0 bg-sky-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">3</div><div><h3 class="font-bold text-lg" data-translate="find_pt_step3_title">${t.find_pt_step3_title}</h3><p class="text-slate-600" data-translate="find_pt_step3_desc">${t.find_pt_step3_desc}</p></div></div>
+                    </div>
+                </section>
+            `;
+
+            mainContent.innerHTML = introSection + expectSection + pillarsSection + typesSection + hepSection + findPtSection;
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Arthritis Medications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0284c7; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #38bdf8 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #0369a1 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-button .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+             <div class="flex justify-end mb-4">
+                 <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="native-lang-toggle" class="flex items-center">
+                        <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                            <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                            <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                        </div>
+                        <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                        </button>
+                    </div>
+                    <div id="google-lang-toggle" class="hidden items-center">
+                        <div id="google_translate_element"></div>
+                        <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-sky-800" data-translate="main_title"></h1>
+            <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto" data-translate="main_subtitle"></p>
+        </header>
+
+        <main id="main-content" class="space-y-12">
+            <!-- Sections will be rendered here by JavaScript -->
+        </main>
+
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-500">
+            <p class="max-w-4xl mx-auto" data-translate="disclaimer_text"></p>
+            <div class="mt-4">
+                <p class="font-semibold" data-translate="sources_title"></p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a href="https://www.arthritis.org/drug-guide" target="_blank" class="text-sky-600 hover:underline">Arthritis Foundation</a>
+                    <a href="https://www.fda.gov/drugs" target="_blank" class="text-sky-600 hover:underline">U.S. FDA</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const translations = {
+            en: {
+                main_title: "A Guide to Arthritis Medications",
+                main_subtitle: "Understanding the different types of medications used to treat various forms of arthritis.",
+                back_button: "Back",
+                
+                safety_title: "General Safety & Communicating With Your Doctor",
+                safety_card1_title: "Disclose All Medications",
+                safety_card1_desc: "Always tell your doctor about ALL medications you are taking, including over-the-counter drugs, vitamins, and herbal supplements. This helps prevent potentially dangerous drug interactions.",
+                safety_card2_title: "Understand Monitoring",
+                safety_card2_desc: "Many arthritis medications, especially DMARDs, require regular blood tests to monitor for side effects on your liver, kidneys, and blood counts. Attending these appointments is crucial for your safety.",
+                safety_card3_title: "Report Side Effects",
+                safety_card3_desc: "Contact your doctor's office if you experience any new or worsening side effects. Don't stop taking a prescribed medication without talking to your doctor first.",
+                safety_card4_title: "Know Your Role",
+                safety_card4_desc: "You are the most important member of your healthcare team. Ask questions if you don't understand something about your medication, and be an active partner in your treatment plan.",
+
+                oa_title: "Medications for Osteoarthritis (OA)",
+                ra_title: "Medications for Rheumatoid Arthritis (RA)",
+                psa_title: "Medications for Psoriatic Arthritis (PsA)",
+                gout_title: "Medications for Gout",
+
+                how_it_works: "How it Works",
+                how_its_taken: "How it's Taken",
+                side_effects: "Common Side Effects",
+                considerations: "Important Considerations",
+
+                // OA Drugs
+                analgesics_name: "Analgesics (Tylenol)",
+                analgesics_desc: "These are first-line drugs for pain relief. They reduce pain signals in the brain but do not affect inflammation in the joint.",
+                analgesics_taken: "Oral pills.",
+                analgesics_effects: "Generally well-tolerated at recommended doses. Liver damage can occur with overdose.",
+                analgesics_cons: "Follow dosing instructions carefully. Be aware that many combination cold and flu products also contain acetaminophen.",
+                nsaids_name: "Oral NSAIDs (Advil, Aleve, Celebrex)",
+                nsaids_desc: "Nonsteroidal Anti-Inflammatory Drugs reduce pain and inflammation by blocking enzymes called COX-1 and COX-2.",
+                nsaids_taken: "Oral pills.",
+                nsaids_effects: "Stomach upset, heartburn, ulcers. Increased risk of heart attack, stroke, and kidney problems with long-term use.",
+                nsaids_cons: "Take with food to reduce stomach irritation. Discuss long-term use with your doctor, especially if you have heart or kidney conditions.",
+                topical_nsaids_name: "Topical NSAIDs (Voltaren Gel)",
+                topical_nsaids_desc: "These NSAIDs are applied directly to the skin over a painful joint. They provide targeted relief with a lower risk of the stomach and heart side effects associated with oral NSAIDs.",
+                topical_nsaids_taken: "Gel, cream, or patch applied to the skin.",
+                topical_nsaids_effects: "Skin irritation, rash, or itching at the application site.",
+                topical_nsaids_cons: "A good option for localized pain in joints like the knees and hands. Wash hands after applying.",
+                corticosteroids_name: "Corticosteroid Injections",
+                corticosteroids_desc: "These are powerful anti-inflammatory agents that are injected directly into the affected joint to provide rapid, targeted relief.",
+                corticosteroids_taken: "Injection into the joint by a healthcare professional.",
+                corticosteroids_effects: "Temporary pain at injection site, infection (rare), potential for cartilage damage with repeated use.",
+                corticosteroids_cons: "Provides temporary relief (weeks to months). The number of injections per year is usually limited to avoid joint damage.",
+                ha_injections_name: "Hyaluronic Acid Injections (Gel Shots)",
+                ha_injections_desc: "This substance acts as a lubricant and shock absorber, supplementing the natural hyaluronic acid in the joint's synovial fluid.",
+                ha_injections_taken: "Injection into the joint (most commonly the knee).",
+                ha_injections_effects: "Pain and swelling at the injection site.",
+                ha_injections_cons: "Effectiveness varies greatly between individuals. May provide relief for several months for some patients.",
+
+                // RA & PsA Drugs
+                cdmards_name: "Conventional DMARDs (Methotrexate, Plaquenil)",
+                cdmards_desc: "These drugs work broadly to suppress the overactive immune system, reducing inflammation and preventing long-term joint damage.",
+                cdmards_taken: "Oral pills or self-injection (for methotrexate).",
+                cdmards_effects: "Nausea, mouth sores, liver problems, increased risk of infection.",
+                cdmards_cons: "Requires regular blood tests to monitor for side effects. Methotrexate is taken only once a week. Folic acid is usually prescribed with it.",
+                biologics_name: "Biologic DMARDs (Humira, Enbrel, Remicade)",
+                biologics_desc: "These are advanced, targeted therapies that block specific inflammatory proteins in the immune system, such as TNF, IL-17, or IL-23.",
+                biologics_taken: "Self-injection or intravenous (IV) infusion.",
+                biologics_effects: "Injection site reactions, increased risk of serious infections (including tuberculosis).",
+                biologics_cons: "Requires screening for TB before starting. You must be vigilant for signs of infection and report them to your doctor immediately.",
+                jak_name: "JAK Inhibitors (Xeljanz, Rinvoq)",
+                jak_desc: "These are small molecule drugs that work inside immune cells to interrupt the signaling pathways that cause inflammation.",
+                jak_taken: "Oral pills.",
+                jak_effects: "Increased risk of infections (including shingles), blood clots, and changes in cholesterol levels.",
+                jak_cons: "Requires initial and ongoing blood monitoring. Your doctor will discuss the specific risks based on your health profile.",
+                ra_psa_steroids_name: "Corticosteroids (Prednisone)",
+                ra_psa_steroids_desc: "Used in short bursts at the lowest effective dose to quickly control severe inflammation during a disease flare while waiting for long-term DMARDs to take effect.",
+                ra_psa_steroids_taken: "Oral pills.",
+                ra_psa_steroids_effects: "Weight gain, mood swings, increased blood sugar, bone thinning with long-term use.",
+                ra_psa_steroids_cons: "Not for long-term use due to side effects. The dose is usually tapered down gradually rather than stopped abruptly.",
+
+                // Gout Drugs
+                gout_nsaids_name: "NSAIDs (Indocin, Naprosyn)",
+                gout_nsaids_desc: "Used at high doses to quickly reduce the intense inflammation and pain of an acute gout attack.",
+                gout_nsaids_taken: "Oral pills.",
+                gout_nsaids_effects: "Stomach upset, ulcers, kidney issues. Higher risk due to the high doses used for flares.",
+                gout_nsaids_cons: "Used for short-term treatment of flares only, not for long-term prevention.",
+                gout_colchicine_name: "Colchicine (Colcrys)",
+                gout_colchicine_desc: "An anti-inflammatory drug that is very effective for gout flares, especially if taken within the first 24 hours of an attack.",
+                gout_colchicine_taken: "Oral pills.",
+                gout_colchicine_effects: "Nausea, vomiting, diarrhea are common side effects.",
+                gout_colchicine_cons: "Dosing is very important to avoid toxicity. Can interact with many other medications.",
+                gout_steroids_name: "Corticosteroids (Prednisone)",
+                gout_steroids_desc: "Powerful anti-inflammatory drugs used to control severe gout flares when NSAIDs or colchicine cannot be used.",
+                gout_steroids_taken: "Oral pills or injection.",
+                gout_steroids_effects: "Short-term use can cause mood changes, increased appetite, and sleep disturbance.",
+                gout_steroids_cons: "Typically prescribed as a short course with a tapering dose to avoid side effects.",
+                gout_xoi_name: "Xanthine Oxidase Inhibitors (Allopurinol, Uloric)",
+                gout_xoi_desc: "These are the most common long-term medications for gout. They work by reducing the body's production of uric acid.",
+                gout_xoi_taken: "Daily oral pills.",
+                gout_xoi_effects: "Skin rash (can be severe in rare cases), stomach upset. Can trigger a gout flare when first started.",
+                gout_xoi_cons: "Taken every day to prevent attacks, not to treat them. Your doctor may start you on a low dose and gradually increase it.",
+                gout_uricosurics_name: "Uricosurics (Probenecid)",
+                gout_uricosurics_desc: "These drugs work by helping the kidneys to excrete more uric acid from the body in the urine. They are used for long-term prevention in patients who 'under-excrete' uric acid.",
+                gout_uricosurics_taken: "Daily oral pills.",
+                gout_uricosurics_effects: "Kidney stones, stomach upset, rash.",
+                gout_uricosurics_cons: "Requires good kidney function to be effective. It is important to drink plenty of water to help prevent kidney stones.",
+                
+                disclaimer_text: "This guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                sources_title: "Information Sources:",
+            },
+            es: {
+                main_title: "Guía de Medicamentos para la Artritis",
+                main_subtitle: "Comprendiendo los diferentes tipos de medicamentos utilizados para tratar diversas formas de artritis.",
+                back_button: "Volver",
+
+                safety_title: "Seguridad General y Comunicación con su Médico",
+                safety_card1_title: "Revele Todos los Medicamentos",
+                safety_card1_desc: "Siempre informe a su médico sobre TODOS los medicamentos que está tomando, incluidos los de venta libre, vitaminas y suplementos herbales. Esto ayuda a prevenir interacciones farmacológicas potencialmente peligrosas.",
+                safety_card2_title: "Entienda el Monitoreo",
+                safety_card2_desc: "Muchos medicamentos para la artritis, especialmente los FARME, requieren análisis de sangre regulares para monitorear los efectos secundarios en el hígado, los riñones y el recuento sanguíneo. Asistir a estas citas es crucial para su seguridad.",
+                safety_card3_title: "Informe los Efectos Secundarios",
+                safety_card3_desc: "Comuníquese con el consultorio de su médico si experimenta efectos secundarios nuevos o que empeoran. No deje de tomar un medicamento recetado sin hablar primero con su médico.",
+                safety_card4_title: "Conozca su Papel",
+                safety_card4_desc: "Usted es el miembro más importante de su equipo de atención médica. Haga preguntas si no entiende algo sobre su medicación y sea un socio activo en su plan de tratamiento.",
+
+                oa_title: "Medicamentos para la Osteoartritis (OA)",
+                ra_title: "Medicamentos para la Artritis Reumatoide (AR)",
+                psa_title: "Medicamentos para la Artritis Psoriásica (APs)",
+                gout_title: "Medicamentos para la Gota",
+
+                how_it_works: "Cómo funciona",
+                how_its_taken: "Cómo se toma",
+                side_effects: "Efectos secundarios comunes",
+                considerations: "Consideraciones importantes",
+
+                analgesics_name: "Analgésicos (Tylenol)",
+                analgesics_desc: "Son fármacos de primera línea para el alivio del dolor. Reducen las señales de dolor en el cerebro pero no afectan la inflamación en la articulación.",
+                analgesics_taken: "Pastillas orales.",
+                analgesics_effects: "Generalmente bien tolerado a las dosis recomendadas. Puede ocurrir daño hepático con sobredosis.",
+                analgesics_cons: "Siga las instrucciones de dosificación cuidadosamente. Tenga en cuenta que muchos productos combinados para el resfriado y la gripe también contienen paracetamol.",
+                nsaids_name: "AINEs Orales (Advil, Aleve, Celebrex)",
+                nsaids_desc: "Los antiinflamatorios no esteroideos reducen el dolor y la inflamación al bloquear las enzimas llamadas COX-1 y COX-2.",
+                nsaids_taken: "Pastillas orales.",
+                nsaids_effects: "Malestar estomacal, acidez, úlceras. Aumento del riesgo de infarto, accidente cerebrovascular y problemas renales con el uso a largo plazo.",
+                nsaids_cons: "Tomar con alimentos para reducir la irritación estomacal. Hable sobre el uso a largo plazo con su médico, especialmente si tiene afecciones cardíacas o renales.",
+                topical_nsaids_name: "AINEs Tópicos (Voltaren Gel)",
+                topical_nsaids_desc: "Estos AINEs se aplican directamente sobre la piel de una articulación dolorida. Proporcionan un alivio específico con un menor riesgo de los efectos secundarios estomacales y cardíacos asociados con los AINEs orales.",
+                topical_nsaids_taken: "Gel, crema o parche aplicado sobre la piel.",
+                topical_nsaids_effects: "Irritación de la piel, sarpullido o picazón en el lugar de la aplicación.",
+                topical_nsaids_cons: "Una buena opción para el dolor localizado en articulaciones como las rodillas y las manos. Lávese las manos después de aplicar.",
+                corticosteroids_name: "Inyecciones de Corticosteroides",
+                corticosteroids_desc: "Son potentes agentes antiinflamatorios que se inyectan directamente en la articulación afectada para proporcionar un alivio rápido y específico.",
+                corticosteroids_taken: "Inyección en la articulación por un profesional de la salud.",
+                corticosteroids_effects: "Dolor temporal en el lugar de la inyección, infección (rara), potencial de daño al cartílago con uso repetido.",
+                corticosteroids_cons: "Proporciona un alivio temporal (semanas a meses). El número de inyecciones por año suele ser limitado para evitar daños en la articulación.",
+                ha_injections_name: "Inyecciones de Ácido Hialurónico",
+                ha_injections_desc: "Esta sustancia actúa como lubricante y amortiguador, complementando el ácido hialurónico natural en el líquido sinovial de la articulación.",
+                ha_injections_taken: "Inyección en la articulación (más comúnmente la rodilla).",
+                ha_injections_effects: "Dolor e hinchazón en el lugar de la inyección.",
+                ha_injections_cons: "La efectividad varía mucho entre individuos. Puede proporcionar alivio durante varios meses para algunos pacientes.",
+
+                cdmards_name: "FARMEs Convencionales (Metotrexato, Plaquenil)",
+                cdmards_desc: "Estos fármacos actúan de forma amplia para suprimir el sistema inmunitario hiperactivo, reduciendo la inflamación y previniendo el daño articular a largo plazo.",
+                cdmards_taken: "Pastillas orales o autoinyección (para metotrexato).",
+                cdmards_effects: "Náuseas, llagas en la boca, problemas hepáticos, aumento del riesgo de infección.",
+                cdmards_cons: "Requiere análisis de sangre regulares para monitorear los efectos secundarios. El metotrexato se toma solo una vez por semana. Generalmente se prescribe ácido fólico con él.",
+                biologics_name: "FARMEs Biológicos (Humira, Enbrel, Remicade)",
+                biologics_desc: "Son terapias avanzadas y dirigidas que bloquean proteínas inflamatorias específicas en el sistema inmunitario, como el TNF, IL-17 o IL-23.",
+                biologics_taken: "Autoinyección o infusión intravenosa (IV).",
+                biologics_effects: "Reacciones en el lugar de la inyección, aumento del riesgo de infecciones graves (incluida la tuberculosis).",
+                biologics_cons: "Requiere una prueba de detección de TB antes de comenzar. Debe estar atento a los signos de infección e informarlos a su médico de inmediato.",
+                jak_name: "Inhibidores de JAK (Xeljanz, Rinvoq)",
+                jak_desc: "Son fármacos de molécula pequeña que actúan dentro de las células inmunitarias para interrumpir las vías de señalización que causan la inflamación.",
+                jak_taken: "Pastillas orales.",
+                jak_effects: "Aumento del riesgo de infecciones (incluido el herpes zóster), coágulos de sangre y cambios en los niveles de colesterol.",
+                jak_cons: "Requiere monitoreo sanguíneo inicial y continuo. Su médico discutirá los riesgos específicos según su perfil de salud.",
+                ra_psa_steroids_name: "Corticosteroides (Prednisona)",
+                ra_psa_steroids_desc: "Se utilizan en ráfagas cortas a la dosis efectiva más baja para controlar rápidamente la inflamación severa durante un brote de la enfermedad mientras se espera que los FARME a largo plazo hagan efecto.",
+                ra_psa_steroids_taken: "Pastillas orales.",
+                ra_psa_steroids_effects: "Aumento de peso, cambios de humor, aumento del azúcar en la sangre, adelgazamiento de los huesos con el uso a largo plazo.",
+                ra_psa_steroids_cons: "No es para uso a largo plazo debido a los efectos secundarios. La dosis generalmente se reduce gradualmente en lugar de detenerse abruptamente.",
+
+                gout_nsaids_name: "AINEs (Indocin, Naprosyn)",
+                gout_nsaids_desc: "Se usan en dosis altas para reducir rápidamente la inflamación intensa y el dolor de un ataque agudo de gota.",
+                gout_nsaids_taken: "Pastillas orales.",
+                gout_nsaids_effects: "Malestar estomacal, úlceras, problemas renales. Mayor riesgo debido a las altas dosis utilizadas para los brotes.",
+                gout_nsaids_cons: "Se utiliza para el tratamiento a corto plazo de los brotes únicamente, no para la prevención a largo plazo.",
+                gout_colchicine_name: "Colchicina (Colcrys)",
+                gout_colchicine_desc: "Un fármaco antiinflamatorio que es muy eficaz para los brotes de gota, especialmente si se toma dentro de las primeras 24 horas de un ataque.",
+                gout_colchicine_taken: "Pastillas orales.",
+                gout_colchicine_effects: "Son efectos secundarios comunes las náuseas, los vómitos y la diarrea.",
+                gout_colchicine_cons: "La dosificación es muy importante para evitar la toxicidad. Puede interactuar con muchos otros medicamentos.",
+                gout_steroids_name: "Corticosteroides (Prednisona)",
+                gout_steroids_desc: "Potentes fármacos antiinflamatorios utilizados para controlar los brotes graves de gota cuando no se pueden usar AINEs o colchicina.",
+                gout_steroids_taken: "Pastillas orales o inyección.",
+                gout_steroids_effects: "El uso a corto plazo puede causar cambios de humor, aumento del apetito y trastornos del sueño.",
+                gout_steroids_cons: "Generalmente se prescribe como un ciclo corto con una dosis decreciente para evitar efectos secundarios.",
+                gout_xoi_name: "Inhibidores de la Xantina Oxidasa (Alopurinol, Uloric)",
+                gout_xoi_desc: "Estos son los medicamentos a largo plazo más comunes para la gota. Actúan reduciendo la producción de ácido úrico en el cuerpo.",
+                gout_xoi_taken: "Pastillas orales diarias.",
+                gout_xoi_effects: "Erupción cutánea (puede ser grave en casos raros), malestar estomacal. Puede desencadenar un brote de gota al iniciarse.",
+                gout_xoi_cons: "Se toma todos los días para prevenir ataques, no para tratarlos. Su médico puede comenzar con una dosis baja y aumentarla gradualmente.",
+                gout_uricosurics_name: "Uricosúricos (Probenecid)",
+                gout_uricosurics_desc: "Estos fármacos ayudan a los riñones a excretar más ácido úrico del cuerpo en la orina. Se utilizan para la prevención a largo plazo en pacientes que 'sub-excretan' ácido úrico.",
+                gout_uricosurics_taken: "Pastillas orales diarias.",
+                gout_uricosurics_effects: "Cálculos renales, malestar estomacal, sarpullido.",
+                gout_uricosurics_cons: "Requiere una buena función renal para ser eficaz. Es importante beber mucha agua para ayudar a prevenir los cálculos renales.",
+                
+                disclaimer_text: "Esta guía es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                sources_title: "Fuentes de Información:",
+            }
+        };
+
+        const mainContent = document.getElementById('main-content');
+        let currentLanguage = 'en';
+
+        function addAccordionListeners() {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+                    
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+        
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.documentElement.lang = currentLanguage;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            const safetySection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="safety_title">${t.safety_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">⚕️</span><span class="font-semibold text-slate-800" data-translate="safety_card1_title">${t.safety_card1_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="safety_card1_desc">${t.safety_card1_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">🩸</span><span class="font-semibold text-slate-800" data-translate="safety_card2_title">${t.safety_card2_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="safety_card2_desc">${t.safety_card2_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">⚠️</span><span class="font-semibold text-slate-800" data-translate="safety_card3_title">${t.safety_card3_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="safety_card3_desc">${t.safety_card3_desc}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">🤝</span><span class="font-semibold text-slate-800" data-translate="safety_card4_title">${t.safety_card4_title}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg"><p class="text-slate-600" data-translate="safety_card4_desc">${t.safety_card4_desc}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const oaSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="oa_title">${t.oa_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-blue-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="analgesics_name">${t.analgesics_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="analgesics_desc">${t.analgesics_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="analgesics_taken">${t.analgesics_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="analgesics_effects">${t.analgesics_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="analgesics_cons">${t.analgesics_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="nsaids_name">${t.nsaids_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="nsaids_desc">${t.nsaids_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="nsaids_taken">${t.nsaids_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="nsaids_effects">${t.nsaids_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="nsaids_cons">${t.nsaids_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">🧴</span><span class="font-semibold text-slate-800" data-translate="topical_nsaids_name">${t.topical_nsaids_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="topical_nsaids_desc">${t.topical_nsaids_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="topical_nsaids_taken">${t.topical_nsaids_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="topical_nsaids_effects">${t.topical_nsaids_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="topical_nsaids_cons">${t.topical_nsaids_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">💉</span><span class="font-semibold text-slate-800" data-translate="corticosteroids_name">${t.corticosteroids_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="corticosteroids_desc">${t.corticosteroids_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="corticosteroids_taken">${t.corticosteroids_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="corticosteroids_effects">${t.corticosteroids_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="corticosteroids_cons">${t.corticosteroids_cons}</p></div></div></div>
+                        <div class="md:col-span-2"><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-indigo-100"><span class="flex items-center"><span class="text-2xl mr-3">💧</span><span class="font-semibold text-slate-800" data-translate="ha_injections_name">${t.ha_injections_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="ha_injections_desc">${t.ha_injections_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="ha_injections_taken">${t.ha_injections_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="ha_injections_effects">${t.ha_injections_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="ha_injections_cons">${t.ha_injections_cons}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const raPsaSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="ra_title">${t.ra_title} & <span data-translate="psa_title">${t.psa_title}</span></h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-purple-100"><span class="flex items-center"><span class="text-2xl mr-3">🎯</span><span class="font-semibold text-slate-800" data-translate="cdmards_name">${t.cdmards_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="cdmards_desc">${t.cdmards_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="cdmards_taken">${t.cdmards_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="cdmards_effects">${t.cdmards_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="cdmards_cons">${t.cdmards_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-teal-100"><span class="flex items-center"><span class="text-2xl mr-3">🧬</span><span class="font-semibold text-slate-800" data-translate="biologics_name">${t.biologics_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="biologics_desc">${t.biologics_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="biologics_taken">${t.biologics_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="biologics_effects">${t.biologics_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="biologics_cons">${t.biologics_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-sky-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="jak_name">${t.jak_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="jak_desc">${t.jak_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="jak_taken">${t.jak_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="jak_effects">${t.jak_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="jak_cons">${t.jak_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🔥</span><span class="font-semibold text-slate-800" data-translate="ra_psa_steroids_name">${t.ra_psa_steroids_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="ra_psa_steroids_desc">${t.ra_psa_steroids_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="ra_psa_steroids_taken">${t.ra_psa_steroids_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="ra_psa_steroids_effects">${t.ra_psa_steroids_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="ra_psa_steroids_cons">${t.ra_psa_steroids_cons}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            const goutSection = `
+                <section>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6" data-translate="gout_title">${t.gout_title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-red-100"><span class="flex items-center"><span class="text-2xl mr-3">🔥</span><span class="font-semibold text-slate-800" data-translate="gout_nsaids_name">${t.gout_nsaids_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="gout_nsaids_desc">${t.gout_nsaids_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="gout_nsaids_taken">${t.gout_nsaids_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="gout_nsaids_effects">${t.gout_nsaids_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="gout_nsaids_cons">${t.gout_nsaids_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-orange-100"><span class="flex items-center"><span class="text-2xl mr-3">🧪</span><span class="font-semibold text-slate-800" data-translate="gout_colchicine_name">${t.gout_colchicine_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="gout_colchicine_desc">${t.gout_colchicine_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="gout_colchicine_taken">${t.gout_colchicine_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="gout_colchicine_effects">${t.gout_colchicine_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="gout_colchicine_cons">${t.gout_colchicine_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-yellow-100"><span class="flex items-center"><span class="text-2xl mr-3">💊</span><span class="font-semibold text-slate-800" data-translate="gout_steroids_name">${t.gout_steroids_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="gout_steroids_desc">${t.gout_steroids_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="gout_steroids_taken">${t.gout_steroids_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="gout_steroids_effects">${t.gout_steroids_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="gout_steroids_cons">${t.gout_steroids_cons}</p></div></div></div>
+                        <div><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-green-100"><span class="flex items-center"><span class="text-2xl mr-3">📅</span><span class="font-semibold text-slate-800" data-translate="gout_xoi_name">${t.gout_xoi_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="gout_xoi_desc">${t.gout_xoi_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="gout_xoi_taken">${t.gout_xoi_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="gout_xoi_effects">${t.gout_xoi_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="gout_xoi_cons">${t.gout_xoi_cons}</p></div></div></div>
+                        <div class="md:col-span-2"><button class="accordion-button w-full flex justify-between items-center text-left p-4 rounded-lg bg-cyan-100"><span class="flex items-center"><span class="text-2xl mr-3">🌊</span><span class="font-semibold text-slate-800" data-translate="gout_uricosurics_name">${t.gout_uricosurics_name}</span></span><span class="accordion-icon">▼</span></button><div class="accordion-content"><div class="p-6 bg-white rounded-b-lg space-y-4"><h4 class="font-bold" data-translate="how_it_works">${t.how_it_works}</h4><p data-translate="gout_uricosurics_desc">${t.gout_uricosurics_desc}</p><h4 class="font-bold" data-translate="how_its_taken">${t.how_its_taken}</h4><p data-translate="gout_uricosurics_taken">${t.gout_uricosurics_taken}</p><h4 class="font-bold" data-translate="side_effects">${t.side_effects}</h4><p data-translate="gout_uricosurics_effects">${t.gout_uricosurics_effects}</p><h4 class="font-bold" data-translate="considerations">${t.considerations}</h4><p data-translate="gout_uricosurics_cons">${t.gout_uricosurics_cons}</p></div></div></div>
+                    </div>
+                </section>
+            `;
+
+            mainContent.innerHTML = safetySection + oaSection + raPsaSection + goutSection;
+            addAccordionListeners();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            document.getElementById('show-google-translate').addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            document.getElementById('back-to-native').addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en'); // Initial load
+        });
+    </script>
+</body>
+</html>
