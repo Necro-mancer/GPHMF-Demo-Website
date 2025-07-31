@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulmonary Rehabilitation: A New Beginning with COPD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Uplifting Blues & Greens for Health and Empowerment -->
+    <!-- Application Structure Plan: A positive, empowering narrative. The page starts by defining PR as a program of empowerment, details its core components interactively, lists the tangible benefits, and provides a clear call-to-action on how to get started. This structure is designed to reduce apprehension and build motivation. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Components of PR -> Goal: Explain the program's structure -> Viz: Interactive tabbed section for Exercise, Education, Support -> Interaction: Click tabs to reveal component details -> Justification: Breaks down the program into its three key pillars, making it easy to understand what to expect.
+        - Report Info: Benefits of PR -> Goal: Motivate and show positive outcomes -> Viz: A visually appealing HTML/CSS grid with icons -> Justification: Presents the benefits in a scannable, positive, and easily digestible format that reinforces the value of the program.
+        - Report Info: Who is eligible -> Goal: Help users self-identify -> Viz: Simple checklist format -> Justification: A clear, straightforward list is the most effective way to present eligibility criteria.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block; cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+        .component-tab { transition: all 0.2s ease; }
+        .component-tab.active {
+            background-color: #0f766e;
+            color: white;
+            border-color: #0f766e;
+        }
+        .component-content { display: none; }
+        .component-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">Pulmonary Rehab</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-teal-700 mb-2" data-translate="main_title">Pulmonary Rehabilitation: Breathe Easier, Live Fuller</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-translate="main_subtitle">Discover one of the most effective treatments for improving day-to-day life with COPD.</p>
+        </header>
+
+        <!-- What is PR -->
+        <section class="mb-16 bg-white p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6" data-translate="what_is_title">What is Pulmonary Rehabilitation?</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                 <div class="text-center">
+                    <div class="mx-auto w-48 h-48 md:w-64 md:h-64 rounded-full flex items-center justify-center bg-teal-100">
+                        <span class="text-5xl">❤️‍🩹</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="mb-4" data-translate="what_is_p1">Pulmonary Rehabilitation (PR) is much more than just exercise. It's a comprehensive, medically supervised program designed to help people with chronic lung diseases, like COPD, improve their physical and emotional well-being.</p>
+                    <p class="font-semibold" data-translate="what_is_p2">Think of it as a personalized course to help you manage your condition, reduce your symptoms, and regain control over your breathing and your life. It's a program of empowerment, not just treatment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Components -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="components_title">The Three Pillars of Pulmonary Rehab</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-4xl mx-auto">
+                <div class="border-b border-gray-200 mb-6">
+                    <nav class="flex flex-wrap -mb-px justify-center" aria-label="Tabs">
+                        <button class="component-tab active w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm" data-tab="exercise" data-translate="tab_exercise">🏋️ Exercise Training</button>
+                        <button class="component-tab w-1/3 py-4 px-1 text-center border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="education" data-translate="tab_education">📚 Education</button>
+                        <button class="component-tab w-1/3 py-4 px-1 text-center border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="support" data-translate="tab_support">🤝 Support</button>
+                    </nav>
+                </div>
+                <div>
+                    <div id="exercise" class="component-content active">
+                        <h3 class="font-bold text-lg mb-2" data-translate="exercise_title">Monitored Exercise Training</h3>
+                        <p data-translate="exercise_desc">This is the cornerstone of PR. A team of specialists will create a safe and effective exercise plan tailored to you. This isn't about running a marathon; it's about gradually strengthening your body. You'll work on:</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li data-translate="exercise_item1"><strong>Endurance:</strong> Using treadmills or stationary bikes to improve heart and lung fitness.</li>
+                            <li data-translate="exercise_item2"><strong>Strength:</strong> Using weights or resistance bands to strengthen your arms, legs, and breathing muscles.</li>
+                            <li data-translate="exercise_item3"><strong>Flexibility:</strong> Gentle stretching to improve your range of motion.</li>
+                        </ul>
+                    </div>
+                    <div id="education" class="component-content">
+                        <h3 class="font-bold text-lg mb-2" data-translate="education_title">Essential Education</h3>
+                        <p data-translate="education_desc">Knowledge is power. The PR program will teach you everything you need to know to manage your COPD effectively, including:</p>
+                         <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li data-translate="education_item1"><strong>Understanding Your Lungs:</strong> How COPD affects your body.</li>
+                            <li data-translate="education_item2"><strong>Medications:</strong> How to use your inhalers and other medications correctly.</li>
+                            <li data-translate="education_item3"><strong>Breathing Techniques:</strong> Mastering pursed-lip and diaphragmatic breathing to control shortness of breath.</li>
+                            <li data-translate="education_item4"><strong>Nutrition & Energy Conservation:</strong> How to eat well and save energy for the things you love.</li>
+                        </ul>
+                    </div>
+                    <div id="support" class="component-content">
+                        <h3 class="font-bold text-lg mb-2" data-translate="support_title">Psychosocial Support</h3>
+                        <p data-translate="support_desc">Living with a chronic illness can be emotionally challenging. PR provides a safe space to share your experiences and learn coping strategies. This includes:</p>
+                         <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li data-translate="support_item1"><strong>Counseling:</strong> Help with managing anxiety, depression, and the stress that can come with COPD.</li>
+                            <li data-translate="support_item2"><strong>Peer Support:</strong> Connecting with other people who are going through the same experiences. This sense of community is incredibly valuable.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What to Expect -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="expect_title">What Does a Typical Program Look Like?</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-bold text-lg mb-2" data-translate="expect_structure_title">Program Structure</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li data-translate="expect_structure_item1"><strong>Duration:</strong> Most programs last 6 to 12 weeks.</li>
+                            <li data-translate="expect_structure_item2"><strong>Frequency:</strong> You'll typically attend sessions 2 to 3 times per week.</li>
+                            <li data-translate="expect_structure_item3"><strong>Location:</strong> Programs can be based in a hospital outpatient clinic or a community center. Virtual and home-based programs are also becoming more common.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2" data-translate="expect_team_title">Your Rehab Team</h3>
+                        <p class="mb-2" data-translate="expect_team_desc">You'll be supported by a team of experts, which may include:</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li data-translate="expect_team_item1">Doctors and Nurses</li>
+                            <li data-translate="expect_team_item2">Respiratory Therapists</li>
+                            <li data-translate="expect_team_item3">Physical and Occupational Therapists</li>
+                            <li data-translate="expect_team_item4">Dietitians and Social Workers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="benefits_title">The Life-Changing Benefits of PR</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">😮‍💨</p>
+                    <h3 class="font-bold text-lg" data-translate="benefit1_title">Breathe Easier</h3>
+                    <p class="text-sm" data-translate="benefit1_desc">Reduce the sensation of breathlessness during daily activities.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">💪</p>
+                    <h3 class="font-bold text-lg" data-translate="benefit2_title">Increased Strength & Energy</h3>
+                    <p class="text-sm" data-translate="benefit2_desc">Improve muscle strength and endurance so you can do more.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">😊</p>
+                    <h3 class="font-bold text-lg" data-translate="benefit3_title">Improved Quality of Life</h3>
+                    <p class="text-sm" data-translate="benefit3_desc">Regain confidence and participate more fully in the activities you enjoy.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">📉</p>
+                    <h3 class="font-bold text-lg" data-translate="benefit4_title">Fewer Flare-Ups</h3>
+                    <p class="text-sm" data-translate="benefit4_desc">Reduce the frequency and severity of exacerbations and hospital visits.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">🧠</p>
+                    <h3 class="font-bold text-lg" data-translate="benefit5_title">Reduced Anxiety & Depression</h3>
+                    <p class="text-sm" data-translate="benefit5_desc">Gain coping skills and feel less anxious about your breathing.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">🎓</p>
+                    <h3 class="font-bold text-lg" data-translate="benefit6_title">Become an Expert</h3>
+                    <p class="text-sm" data-translate="benefit6_desc">Feel more in control of your condition by becoming an expert in your own care.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Life After PR -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="after_pr_title">Life After Pulmonary Rehab: The Journey Continues</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-4xl mx-auto text-center">
+                <p class="text-5xl mb-4">🌱</p>
+                <p class="mb-4" data-translate="after_pr_desc">Completing a PR program is a major accomplishment, but it's the beginning, not the end. The goal is to incorporate the lessons and habits you've learned into your daily life for long-term success. Many programs offer a "maintenance" option, allowing you to continue exercising in a safe environment. Staying active, managing your symptoms, and using your support system are the keys to preserving your hard-won gains.</p>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section>
+             <div class="text-center bg-teal-50 p-8 rounded-xl border border-teal-200">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-4" data-translate="cta_title">Is Pulmonary Rehab Right for You?</h2>
+                 <p class="max-w-2xl mx-auto text-gray-700 mb-6" data-translate="cta_desc">PR is beneficial for most people with COPD, regardless of the severity. If you experience shortness of breath that limits your daily activities, you are likely a good candidate. The most important step is the first one:</p>
+                 <div>
+                    <a href="https://www.lung.org/lung-health-diseases/lung-procedures-and-tests/pulmonary-rehab" target="_blank" rel="noopener noreferrer" class="inline-block bg-teal-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-teal-700 transition-colors text-lg" data-translate="cta_button">Ask Your Doctor for a Referral Today</a>
+                 </div>
+             </div>
+        </section>
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="mb-4"><a href="../landing.html" class="text-blue-400 hover:underline" data-translate="footer_back_link">&larr; Back to Main COPD Guide</a></p>
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from the American Lung Association and the American Association of Cardiovascular and Pulmonary Rehabilitation (AACVPR).</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                header_title: "Pulmonary Rehab",
+                back_button: "Back",
+                main_title: "Pulmonary Rehabilitation: Breathe Easier, Live Fuller",
+                main_subtitle: "Discover one of the most effective treatments for improving day-to-day life with COPD.",
+                what_is_title: "What is Pulmonary Rehabilitation?",
+                what_is_p1: "Pulmonary Rehabilitation (PR) is much more than just exercise. It's a comprehensive, medically supervised program designed to help people with chronic lung diseases, like COPD, improve their physical and emotional well-being.",
+                what_is_p2: "Think of it as a personalized course to help you manage your condition, reduce your symptoms, and regain control over your breathing and your life. It's a program of empowerment, not just treatment.",
+                components_title: "The Three Pillars of Pulmonary Rehab",
+                tab_exercise: "🏋️ Exercise Training",
+                tab_education: "📚 Education",
+                tab_support: "🤝 Support",
+                exercise_title: "Monitored Exercise Training",
+                exercise_desc: "This is the cornerstone of PR. A team of specialists will create a safe and effective exercise plan tailored to you. This isn't about running a marathon; it's about gradually strengthening your body. You'll work on:",
+                exercise_item1: "<strong>Endurance:</strong> Using treadmills or stationary bikes to improve heart and lung fitness.",
+                exercise_item2: "<strong>Strength:</strong> Using weights or resistance bands to strengthen your arms, legs, and breathing muscles.",
+                exercise_item3: "<strong>Flexibility:</strong> Gentle stretching to improve your range of motion.",
+                education_title: "Essential Education",
+                education_desc: "Knowledge is power. The PR program will teach you everything you need to know to manage your COPD effectively, including:",
+                education_item1: "<strong>Understanding Your Lungs:</strong> How COPD affects your body.",
+                education_item2: "<strong>Medications:</strong> How to use your inhalers and other medications correctly.",
+                education_item3: "<strong>Breathing Techniques:</strong> Mastering pursed-lip and diaphragmatic breathing to control shortness of breath.",
+                education_item4: "<strong>Nutrition & Energy Conservation:</strong> How to eat well and save energy for the things you love.",
+                support_title: "Psychosocial Support",
+                support_desc: "Living with a chronic illness can be emotionally challenging. PR provides a safe space to share your experiences and learn coping strategies. This includes:",
+                support_item1: "<strong>Counseling:</strong> Help with managing anxiety, depression, and the stress that can come with COPD.",
+                support_item2: "<strong>Peer Support:</strong> Connecting with other people who are going through the same experiences. This sense of community is incredibly valuable.",
+                expect_title: "What Does a Typical Program Look Like?",
+                expect_structure_title: "Program Structure",
+                expect_structure_item1: "<strong>Duration:</strong> Most programs last 6 to 12 weeks.",
+                expect_structure_item2: "<strong>Frequency:</strong> You'll typically attend sessions 2 to 3 times per week.",
+                expect_structure_item3: "<strong>Location:</strong> Programs can be based in a hospital outpatient clinic or a community center. Virtual and home-based programs are also becoming more common.",
+                expect_team_title: "Your Rehab Team",
+                expect_team_desc: "You'll be supported by a team of experts, which may include:",
+                expect_team_item1: "Doctors and Nurses",
+                expect_team_item2: "Respiratory Therapists",
+                expect_team_item3: "Physical and Occupational Therapists",
+                expect_team_item4: "Dietitians and Social Workers",
+                benefits_title: "The Life-Changing Benefits of PR",
+                benefit1_title: "Breathe Easier",
+                benefit1_desc: "Reduce the sensation of breathlessness during daily activities.",
+                benefit2_title: "Increased Strength & Energy",
+                benefit2_desc: "Improve muscle strength and endurance so you can do more.",
+                benefit3_title: "Improved Quality of Life",
+                benefit3_desc: "Regain confidence and participate more fully in the activities you enjoy.",
+                benefit4_title: "Fewer Flare-Ups",
+                benefit4_desc: "Reduce the frequency and severity of exacerbations and hospital visits.",
+                benefit5_title: "Reduced Anxiety & Depression",
+                benefit5_desc: "Gain coping skills and feel less anxious about your breathing.",
+                benefit6_title: "Become an Expert",
+                benefit6_desc: "Feel more in control of your condition by becoming an expert in your own care.",
+                after_pr_title: "Life After Pulmonary Rehab: The Journey Continues",
+                after_pr_desc: "Completing a PR program is a major accomplishment, but it's the beginning, not the end. The goal is to incorporate the lessons and habits you've learned into your daily life for long-term success. Many programs offer a \"maintenance\" option, allowing you to continue exercising in a safe environment. Staying active, managing your symptoms, and using your support system are the keys to preserving your hard-won gains.",
+                cta_title: "Is Pulmonary Rehab Right for You?",
+                cta_desc: "PR is beneficial for most people with COPD, regardless of the severity. If you experience shortness of breath that limits your daily activities, you are likely a good candidate. The most important step is the first one:",
+                cta_button: "Ask Your Doctor for a Referral Today",
+                footer_back_link: "&larr; Back to Main COPD Guide",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source: `Source Material: Content adapted from the <a href="https://www.lung.org/lung-health-diseases/lung-procedures-and-tests/pulmonary-rehab" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">American Lung Association</a> and the <a href="https://www.aacvpr.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">AACVPR</a>.`,
+            },
+            es: {
+                header_title: "Rehab Pulmonar",
+                back_button: "Volver",
+                main_title: "Rehabilitación Pulmonar: Respire Más Fácil, Viva Más Plenamente",
+                main_subtitle: "Descubra uno de los tratamientos más eficaces para mejorar la vida diaria con EPOC.",
+                what_is_title: "¿Qué es la Rehabilitación Pulmonar?",
+                what_is_p1: "La Rehabilitación Pulmonar (RP) es mucho más que solo ejercicio. Es un programa integral y supervisado médicamente, diseñado para ayudar a las personas con enfermedades pulmonares crónicas, como la EPOC, a mejorar su bienestar físico y emocional.",
+                what_is_p2: "Piense en ello como un curso personalizado para ayudarle a manejar su condición, reducir sus síntomas y recuperar el control sobre su respiración y su vida. Es un programa de empoderamiento, no solo de tratamiento.",
+                components_title: "Los Tres Pilares de la Rehabilitación Pulmonar",
+                tab_exercise: "🏋️ Entrenamiento Físico",
+                tab_education: "📚 Educación",
+                tab_support: "🤝 Apoyo",
+                exercise_title: "Entrenamiento Físico Supervisado",
+                exercise_desc: "Esta es la piedra angular de la RP. Un equipo de especialistas creará un plan de ejercicios seguro y eficaz adaptado a usted. No se trata de correr un maratón, sino de fortalecer gradualmente su cuerpo. Trabajará en:",
+                exercise_item1: "<strong>Resistencia:</strong> Usando cintas de correr o bicicletas estáticas para mejorar la salud del corazón y los pulmones.",
+                exercise_item2: "<strong>Fuerza:</strong> Usando pesas o bandas de resistencia para fortalecer los brazos, las piernas y los músculos respiratorios.",
+                exercise_item3: "<strong>Flexibilidad:</strong> Estiramientos suaves para mejorar su rango de movimiento.",
+                education_title: "Educación Esencial",
+                education_desc: "El conocimiento es poder. El programa de RP le enseñará todo lo que necesita saber para manejar su EPOC de manera efectiva, incluyendo:",
+                education_item1: "<strong>Entender sus Pulmones:</strong> Cómo la EPOC afecta su cuerpo.",
+                education_item2: "<strong>Medicamentos:</strong> Cómo usar sus inhaladores y otros medicamentos correctamente.",
+                education_item3: "<strong>Técnicas de Respiración:</strong> Dominar la respiración con labios fruncidos y diafragmática para controlar la falta de aire.",
+                education_item4: "<strong>Nutrición y Conservación de Energía:</strong> Cómo comer bien y ahorrar energía para las cosas que ama.",
+                support_title: "Apoyo Psicosocial",
+                support_desc: "Vivir con una enfermedad crónica puede ser un desafío emocional. La RP proporciona un espacio seguro para compartir sus experiencias y aprender estrategias de afrontamiento. Esto incluye:",
+                support_item1: "<strong>Asesoramiento:</strong> Ayuda para manejar la ansiedad, la depresión y el estrés que pueden venir con la EPOC.",
+                support_item2: "<strong>Apoyo de Pares:</strong> Conectar con otras personas que están pasando por las mismas experiencias. Este sentido de comunidad es increíblemente valioso.",
+                expect_title: "¿Cómo es un Programa Típico?",
+                expect_structure_title: "Estructura del Programa",
+                expect_structure_item1: "<strong>Duración:</strong> La mayoría de los programas duran de 6 a 12 semanas.",
+                expect_structure_item2: "<strong>Frecuencia:</strong> Generalmente asistirá a las sesiones de 2 a 3 veces por semana.",
+                expect_structure_item3: "<strong>Ubicación:</strong> Los programas pueden realizarse en una clínica ambulatoria de un hospital o en un centro comunitario. Los programas virtuales y en el hogar también son cada vez más comunes.",
+                expect_team_title: "Su Equipo de Rehabilitación",
+                expect_team_desc: "Contará con el apoyo de un equipo de expertos, que puede incluir:",
+                expect_team_item1: "Médicos y Enfermeras",
+                expect_team_item2: "Terapeutas Respiratorios",
+                expect_team_item3: "Fisioterapeutas y Terapeutas Ocupacionales",
+                expect_team_item4: "Dietistas y Trabajadores Sociales",
+                benefits_title: "Los Beneficios de la RP que Cambian la Vida",
+                benefit1_title: "Respire Más Fácil",
+                benefit1_desc: "Reduzca la sensación de falta de aire durante las actividades diarias.",
+                benefit2_title: "Mayor Fuerza y Energía",
+                benefit2_desc: "Mejore la fuerza muscular y la resistencia para que pueda hacer más.",
+                benefit3_title: "Mejor Calidad de Vida",
+                benefit3_desc: "Recupere la confianza y participe más plenamente en las actividades que disfruta.",
+                benefit4_title: "Menos Exacerbaciones",
+                benefit4_desc: "Reduzca la frecuencia y la gravedad de las exacerbaciones y las visitas al hospital.",
+                benefit5_title: "Menos Ansiedad y Depresión",
+                benefit5_desc: "Adquiera habilidades de afrontamiento y siéntase menos ansioso por su respiración.",
+                benefit6_title: "Conviértase en un Experto",
+                benefit6_desc: "Sienta más control sobre su condición convirtiéndose en un experto en su propio cuidado.",
+                after_pr_title: "La Vida Después de la Rehabilitación Pulmonar: El Viaje Continúa",
+                after_pr_desc: "Completar un programa de RP es un gran logro, pero es el principio, no el final. El objetivo es incorporar las lecciones y hábitos que ha aprendido en su vida diaria para un éxito a largo plazo. Muchos programas ofrecen una opción de \"mantenimiento\", que le permite seguir haciendo ejercicio en un entorno seguro. Mantenerse activo, controlar sus síntomas y utilizar su sistema de apoyo son las claves para preservar los logros que tanto le costó conseguir.",
+                cta_title: "¿Es la Rehabilitación Pulmonar Adecuada para Usted?",
+                cta_desc: "La RP es beneficiosa para la mayoría de las personas con EPOC, independientemente de la gravedad. Si experimenta falta de aire que limita sus actividades diarias, es probable que sea un buen candidato. El paso más importante es el primero:",
+                cta_button: "Pida a su Médico una Referencia Hoy",
+                footer_back_link: "&larr; Volver a la Guía Principal de EPOC",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source: `Material de Origen: Contenido adaptado de la <a href="https://www.lung.org/lung-health-diseases/lung-procedures-and-tests/pulmonary-rehab" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Asociación Americana del Pulmón</a> y la <a href="https://www.aacvpr.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">AACVPR</a>.`,
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        };
+
+        // Component Tabs
+        const tabs = document.querySelectorAll('.component-tab');
+        const contents = document.querySelectorAll('.component-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Language toggle
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        changeLanguage('en');
+    });
+    </script>
+</body>
+</html>

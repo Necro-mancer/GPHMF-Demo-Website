@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Guide for COPD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Earthy Greens & Oranges for a Natural, Healthy Theme -->
+    <!-- Application Structure Plan: A practical, "how-to" guide. The page explains the 'why' (energy needs, CO2 production), then moves to the 'what' (food groups), and finishes with the 'how' (practical tips). This structure is designed to be easily translated into daily habits. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Food recommendations -> Goal: Organize and explain food choices -> Viz: Interactive, expandable cards for food groups -> Interaction: Click to expand -> Justification: Allows users to explore food categories at their own pace and makes the information feel less like a restrictive diet plan.
+        - Report Info: Meal composition -> Goal: Provide a simple visual guide -> Viz: HTML/CSS "COPD Plate" diagram -> Justification: A visual metaphor is a powerful and easy-to-remember tool for building balanced meals.
+        - Report Info: Eating strategies -> Goal: Offer practical advice -> Viz: A grid of tip cards with icons -> Justification: Breaks down advice into scannable, bite-sized tips that are easy to implement.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #16a34a; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block; cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+        .plate-section {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+        }
+        .plate-section:hover {
+            transform: scale(1.08);
+            z-index: 10;
+            filter: brightness(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .plate-section.active {
+            transform: scale(1.08);
+            z-index: 10;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px #2563eb, 0 10px 20px rgba(0,0,0,0.1);
+        }
+        #plate-info-box {
+            transition: background-color 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">COPD Nutrition</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-green-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-green-700 mb-2" data-translate="main_title">Fuel Your Body, Fuel Your Breath</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-translate="main_subtitle">Learn how the right foods can give you more energy and make breathing easier.</p>
+        </header>
+
+        <!-- Why Nutrition Matters -->
+        <section class="mb-16 bg-white p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6" data-translate="why_title">Why is Nutrition So Important for COPD?</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="mb-4" data-translate="why_p1">For people with COPD, the simple act of breathing can burn up to 10 times more calories than for someone without lung disease. This means your body needs the right fuel to power your breathing muscles and maintain a healthy weight.</p>
+                    <p class="font-semibold" data-translate="why_p2">Furthermore, the food you eat affects the amount of carbon dioxide (CO2) your body produces. Your lungs have to work harder to remove CO2, so choosing foods that produce less CO2 can make a real difference in your breathing.</p>
+                </div>
+                <div class="text-center bg-gray-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-lg mb-4" data-translate="co2_title">Food's Effect on CO2 Production</h3>
+                    <div class="space-y-3 text-left">
+                        <div class="flex items-center">
+                            <span class="font-bold w-20" data-translate="co2_carbs">Carbs:</span>
+                            <div class="w-full bg-gray-200 rounded-full h-6"><div class="bg-red-500 h-6 rounded-full" style="width: 90%"></div></div>
+                            <span class="font-bold ml-2" data-translate="co2_high">High</span>
+                        </div>
+                         <div class="flex items-center">
+                            <span class="font-bold w-20" data-translate="co2_protein">Protein:</span>
+                            <div class="w-full bg-gray-200 rounded-full h-6"><div class="bg-yellow-500 h-6 rounded-full" style="width: 60%"></div></div>
+                             <span class="font-bold ml-2" data-translate="co2_med">Med</span>
+                        </div>
+                         <div class="flex items-center">
+                            <span class="font-bold w-20" data-translate="co2_fats">Fats:</span>
+                            <div class="w-full bg-gray-200 rounded-full h-6"><div class="bg-green-500 h-6 rounded-full" style="width: 30%"></div></div>
+                             <span class="font-bold ml-2" data-translate="co2_low">Low</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The COPD Plate -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="plate_title">The Ideal COPD Plate</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="plate_desc">A balanced meal is key. Aim for a plate that looks like this. Click on any section to see food examples.</p>
+            <div class="w-80 h-80 md:w-96 md:h-96 mx-auto rounded-full bg-white shadow-xl flex flex-col relative overflow-hidden">
+                <div class="plate-section flex-1 bg-green-200 flex items-center justify-center text-center p-4" data-food-type="veggies">
+                    <div class="transform -rotate-45">
+                        <p class="text-3xl">🥦</p>
+                        <h3 class="font-bold text-green-800" data-translate="plate_veggies">1/2 Non-Starchy Vegetables</h3>
+                    </div>
+                </div>
+                <div class="flex-1 flex">
+                    <div class="plate-section flex-1 bg-orange-200 flex items-center justify-center text-center p-4" data-food-type="carbs">
+                         <div class="transform rotate-45">
+                            <p class="text-3xl">🍞</p>
+                            <h3 class="font-bold text-orange-800" data-translate="plate_carbs">1/4 Complex Carbs</h3>
+                        </div>
+                    </div>
+                    <div class="plate-section flex-1 bg-red-200 flex items-center justify-center text-center p-4" data-food-type="protein">
+                         <div class="transform rotate-45">
+                            <p class="text-3xl">🍗</p>
+                            <h3 class="font-bold text-red-800" data-translate="plate_protein">1/4 Lean Protein</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-1/2 left-0 w-full h-1 bg-white/50 transform -translate-y-1/2"></div>
+                <div class="absolute left-1/2 top-1/2 w-1 h-1/2 bg-white/50 transform -translate-x-1/2"></div>
+            </div>
+            
+            <div id="plate-info-box" class="max-w-3xl mx-auto mt-8 p-6 rounded-xl shadow-lg bg-gray-100 min-h-[16rem] flex flex-col justify-center">
+                <div id="info-content" class="text-center">
+                    <p class="text-3xl mb-2">🍽️</p>
+                    <p class="font-semibold text-gray-700" data-translate="plate_info_initial">Click a section of the plate above to learn more!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weight Management -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="weight_title">Managing Your Weight</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-xl text-center mb-4" data-translate="underweight_title">If You Are Underweight...</h3>
+                    <p class="text-sm mb-4" data-translate="underweight_desc">Being underweight can weaken your muscles (including breathing muscles) and your immune system. Focus on nutrient-dense foods.</p>
+                    <ul class="list-disc list-inside text-sm space-y-2">
+                        <li data-translate="underweight_tip1">Add healthy fats like olive oil and avocado to meals.</li>
+                        <li data-translate="underweight_tip2">Snack on nuts, seeds, and cheese.</li>
+                        <li data-translate="underweight_tip3">Consider adding milk powder to dishes like soups and casseroles for extra calories and protein.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-xl text-center mb-4" data-translate="overweight_title">If You Are Overweight...</h3>
+                    <p class="text-sm mb-4" data-translate="overweight_desc">Excess weight can make it harder for your lungs and heart to work. The goal is to lose weight slowly and steadily with a balanced diet.</p>
+                     <ul class="list-disc list-inside text-sm space-y-2">
+                        <li data-translate="overweight_tip1">Focus on non-starchy vegetables, lean proteins, and whole grains.</li>
+                        <li data-translate="overweight_tip2">Limit added sugars, simple carbs, and fried foods.</li>
+                        <li data-translate="overweight_tip3">Work with your doctor or a dietitian to create a safe plan that combines diet with gentle exercise.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practical Tips -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="tips_title">Practical Tips for Easier Mealtimes</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">🍽️</p>
+                    <h3 class="font-bold text-lg" data-translate="tip1_title">Eat Smaller, More Frequent Meals</h3>
+                    <p class="text-sm" data-translate="tip1_desc">Try 4-6 small meals instead of 3 large ones. A full stomach can press on your diaphragm, making it harder to breathe.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">🧘</p>
+                    <h3 class="font-bold text-lg" data-translate="tip3_title">Rest Before Meals</h3>
+                    <p class="text-sm" data-translate="tip3_desc">If you get tired while eating, try resting for a few minutes before you start your meal.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <p class="text-4xl mb-3">🪑</p>
+                    <h3 class="font-bold text-lg" data-translate="tip5_title">Sit Upright</h3>
+                    <p class="text-sm" data-translate="tip5_desc">Sit up straight while you eat to give your lungs more room to expand.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Hydration -->
+        <section class="mb-16 bg-blue-100 p-6 md:p-8 rounded-xl border border-blue-200">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6" data-translate="hydration_title">The Importance of Hydration</h2>
+            <div class="grid md:grid-cols-3 gap-6 items-center text-center">
+                <div class="md:col-span-1">
+                    <p class="text-6xl">💧</p>
+                </div>
+                <div class="md:col-span-2 text-left">
+                    <p class="mb-4" data-translate="hydration_desc">Staying well-hydrated is crucial. Drinking enough fluids (especially water) helps keep the mucus in your airways thin and easier to clear. This can reduce coughing and the risk of infections.</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li data-translate="hydration_tip1">Aim for 6-8 glasses of non-caffeinated fluids per day, unless your doctor advises otherwise.</li>
+                        <li data-translate="hydration_tip2">Drink between meals, not during, to avoid feeling too full to eat.</li>
+                        <li data-translate="hydration_tip3">Limit caffeine and alcohol as they can dehydrate you and interfere with medications.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section>
+             <div class="text-center bg-green-50 p-8 rounded-xl border border-green-200">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-4" data-translate="cta_title">Talk to Your Healthcare Team</h2>
+                 <p class="max-w-2xl mx-auto text-gray-700 mb-6" data-translate="cta_desc">Your nutritional needs are unique. Always talk to your doctor or a registered dietitian to create a meal plan that is perfect for you. They can help you manage your weight and ensure you're getting the right nutrients to feel your best.</p>
+             </div>
+        </section>
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="mb-4"><a href="../landing.html" class="text-blue-400 hover:underline" data-translate="footer_back_link">&larr; Back to Main COPD Guide</a></p>
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from the American Lung Association.</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                header_title: "COPD Nutrition",
+                back_button: "Back",
+                main_title: "Fuel Your Body, Fuel Your Breath",
+                main_subtitle: "Learn how the right foods can give you more energy and make breathing easier.",
+                why_title: "Why is Nutrition So Important for COPD?",
+                why_p1: "For people with COPD, the simple act of breathing can burn up to 10 times more calories than for someone without lung disease. This means your body needs the right fuel to power your breathing muscles and maintain a healthy weight.",
+                why_p2: "Furthermore, the food you eat affects the amount of carbon dioxide (CO2) your body produces. Your lungs have to work harder to remove CO2, so choosing foods that produce less CO2 can make a real difference in your breathing.",
+                co2_title: "Food's Effect on CO2 Production",
+                co2_carbs: "Carbs:",
+                co2_protein: "Protein:",
+                co2_fats: "Fats:",
+                co2_high: "High",
+                co2_med: "Med",
+                co2_low: "Low",
+                plate_title: "The Ideal COPD Plate",
+                plate_desc: "A balanced meal is key. Aim for a plate that looks like this. Click on any section to see food examples.",
+                plate_veggies: "1/2 Non-Starchy Vegetables",
+                plate_carbs: "1/4 Complex Carbs",
+                plate_protein: "1/4 Lean Protein",
+                plate_info_initial: "Click a section of the plate above to learn more!",
+                info_title_veggies: "🥦 Non-Starchy Vegetables",
+                info_desc_veggies: "These are low in carbs, high in fiber, vitamins, and minerals. Fill half your plate with them!",
+                info_examples_veggies: "<li>Broccoli, cauliflower, spinach, kale</li><li>Bell peppers, cucumbers, tomatoes</li><li>Asparagus, green beans, mushrooms</li>",
+                info_title_carbs: "🍞 Complex Carbohydrates",
+                info_desc_carbs: "Choose whole grains and starchy vegetables for sustained energy and fiber.",
+                info_examples_carbs: "<li>Whole-wheat bread and pasta</li><li>Oats, quinoa, brown rice</li><li>Potatoes, corn, peas</li><li>Fresh fruits like berries and apples</li>",
+                info_title_protein: "🍗 Lean Proteins",
+                info_desc_protein: "Protein is vital for building and maintaining strong breathing muscles. Aim for a good source with at least two meals a day.",
+                info_examples_protein: "<li>Poultry (chicken, turkey)</li><li>Fish (especially those high in omega-3s like salmon)</li><li>Eggs, beans, lentils, and tofu</li><li>Low-fat dairy or dairy alternatives</li>",
+                info_minerals: "<strong>Bonus Tip:</strong> Include potassium-rich foods like bananas, oranges, and potatoes, as some COPD medications can deplete it.",
+                weight_title: "Managing Your Weight",
+                underweight_title: "If You Are Underweight...",
+                underweight_desc: "Being underweight can weaken your muscles (including breathing muscles) and your immune system. Focus on nutrient-dense foods.",
+                underweight_tip1: "Add healthy fats like olive oil and avocado to meals.",
+                underweight_tip2: "Snack on nuts, seeds, and cheese.",
+                underweight_tip3: "Consider adding milk powder to dishes like soups and casseroles for extra calories and protein.",
+                overweight_title: "If You Are Overweight...",
+                overweight_desc: "Excess weight can make it harder for your lungs and heart to work. The goal is to lose weight slowly and steadily with a balanced diet.",
+                overweight_tip1: "Focus on non-starchy vegetables, lean proteins, and whole grains.",
+                overweight_tip2: "Limit added sugars, simple carbs, and fried foods.",
+                overweight_tip3: "Work with your doctor or a dietitian to create a safe plan that combines diet with gentle exercise.",
+                tips_title: "Practical Tips for Easier Mealtimes",
+                tip1_title: "Eat Smaller, More Frequent Meals",
+                tip1_desc: "Try 4-6 small meals instead of 3 large ones. A full stomach can press on your diaphragm, making it harder to breathe.",
+                tip3_title: "Rest Before Meals",
+                tip3_desc: "If you get tired while eating, try resting for a few minutes before you start your meal.",
+                tip5_title: "Sit Upright",
+                tip5_desc: "Sit up straight while you eat to give your lungs more room to expand.",
+                hydration_title: "The Importance of Hydration",
+                hydration_desc: "Staying well-hydrated is crucial. Drinking enough fluids (especially water) helps keep the mucus in your airways thin and easier to clear. This can reduce coughing and the risk of infections.",
+                hydration_tip1: "Aim for 6-8 glasses of non-caffeinated fluids per day, unless your doctor advises otherwise.",
+                hydration_tip2: "Drink between meals, not during, to avoid feeling too full to eat.",
+                hydration_tip3: "Limit caffeine and alcohol as they can dehydrate you and interfere with medications.",
+                cta_title: "Talk to Your Healthcare Team",
+                cta_desc: "Your nutritional needs are unique. Always talk to your doctor or a registered dietitian to create a meal plan that is perfect for you. They can help you manage your weight and ensure you're getting the right nutrients to feel your best.",
+                footer_back_link: "&larr; Back to Main COPD Guide",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source: `Source Material: Content adapted from the <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/living-with-copd/nutrition" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">American Lung Association</a>.`,
+            },
+            es: {
+                header_title: "Nutrición para la EPOC",
+                back_button: "Volver",
+                main_title: "Alimente su Cuerpo, Alimente su Respiración",
+                main_subtitle: "Aprenda cómo los alimentos adecuados pueden darle más energía y facilitar la respiración.",
+                why_title: "¿Por Qué es tan Importante la Nutrición para la EPOC?",
+                why_p1: "Para las personas con EPOC, el simple acto de respirar puede quemar hasta 10 veces más calorías que para alguien sin enfermedad pulmonar. Esto significa que su cuerpo necesita el combustible adecuado para potenciar sus músculos respiratorios y mantener un peso saludable.",
+                why_p2: "Además, los alimentos que consume afectan la cantidad de dióxido de carbono (CO2) que produce su cuerpo. Sus pulmones tienen que trabajar más para eliminar el CO2, por lo que elegir alimentos que produzcan menos CO2 puede marcar una diferencia real en su respiración.",
+                co2_title: "Efecto de los Alimentos en la Producción de CO2",
+                co2_carbs: "Carbs:",
+                co2_protein: "Proteína:",
+                co2_fats: "Grasas:",
+                co2_high: "Alta",
+                co2_med: "Media",
+                co2_low: "Baja",
+                plate_title: "El Plato Ideal para la EPOC",
+                plate_desc: "Una comida equilibrada es clave. Intente que su plato se vea así. Haga clic en cualquier sección para ver ejemplos de alimentos.",
+                plate_veggies: "1/2 Verduras sin Almidón",
+                plate_carbs: "1/4 Carbohidratos Complejos",
+                plate_protein: "1/4 Proteína Magra",
+                plate_info_initial: "¡Haga clic en una sección del plato de arriba para aprender más!",
+                info_title_veggies: "🥦 Verduras sin Almidón",
+                info_desc_veggies: "Son bajas en carbohidratos, ricas en fibra, vitaminas y minerales. ¡Llene la mitad de su plato con ellas!",
+                info_examples_veggies: "<li>Brócoli, coliflor, espinacas, col rizada</li><li>Pimientos, pepinos, tomates</li><li>Espárragos, judías verdes, champiñones</li>",
+                info_title_carbs: "🍞 Carbohidratos Complejos",
+                info_desc_carbs: "Elija granos integrales y verduras con almidón para obtener energía sostenida y fibra.",
+                info_examples_carbs: "<li>Pan y pasta integrales</li><li>Avena, quinua, arroz integral</li><li>Patatas, maíz, guisantes</li><li>Frutas frescas como bayas y manzanas</li>",
+                info_title_protein: "🍗 Proteínas Magras",
+                info_desc_protein: "La proteína es vital para construir y mantener músculos respiratorios fuertes. Trate de incluir una buena fuente en al menos dos comidas al día.",
+                info_examples_protein: "<li>Aves (pollo, pavo)</li><li>Pescado (especialmente los ricos en omega-3 como el salmón)</li><li>Huevos, frijoles, lentejas y tofu</li><li>Lácteos bajos en grasa o alternativas</li>",
+                info_minerals: "<strong>Consejo Adicional:</strong> Incluya alimentos ricos en potasio como plátanos, naranjas y patatas, ya que algunos medicamentos para la EPOC pueden agotarlo.",
+                weight_title: "Manejando su Peso",
+                underweight_title: "Si Tiene Bajo Peso...",
+                underweight_desc: "Tener bajo peso puede debilitar sus músculos (incluidos los respiratorios) y su sistema inmunológico. Concéntrese en alimentos ricos en nutrientes.",
+                underweight_tip1: "Añada grasas saludables como aceite de oliva y aguacate a las comidas.",
+                underweight_tip2: "Coma nueces, semillas y queso como bocadillos.",
+                underweight_tip3: "Considere añadir leche en polvo a platos como sopas y guisos para obtener calorías y proteínas adicionales.",
+                overweight_title: "Si Tiene Sobrepeso...",
+                overweight_desc: "El exceso de peso puede dificultar el trabajo de sus pulmones y corazón. El objetivo es perder peso de forma lenta y constante con una dieta equilibrada.",
+                overweight_tip1: "Concéntrese en verduras sin almidón, proteínas magras y granos integrales.",
+                overweight_tip2: "Limite los azúcares añadidos, los carbohidratos simples y los alimentos fritos.",
+                overweight_tip3: "Trabaje con su médico o un dietista para crear un plan seguro que combine dieta con ejercicio suave.",
+                tips_title: "Consejos Prácticos para Comidas Más Fáciles",
+                tip1_title: "Coma Comidas Más Pequeñas y Frecuentes",
+                tip1_desc: "Pruebe con 4-6 comidas pequeñas en lugar de 3 grandes. Un estómago lleno puede presionar su diafragma, dificultando la respiración.",
+                tip3_title: "Descanse Antes de las Comidas",
+                tip3_desc: "Si se cansa al comer, intente descansar unos minutos antes de comenzar su comida.",
+                tip5_title: "Siéntese Derecho",
+                tip5_desc: "Siéntese derecho mientras come para darle a sus pulmones más espacio para expandirse.",
+                hydration_title: "La Importancia de la Hidratación",
+                hydration_desc: "Mantenerse bien hidratado es crucial. Beber suficientes líquidos (especialmente agua) ayuda a mantener el moco en las vías respiratorias diluido y más fácil de eliminar. Esto puede reducir la tos y el riesgo de infecciones.",
+                hydration_tip1: "Trate de beber de 6 a 8 vasos de líquidos sin cafeína al día, a menos que su médico le indique lo contrario.",
+                hydration_tip2: "Beba entre comidas, no durante, para evitar sentirse demasiado lleno para comer.",
+                hydration_tip3: "Limite la cafeína y el alcohol, ya que pueden deshidratarlo e interferir con los medicamentos.",
+                cta_title: "Hable con su Equipo de Atención Médica",
+                cta_desc: "Sus necesidades nutricionales son únicas. Siempre hable con su médico o un dietista registrado para crear un plan de comidas que sea perfecto para usted. Pueden ayudarlo a controlar su peso y asegurarse de que está obteniendo los nutrientes adecuados para sentirse lo mejor posible.",
+                footer_back_link: "&larr; Volver a la Guía Principal de EPOC",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source: `Material de Origen: Contenido adaptado de la <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/living-with-copd/nutrition" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Asociación Americana del Pulmón</a>.`,
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+            // Also update the info box if it's showing something
+            const activePlate = document.querySelector('.plate-section.active');
+            if (activePlate) {
+                updateInfoBox(activePlate.dataset.foodType);
+            }
+        };
+        
+        // Plate Info Box Logic
+        const plateInfoBox = document.getElementById('plate-info-box');
+        const infoContent = document.getElementById('info-content');
+        const plateSections = document.querySelectorAll('.plate-section');
+        const infoBoxColors = {
+            veggies: 'bg-green-100',
+            carbs: 'bg-orange-100',
+            protein: 'bg-red-100'
+        };
+
+        const updateInfoBox = (type) => {
+            const t = translations[currentLanguage];
+            
+            // Update content
+            infoContent.innerHTML = `
+                <h3 class="text-xl font-bold mb-2">${t[`info_title_${type}`]}</h3>
+                <p class="mb-4">${t[`info_desc_${type}`]}</p>
+                <ul class="list-disc list-inside space-y-1 text-left inline-block">${t[`info_examples_${type}`]}</ul>
+                <p class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-r-lg text-left">${t.info_minerals}</p>
+            `;
+            infoContent.classList.remove('text-center');
+            infoContent.classList.add('text-left');
+
+            // Update background color
+            plateInfoBox.className = `max-w-3xl mx-auto mt-8 p-6 rounded-xl shadow-lg min-h-[16rem] flex flex-col justify-center ${infoBoxColors[type]}`;
+        };
+
+        plateSections.forEach(section => {
+            section.addEventListener('click', () => {
+                // Remove active state from all
+                plateSections.forEach(s => s.classList.remove('active'));
+                // Add active state to clicked one
+                section.classList.add('active');
+                updateInfoBox(section.dataset.foodType);
+            });
+        });
+
+        // Language toggle
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        changeLanguage('en');
+    });
+    </script>
+</body>
+</html>

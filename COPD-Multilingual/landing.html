@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Understanding and Living Well with COPD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Soft Blue Accents -->
+    <!-- Application Structure Plan: A tab-based, single-page application structure was chosen to organize the vast amount of information into digestible, thematic sections. This avoids overwhelming the user with a long, scrolling page. The key sections (Understanding, Risks, Symptoms, Management, Living Well, Flare-Ups) create a logical journey for a newly diagnosed patient, from basic knowledge to practical self-management. Interactions like clickable cards, charts, and diagrams are used to make learning active rather than passive, enhancing comprehension and retention. This non-linear, user-driven navigation is superior to a static document for patient education. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Healthy vs. COPD Lungs -> Goal: Compare -> Viz: HTML/CSS side-by-side diagram -> Interaction: Hover to see details -> Justification: More engaging and less clinical than a medical drawing.
+        - Report Info: Risk Factor Percentages -> Goal: Show Proportions -> Viz: Chart.js Donut Chart -> Interaction: Tooltips on hover -> Justification: Visually emphasizes smoking's primary role while acknowledging other causes, reducing stigma.
+        - Report Info: List of Symptoms -> Goal: Inform/Self-Identify -> Viz: Clickable HTML/CSS cards -> Interaction: Click to expand -> Justification: Allows users to explore symptoms at their own pace, making it less intimidating.
+        - Report Info: Medication Table -> Goal: Organize/Clarify -> Viz: Filterable HTML/CSS cards -> Interaction: Buttons filter categories -> Justification: Turns a static table into a practical tool for understanding personal prescriptions.
+        - Report Info: Comorbidities List -> Goal: Show Relationships -> Viz: HTML/CSS hub-and-spoke diagram -> Interaction: Hover to see details -> Justification: Visually demonstrates the systemic nature of COPD and its connections to other conditions.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .active-tab { 
+            border-color: #3b82f6; 
+            color: #3b82f6; 
+            font-weight: 600;
+            background-color: #eff6ff;
+        }
+        .tab-content { display: none; }
+        .active-content { display: block; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .symptom-card, .strategy-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .symptom-card:hover, .strategy-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .symptom-card .details, .strategy-card .details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .symptom-card.open .details, .strategy-card.open .details {
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+        .symptom-card.open .toggle-icon, .strategy-card.open .toggle-icon {
+            transform: rotate(45deg);
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .content-link {
+            color: #2563eb;
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-offset: 2px;
+        }
+        .content-link:hover {
+            color: #1d4ed8;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #3b82f6; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">COPD Guide</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-blue-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-2" data-translate="main_title">Your Guide to Living Well with COPD</h1>
+            <p class="text-base md:text-lg text-gray-600" data-translate="main_subtitle">An interactive resource to help you understand and manage your health.</p>
+        </header>
+
+        <nav class="mb-8 border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px justify-center text-sm font-medium text-center text-gray-500">
+                <li class="mr-1 sm:mr-2">
+                    <button class="nav-tab inline-block p-3 sm:p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 active-tab" data-tab="understanding" data-translate="tab_understanding">💡 Understanding COPD</button>
+                </li>
+                <li class="mr-1 sm:mr-2">
+                    <button class="nav-tab inline-block p-3 sm:p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="risks" data-translate="tab_risks">⚠️ Causes & Risks</button>
+                </li>
+                <li class="mr-1 sm:mr-2">
+                    <button class="nav-tab inline-block p-3 sm:p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="symptoms" data-translate="tab_symptoms">🩺 Symptoms & Diagnosis</button>
+                </li>
+                <li class="mr-1 sm:mr-2">
+                    <button class="nav-tab inline-block p-3 sm:p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="management" data-translate="tab_management">💊 Management Plan</button>
+                </li>
+                 <li class="mr-1 sm:mr-2">
+                    <button class="nav-tab inline-block p-3 sm:p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="living" data-translate="tab_living">❤️ Living Well</button>
+                </li>
+                <li class="mr-1 sm:mr-2">
+                    <button class="nav-tab inline-block p-3 sm:p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="flares" data-translate="tab_flares">📈 Flare-Ups</button>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <div id="understanding" class="tab-content active-content">
+                <div class="bg-white p-4 md:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900" data-translate="understanding_title">What is COPD? A Simple, Clear Explanation</h2>
+                    <p class="mb-6 text-gray-700" data-translate="understanding_intro">This section helps you understand what COPD is and how it affects your lungs. Receiving a new diagnosis can feel overwhelming, but the first step to taking control is understanding what is happening in your body. COPD is a treatable condition, and with the right care, you can manage your symptoms, stay active, and maintain a good quality of life. For more detail, visit the <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/learn-about-copd" target="_blank" rel="noopener noreferrer" class="content-link">American Lung Association</a>.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <p class="mb-4" data-translate="understanding_desc">COPD, or Chronic Obstructive Pulmonary Disease, is a long-term lung condition that makes it hard to breathe because airflow is blocked. It's an umbrella term for two main conditions that usually occur together: <strong>Chronic Bronchitis</strong> and <strong>Emphysema</strong>.</p>
+                            <ul class="space-y-4">
+                                <li>
+                                    <h3 class="font-semibold text-lg text-blue-600" data-translate="understanding_bronchitis_title">Chronic Bronchitis: The Airway Problem</h3>
+                                    <p data-translate="understanding_bronchitis_desc">The tubes that carry air into your lungs (bronchial tubes) become constantly inflamed and swollen. This triggers the production of thick mucus, which clogs the airways and leads to a persistent, mucus-producing cough.</p>
+                                </li>
+                                <li>
+                                    <h3 class="font-semibold text-lg text-blue-600" data-translate="understanding_emphysema_title">Emphysema: The Air Sac Problem</h3>
+                                    <p data-translate="understanding_emphysema_desc">The tiny, elastic air sacs (alveoli) at the end of your airways become damaged. Their walls break down, creating larger, floppy pockets. This makes it hard to push old, stale air out, trapping it and leaving less room for fresh, oxygen-rich air.</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4" data-translate="understanding_lungs_title">A Tale of Two Lungs</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                                    <h4 class="font-semibold text-green-800 mb-2" data-translate="understanding_healthy_lung">Healthy Lung</h4>
+                                    <div class="mx-auto w-16 h-16 bg-pink-200 rounded-full flex items-center justify-center mb-2"><span class="text-xs" data-translate="understanding_airway">Airway</span></div>
+                                    <p class="text-sm mb-4" data-translate="understanding_healthy_airway">Airways are wide open and clear.</p>
+                                    <div class="flex justify-center flex-wrap gap-1">
+                                        <div class="w-4 h-4 bg-pink-300 rounded-full"></div><div class="w-4 h-4 bg-pink-300 rounded-full"></div><div class="w-4 h-4 bg-pink-300 rounded-full"></div><div class="w-4 h-4 bg-pink-300 rounded-full"></div>
+                                    </div>
+                                    <p class="text-sm mt-2" data-translate="understanding_healthy_sacs">Air sacs are small and elastic.</p>
+                                </div>
+                                <div class="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+                                    <h4 class="font-semibold text-red-800 mb-2" data-translate="understanding_copd_lung">Lung with COPD</h4>
+                                    <div class="mx-auto w-16 h-16 bg-red-300 rounded-full flex items-center justify-center relative mb-2 border-4 border-red-400">
+                                        <div class="w-4 h-4 bg-yellow-300 rounded-full absolute top-5 left-5"></div>
+                                        <span class="text-xs" data-translate="understanding_narrowed">Narrowed</span>
+                                    </div>
+                                    <p class="text-sm mb-4" data-translate="understanding_copd_airway">Airways are inflamed, narrowed, and clogged with mucus.</p>
+                                    <div class="w-12 h-12 bg-red-200 rounded-full mx-auto border-2 border-dashed border-red-400"></div>
+                                    <p class="text-sm mt-2" data-translate="understanding_copd_sacs">Air sacs are damaged and floppy, trapping stale air.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="risks" class="tab-content">
+                 <div class="bg-white p-4 md:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900" data-translate="risks_title">Causes and Risk Factors</h2>
+                     <p class="mb-6 text-gray-700" data-translate="risks_intro">It's natural to ask "why me?" when you receive a diagnosis. This section explores the common causes and risk factors for COPD. While smoking is the leading cause, it's not the only one. Understanding your personal risk factors is a key part of learning about your condition and protecting your lung health going forward.</p>
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="font-semibold text-lg text-blue-600 mb-2" data-translate="risks_smoking_title">The Main Cause: Smoking</h3>
+                            <p class="mb-4" data-translate="risks_smoking_desc">Cigarette smoking is the single biggest risk factor, linked to as many as 9 out of 10 COPD cases. The harmful chemicals in tobacco smoke damage the lungs' natural defenses, leading to inflammation and destruction of lung tissue. <a href="pages/smoking.html" class="content-link" data-translate="risks_smoking_link">Learn more about the link between smoking and COPD.</a></p>
+                            
+                            <h3 class="font-semibold text-lg text-blue-600 mb-2" data-translate="risks_other_title">Other Important Risk Factors</h3>
+                            <p class="mb-4" data-translate="risks_other_desc">About one in four people with COPD has never smoked. This is why it's crucial to move beyond the stigma. Other significant risk factors include:</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li data-translate="risks_other_1"><strong>Environmental Exposures:</strong> Long-term exposure to secondhand smoke, air pollution, or workplace dust and fumes.</li>
+                                <li data-translate="risks_other_2"><strong>Genetic Cause (AATD):</strong> A small number of people have a genetic condition called Alpha-1 Antitrypsin Deficiency. <a href="pages/AATD.html" class="content-link" data-translate="risks_other_2_link">Explore our guide on AATD.</a></li>
+                                <li data-translate="risks_other_3"><strong>Childhood History:</strong> Severe respiratory infections as a child or having lungs that didn't fully develop.</li>
+                                <li data-translate="risks_other_4"><strong>Asthma:</strong> Having asthma, especially combined with smoking, increases the risk.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4" data-translate="risks_chart_title">COPD Risk Factors at a Glance</h3>
+                            <div class="chart-container">
+                                <canvas id="riskFactorChart"></canvas>
+                            </div>
+                             <p class="text-center text-sm text-gray-500 mt-2" data-translate="risks_chart_hover">Hover over the chart segments for more details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="symptoms" class="tab-content">
+                <div class="bg-white p-4 md:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900" data-translate="symptoms_title">Symptoms & Diagnosis</h2>
+                    <p class="mb-6 text-gray-700" data-translate="symptoms_intro">This section helps you recognize the common signs of COPD and understand how doctors diagnose it. Symptoms often start slowly, and people may dismiss them as just "getting older." Recognizing these signs early is key to getting a diagnosis and starting treatment. Click on each symptom below to learn more.</p>
+                    
+                    <h3 class="text-xl font-bold mb-4" data-translate="symptoms_common_title">Common Signs and Symptoms</h3>
+                    <div class="grid md:grid-cols-2 gap-4 mb-8">
+                        <div class="symptom-card bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-semibold text-blue-800" data-translate="symptoms_card1_title">Shortness of Breath (Dyspnea)</h4>
+                                <span class="text-blue-600 font-bold text-xl toggle-icon">+</span>
+                            </div>
+                            <p class="details mt-2 text-sm text-gray-700" data-translate="symptoms_card1_desc">This is often the most troubling symptom. At first, you might only notice it during physical activity. As the condition progresses, you might feel breathless even with mild exertion or at rest.</p>
+                        </div>
+                        <div class="symptom-card bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-semibold text-blue-800" data-translate="symptoms_card2_title">Persistent (Chronic) Cough</h4>
+                                <span class="text-blue-600 font-bold text-xl toggle-icon">+</span>
+                            </div>
+                            <p class="details mt-2 text-sm text-gray-700" data-translate="symptoms_card2_desc">This is often the very first symptom to appear. It’s a cough that lingers day after day, and you might have it for months or even years. It's sometimes dismissed as a "smoker's cough."</p>
+                        </div>
+                        <div class="symptom-card bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-semibold text-blue-800" data-translate="symptoms_card3_title">Mucus (Sputum) Production</h4>
+                                <span class="text-blue-600 font-bold text-xl toggle-icon">+</span>
+                            </div>
+                            <p class="details mt-2 text-sm text-gray-700" data-translate="symptoms_card3_desc">The chronic cough often brings up mucus. This mucus can be clear, white, yellow, or even greenish in color.</p>
+                        </div>
+                        <div class="symptom-card bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-semibold text-blue-800" data-translate="symptoms_card4_title">Wheezing and Chest Tightness</h4>
+                                <span class="text-blue-600 font-bold text-xl toggle-icon">+</span>
+                            </div>
+                            <p class="details mt-2 text-sm text-gray-700" data-translate="symptoms_card4_desc">Wheezing is a whistling or squeaky sound when you breathe. You may also feel a tightness in your chest. Other symptoms can include fatigue, frequent lung infections, and unintended weight loss.</p>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-4" data-translate="symptoms_diagnosis_title">How Doctors Confirm COPD</h3>
+                    <p class="mb-4" data-translate="symptoms_diagnosis_desc">A diagnosis isn't just about naming your symptoms; it's about understanding your specific lung condition to create the best treatment plan. The process usually involves:</p>
+                    <ul class="space-y-4">
+                        <li class="bg-gray-100 p-4 rounded-lg">
+                            <h4 class="font-semibold text-lg" data-translate="symptoms_test1_title">Spirometry: The Gold Standard Breathing Test</h4>
+                            <p data-translate="symptoms_test1_desc">This is the most important test. You'll blow hard and fast into a tube connected to a machine. It measures how much air you can blow out and how fast you can do it. This shows if your airways are obstructed and helps determine the severity of your COPD. <a href="pages/spirometry.html" class="content-link" data-translate="symptoms_test1_link">Explore our detailed guide on how spirometry works.</a></p>
+                        </li>
+                        <li class="bg-gray-100 p-4 rounded-lg">
+                            <h4 class="font-semibold text-lg" data-translate="symptoms_test2_title">Imaging Tests (Chest X-ray or CT Scan)</h4>
+                            <p data-translate="symptoms_test2_desc">These tests take pictures of your lungs. A CT scan is more detailed and can clearly show emphysema or other structural damage. These images help rule out other conditions and give your doctor a precise picture of what's happening inside your lungs.</p>
+                        </li>
+                         <li class="bg-gray-100 p-4 rounded-lg">
+                            <h4 class="font-semibold text-lg" data-translate="symptoms_test3_title">Other Tests</h4>
+                            <p data-translate="symptoms_test3_desc">Your doctor might also use a small device on your fingertip (pulse oximetry) to check your blood oxygen levels or do blood tests to check for other conditions or the genetic cause of COPD (AATD).</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="management" class="tab-content">
+                <div class="bg-white p-4 md:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900" data-translate="management_title">Your Comprehensive Management Plan</h2>
+                    <p class="mb-6 text-gray-700" data-translate="management_intro">After a diagnosis, the focus shifts to what you can do. This section covers the most effective treatments for managing COPD. The goal is to relieve symptoms, reduce flare-ups, and improve your quality of life. Your plan will be built on several key cornerstones, from lifestyle changes to medications and advanced therapies.</p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold mb-3 border-b-2 border-blue-500 pb-2" data-translate="management_care_title">Cornerstones of Care</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-lg text-blue-800" data-translate="management_care1_title">Smoking Cessation</h4>
+                                    <p data-translate="management_care1_desc">If you smoke, quitting is the single most important step to slow down the progression of COPD. It's never too late to quit. <a href="pages/smoking-cessation.html" class="content-link" data-translate="management_care1_link">Find resources in our guide to quitting.</a></p>
+                                </div>
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-lg text-blue-800" data-translate="management_care2_title">Pulmonary Rehabilitation</h4>
+                                    <p data-translate="management_care2_desc">This is a supervised program of exercise, education, and support. It's one of the best treatments for improving day-to-day life. <a href="pages/rehab.html" class="content-link" data-translate="management_care2_link">Discover the benefits in our guide to Pulmonary Rehab.</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold mb-3 border-b-2 border-blue-500 pb-2" data-translate="management_meds_title">Your Medication Toolkit</h3>
+                            <p class="mb-4" data-translate="management_meds_desc">Medications are essential for opening your airways and reducing inflammation. They are tools to help you breathe easier. It's critical to use your inhalers correctly—ask your doctor or pharmacist to check your technique. <a href="pages/medications.html" class="content-link" data-translate="management_meds_link">Learn more in our detailed medication guide.</a></p>
+                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                    <h4 class="font-semibold text-green-800" data-translate="management_meds1_title">Quick Relief ("Rescue")</h4>
+                                    <p class="text-sm" data-translate="management_meds1_desc">Used as needed for sudden breathlessness. Work quickly but effects are short-term. (e.g., Albuterol)</p>
+                                </div>
+                                <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                    <h4 class="font-semibold text-purple-800" data-translate="management_meds2_title">Daily Control ("Maintenance")</h4>
+                                    <p class="text-sm" data-translate="management_meds2_desc">Taken every day to provide long-lasting symptom control. The foundation of daily treatment. (e.g., Tiotropium, Salmeterol)</p>
+                                </div>
+                                <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                                    <h4 class="font-semibold text-orange-800" data-translate="management_meds3_title">Reduce Swelling (Anti-Inflammatory)</h4>
+                                    <p class="text-sm" data-translate="management_meds3_desc">Inhaled corticosteroids reduce swelling and mucus. Often combined with a controller medication. (e.g., Fluticasone)</p>
+                                </div>
+                                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                    <h4 class="font-semibold text-red-800" data-translate="management_meds4_title">For Flare-Ups</h4>
+                                    <p class="text-sm" data-translate="management_meds4_desc">Short-term courses of oral steroids (like Prednisone) or antibiotics to treat a severe flare-up.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div>
+                            <h3 class="text-xl font-bold mb-3 border-b-2 border-blue-500 pb-2" data-translate="management_advanced_title">Advanced Support & Surgical Options</h3>
+                             <p class="mb-4" data-translate="management_advanced_desc">For some people with severe COPD, medications alone aren't enough. Your doctor may prescribe additional therapies to support your breathing and protect your overall health. These options are considered after a thorough evaluation by a specialized team.</p>
+                             <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-gray-100 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-lg" data-translate="management_advanced1_title">Oxygen Therapy</h4>
+                                    <p data-translate="management_advanced1_desc">If your blood oxygen levels are low, your doctor may prescribe supplemental oxygen. This is a medical treatment that helps reduce strain on your heart and brain and has been proven to help people live longer. Oxygen safety is critical—never smoke around oxygen.</p>
+                                </div>
+                                <div class="bg-gray-100 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-lg" data-translate="management_advanced2_title">Surgical Options</h4>
+                                    <p data-translate="management_advanced2_desc">For a select group of patients, surgery may be an option. This can range from minimally invasive procedures like placing endobronchial valves (EBV) to more major surgeries like lung volume reduction surgery (LVRS) or, in the most severe cases, a lung transplant.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="living" class="tab-content">
+                <div class="bg-white p-4 md:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900" data-translate="living_title">Living Well Day-to-Day</h2>
+                    <p class="mb-6 text-gray-700" data-translate="living_intro">Managing COPD goes beyond medicine. The daily choices you make about nutrition, activity, and emotional health can have a huge impact on how you feel. This section provides practical, everyday strategies to help you conserve energy, breathe better, and live your best life. Click on each topic to explore tips.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="strategy-card bg-gray-50 p-4 rounded-lg border">
+                            <h3 class="font-semibold text-lg text-gray-800 flex justify-between items-center" data-translate="living_card1_title">Nutrition for Better Breathing <span class="toggle-icon text-xl font-bold">+</span></h3>
+                            <div class="details mt-2 text-sm text-gray-700 space-y-2">
+                                <p data-translate="living_card1_desc">The work of breathing can burn 10 times more calories for someone with COPD. Your body also produces more carbon dioxide when metabolizing carbs. <a href="pages/diet.html" class="content-link" data-translate="living_card1_link">Explore our complete nutrition guide.</a></p>
+                                <ul class="list-disc list-inside">
+                                    <li data-translate="living_card1_tip1">Eat smaller, more frequent meals to avoid feeling too full.</li>
+                                    <li data-translate="living_card1_tip2">Focus on protein to keep muscles strong.</li>
+                                    <li data-translate="living_card1_tip3">Choose healthy fats (olive oil, avocado) which produce less CO2.</li>
+                                    <li data-translate="living_card1_tip4">Stay hydrated, but drink fluids between meals, not with them.</li>
+                                    <li data-translate="living_card1_tip5">Limit salt to prevent fluid retention.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="strategy-card bg-gray-50 p-4 rounded-lg border">
+                            <h3 class="font-semibold text-lg text-gray-800 flex justify-between items-center" data-translate="living_card2_title">Mastering Your Energy <span class="toggle-icon text-xl font-bold">+</span></h3>
+                            <div class="details mt-2 text-sm text-gray-700 space-y-2">
+                                <p data-translate="living_card2_desc">Energy conservation is about working smarter, not harder. Use the "5 P's":</p>
+                                <ul class="list-disc list-inside">
+                                    <li data-translate="living_card2_tip1"><strong>Plan:</strong> Organize your day to avoid rushing.</li>
+                                    <li data-translate="living_card2_tip2"><strong>Prioritize:</strong> Do important tasks when you have the most energy.</li>
+                                    <li data-translate="living_card2_tip3"><strong>Pace:</strong> Slow down and take frequent rests.</li>
+                                    <li data-translate="living_card2_tip4"><strong>Position:</strong> Sit for tasks whenever possible to save energy.</li>
+                                    <li data-translate="living_card2_tip5"><strong>Pursed-Lip Breathing:</strong> Use this technique during any exertion.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="strategy-card bg-gray-50 p-4 rounded-lg border">
+                            <h3 class="font-semibold text-lg text-gray-800 flex justify-between items-center" data-translate="living_card3_title">Essential Breathing Exercises <span class="toggle-icon text-xl font-bold">+</span></h3>
+                            <div class="details mt-2 text-sm text-gray-700 space-y-2">
+                                <p data-translate="living_card3_desc">These exercises can strengthen your breathing muscles and give you more control.</p>
+                                <p data-translate="living_card3_tip1"><strong>Pursed-Lip Breathing:</strong> Breathe in through your nose for 2 counts. Breathe out slowly through pursed lips for 4 counts. This helps empty your lungs of trapped air.</p>
+                                <p data-translate="living_card3_tip2"><strong>Belly Breathing (Diaphragmatic):</strong> Lie down and place one hand on your belly. As you breathe in through your nose, let your belly rise. As you breathe out, let it fall. This strengthens your main breathing muscle.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-card bg-gray-50 p-4 rounded-lg border">
+                            <h3 class="font-semibold text-lg text-gray-800 flex justify-between items-center" data-translate="living_card4_title">Your Emotional Wellbeing <span class="toggle-icon text-xl font-bold">+</span></h3>
+                            <div class="details mt-2 text-sm text-gray-700 space-y-2">
+                                <p data-translate="living_card4_desc">It's normal to feel anxiety or depression when living with a chronic illness. Your emotional health is a key part of your management plan.</p>
+                                <ul class="list-disc list-inside">
+                                    <li data-translate="living_card4_tip1">Talk openly with your healthcare team about your feelings.</li>
+                                    <li data-translate="living_card4_tip2">Stay connected with friends and family.</li>
+                                    <li data-translate="living_card4_tip3">Join a <a href="https://www.lung.org/help-support" target="_blank" rel="noopener noreferrer" class="content-link">support group</a> to connect with peers.</li>
+                                    <li data-translate="living_card4_tip4">Practice relaxation techniques like mindful breathing or listening to music.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="flares" class="tab-content">
+                 <div class="bg-white p-4 md:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900" data-translate="flares_title">Flare-Ups & Complications</h2>
+                    <p class="mb-6 text-gray-700" data-translate="flares_intro">A key part of managing COPD is being proactive. This means learning to recognize the early warning signs of a flare-up (exacerbation) and understanding how COPD can affect your overall health. This section provides tools to help you stay ahead of trouble.</p>
+
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4" data-translate="flares_action_plan_title">Managing Flare-Ups: Your Action Plan</h3>
+                        <p class="mb-4" data-translate="flares_action_plan_desc">A flare-up is when your symptoms suddenly get much worse. The most important tool for managing them is a written <strong>COPD Action Plan</strong> created with your doctor. It tells you exactly what to do based on your symptoms. Download a sample <a href="https://action.lung.org/site/DocServer/action-management-plan.pdf" target="_blank" rel="noopener noreferrer" class="content-link">Action Plan from the ALA</a>.</p>
+                        <div class="grid md:grid-cols-3 gap-4 text-center">
+                            <div class="p-4 rounded-lg bg-green-100 border border-green-300">
+                                <h4 class="font-bold text-lg text-green-800" data-translate="flares_zone_green_title">GREEN ZONE: Doing Well</h4>
+                                <p class="text-sm" data-translate="flares_zone_green_desc">Breathing is normal for you. Continue your daily medications and regular activities.</p>
+                            </div>
+                            <div class="p-4 rounded-lg bg-yellow-100 border border-yellow-300">
+                                <h4 class="font-bold text-lg text-yellow-800" data-translate="flares_zone_yellow_title">YELLOW ZONE: Flare-Up Starting</h4>
+                                <p class="text-sm" data-translate="flares_zone_yellow_desc">Symptoms are worse (more breathlessness, coughing, or mucus). Use your rescue inhaler. You may need to start your prescribed oral steroids or antibiotics. <strong>Call your doctor.</strong></p>
+                            </div>
+                            <div class="p-4 rounded-lg bg-red-100 border border-red-300">
+                                <h4 class="font-bold text-lg text-red-800" data-translate="flares_zone_red_title">RED ZONE: Medical Emergency</h4>
+                                <p class="text-sm" data-translate="flares_zone_red_desc">Severely short of breath at rest, confused, chest pain, or blue lips/fingernails. <strong>Call 911 immediately.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4" data-translate="flares_comorbidities_title">COPD and Your Overall Health (Comorbidities)</h3>
+                        <p class="mb-4" data-translate="flares_comorbidities_desc">The chronic inflammation in your lungs can affect your whole body. This is why people with COPD often have other health problems. Managing your COPD well helps protect your entire body. Common related conditions include:</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div class="p-3 bg-gray-100 rounded-lg text-center"><p class="font-semibold">❤️ <span data-translate="flares_illness1">Heart Disease</span></p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg text-center"><p class="font-semibold">🦴 <span data-translate="flares_illness2">Osteoporosis</span></p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg text-center"><p class="font-semibold">♋ <span data-translate="flares_illness3">Lung Cancer</span></p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg text-center"><p class="font-semibold">🩸 <span data-translate="flares_illness4">Diabetes</span></p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg text-center"><p class="font-semibold">😔 <span data-translate="flares_illness5">Anxiety & Depression</span></p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg text-center"><p class="font-semibold">🛌 <span data-translate="flares_illness6">Sleep Disorders</span></p></div>
+                            <div class="p-3 bg-gray-100 rounded-lg text-center"><p class="font-semibold">🦠 <span data-translate="flares_illness7">Frequent Infections</span></p></div>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-600" data-translate="flares_vaccines">This is why getting your annual flu shot and other recommended vaccines is so critical for protecting your health.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this page.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from patient education resources provided by the American Lung Association, the COPD Foundation, the Centers for Disease Control and Prevention (CDC), and the National Institutes of Health (NIH).</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let riskFactorChart;
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                header_title: "COPD Guide",
+                back_button: "Back",
+                main_title: "Your Guide to Living Well with COPD",
+                main_subtitle: "An interactive resource to help you understand and manage your health.",
+                tab_understanding: "💡 Understanding COPD",
+                tab_risks: "⚠️ Causes & Risks",
+                tab_symptoms: "🩺 Symptoms & Diagnosis",
+                tab_management: "💊 Management Plan",
+                tab_living: "❤️ Living Well",
+                tab_flares: "📈 Flare-Ups",
+                understanding_title: "What is COPD? A Simple, Clear Explanation",
+                understanding_intro: `This section helps you understand what COPD is and how it affects your lungs. Receiving a new diagnosis can feel overwhelming, but the first step to taking control is understanding what is happening in your body. COPD is a treatable condition, and with the right care, you can manage your symptoms, stay active, and maintain a good quality of life. For more detail, visit the <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/learn-about-copd" target="_blank" rel="noopener noreferrer" class="content-link">American Lung Association</a>.`,
+                understanding_desc: "COPD, or Chronic Obstructive Pulmonary Disease, is a long-term lung condition that makes it hard to breathe because airflow is blocked. It's an umbrella term for two main conditions that usually occur together: <strong>Chronic Bronchitis</strong> and <strong>Emphysema</strong>.",
+                understanding_bronchitis_title: "Chronic Bronchitis: The Airway Problem",
+                understanding_bronchitis_desc: "The tubes that carry air into your lungs (bronchial tubes) become constantly inflamed and swollen. This triggers the production of thick mucus, which clogs the airways and leads to a persistent, mucus-producing cough.",
+                understanding_emphysema_title: "Emphysema: The Air Sac Problem",
+                understanding_emphysema_desc: "The tiny, elastic air sacs (alveoli) at the end of your airways become damaged. Their walls break down, creating larger, floppy pockets. This makes it hard to push old, stale air out, trapping it and leaving less room for fresh, oxygen-rich air.",
+                understanding_lungs_title: "A Tale of Two Lungs",
+                understanding_healthy_lung: "Healthy Lung",
+                understanding_airway: "Airway",
+                understanding_healthy_airway: "Airways are wide open and clear.",
+                understanding_healthy_sacs: "Air sacs are small and elastic.",
+                understanding_copd_lung: "Lung with COPD",
+                understanding_narrowed: "Narrowed",
+                understanding_copd_airway: "Airways are inflamed, narrowed, and clogged with mucus.",
+                understanding_copd_sacs: "Air sacs are damaged and floppy, trapping stale air.",
+                risks_title: "Causes and Risk Factors",
+                risks_intro: `It's natural to ask "why me?" when you receive a diagnosis. This section explores the common causes and risk factors for COPD. While smoking is the leading cause, it's not the only one. Understanding your personal risk factors is a key part of learning about your condition and protecting your lung health going forward.`,
+                risks_smoking_title: "The Main Cause: Smoking",
+                risks_smoking_desc: "Cigarette smoking is the single biggest risk factor, linked to as many as 9 out of 10 COPD cases. The harmful chemicals in tobacco smoke damage the lungs' natural defenses, leading to inflammation and destruction of lung tissue. <a href=\"pages/smoking.html\" class=\"content-link\" data-translate=\"risks_smoking_link\">Learn more about the link between smoking and COPD.</a>",
+                risks_smoking_link: "Learn more about the link between smoking and COPD.",
+                risks_other_title: "Other Important Risk Factors",
+                risks_other_desc: "About one in four people with COPD has never smoked. This is why it's crucial to move beyond the stigma. Other significant risk factors include:",
+                risks_other_1: "<strong>Environmental Exposures:</strong> Long-term exposure to secondhand smoke, air pollution, or workplace dust and fumes.",
+                risks_other_2: `<strong>Genetic Cause (AATD):</strong> A small number of people have a genetic condition called Alpha-1 Antitrypsin Deficiency. <a href="pages/AATD.html" class="content-link" data-translate="risks_other_2_link">Explore our guide on AATD.</a>`,
+                risks_other_2_link: "Explore our guide on AATD.",
+                risks_other_3: "<strong>Childhood History:</strong> Severe respiratory infections as a child or having lungs that didn't fully develop.",
+                risks_other_4: "<strong>Asthma:</strong> Having asthma, especially combined with smoking, increases the risk.",
+                risks_chart_title: "COPD Risk Factors at a Glance",
+                risks_chart_hover: "Hover over the chart segments for more details.",
+                risks_chart_label1: "Smoking (Current or Former)",
+                risks_chart_label2: "Environmental/Workplace Exposures",
+                risks_chart_label3: "Genetic (AATD)",
+                risks_chart_label4: "Other (Asthma, Infections, etc.)",
+                symptoms_title: "Symptoms & Diagnosis",
+                symptoms_intro: `This section helps you recognize the common signs of COPD and understand how doctors diagnose it. Symptoms often start slowly, and people may dismiss them as just "getting older." Recognizing these signs early is key to getting a diagnosis and starting treatment. Click on each symptom below to learn more.`,
+                symptoms_common_title: "Common Signs and Symptoms",
+                symptoms_card1_title: "Shortness of Breath (Dyspnea)",
+                symptoms_card1_desc: "This is often the most troubling symptom. At first, you might only notice it during physical activity. As the condition progresses, you might feel breathless even with mild exertion or at rest.",
+                symptoms_card2_title: "Persistent (Chronic) Cough",
+                symptoms_card2_desc: `This is often the very first symptom to appear. It’s a cough that lingers day after day, and you might have it for months or even years. It's sometimes dismissed as a "smoker's cough."`,
+                symptoms_card3_title: "Mucus (Sputum) Production",
+                symptoms_card3_desc: "The chronic cough often brings up mucus. This mucus can be clear, white, yellow, or even greenish in color.",
+                symptoms_card4_title: "Wheezing and Chest Tightness",
+                symptoms_card4_desc: "Wheezing is a whistling or squeaky sound when you breathe. You may also feel a tightness in your chest. Other symptoms can include fatigue, frequent lung infections, and unintended weight loss.",
+                symptoms_diagnosis_title: "How Doctors Confirm COPD",
+                symptoms_diagnosis_desc: "A diagnosis isn't just about naming your symptoms; it's about understanding your specific lung condition to create the best treatment plan. The process usually involves:",
+                symptoms_test1_title: "Spirometry: The Gold Standard Breathing Test",
+                symptoms_test1_desc: `This is the most important test. You'll blow hard and fast into a tube connected to a machine. It measures how much air you can blow out and how fast you can do it. This shows if your airways are obstructed and helps determine the severity of your COPD. <a href="pages/spirometry.html" class="content-link" data-translate="symptoms_test1_link">Explore our detailed guide on how spirometry works.</a>`,
+                symptoms_test1_link: "Explore our detailed guide on how spirometry works.",
+                symptoms_test2_title: "Imaging Tests (Chest X-ray or CT Scan)",
+                symptoms_test2_desc: "These tests take pictures of your lungs. A CT scan is more detailed and can clearly show emphysema or other structural damage. These images help rule out other conditions and give your doctor a precise picture of what's happening inside your lungs.",
+                symptoms_test3_title: "Other Tests",
+                symptoms_test3_desc: "Your doctor might also use a small device on your fingertip (pulse oximetry) to check your blood oxygen levels or do blood tests to check for other conditions or the genetic cause of COPD (AATD).",
+                management_title: "Your Comprehensive Management Plan",
+                management_intro: "After a diagnosis, the focus shifts to what you can do. This section covers the most effective treatments for managing COPD. The goal is to relieve symptoms, reduce flare-ups, and improve your quality of life. Your plan will be built on several key cornerstones, from lifestyle changes to medications and advanced therapies.",
+                management_care_title: "Cornerstones of Care",
+                management_care1_title: "Smoking Cessation",
+                management_care1_desc: `If you smoke, quitting is the single most important step to slow down the progression of COPD. It's never too late to quit. <a href="pages/smoking-cessation.html" class="content-link" data-translate="management_care1_link">Find resources in our guide to quitting.</a>`,
+                management_care1_link: "Find resources in our guide to quitting.",
+                management_care2_title: "Pulmonary Rehabilitation",
+                management_care2_desc: `This is a supervised program of exercise, education, and support. It's one of the best treatments for improving day-to-day life. <a href="pages/rehab.html" class="content-link" data-translate="management_care2_link">Discover the benefits in our guide to Pulmonary Rehab.</a>`,
+                management_care2_link: "Discover the benefits in our guide to Pulmonary Rehab.",
+                management_meds_title: "Your Medication Toolkit",
+                management_meds_desc: "Medications are essential for opening your airways and reducing inflammation. They are tools to help you breathe easier. It's critical to use your inhalers correctly—ask your doctor or pharmacist to check your technique. <a href=\"pages/medications.html\" class=\"content-link\" data-translate=\"management_meds_link\">Learn more in our detailed medication guide.</a>",
+                management_meds_link: "Learn more in our detailed medication guide.",
+                management_meds1_title: `Quick Relief ("Rescue")`,
+                management_meds1_desc: "Used as needed for sudden breathlessness. Work quickly but effects are short-term. (e.g., Albuterol)",
+                management_meds2_title: `Daily Control ("Maintenance")`,
+                management_meds2_desc: "Taken every day to provide long-lasting symptom control. The foundation of daily treatment. (e.g., Tiotropium, Salmeterol)",
+                management_meds3_title: "Reduce Swelling (Anti-Inflammatory)",
+                management_meds3_desc: "Inhaled corticosteroids reduce swelling and mucus. Often combined with a controller medication. (e.g., Fluticasone)",
+                management_meds4_title: "For Flare-Ups",
+                management_meds4_desc: "Short-term courses of oral steroids (like Prednisone) or antibiotics to treat a severe flare-up.",
+                management_advanced_title: "Advanced Support & Surgical Options",
+                management_advanced_desc: "For some people with severe COPD, medications alone aren't enough. Your doctor may prescribe additional therapies to support your breathing and protect your overall health. These options are considered after a thorough evaluation by a specialized team.",
+                management_advanced1_title: "Oxygen Therapy",
+                management_advanced1_desc: "If your blood oxygen levels are low, your doctor may prescribe supplemental oxygen. This is a medical treatment that helps reduce strain on your heart and brain and has been proven to help people live longer. Oxygen safety is critical—never smoke around oxygen.",
+                management_advanced2_title: "Surgical Options",
+                management_advanced2_desc: "For a select group of patients, surgery may be an option. This can range from minimally invasive procedures like placing endobronchial valves (EBV) to more major surgeries like lung volume reduction surgery (LVRS) or, in the most severe cases, a lung transplant.",
+                living_title: "Living Well Day-to-Day",
+                living_intro: "Managing COPD goes beyond medicine. The daily choices you make about nutrition, activity, and emotional health can have a huge impact on how you feel. This section provides practical, everyday strategies to help you conserve energy, breathe better, and live your best life. Click on each topic to explore tips.",
+                living_card1_title: "Nutrition for Better Breathing <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card1_desc: `The work of breathing can burn 10 times more calories for someone with COPD. Your body also produces more carbon dioxide when metabolizing carbs. <a href="pages/diet.html" class="content-link" data-translate="living_card1_link">Explore our complete nutrition guide.</a>`,
+                living_card1_link: "Explore our complete nutrition guide.",
+                living_card1_tip1: "Eat smaller, more frequent meals to avoid feeling too full.",
+                living_card1_tip2: "Focus on protein to keep muscles strong.",
+                living_card1_tip3: "Choose healthy fats (olive oil, avocado) which produce less CO2.",
+                living_card1_tip4: "Stay hydrated, but drink fluids between meals, not with them.",
+                living_card1_tip5: "Limit salt to prevent fluid retention.",
+                living_card2_title: "Mastering Your Energy <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card2_desc: `Energy conservation is about working smarter, not harder. Use the "5 P's":`,
+                living_card2_tip1: "<strong>Plan:</strong> Organize your day to avoid rushing.",
+                living_card2_tip2: "<strong>Prioritize:</strong> Do important tasks when you have the most energy.",
+                living_card2_tip3: "<strong>Pace:</strong> Slow down and take frequent rests.",
+                living_card2_tip4: "<strong>Position:</strong> Sit for tasks whenever possible to save energy.",
+                living_card2_tip5: "<strong>Pursed-Lip Breathing:</strong> Use this technique during any exertion.",
+                living_card3_title: "Essential Breathing Exercises <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card3_desc: "These exercises can strengthen your breathing muscles and give you more control.",
+                living_card3_tip1: "<strong>Pursed-Lip Breathing:</strong> Breathe in through your nose for 2 counts. Breathe out slowly through pursed lips for 4 counts. This helps empty your lungs of trapped air.",
+                living_card3_tip2: "<strong>Belly Breathing (Diaphragmatic):</strong> Lie down and place one hand on your belly. As you breathe in through your nose, let your belly rise. As you breathe out, let it fall. This strengthens your main breathing muscle.",
+                living_card4_title: "Your Emotional Wellbeing <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card4_desc: "It's normal to feel anxiety or depression when living with a chronic illness. Your emotional health is a key part of your management plan.",
+                living_card4_tip1: "Talk openly with your healthcare team about your feelings.",
+                living_card4_tip2: "Stay connected with friends and family.",
+                living_card4_tip3: `Join a <a href="https://www.lung.org/help-support" target="_blank" rel="noopener noreferrer" class="content-link">support group</a> to connect with peers.`,
+                living_card4_tip4: "Practice relaxation techniques like mindful breathing or listening to music.",
+                flares_title: "Flare-Ups & Complications",
+                flares_intro: "A key part of managing COPD is being pro-active. This means learning to recognize the early warning signs of a flare-up (exacerbation) and understanding how COPD can affect your overall health. This section provides tools to help you stay ahead of trouble.",
+                flares_action_plan_title: "Managing Flare-Ups: Your Action Plan",
+                flares_action_plan_desc: `A flare-up is when your symptoms suddenly get much worse. The most important tool for managing them is a written <strong>COPD Action Plan</strong> created with your doctor. It tells you exactly what to do based on your symptoms. Download a sample <a href="https://action.lung.org/site/DocServer/action-management-plan.pdf" target="_blank" rel="noopener noreferrer" class="content-link">Action Plan from the ALA</a>.`,
+                flares_zone_green_title: "GREEN ZONE: Doing Well",
+                flares_zone_green_desc: "Breathing is normal for you. Continue your daily medications and regular activities.",
+                flares_zone_yellow_title: "YELLOW ZONE: Flare-Up Starting",
+                flares_zone_yellow_desc: "Symptoms are worse (more breathlessness, coughing, or mucus). Use your rescue inhaler. You may need to start your prescribed oral steroids or antibiotics. <strong>Call your doctor.</strong>",
+                flares_zone_red_title: "RED ZONE: Medical Emergency",
+                flares_zone_red_desc: "Severely short of breath at rest, confused, chest pain, or blue lips/fingernails. <strong>Call 911 immediately.</strong>",
+                flares_comorbidities_title: "COPD and Your Overall Health (Comorbidities)",
+                flares_comorbidities_desc: "The chronic inflammation in your lungs can affect your whole body. This is why people with COPD often have other health problems. Managing your COPD well helps protect your entire body. Common related conditions include:",
+                flares_illness1: "Heart Disease",
+                flares_illness2: "Osteoporosis",
+                flares_illness3: "Lung Cancer",
+                flares_illness4: "Diabetes",
+                flares_illness5: "Anxiety & Depression",
+                flares_illness6: "Sleep Disorders",
+                flares_illness7: "Frequent Infections",
+                flares_vaccines: "This is why getting your annual flu shot and other recommended vaccines is so critical for protecting your health.",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this page.",
+                footer_source: "Source Material: Content adapted from patient education resources provided by the American Lung Association, the COPD Foundation, the Centers for Disease Control and Prevention (CDC), and the National Institutes of Health (NIH).",
+            },
+            es: {
+                header_title: "Guía de EPOC",
+                back_button: "Volver",
+                main_title: "Su Guía para Vivir Bien con EPOC",
+                main_subtitle: "Un recurso interactivo para ayudarle a entender y manejar su salud.",
+                tab_understanding: "💡 Entender la EPOC",
+                tab_risks: "⚠️ Causas y Riesgos",
+                tab_symptoms: "🩺 Síntomas y Diagnóstico",
+                tab_management: "💊 Plan de Manejo",
+                tab_living: "❤️ Vivir Bien",
+                tab_flares: "📈 Exacerbaciones",
+                understanding_title: "¿Qué es la EPOC? Una Explicación Sencilla y Clara",
+                understanding_intro: `Esta sección le ayuda a entender qué es la EPOC y cómo afecta a sus pulmones. Recibir un nuevo diagnóstico puede ser abrumador, pero el primer paso para tomar el control es entender qué está sucediendo en su cuerpo. La EPOC es una condición tratable, y con el cuidado adecuado, puede manejar sus síntomas, mantenerse activo y mantener una buena calidad de vida. Para más detalles, visite la <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/learn-about-copd" target="_blank" rel="noopener noreferrer" class="content-link">Asociación Americana del Pulmón</a>.`,
+                understanding_desc: "La EPOC, o Enfermedad Pulmonar Obstructiva Crónica, es una afección pulmonar a largo plazo que dificulta la respiración porque el flujo de aire está bloqueado. Es un término general para dos afecciones principales que suelen ocurrir juntas: <strong>Bronquitis Crónica</strong> y <strong>Enfisema</strong>.",
+                understanding_bronchitis_title: "Bronquitis Crónica: El Problema de las Vías Respiratorias",
+                understanding_bronchitis_desc: "Los tubos que transportan el aire a sus pulmones (tubos bronquiales) se inflaman e hinchan constantemente. Esto desencadena la producción de moco espeso, que obstruye las vías respiratorias y provoca una tos persistente que produce moco.",
+                understanding_emphysema_title: "Enfisema: El Problema de los Sacos Aéreos",
+                understanding_emphysema_desc: "Los pequeños y elásticos sacos aéreos (alvéolos) al final de las vías respiratorias se dañan. Sus paredes se rompen, creando bolsas más grandes y flácidas. Esto dificulta la expulsión del aire viciado, atrapándolo y dejando menos espacio para el aire fresco y rico en oxígeno.",
+                understanding_lungs_title: "Historia de Dos Pulmones",
+                understanding_healthy_lung: "Pulmón Sano",
+                understanding_airway: "Vía Aérea",
+                understanding_healthy_airway: "Las vías respiratorias están abiertas y despejadas.",
+                understanding_healthy_sacs: "Los sacos aéreos son pequeños y elásticos.",
+                understanding_copd_lung: "Pulmón con EPOC",
+                understanding_narrowed: "Estrechada",
+                understanding_copd_airway: "Las vías respiratorias están inflamadas, estrechadas y obstruidas con moco.",
+                understanding_copd_sacs: "Los sacos aéreos están dañados y flácidos, atrapando aire viciado.",
+                risks_title: "Causas y Factores de Riesgo",
+                risks_intro: `Es natural preguntarse "¿por qué a mí?" al recibir un diagnóstico. Esta sección explora las causas y factores de riesgo comunes de la EPOC. Aunque fumar es la causa principal, no es la única. Entender sus factores de riesgo personales es clave para aprender sobre su condición y proteger su salud pulmonar en el futuro.`,
+                risks_smoking_title: "La Causa Principal: Fumar",
+                risks_smoking_desc: "Fumar cigarrillos es el factor de riesgo más importante, relacionado con hasta 9 de cada 10 casos de EPOC. Las sustancias químicas nocivas del humo del tabaco dañan las defensas naturales de los pulmones, lo que provoca inflamación y destrucción del tejido pulmonar. <a href=\"pages/smoking.html\" class=\"content-link\" data-translate=\"risks_smoking_link\">Aprenda más sobre la relación entre fumar y la EPOC.</a>",
+                risks_smoking_link: "Aprenda más sobre la relación entre fumar y la EPOC.",
+                risks_other_title: "Otros Factores de Riesgo Importantes",
+                risks_other_desc: "Aproximadamente una de cada cuatro personas con EPOC nunca ha fumado. Por eso es crucial superar el estigma. Otros factores de riesgo significativos incluyen:",
+                risks_other_1: "<strong>Exposiciones Ambientales:</strong> Exposición a largo plazo al humo de segunda mano, la contaminación del aire o el polvo y los humos del lugar de trabajo.",
+                risks_other_2: `<strong>Causa Genética (DAAT):</strong> Un pequeño número de personas tiene una condición genética llamada Deficiencia de Alfa-1 Antitripsina. <a href="pages/AATD.html" class="content-link" data-translate="risks_other_2_link">Explore nuestra guía sobre DAAT.</a>`,
+                risks_other_2_link: "Explore nuestra guía sobre DAAT.",
+                risks_other_3: "<strong>Historial Infantil:</strong> Infecciones respiratorias graves en la infancia o pulmones que no se desarrollaron completamente.",
+                risks_other_4: "<strong>Asma:</strong> Tener asma, especialmente en combinación con el tabaquismo, aumenta el riesgo.",
+                risks_chart_title: "Factores de Riesgo de EPOC de un Vistazo",
+                risks_chart_hover: "Pase el cursor sobre los segmentos del gráfico para más detalles.",
+                risks_chart_label1: "Fumador (Actual o Ex)",
+                risks_chart_label2: "Exposiciones Ambientales/Laborales",
+                risks_chart_label3: "Genética (DAAT)",
+                risks_chart_label4: "Otros (Asma, Infecciones, etc.)",
+                symptoms_title: "Síntomas y Diagnóstico",
+                symptoms_intro: "Esta sección le ayuda a reconocer los signos comunes de la EPOC y a entender cómo la diagnostican los médicos. Los síntomas suelen empezar lentamente y la gente puede descartarlos como si fuera cosa de la edad. Reconocer estos signos a tiempo es clave para obtener un diagnóstico y empezar el tratamiento. Haga clic en cada síntoma para saber más.",
+                symptoms_common_title: "Signos y Síntomas Comunes",
+                symptoms_card1_title: "Falta de Aire (Disnea)",
+                symptoms_card1_desc: "Este suele ser el síntoma más preocupante. Al principio, puede que solo lo note durante la actividad física. A medida que la enfermedad avanza, puede sentir que le falta el aire incluso con un esfuerzo leve o en reposo.",
+                symptoms_card2_title: "Tos Persistente (Crónica)",
+                symptoms_card2_desc: "Este suele ser el primer síntoma en aparecer. Es una tos que persiste día tras día, y puede tenerla durante meses o incluso años. A veces se descarta como 'tos de fumador'.",
+                symptoms_card3_title: "Producción de Moco (Esputo)",
+                symptoms_card3_desc: "La tos crónica suele ir acompañada de moco. Este moco puede ser transparente, blanco, amarillo o incluso verdoso.",
+                symptoms_card4_title: "Sibilancias y Opresión en el Pecho",
+                symptoms_card4_desc: "Las sibilancias son un silbido o un sonido chirriante al respirar. También puede sentir opresión en el pecho. Otros síntomas pueden ser fatiga, infecciones pulmonares frecuentes y pérdida de peso involuntaria.",
+                symptoms_diagnosis_title: "Cómo los Médicos Confirman la EPOC",
+                symptoms_diagnosis_desc: "Un diagnóstico no consiste solo en nombrar sus síntomas; se trata de entender su afección pulmonar específica para crear el mejor plan de tratamiento. El proceso suele incluir:",
+                symptoms_test1_title: "Espirometría: La Prueba de Respiración de Referencia",
+                symptoms_test1_desc: `Esta es la prueba más importante. Tendrá que soplar con fuerza y rapidez en un tubo conectado a una máquina. Mide la cantidad de aire que puede expulsar y la rapidez con que puede hacerlo. Esto muestra si sus vías respiratorias están obstruidas y ayuda a determinar la gravedad de su EPOC. <a href="pages/spirometry.html" class="content-link" data-translate="symptoms_test1_link">Explore nuestra guía detallada sobre cómo funciona la espirometría.</a>`,
+                symptoms_test1_link: "Explore nuestra guía detallada sobre cómo funciona la espirometría.",
+                symptoms_test2_title: "Pruebas de Imagen (Radiografía de Tórax o Tomografía Computarizada)",
+                symptoms_test2_desc: "Estas pruebas toman imágenes de sus pulmones. Una tomografía computarizada es más detallada y puede mostrar claramente el enfisema u otros daños estructurales. Estas imágenes ayudan a descartar otras afecciones y le dan a su médico una imagen precisa de lo que está sucediendo dentro de sus pulmones.",
+                symptoms_test3_title: "Otras Pruebas",
+                symptoms_test3_desc: "Su médico también podría usar un pequeño dispositivo en la punta de su dedo (oximetría de pulso) para verificar sus niveles de oxígeno en la sangre o hacer análisis de sangre para detectar otras afecciones o la causa genética de la EPOC (DAAT).",
+                management_title: "Su Plan de Manejo Integral",
+                management_intro: "Después de un diagnóstico, el enfoque se centra en lo que puede hacer. Esta sección cubre los tratamientos más efectivos para manejar la EPOC. El objetivo es aliviar los síntomas, reducir las exacerbaciones y mejorar su calidad de vida. Su plan se basará en varios pilares clave, desde cambios en el estilo de vida hasta medicamentos y terapias avanzadas.",
+                management_care_title: "Pilares del Cuidado",
+                management_care1_title: "Dejar de Fumar",
+                management_care1_desc: `Si fuma, dejar de fumar es el paso más importante para frenar la progresión de la EPOC. Nunca es tarde para dejarlo. <a href="pages/smoking-cessation.html" class="content-link" data-translate="management_care1_link">Encuentre recursos en nuestra guía para dejar de fumar.</a>`,
+                management_care1_link: "Encuentre recursos en nuestra guía para dejar de fumar.",
+                management_care2_title: "Rehabilitación Pulmonar",
+                management_care2_desc: `Este es un programa supervisado de ejercicio, educación y apoyo. Es uno de los mejores tratamientos para mejorar la vida diaria. <a href="pages/rehab.html" class="content-link" data-translate="management_care2_link">Descubra los beneficios en nuestra guía de Rehabilitación Pulmonar.</a>`,
+                management_care2_link: "Descubra los beneficios en nuestra guía de Rehabilitación Pulmonar.",
+                management_meds_title: "Su Kit de Medicamentos",
+                management_meds_desc: "Los medicamentos son esenciales para abrir las vías respiratorias y reducir la inflamación. Son herramientas para ayudarle a respirar mejor. Es fundamental usar los inhaladores correctamente; pida a su médico o farmacéutico que revise su técnica. <a href=\"pages/medications.html\" class=\"content-link\" data-translate=\"management_meds_link\">Aprenda más en nuestra guía detallada de medicamentos.</a>",
+                management_meds_link: "Aprenda más en nuestra guía detallada de medicamentos.",
+                management_meds1_title: `Alivio Rápido ("Rescate")`,
+                management_meds1_desc: "Se usa según sea necesario para la falta de aire repentina. Actúan rápidamente pero sus efectos son a corto plazo. (ej., Albuterol)",
+                management_meds2_title: `Control Diario ("Mantenimiento")`,
+                management_meds2_desc: "Se toma todos los días para un control duradero de los síntomas. Es la base del tratamiento diario. (ej., Tiotropio, Salmeterol)",
+                management_meds3_title: "Reducir la Hinchazón (Antiinflamatorio)",
+                management_meds3_desc: "Los corticosteroides inhalados reducen la hinchazón y el moco. A menudo se combinan con un medicamento de control. (ej., Fluticasona)",
+                management_meds4_title: "Para Exacerbaciones",
+                management_meds4_desc: "Tratamientos a corto plazo con esteroides orales (como Prednisona) o antibióticos para tratar una exacerbación grave.",
+                management_advanced_title: "Apoyo Avanzado y Opciones Quirúrgicas",
+                management_advanced_desc: "Para algunas personas con EPOC grave, los medicamentos por sí solos no son suficientes. Su médico puede recetar terapias adicionales para apoyar su respiración y proteger su salud en general. Estas opciones se consideran después de una evaluación exhaustiva por parte de un equipo especializado.",
+                management_advanced1_title: "Oxigenoterapia",
+                management_advanced1_desc: "Si sus niveles de oxígeno en la sangre son bajos, su médico puede recetarle oxígeno suplementario. Este es un tratamiento médico que ayuda a reducir la tensión en su corazón y cerebro y se ha demostrado que ayuda a las personas a vivir más tiempo. La seguridad del oxígeno es fundamental: nunca fume cerca del oxígeno.",
+                management_advanced2_title: "Opciones Quirúrgicas",
+                management_advanced2_desc: "Para un grupo selecto de pacientes, la cirugía puede ser una opción. Esto puede variar desde procedimientos mínimamente invasivos como la colocación de válvulas endobronquiales (VEB) hasta cirugías mayores como la cirugía de reducción del volumen pulmonar (CRVP) o, en los casos más graves, un trasplante de pulmón.",
+                living_title: "Vivir Bien en el Día a Día",
+                living_intro: "Manejar la EPOC va más allá de la medicina. Las decisiones diarias que toma sobre nutrición, actividad y salud emocional pueden tener un gran impacto en cómo se siente. Esta sección ofrece estrategias prácticas y cotidianas para ayudarle a conservar energía, respirar mejor y vivir su mejor vida. Haga clic en cada tema para explorar consejos.",
+                living_card1_title: "Nutrición para Respirar Mejor <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card1_desc: `El trabajo de respirar puede quemar 10 veces más calorías para alguien con EPOC. Su cuerpo también produce más dióxido de carbono al metabolizar los carbohidratos. <a href="pages/diet.html" class="content-link" data-translate="living_card1_link">Explore nuestra guía completa de nutrición.</a>`,
+                living_card1_link: "Explore nuestra guía completa de nutrición.",
+                living_card1_tip1: "Coma comidas más pequeñas y frecuentes para evitar sentirse demasiado lleno.",
+                living_card1_tip2: "Concéntrese en las proteínas para mantener los músculos fuertes.",
+                living_card1_tip3: "Elija grasas saludables (aceite de oliva, aguacate) que producen menos CO2.",
+                living_card1_tip4: "Manténgase hidratado, pero beba líquidos entre comidas, no con ellas.",
+                living_card1_tip5: "Limite la sal para prevenir la retención de líquidos.",
+                living_card2_title: "Dominando Su Energía <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card2_desc: `La conservación de energía consiste en trabajar de forma más inteligente, no más dura. Use las "5 P":`,
+                living_card2_tip1: "<strong>Planificar:</strong> Organice su día para evitar prisas.",
+                living_card2_tip2: "<strong>Priorizar:</strong> Haga las tareas importantes cuando tenga más energía.",
+                living_card2_tip3: "<strong>Pausar:</strong> Vaya más despacio y descanse con frecuencia.",
+                living_card2_tip4: "<strong>Posición:</strong> Siéntese para hacer las tareas siempre que sea posible para ahorrar energía.",
+                living_card2_tip5: "<strong>Respiración con Labios Fruncidos:</strong> Use esta técnica durante cualquier esfuerzo.",
+                living_card3_title: "Ejercicios de Respiración Esenciales <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card3_desc: "Estos ejercicios pueden fortalecer sus músculos respiratorios y darle más control.",
+                living_card3_tip1: "<strong>Respiración con Labios Fruncidos:</strong> Inspire por la nariz durante 2 segundos. Espire lentamente con los labios fruncidos durante 4 segundos. Esto ayuda a vaciar los pulmones del aire atrapado.",
+                living_card3_tip2: "<strong>Respiración Abdominal (Diafragmática):</strong> Acuéstese y coloque una mano sobre su abdomen. Al inspirar por la nariz, deje que su abdomen se eleve. Al espirar, deje que baje. Esto fortalece su principal músculo respiratorio.",
+                living_card4_title: "Su Bienestar Emocional <span class=\"toggle-icon text-xl font-bold\">+</span>",
+                living_card4_desc: "Es normal sentir ansiedad o depresión al vivir con una enfermedad crónica. Su salud emocional es una parte clave de su plan de manejo.",
+                living_card4_tip1: "Hable abiertamente con su equipo de atención médica sobre sus sentimientos.",
+                living_card4_tip2: "Manténgase en contacto con amigos y familiares.",
+                living_card4_tip3: `Únase a un <a href="https://www.lung.org/help-support" target="_blank" rel="noopener noreferrer" class="content-link">grupo de apoyo</a> para conectar con sus pares.`,
+                living_card4_tip4: "Practique técnicas de relajación como la respiración consciente o escuchar música.",
+                flares_title: "Exacerbaciones y Complicaciones",
+                flares_intro: "Una parte clave del manejo de la EPOC es ser proactivo. Esto significa aprender a reconocer las señales de advertencia tempranas de una exacerbación y comprender cómo la EPOC puede afectar su salud en general. Esta sección proporciona herramientas para ayudarle a anticiparse a los problemas.",
+                flares_action_plan_title: "Manejo de Exacerbaciones: Su Plan de Acción",
+                flares_action_plan_desc: `Una exacerbación ocurre cuando sus síntomas empeoran repentinamente. La herramienta más importante para manejarlas es un <strong>Plan de Acción para la EPOC</strong> por escrito, creado con su médico. Le dice exactamente qué hacer según sus síntomas. Descargue un <a href="https://action.lung.org/site/DocServer/action-management-plan.pdf" target="_blank" rel="noopener noreferrer" class="content-link">Plan de Acción de muestra de la ALA</a>.`,
+                flares_zone_green_title: "ZONA VERDE: Todo Bien",
+                flares_zone_green_desc: "La respiración es normal para usted. Continúe con sus medicamentos diarios y actividades regulares.",
+                flares_zone_yellow_title: "ZONA AMARILLA: Comienzo de Exacerbación",
+                flares_zone_yellow_desc: "Los síntomas empeoran (más falta de aire, tos o moco). Use su inhalador de rescate. Es posible que deba comenzar con los esteroides orales o antibióticos recetados. <strong>Llame a su médico.</strong>",
+                flares_zone_red_title: "ZONA ROJA: Emergencia Médica",
+                flares_zone_red_desc: "Falta de aire severa en reposo, confusión, dolor en el pecho o labios/uñas azulados. <strong>Llame al 911 de inmediato.</strong>",
+                flares_comorbidities_title: "La EPOC y su Salud General (Comorbilidades)",
+                flares_comorbidities_desc: "La inflamación crónica en sus pulmones puede afectar a todo su cuerpo. Por eso, las personas con EPOC a menudo tienen otros problemas de salud. Manejar bien su EPOC ayuda a proteger todo su cuerpo. Las afecciones relacionadas comunes incluyen:",
+                flares_illness1: "Enfermedad Cardíaca",
+                flares_illness2: "Osteoporosis",
+                flares_illness3: "Cáncer de Pulmón",
+                flares_illness4: "Diabetes",
+                flares_illness5: "Ansiedad y Depresión",
+                flares_illness6: "Trastornos del Sueño",
+                flares_illness7: "Infecciones Frecuentes",
+                flares_vaccines: "Por eso es tan importante vacunarse anualmente contra la gripe y recibir otras vacunas recomendadas para proteger su salud.",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica. Nunca ignore el consejo médico profesional ni se demore en buscarlo por algo que haya leído en esta página.",
+                footer_source: "Material de Origen: Contenido adaptado de recursos de educación para pacientes proporcionados por la Asociación Americana del Pulmón, la Fundación EPOC, los Centros para el Control y la Prevención de Enfermedades (CDC) y los Institutos Nacionales de Salud (NIH).",
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+            updateChart();
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        };
+
+        const createChart = () => {
+            const riskCtx = document.getElementById('riskFactorChart');
+            if (riskCtx) {
+                const t = translations[currentLanguage];
+                riskFactorChart = new Chart(riskCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [t.risks_chart_label1, t.risks_chart_label2, t.risks_chart_label3, t.risks_chart_label4],
+                        datasets: [{
+                            label: 'COPD Risk Factors',
+                            data: [75, 15, 5, 5],
+                            backgroundColor: ['rgba(239, 68, 68, 0.7)', 'rgba(249, 115, 22, 0.7)', 'rgba(168, 85, 247, 0.7)', 'rgba(59, 130, 246, 0.7)'],
+                            borderColor: ['#ffffff'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { color: '#4b5563' } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) { label += ': '; }
+                                        if (context.parsed !== null) { label += context.parsed + (currentLanguage === 'es' ? '% de casos (aprox.)' : '% of cases (approx.)'); }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        const updateChart = () => {
+            if (!riskFactorChart) return;
+            const t = translations[currentLanguage];
+            riskFactorChart.data.labels = [t.risks_chart_label1, t.risks_chart_label2, t.risks_chart_label3, t.risks_chart_label4];
+            riskFactorChart.update();
+        };
+
+        // Event Listeners
+        const tabs = document.querySelectorAll('.nav-tab');
+        const contents = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active-tab'));
+                contents.forEach(c => c.classList.remove('active-content'));
+                tab.classList.add('active-tab');
+                document.getElementById(tab.dataset.tab).classList.add('active-content');
+            });
+        });
+
+        document.querySelector('main').addEventListener('click', (e) => {
+            const card = e.target.closest('.symptom-card, .strategy-card');
+            if (card) {
+                card.classList.toggle('open');
+            }
+        });
+        
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            
+            // Revert Google Translate by reloading the native language
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        createChart();
+        changeLanguage('en'); 
+    });
+    </script>
+</body>
+</html>

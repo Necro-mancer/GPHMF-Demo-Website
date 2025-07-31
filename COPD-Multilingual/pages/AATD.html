@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha-1 Antitrypsin Deficiency and COPD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Purples & Blues for Genetic/Medical Theme, with Neutral Grays -->
+    <!-- Application Structure Plan: A narrative, educational flow is used. It starts with a high-level "what is it," moves to a visual explanation of the biological mechanism ("The Lung's Shield"), quantifies the risk with a chart, and concludes with actionable steps (testing and avoiding smoke). This structure is designed to build understanding layer by layer, ending with empowerment. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: AATD's protective role -> Goal: Explain a biological function -> Viz: Interactive HTML/CSS diagram with toggleable states -> Interaction: Buttons to show "Normal," "AATD," and "AATD + Smoking" states -> Justification: Simplifies a complex protein interaction into a clear "shield" metaphor that is easy to grasp visually.
+        - Report Info: Risk & age of onset statistics -> Goal: Compare relative risks -> Viz: Chart.js Bar Chart -> Interaction: Tooltips on hover -> Justification: A bar chart provides a stark, immediate comparison of risk levels, effectively highlighting the extreme danger for smokers with AATD.
+        - Report Info: Inheritance pattern -> Goal: Explain genetics simply -> Viz: Simple HTML/CSS graphic -> Justification: A non-interactive, clear visual is sufficient to explain a basic genetic concept without overcomplicating it.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #4f46e5; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block; cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+        .shield-btn { transition: all 0.2s ease; }
+        .shield-btn.active {
+            background-color: #4338ca;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">AATD & COPD</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-indigo-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-indigo-700 mb-2" data-translate="main_title">The Genetic Risk: Alpha-1 and COPD</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-translate="main_subtitle">Discover how a hidden genetic condition can lead to lung disease, and why smoking makes it far more dangerous.</p>
+        </header>
+
+        <!-- What is AATD -->
+        <section class="mb-16 bg-white p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6" data-translate="what_is_title">What is Alpha-1 Antitrypsin Deficiency?</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="mb-4" data-translate="what_is_p1">Alpha-1 Antitrypsin Deficiency (AATD or Alpha-1) is an inherited genetic condition. It means the body doesn't produce enough of a protein called alpha-1 antitrypsin (AAT). This protein is made in the liver and travels to the lungs to perform a vital job.</p>
+                    <p class="font-semibold mb-4" data-translate="what_is_p2">Its main function is to protect the lungs from damage caused by inflammation, especially from an enzyme called neutrophil elastase, which our own immune cells release to fight infection.</p>
+                    <h4 class="font-bold text-lg mb-2" data-translate="genes_title">Understanding the Genes</h4>
+                    <p class="text-sm" data-translate="genes_desc">The most common normal gene is 'M'. The most common faulty genes that cause AATD are 'S' and 'Z'. A person with two 'M' genes (MM) is normal. A person with two 'Z' genes (ZZ) has severe AATD. Other combinations (like MS or SZ) result in varying levels of risk.</p>
+                </div>
+                <div class="text-center bg-indigo-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2" data-translate="what_is_inheritance_title">How is it Inherited?</h3>
+                    <p class="text-sm mb-4" data-translate="what_is_inheritance_desc">Everyone inherits two AAT genes, one from each parent. If you inherit one normal gene and one faulty gene, you are a "carrier" but usually make enough protein to stay healthy. If you inherit two faulty genes, you have AATD.</p>
+                    <div class="flex justify-center items-center space-x-4">
+                        <div class="text-center">
+                            <div class="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center mx-auto" data-translate="what_is_parent1">Parent 1 (Carrier)</div>
+                        </div>
+                        <span class="text-2xl font-bold">+</span>
+                        <div class="text-center">
+                            <div class="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center mx-auto" data-translate="what_is_parent2">Parent 2 (Carrier)</div>
+                        </div>
+                        <span class="text-2xl font-bold">&rarr;</span>
+                        <div class="text-center">
+                             <div class="w-12 h-12 bg-red-200 rounded-full flex items-center justify-center mx-auto" data-translate="what_is_child">Child with AATD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Lung's Shield -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="shield_title">The Lung's Shield: How AAT Protects You</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <div class="flex justify-center flex-wrap gap-2 mb-6">
+                    <button class="shield-btn active px-4 py-2 rounded-lg font-semibold border border-gray-300" data-scenario="normal" data-translate="shield_btn_normal">Normal Lungs</button>
+                    <button class="shield-btn px-4 py-2 rounded-lg font-semibold border border-gray-300" data-scenario="aatd" data-translate="shield_btn_aatd">With AATD</button>
+                    <button class="shield-btn px-4 py-2 rounded-lg font-semibold border border-gray-300" data-scenario="aatsmoking" data-translate="shield_btn_aatsmoking">AATD + Smoking</button>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 text-center items-start">
+                    <div id="attacker" class="p-4">
+                        <p class="text-5xl">⚔️</p>
+                        <h4 class="font-bold mt-2" data-translate="shield_attacker_title">The Attacker</h4>
+                        <p class="text-sm text-gray-600" id="attacker-desc" data-translate="shield_attacker_desc_normal">Normal inflammation from fighting germs.</p>
+                    </div>
+                    <div id="shield" class="p-4">
+                        <p class="text-5xl transition-opacity duration-500" id="shield-emoji">🛡️</p>
+                        <h4 class="font-bold mt-2" data-translate="shield_shield_title">The Shield (AAT Protein)</h4>
+                        <p class="text-sm text-gray-600" id="shield-desc" data-translate="shield_shield_desc_normal">A full and strong shield of AAT protein is present.</p>
+                    </div>
+                    <div id="lung" class="p-4 bg-green-100 rounded-lg transition-colors duration-500">
+                        <p class="text-5xl">🫁</p>
+                        <h4 class="font-bold mt-2" data-translate="shield_lung_title">The Lung</h4>
+                        <p class="text-sm text-gray-600" id="lung-desc" data-translate="shield_lung_desc_normal">Lungs are fully protected and remain healthy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Beyond the Lungs -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="liver_title">Beyond the Lungs: Alpha-1 and Liver Disease</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-4xl mx-auto text-center">
+                <p class="text-5xl mb-4">🩺</p>
+                <p data-translate="liver_desc">In the most common form of AATD, the faulty AAT protein gets 'stuck' in the liver cells where it's made. This buildup can damage the liver over time, leading to scarring (fibrosis or cirrhosis) and increasing the risk for liver cancer. For some people with Alpha-1, the liver problems can be more serious than the lung problems.</p>
+            </div>
+        </section>
+
+
+        <!-- The Danger of Smoking with AATD -->
+        <section class="mb-16 bg-red-700 text-white p-6 md:p-10 rounded-xl shadow-2xl">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4" data-translate="danger_title">A Devastating Combination: AATD and Smoking</h2>
+            <p class="text-center max-w-3xl mx-auto" data-translate="danger_desc">If AATD leaves the lungs with a weakened shield, smoking is like inviting an entire army to attack. Tobacco smoke not only causes massive inflammation (more attackers), but it also deactivates any AAT protein that is present (damaging the shield itself). This one-two punch leads to extremely rapid and severe lung destruction.</p>
+        </section>
+        
+        <!-- Risk Chart -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="risk_title">COPD Risk and Age of Onset</h2>
+             <div class="bg-white p-4 md:p-8 rounded-xl shadow-lg max-w-4xl mx-auto">
+                <canvas id="riskChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Treatment -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="treatment_title">Specific Treatment: Augmentation Therapy</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-4xl mx-auto">
+                <p class="mb-4" data-translate="treatment_desc">For individuals with AATD-related lung damage, a specific treatment called augmentation therapy is available. This involves weekly intravenous (IV) infusions of the AAT protein, collected from the plasma of healthy human donors. The goal is not to cure COPD or reverse existing damage, but to increase the level of AAT protein in the lungs to protect them from further destruction.</p>
+                <p class="font-semibold" data-translate="treatment_eligibility">This therapy is typically considered for individuals with AATD who have evidence of emphysema. Your doctor can determine if you are an eligible candidate.</p>
+            </div>
+        </section>
+
+
+        <!-- Testing and Action -->
+        <section>
+             <div class="text-center bg-indigo-50 p-8 rounded-xl">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-4" data-translate="testing_title">Should You Be Tested?</h2>
+                 <p class="max-w-2xl mx-auto text-gray-700 mb-6" data-translate="testing_desc">Because Alpha-1 is under-recognized, the World Health Organization recommends that all people diagnosed with COPD, regardless of age or smoking history, should be tested. A simple blood test can diagnose the condition. Testing is especially critical if you:</p>
+                 <ul class="inline-block text-left list-disc list-inside space-y-2 mb-6">
+                     <li data-translate="testing_reason1">Have COPD, emphysema, or bronchiectasis.</li>
+                     <li data-translate="testing_reason2">Developed COPD at a young age (under 45).</li>
+                     <li data-translate="testing_reason3">Have a family history of AATD or early-onset lung disease.</li>
+                     <li data-translate="testing_reason4">Have unexplained liver disease.</li>
+                 </ul>
+                 <div>
+                    <a href="https://www.alpha1.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors text-lg" data-translate="testing_cta">Learn More at the Alpha-1 Foundation</a>
+                 </div>
+             </div>
+        </section>
+
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="mb-4"><a href="../landing.html" class="text-blue-400 hover:underline" data-translate="footer_back_link">&larr; Back to Main COPD Guide</a></p>
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from the Alpha-1 Foundation, the American Lung Association, and the COPD Foundation.</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let riskChart;
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                header_title: "AATD & COPD",
+                back_button: "Back",
+                main_title: "The Genetic Risk: Alpha-1 and COPD",
+                main_subtitle: "Discover how a hidden genetic condition can lead to lung disease, and why smoking makes it far more dangerous.",
+                what_is_title: "What is Alpha-1 Antitrypsin Deficiency?",
+                what_is_p1: "Alpha-1 Antitrypsin Deficiency (AATD or Alpha-1) is an inherited genetic condition. It means the body doesn't produce enough of a protein called alpha-1 antitrypsin (AAT). This protein is made in the liver and travels to the lungs to perform a vital job.",
+                what_is_p2: "Its main function is to protect the lungs from damage caused by inflammation, especially from an enzyme called neutrophil elastase, which our own immune cells release to fight infection.",
+                what_is_inheritance_title: "How is it Inherited?",
+                what_is_inheritance_desc: "Everyone inherits two AAT genes, one from each parent. If you inherit one normal gene and one faulty gene, you are a \"carrier\" but usually make enough protein to stay healthy. If you inherit two faulty genes, you have AATD.",
+                what_is_parent1: "Parent 1 (Carrier)",
+                what_is_parent2: "Parent 2 (Carrier)",
+                what_is_child: "Child with AATD",
+                genes_title: "Understanding the Genes",
+                genes_desc: "The most common normal gene is 'M'. The most common faulty genes that cause AATD are 'S' and 'Z'. A person with two 'M' genes (MM) is normal. A person with two 'Z' genes (ZZ) has severe AATD. Other combinations (like MS or SZ) result in varying levels of risk.",
+                shield_title: "The Lung's Shield: How AAT Protects You",
+                shield_btn_normal: "Normal Lungs",
+                shield_btn_aatd: "With AATD",
+                shield_btn_aatsmoking: "AATD + Smoking",
+                shield_attacker_title: "The Attacker",
+                shield_attacker_desc_normal: "Normal inflammation from fighting germs.",
+                shield_attacker_desc_aatd: "Normal inflammation.",
+                shield_attacker_desc_aatsmoking: "Massive inflammation from smoke + normal processes.",
+                shield_shield_title: "The Shield (AAT Protein)",
+                shield_shield_desc_normal: "A full and strong shield of AAT protein is present.",
+                shield_shield_desc_aatd: "A weak, deficient shield offers little protection.",
+                shield_shield_desc_aatsmoking: "The weak shield is further damaged by smoke.",
+                shield_lung_title: "The Lung",
+                shield_lung_desc_normal: "Lungs are fully protected and remain healthy.",
+                shield_lung_desc_aatd: "Lungs are vulnerable and get damaged over time.",
+                shield_lung_desc_aatsmoking: "Lungs suffer rapid, severe, and early damage.",
+                liver_title: "Beyond the Lungs: Alpha-1 and Liver Disease",
+                liver_desc: "In the most common form of AATD, the faulty AAT protein gets 'stuck' in the liver cells where it's made. This buildup can damage the liver over time, leading to scarring (fibrosis or cirrhosis) and increasing the risk for liver cancer. For some people with Alpha-1, the liver problems can be more serious than the lung problems.",
+                danger_title: "A Devastating Combination: AATD and Smoking",
+                danger_desc: "If AATD leaves the lungs with a weakened shield, smoking is like inviting an entire army to attack. Tobacco smoke not only causes massive inflammation (more attackers), but it also deactivates any AAT protein that is present (damaging the shield itself). This one-two punch leads to extremely rapid and severe lung destruction.",
+                risk_title: "COPD Risk and Age of Onset",
+                risk_chart_label_nonsmoker: "Non-Smoker",
+                risk_chart_label_smoker: "Smoker",
+                risk_chart_label_aatsmoker: "Smoker with AATD",
+                risk_chart_dataset_age: "Average Age of COPD Onset",
+                treatment_title: "Specific Treatment: Augmentation Therapy",
+                treatment_desc: "For individuals with AATD-related lung damage, a specific treatment called augmentation therapy is available. This involves weekly intravenous (IV) infusions of the AAT protein, collected from the plasma of healthy human donors. The goal is not to cure COPD or reverse existing damage, but to increase the level of AAT protein in the lungs to protect them from further destruction.",
+                treatment_eligibility: "This therapy is typically considered for individuals with AATD who have evidence of emphysema. Your doctor can determine if you are an eligible candidate.",
+                testing_title: "Should You Be Tested?",
+                testing_desc: "Because Alpha-1 is under-recognized, the World Health Organization recommends that all people diagnosed with COPD, regardless of age or smoking history, should be tested. A simple blood test can diagnose the condition. Testing is especially critical if you:",
+                testing_reason1: "Have COPD, emphysema, or bronchiectasis.",
+                testing_reason2: "Developed COPD at a young age (under 45).",
+                testing_reason3: "Have a family history of AATD or early-onset lung disease.",
+                testing_reason4: "Have unexplained liver disease.",
+                testing_cta: "Learn More at the Alpha-1 Foundation",
+                footer_back_link: "&larr; Back to Main COPD Guide",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source: `Source Material: Content adapted from the <a href="https://www.alpha1.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Alpha-1 Foundation</a> and the <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/alpha-1-antitrypsin-deficiency" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">American Lung Association</a>.`,
+            },
+            es: {
+                header_title: "DAAT y EPOC",
+                back_button: "Volver",
+                main_title: "El Riesgo Genético: Alfa-1 y EPOC",
+                main_subtitle: "Descubra cómo una condición genética oculta puede provocar una enfermedad pulmonar y por qué fumar la hace mucho más peligrosa.",
+                what_is_title: "¿Qué es la Deficiencia de Alfa-1 Antitripsina?",
+                what_is_p1: "La Deficiencia de Alfa-1 Antitripsina (DAAT o Alfa-1) es una condición genética hereditaria. Significa que el cuerpo no produce suficiente cantidad de una proteína llamada alfa-1 antitripsina (AAT). Esta proteína se produce en el hígado y viaja a los pulmones para realizar un trabajo vital.",
+                what_is_p2: "Su función principal es proteger los pulmones del daño causado por la inflamación, especialmente de una enzima llamada elastasa de neutrófilos, que nuestras propias células inmunitarias liberan para combatir infecciones.",
+                what_is_inheritance_title: "¿Cómo se hereda?",
+                what_is_inheritance_desc: "Todos heredan dos genes de AAT, uno de cada padre. Si hereda un gen normal y un gen defectuoso, es un \"portador\" pero generalmente produce suficiente proteína para mantenerse sano. Si hereda dos genes defectuosos, tiene DAAT.",
+                what_is_parent1: "Padre 1 (Portador)",
+                what_is_parent2: "Padre 2 (Portador)",
+                what_is_child: "Hijo con DAAT",
+                genes_title: "Entendiendo los Genes",
+                genes_desc: "El gen normal más común es 'M'. Los genes defectuosos más comunes que causan DAAT son 'S' y 'Z'. Una persona con dos genes 'M' (MM) es normal. Una persona con dos genes 'Z' (ZZ) tiene DAAT grave. Otras combinaciones (como MS o SZ) resultan en diferentes niveles de riesgo.",
+                shield_title: "El Escudo del Pulmón: Cómo le Protege la AAT",
+                shield_btn_normal: "Pulmones Normales",
+                shield_btn_aatd: "Con DAAT",
+                shield_btn_aatsmoking: "DAAT + Fumar",
+                shield_attacker_title: "El Atacante",
+                shield_attacker_desc_normal: "Inflamación normal por combatir gérmenes.",
+                shield_attacker_desc_aatd: "Inflamación normal.",
+                shield_attacker_desc_aatsmoking: "Inflamación masiva por humo + procesos normales.",
+                shield_shield_title: "El Escudo (Proteína AAT)",
+                shield_shield_desc_normal: "Hay un escudo completo y fuerte de proteína AAT.",
+                shield_shield_desc_aatd: "Un escudo débil y deficiente ofrece poca protección.",
+                shield_shield_desc_aatsmoking: "El escudo débil es dañado aún más por el humo.",
+                shield_lung_title: "El Pulmón",
+                shield_lung_desc_normal: "Los pulmones están totalmente protegidos y sanos.",
+                shield_lung_desc_aatd: "Los pulmones son vulnerables y se dañan con el tiempo.",
+                shield_lung_desc_aatsmoking: "Los pulmones sufren un daño rápido, severo y temprano.",
+                liver_title: "Más Allá de los Pulmones: Alfa-1 y Enfermedad Hepática",
+                liver_desc: "En la forma más común de DAAT, la proteína AAT defectuosa se 'atasca' en las células del hígado donde se produce. Esta acumulación puede dañar el hígado con el tiempo, provocando cicatrices (fibrosis o cirrosis) y aumentando el riesgo de cáncer de hígado. Para algunas personas con Alfa-1, los problemas hepáticos pueden ser más graves que los problemas pulmonares.",
+                danger_title: "Una Combinación Devastadora: DAAT y Fumar",
+                danger_desc: "Si el DAAT deja los pulmones con un escudo debilitado, fumar es como invitar a un ejército entero a atacar. El humo del tabaco no solo causa una inflamación masiva (más atacantes), sino que también desactiva cualquier proteína AAT presente (dañando el propio escudo). Este doble golpe conduce a una destrucción pulmonar extremadamente rápida y severa.",
+                risk_title: "Riesgo de EPOC y Edad de Inicio",
+                risk_chart_label_nonsmoker: "No Fumador",
+                risk_chart_label_smoker: "Fumador",
+                risk_chart_label_aatsmoker: "Fumador con DAAT",
+                risk_chart_dataset_age: "Edad Promedio de Inicio de EPOC",
+                treatment_title: "Tratamiento Específico: Terapia de Aumento",
+                treatment_desc: "Para las personas con daño pulmonar relacionado con el DAAT, existe un tratamiento específico llamado terapia de aumento. Consiste en infusiones intravenosas (IV) semanales de la proteína AAT, recolectada del plasma de donantes humanos sanos. El objetivo no es curar la EPOC ni revertir el daño existente, sino aumentar el nivel de proteína AAT en los pulmones para protegerlos de una mayor destrucción.",
+                treatment_eligibility: "Esta terapia se considera generalmente para personas con DAAT que tienen evidencia de enfisema. Su médico puede determinar si usted es un candidato elegible.",
+                testing_title: "¿Debería Hacerse la Prueba?",
+                testing_desc: "Debido a que el Alfa-1 no se reconoce lo suficiente, la Organización Mundial de la Salud recomienda que todas las personas diagnosticadas con EPOC, independientemente de su edad o historial de tabaquismo, se hagan la prueba. Un simple análisis de sangre puede diagnosticar la afección. La prueba es especialmente crítica si usted:",
+                testing_reason1: "Tiene EPOC, enfisema o bronquiectasias.",
+                testing_reason2: "Desarrolló EPOC a una edad temprana (menos de 45 años).",
+                testing_reason3: "Tiene antecedentes familiares de DAAT o enfermedad pulmonar de inicio temprano.",
+                testing_reason4: "Tiene una enfermedad hepática sin explicación.",
+                testing_cta: "Aprenda Más en la Fundación Alpha-1",
+                footer_back_link: "&larr; Volver a la Guía Principal de EPOC",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source: `Material de Origen: Contenido adaptado de la <a href="https://www.alpha1.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Fundación Alpha-1</a> y la <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/alpha-1-antitrypsin-deficiency" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Asociación Americana del Pulmón</a>.`,
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+            if (riskChart) {
+                updateChartLabels();
+            }
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        };
+        
+        const createRiskChart = () => {
+            const ctx = document.getElementById('riskChart');
+            if (!ctx) return;
+            const t = translations[currentLanguage];
+            riskChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [t.risk_chart_label_nonsmoker, t.risk_chart_label_smoker, t.risk_chart_label_aatsmoker],
+                    datasets: [{
+                        label: t.risk_chart_dataset_age,
+                        data: [65, 55, 45],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(249, 115, 22, 0.6)',
+                            'rgba(220, 38, 38, 0.6)',
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(249, 115, 22, 1)',
+                             'rgba(220, 38, 38, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: t.risk_chart_dataset_age
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+        
+        const updateChartLabels = () => {
+             const t = translations[currentLanguage];
+             riskChart.data.labels = [t.risk_chart_label_nonsmoker, t.risk_chart_label_smoker, t.risk_chart_label_aatsmoker];
+             riskChart.options.scales.y.title.text = t.risk_chart_dataset_age;
+             riskChart.data.datasets[0].label = t.risk_chart_dataset_age;
+             riskChart.update();
+        };
+        
+        // Shield Diagram Logic
+        const shieldScenarios = {
+            normal: {
+                attacker: 'shield_attacker_desc_normal',
+                shield: 'shield_shield_desc_normal',
+                lung: 'shield_lung_desc_normal',
+                shieldEmojiOpacity: 'opacity-100',
+                lungBg: 'bg-green-100',
+                attackerEmoji: '⚔️'
+            },
+            aatd: {
+                attacker: 'shield_attacker_desc_aatd',
+                shield: 'shield_shield_desc_aatd',
+                lung: 'shield_lung_desc_aatd',
+                shieldEmojiOpacity: 'opacity-25',
+                lungBg: 'bg-yellow-100',
+                attackerEmoji: '⚔️'
+            },
+            aatsmoking: {
+                attacker: 'shield_attacker_desc_aatsmoking',
+                shield: 'shield_shield_desc_aatsmoking',
+                lung: 'shield_lung_desc_aatsmoking',
+                shieldEmojiOpacity: 'opacity-10',
+                lungBg: 'bg-red-100',
+                attackerEmoji: '🚬+⚔️'
+            }
+        };
+        
+        const shieldBtns = document.querySelectorAll('.shield-btn');
+        shieldBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                shieldBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const scenario = shieldScenarios[btn.dataset.scenario];
+                
+                document.getElementById('attacker-desc').dataset.translate = scenario.attacker;
+                document.getElementById('shield-desc').dataset.translate = scenario.shield;
+                document.getElementById('lung-desc').dataset.translate = scenario.lung;
+                
+                document.getElementById('shield-emoji').className = `text-5xl transition-opacity duration-500 ${scenario.shieldEmojiOpacity}`;
+                document.getElementById('lung').className = `p-4 rounded-lg transition-colors duration-500 ${scenario.lungBg}`;
+                document.getElementById('attacker').querySelector('p').textContent = scenario.attackerEmoji;
+
+                renderContent();
+            });
+        });
+
+        // Language toggle
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        changeLanguage('en');
+        createRiskChart();
+    });
+    </script>
+</body>
+</html>

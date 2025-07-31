@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spirometry: The Gold Standard Test for COPD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Teals & Blues for a Clinical, Informative Theme -->
+    <!-- Application Structure Plan: A linear, educational journey is used. The page guides the user from the "what" and "how" of the test, to understanding the "what it measures," and finally to "what it means." This logical progression demystifies the test and empowers the patient with knowledge about their diagnosis. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: How spirometry is performed -> Goal: Explain a procedure -> Viz: Interactive step-by-step HTML/CSS guide -> Interaction: Click to advance through steps -> Justification: Makes the testing process less intimidating by breaking it into manageable, easy-to-understand actions.
+        - Report Info: FEV1/FVC values -> Goal: Compare healthy vs. COPD -> Viz: Interactive Chart.js line graph -> Interaction: Buttons to toggle between "Healthy" and "COPD" views -> Justification: A direct, interactive comparison is the most effective way to show how the FEV1/FVC ratio changes in obstructive disease.
+        - Report Info: COPD severity staging -> Goal: Organize & classify -> Viz: Color-coded HTML/CSS cards -> Justification: Visually separates the GOLD stages, making the classification system clear and easy to reference.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block; cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+        .test-step {
+            opacity: 0.3;
+            transition: opacity 0.5s ease;
+        }
+        .test-step.active {
+            opacity: 1;
+        }
+        .chart-toggle-btn.active {
+            background-color: #0f766e;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">Spirometry & COPD</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-teal-700 mb-2" data-translate="main_title">Understanding Spirometry: Your Lung Function Test</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-translate="main_subtitle">This simple, painless breathing test is the gold standard for diagnosing COPD.</p>
+        </header>
+
+        <!-- What is Spirometry & How it's Performed -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="what_is_title">What Happens During the Test?</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="text-center">
+                     <div class="mx-auto w-48 h-48 md:w-64 md:h-64 rounded-lg flex items-center justify-center bg-teal-100" id="test-visual">
+                        <span class="text-5xl" id="test-emoji">🧘</span>
+                    </div>
+                    <p class="mt-4 font-semibold text-lg" id="test-status" data-translate="test_status_prepare">Prepare & Relax</p>
+                </div>
+                <div class="relative p-8 bg-white rounded-lg shadow-lg">
+                    <p class="mb-4" data-translate="what_is_desc">Spirometry measures how much air your lungs can hold and how quickly you can blow it out. It's a non-invasive test that gives your doctor crucial information about your lung health. The process is straightforward:</p>
+                    <div id="test-steps" class="space-y-3">
+                        <div class="test-step active" data-step="1">
+                            <p><strong data-translate="test_step1_title">1. Preparation:</strong> You'll sit comfortably and a clip will be placed on your nose to ensure no air escapes.</p>
+                        </div>
+                        <div class="test-step" data-step="2">
+                            <p><strong data-translate="test_step2_title">2. Deep Breath In:</strong> You'll be asked to take the deepest breath you possibly can, filling your lungs completely.</p>
+                        </div>
+                        <div class="test-step" data-step="3">
+                            <p><strong data-translate="test_step3_title">3. Blast Out:</strong> You'll seal your lips around a mouthpiece and blast the air out as hard and as fast as you can for as long as possible (at least 6 seconds).</p>
+                        </div>
+                        <div class="test-step" data-step="4">
+                            <p><strong data-translate="test_step4_title">4. Repeat:</strong> The test is usually repeated at least three times to ensure the results are consistent and accurate.</p>
+                        </div>
+                    </div>
+                     <button id="next-step-btn" class="mt-6 w-full bg-teal-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors" data-translate="test_next_btn">See Next Step</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- The Key Numbers -->
+        <section class="mb-16 bg-gray-800 text-white p-6 md:p-10 rounded-xl shadow-2xl">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6" data-translate="numbers_title">The Key Numbers: FVC, FEV1, and the Ratio</h2>
+            <p class="text-center max-w-3xl mx-auto text-gray-300 mb-6" data-translate="numbers_desc">The test measures two critical values from your forced breath out. The relationship between these two numbers is the key to diagnosing COPD.</p>
+            <div class="grid md:grid-cols-3 gap-6 text-center">
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-bold text-xl text-blue-300">FVC</h3>
+                    <p class="font-semibold" data-translate="numbers_fvc_title">Forced Vital Capacity</p>
+                    <p class="text-sm text-gray-400" data-translate="numbers_fvc_desc">The total amount of air you can forcefully exhale after taking your deepest possible breath.</p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-bold text-xl text-green-300">FEV1</h3>
+                    <p class="font-semibold" data-translate="numbers_fev1_title">Forced Expiratory Volume in 1 Second</p>
+                    <p class="text-sm text-gray-400" data-translate="numbers_fev1_desc">The amount of air you can forcefully exhale in the very first second of that breath.</p>
+                </div>
+                 <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-bold text-xl text-yellow-300">FEV1/FVC</h3>
+                    <p class="font-semibold" data-translate="numbers_ratio_title">The Ratio</p>
+                    <p class="text-sm text-gray-400" data-translate="numbers_ratio_desc">The percentage of your total lung capacity (FVC) that you can exhale in the first second (FEV1).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interpreting the Results -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="results_title">Visualizing the Diagnosis</h2>
+            <div class="bg-white p-4 md:p-8 rounded-xl shadow-lg">
+                <div class="text-center mb-4">
+                     <p class="mb-4" data-translate="results_desc">In healthy lungs, you can blow out most of the air very quickly. In lungs with COPD, airway obstruction makes it much harder to get the air out fast, so the FEV1 is significantly lower compared to the FVC. Click the buttons to see the difference.</p>
+                    <div class="inline-flex rounded-lg border border-gray-300 p-1">
+                        <button id="view-healthy" class="chart-toggle-btn active px-4 py-2 text-sm font-semibold rounded-md" data-translate="results_btn_healthy">Healthy Lungs</button>
+                        <button id="view-copd" class="chart-toggle-btn px-4 py-2 text-sm font-semibold rounded-md" data-translate="results_btn_copd">Lungs with COPD</button>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-2">
+                        <canvas id="spirometryChart"></canvas>
+                    </div>
+                    <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                        <h4 class="font-bold text-lg" data-translate="results_analysis_title">Analysis</h4>
+                        <p class="my-2"><strong data-translate="results_fvc">FVC:</strong> <span id="fvc-value">5.0 L</span></p>
+                        <p class="my-2"><strong data-translate="results_fev1">FEV1:</strong> <span id="fev1-value">4.0 L</span></p>
+                        <hr class="my-2">
+                        <p class="font-bold text-2xl my-2"><strong data-translate="results_ratio">Ratio:</strong> <span id="ratio-value">80%</span></p>
+                        <p class="font-bold text-xl" id="diagnosis-text" data-translate="results_diagnosis_normal">Normal</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Bronchodilator Response -->
+        <section class="mb-16">
+             <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-6" data-translate="broncho_title">The Next Step: The Bronchodilator Test</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="mb-4" data-translate="broncho_desc">Sometimes, after the first set of tests, the technician will give you a dose of a short-acting bronchodilator medication (like albuterol) from an inhaler. After waiting about 15 minutes, you'll repeat the spirometry test.</p>
+                        <h4 class="font-bold text-lg mb-2" data-translate="broncho_purpose_title">What is the purpose of this?</h4>
+                        <p data-translate="broncho_purpose_desc">This test checks to see if your airway obstruction is reversible. In diseases like asthma, the airways can open up significantly after medication. In COPD, the obstruction is largely fixed and permanent, so there is much less improvement in the FEV1 value. This helps doctors differentiate between COPD and asthma.</p>
+                    </div>
+                    <div class="text-center bg-teal-50 p-6 rounded-lg">
+                        <p class="text-5xl">💨</p>
+                        <h3 class="font-bold text-lg mt-2" data-translate="broncho_result_title">Key Finding</h3>
+                        <p data-translate="broncho_result_desc">A post-bronchodilator FEV1/FVC ratio that is still less than 70% confirms a diagnosis of COPD.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GOLD Stages -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2" data-translate="gold_title">Staging COPD Severity: The GOLD System</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="gold_desc">Once COPD is diagnosed (FEV1/FVC ratio < 70%), doctors use your FEV1 value (compared to the predicted value for someone of your age, height, and sex) to determine its severity. This is known as the GOLD staging system.</p>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                <div class="p-4 rounded-lg bg-green-100 border-t-4 border-green-500 shadow-md">
+                    <h3 class="font-bold text-lg text-green-800" data-translate="gold1_title">GOLD 1: Mild</h3>
+                    <p class="font-semibold my-2">FEV1 ≥ 80%</p>
+                    <p class="text-sm" data-translate="gold1_desc">Lung function is still considered in the normal range, but you may have a chronic cough and mucus production.</p>
+                </div>
+                <div class="p-4 rounded-lg bg-yellow-100 border-t-4 border-yellow-500 shadow-md">
+                    <h3 class="font-bold text-lg text-yellow-800" data-translate="gold2_title">GOLD 2: Moderate</h3>
+                    <p class="font-semibold my-2">50% ≤ FEV1 < 80%</p>
+                    <p class="text-sm" data-translate="gold2_desc">Shortness of breath typically develops upon exertion. This is often the stage when people seek medical help.</p>
+                </div>
+                <div class="p-4 rounded-lg bg-orange-100 border-t-4 border-orange-500 shadow-md">
+                    <h3 class="font-bold text-lg text-orange-800" data-translate="gold3_title">GOLD 3: Severe</h3>
+                    <p class="font-semibold my-2">30% ≤ FEV1 < 50%</p>
+                    <p class="text-sm" data-translate="gold3_desc">Shortness of breath becomes worse and flare-ups (exacerbations) are more common. Quality of life is impacted.</p>
+                </div>
+                <div class="p-4 rounded-lg bg-red-100 border-t-4 border-red-500 shadow-md">
+                    <h3 class="font-bold text-lg text-red-800" data-translate="gold4_title">GOLD 4: Very Severe</h3>
+                    <p class="font-semibold my-2">FEV1 < 30%</p>
+                    <p class="text-sm" data-translate="gold4_desc">Quality of life is severely impaired. Flare-ups can be life-threatening. Low blood oxygen levels are common.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Preparation and Limitations -->
+        <section>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold text-center mb-4" data-translate="prep_title">Preparing for Your Test</h3>
+                    <p class="text-sm mb-4" data-translate="prep_desc">To get the most accurate results, you may be asked to:</p>
+                    <ul class="list-disc list-inside space-y-2 text-sm">
+                        <li data-translate="prep_item1">Avoid smoking for at least one hour before the test.</li>
+                        <li data-translate="prep_item2">Avoid heavy meals or caffeine before the test.</li>
+                        <li data-translate="prep_item3">Wear loose, comfortable clothing.</li>
+                        <li data-translate="prep_item4">Temporarily stop using certain inhaled medications (your doctor will give you specific instructions).</li>
+                    </ul>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold text-center mb-4" data-translate="limit_title">What Spirometry Can't Measure</h3>
+                    <p class="text-sm" data-translate="limit_desc">While spirometry is excellent for diagnosing airway obstruction, it doesn't provide a complete picture of lung health. It cannot measure the Total Lung Capacity (the total amount of air your lungs can hold) or the Residual Volume (the air left in your lungs after a full exhale). Other tests, like a lung volume test or a DLCO test (to measure gas exchange), may be needed for more detailed information.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="mb-4"><a href="../landing.html" class="text-blue-400 hover:underline" data-translate="footer_back_link">&larr; Back to Main COPD Guide</a></p>
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from the American Lung Association and the COPD Foundation.</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let spirometryChart;
+        let currentLanguage = 'en';
+        let currentTestStep = 1;
+
+        const translations = {
+            en: {
+                header_title: "Spirometry & COPD",
+                back_button: "Back",
+                main_title: "Understanding Spirometry: Your Lung Function Test",
+                main_subtitle: "This simple, painless breathing test is the gold standard for diagnosing COPD.",
+                what_is_title: "What Happens During the Test?",
+                what_is_desc: "Spirometry measures how much air your lungs can hold and how quickly you can blow it out. It's a non-invasive test that gives your doctor crucial information about your lung health. The process is straightforward:",
+                test_step1_title: "1. Preparation:",
+                test_step2_title: "2. Deep Breath In:",
+                test_step3_title: "3. Blast Out:",
+                test_step4_title: "4. Repeat:",
+                test_status_prepare: "Prepare & Relax",
+                test_status_inhale: "Inhale Deeply",
+                test_status_exhale: "Exhale Hard & Fast",
+                test_status_repeat: "Repeat for Accuracy",
+                test_next_btn: "See Next Step",
+                test_reset_btn: "Start Over",
+                numbers_title: "The Key Numbers: FVC, FEV1, and the Ratio",
+                numbers_desc: "The test measures two critical values from your forced breath out. The relationship between these two numbers is the key to diagnosing COPD.",
+                numbers_fvc_title: "Forced Vital Capacity",
+                numbers_fvc_desc: "The total amount of air you can forcefully exhale after taking your deepest possible breath.",
+                numbers_fev1_title: "Forced Expiratory Volume in 1 Second",
+                numbers_fev1_desc: "The amount of air you can forcefully exhale in the very first second of that breath.",
+                numbers_ratio_title: "The Ratio",
+                numbers_ratio_desc: "The percentage of your total lung capacity (FVC) that you can exhale in the first second (FEV1).",
+                results_title: "Visualizing the Diagnosis",
+                results_desc: "In healthy lungs, you can blow out most of the air very quickly. In lungs with COPD, airway obstruction makes it much harder to get the air out fast, so the FEV1 is significantly lower compared to the FVC. Click the buttons to see the difference.",
+                results_btn_healthy: "Healthy Lungs",
+                results_btn_copd: "Lungs with COPD",
+                results_analysis_title: "Analysis",
+                results_fvc: "FVC",
+                results_fev1: "FEV1",
+                results_ratio: "Ratio",
+                results_diagnosis_normal: "Normal",
+                results_diagnosis_copd: "COPD (Obstructive)",
+                broncho_title: "The Next Step: The Bronchodilator Test",
+                broncho_desc: "Sometimes, after the first set of tests, the technician will give you a dose of a short-acting bronchodilator medication (like albuterol) from an inhaler. After waiting about 15 minutes, you'll repeat the spirometry test.",
+                broncho_purpose_title: "What is the purpose of this?",
+                broncho_purpose_desc: "This test checks to see if your airway obstruction is reversible. In diseases like asthma, the airways can open up significantly after medication. In COPD, the obstruction is largely fixed and permanent, so there is much less improvement in the FEV1 value. This helps doctors differentiate between COPD and asthma.",
+                broncho_result_title: "Key Finding",
+                broncho_result_desc: "A post-bronchodilator FEV1/FVC ratio that is still less than 70% confirms a diagnosis of COPD.",
+                gold_title: "Staging COPD Severity: The GOLD System",
+                gold_desc: "Once COPD is diagnosed (FEV1/FVC ratio < 70%), doctors use your FEV1 value (compared to the predicted value for someone of your age, height, and sex) to determine its severity. This is known as the GOLD staging system.",
+                gold1_title: "GOLD 1: Mild",
+                gold1_desc: "Lung function is still considered in the normal range, but you may have a chronic cough and mucus production.",
+                gold2_title: "GOLD 2: Moderate",
+                gold2_desc: "Shortness of breath typically develops upon exertion. This is often the stage when people seek medical help.",
+                gold3_title: "GOLD 3: Severe",
+                gold3_desc: "Shortness of breath becomes worse and flare-ups (exacerbations) are more common. Quality of life is impacted.",
+                gold4_title: "GOLD 4: Very Severe",
+                gold4_desc: "Quality of life is severely impaired. Flare-ups can be life-threatening. Low blood oxygen levels are common.",
+                prep_title: "Preparing for Your Test",
+                prep_desc: "To get the most accurate results, you may be asked to:",
+                prep_item1: "Avoid smoking for at least one hour before the test.",
+                prep_item2: "Avoid heavy meals or caffeine before the test.",
+                prep_item3: "Wear loose, comfortable clothing.",
+                prep_item4: "Temporarily stop using certain inhaled medications (your doctor will give you specific instructions).",
+                limit_title: "What Spirometry Can't Measure",
+                limit_desc: "While spirometry is excellent for diagnosing airway obstruction, it doesn't provide a complete picture of lung health. It cannot measure the Total Lung Capacity (the total amount of air your lungs can hold) or the Residual Volume (the air left in your lungs after a full exhale). Other tests, like a lung volume test or a DLCO test (to measure gas exchange), may be needed for more detailed information.",
+                footer_back_link: "&larr; Back to Main COPD Guide",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source: `Source Material: Content adapted from the <a href="https://www.lung.org/lung-health-diseases/lung-procedures-and-tests/spirometry" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">American Lung Association</a> and the <a href="https://www.copdfoundation.org/What-is-COPD/Understanding-COPD/How-is-COPD-Diagnosed.aspx" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">COPD Foundation</a>.`,
+            },
+            es: {
+                header_title: "Espirometría y EPOC",
+                back_button: "Volver",
+                main_title: "Entendiendo la Espirometría: Su Prueba de Función Pulmonar",
+                main_subtitle: "Esta sencilla e indolora prueba de respiración es el estándar de oro para diagnosticar la EPOC.",
+                what_is_title: "¿Qué Sucede Durante la Prueba?",
+                what_is_desc: "La espirometría mide cuánto aire pueden contener sus pulmones y qué tan rápido puede expulsarlo. Es una prueba no invasiva que le da a su médico información crucial sobre su salud pulmonar. El proceso es sencillo:",
+                test_step1_title: "1. Preparación:",
+                test_step2_title: "2. Inhalación Profunda:",
+                test_step3_title: "3. Expulsión Fuerte:",
+                test_step4_title: "4. Repetir:",
+                test_status_prepare: "Prepararse y Relajarse",
+                test_status_inhale: "Inhalar Profundamente",
+                test_status_exhale: "Exhalar Fuerte y Rápido",
+                test_status_repeat: "Repetir para Precisión",
+                test_next_btn: "Ver Siguiente Paso",
+                test_reset_btn: "Empezar de Nuevo",
+                numbers_title: "Los Números Clave: CVF, VEF1 y el Cociente",
+                numbers_desc: "La prueba mide dos valores críticos de su espiración forzada. La relación entre estos dos números es la clave para diagnosticar la EPOC.",
+                numbers_fvc_title: "Capacidad Vital Forzada (CVF)",
+                numbers_fvc_desc: "La cantidad total de aire que puede exhalar con fuerza después de tomar la respiración más profunda posible.",
+                numbers_fev1_title: "Volumen Espiratorio Forzado en 1 Segundo (VEF1)",
+                numbers_fev1_desc: "La cantidad de aire que puede exhalar con fuerza en el primer segundo de esa respiración.",
+                numbers_ratio_title: "El Cociente",
+                numbers_ratio_desc: "El porcentaje de su capacidad pulmonar total (CVF) que puede exhalar en el primer segundo (VEF1).",
+                results_title: "Visualizando el Diagnóstico",
+                results_desc: "En pulmones sanos, puede expulsar la mayor parte del aire muy rápidamente. En pulmones con EPOC, la obstrucción de las vías respiratorias hace que sea mucho más difícil sacar el aire rápidamente, por lo que el VEF1 es significativamente más bajo en comparación con la CVF. Haga clic en los botones para ver la diferencia.",
+                results_btn_healthy: "Pulmones Sanos",
+                results_btn_copd: "Pulmones con EPOC",
+                results_analysis_title: "Análisis",
+                results_fvc: "CVF",
+                results_fev1: "VEF1",
+                results_ratio: "Cociente",
+                results_diagnosis_normal: "Normal",
+                results_diagnosis_copd: "EPOC (Obstructivo)",
+                broncho_title: "El Siguiente Paso: La Prueba con Broncodilatador",
+                broncho_desc: "A veces, después de la primera serie de pruebas, el técnico le dará una dosis de un medicamento broncodilatador de acción corta (como albuterol) de un inhalador. Después de esperar unos 15 minutos, repetirá la prueba de espirometría.",
+                broncho_purpose_title: "¿Cuál es el propósito de esto?",
+                broncho_purpose_desc: "Esta prueba comprueba si la obstrucción de sus vías respiratorias es reversible. En enfermedades como el asma, las vías respiratorias pueden abrirse significativamente después de la medicación. En la EPOC, la obstrucción es en gran medida fija y permanente, por lo que hay mucha menos mejoría en el valor del VEF1. Esto ayuda a los médicos a diferenciar entre la EPOC y el asma.",
+                broncho_result_title: "Hallazgo Clave",
+                broncho_result_desc: "Un cociente VEF1/CVF post-broncodilatador que sigue siendo inferior al 70% confirma un diagnóstico de EPOC.",
+                gold_title: "Estadificación de la Gravedad de la EPOC: El Sistema GOLD",
+                gold_desc: "Una vez que se diagnostica la EPOC (cociente VEF1/CVF < 70%), los médicos usan su valor de VEF1 (comparado con el valor predicho para alguien de su edad, altura y sexo) para determinar su gravedad. Esto se conoce como el sistema de estadificación GOLD.",
+                gold1_title: "GOLD 1: Leve",
+                gold1_desc: "La función pulmonar todavía se considera en el rango normal, pero puede tener tos crónica y producción de moco.",
+                gold2_title: "GOLD 2: Moderado",
+                gold2_desc: "La falta de aire generalmente se desarrolla con el esfuerzo. Esta es a menudo la etapa en que las personas buscan ayuda médica.",
+                gold3_title: "GOLD 3: Grave",
+                gold3_desc: "La falta de aire empeora y las exacerbaciones son más comunes. La calidad de vida se ve afectada.",
+                gold4_title: "GOLD 4: Muy Grave",
+                gold4_desc: "La calidad de vida está gravemente afectada. Las exacerbaciones pueden ser potencialmente mortales. Los niveles bajos de oxígeno en la sangre son comunes.",
+                prep_title: "Preparación para su Prueba",
+                prep_desc: "Para obtener los resultados más precisos, es posible que se le pida que:",
+                prep_item1: "Evite fumar durante al menos una hora antes de la prueba.",
+                prep_item2: "Evite comidas pesadas o cafeína antes de la prueba.",
+                prep_item3: "Use ropa holgada y cómoda.",
+                prep_item4: "Deje de usar temporalmente ciertos medicamentos inhalados (su médico le dará instrucciones específicas).",
+                limit_title: "Lo que la Espirometría no Puede Medir",
+                limit_desc: "Si bien la espirometría es excelente para diagnosticar la obstrucción de las vías respiratorias, no proporciona una imagen completa de la salud pulmonar. No puede medir la Capacidad Pulmonar Total (la cantidad total de aire que sus pulmones pueden contener) ni el Volumen Residual (el aire que queda en sus pulmones después de una exhalación completa). Es posible que se necesiten otras pruebas, como una prueba de volumen pulmonar o una prueba de DLCO (para medir el intercambio de gases), para obtener información más detallada.",
+                footer_back_link: "&larr; Volver a la Guía Principal de EPOC",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source: `Material de Origen: Contenido adaptado de la <a href="https://www.lung.org/lung-health-diseases/lung-procedures-and-tests/spirometry" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Asociación Americana del Pulmón</a> y la <a href="https://www.copdfoundation.org/What-is-COPD/Understanding-COPD/How-is-COPD-Diagnosed.aspx" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Fundación EPOC</a>.`,
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        };
+        
+        // Test Steps Logic
+        const nextStepBtn = document.getElementById('next-step-btn');
+        const testSteps = document.querySelectorAll('.test-step');
+        const testVisual = document.getElementById('test-visual');
+        const testEmoji = document.getElementById('test-emoji');
+        const testStatus = document.getElementById('test-status');
+        const stepVisuals = [
+            { bg: 'bg-teal-100', emoji: '🧘', status: 'test_status_prepare' },
+            { bg: 'bg-blue-100', emoji: '😮💨', status: 'test_status_inhale' },
+            { bg: 'bg-orange-100', emoji: '😮‍💨', status: 'test_status_exhale' },
+            { bg: 'bg-indigo-100', emoji: '🔄', status: 'test_status_repeat' }
+        ];
+
+        nextStepBtn.addEventListener('click', () => {
+            currentTestStep++;
+            if (currentTestStep > 4) {
+                currentTestStep = 1;
+            }
+            if (currentTestStep === 4) {
+                 nextStepBtn.dataset.translate = "test_reset_btn";
+            } else {
+                 nextStepBtn.dataset.translate = "test_next_btn";
+            }
+            testSteps.forEach(step => {
+                const stepNum = parseInt(step.dataset.step);
+                step.classList.toggle('active', stepNum === currentTestStep);
+            });
+            const visual = stepVisuals[currentTestStep - 1];
+            testVisual.className = `mx-auto w-48 h-48 md:w-64 md:h-64 rounded-lg flex items-center justify-center transition-colors duration-500 ${visual.bg}`;
+            testEmoji.textContent = visual.emoji;
+            testStatus.dataset.translate = visual.status;
+            renderContent();
+        });
+
+        // Spirometry Chart Logic
+        const healthyData = {
+            fvc: 5.0, fev1: 4.0, 
+            points: [0, 4.0, 4.7, 4.9, 5.0, 5.0, 5.0]
+        };
+        const copdData = {
+            fvc: 4.2, fev1: 2.1, 
+            points: [0, 2.1, 3.1, 3.7, 4.0, 4.1, 4.2]
+        };
+        
+        const createSpirometryChart = () => {
+            const ctx = document.getElementById('spirometryChart');
+            if (!ctx) return;
+            spirometryChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['0s', '1s', '2s', '3s', '4s', '5s', '6s'],
+                    datasets: [{
+                        label: 'Volume Exhaled (L)',
+                        data: healthyData.points,
+                        borderColor: '#0d9488',
+                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 6, title: { display: true, text: 'Volume (Liters)' } },
+                        x: { title: { display: true, text: 'Time (Seconds)' } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        };
+        
+        const updateSpirometryChart = (isCopd) => {
+            const data = isCopd ? copdData : healthyData;
+            const t = translations[currentLanguage];
+            spirometryChart.data.datasets[0].data = data.points;
+            spirometryChart.update();
+            
+            document.getElementById('fvc-value').textContent = `${data.fvc.toFixed(1)} L`;
+            document.getElementById('fev1-value').textContent = `${data.fev1.toFixed(1)} L`;
+            const ratio = (data.fev1 / data.fvc) * 100;
+            document.getElementById('ratio-value').textContent = `${Math.round(ratio)}%`;
+            
+            const diagnosisText = document.getElementById('diagnosis-text');
+            if (ratio < 70) {
+                diagnosisText.dataset.translate = 'results_diagnosis_copd';
+                diagnosisText.className = 'font-bold text-xl text-red-600';
+            } else {
+                diagnosisText.dataset.translate = 'results_diagnosis_normal';
+                diagnosisText.className = 'font-bold text-xl text-green-600';
+            }
+            renderContent();
+        };
+
+        document.getElementById('view-healthy').addEventListener('click', (e) => {
+            document.querySelector('.chart-toggle-btn.active').classList.remove('active');
+            e.target.classList.add('active');
+            updateSpirometryChart(false);
+        });
+        document.getElementById('view-copd').addEventListener('click', (e) => {
+            document.querySelector('.chart-toggle-btn.active').classList.remove('active');
+            e.target.classList.add('active');
+            updateSpirometryChart(true);
+        });
+
+        // Language toggle
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        changeLanguage('en');
+        createSpirometryChart();
+    });
+    </script>
+</body>
+</html>

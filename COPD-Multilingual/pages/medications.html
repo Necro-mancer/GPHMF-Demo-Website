@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COPD Medications: A Patient's Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Purples and Blues for a Medical, Trustworthy Theme -->
+    <!-- Application Structure Plan: A structured, reference-style layout. The page is organized by drug class, allowing users to easily find information relevant to their specific prescriptions. Expandable cards prevent information overload, letting users focus on one medication at a time. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Drug classes and mechanisms -> Goal: Organize and explain -> Viz: Sectioned layout with expandable cards -> Interaction: Click to expand/collapse -> Justification: This is the most effective way to present dense, detailed information in a non-overwhelming, user-directed format.
+        - Report Info: Inhaler technique -> Goal: Emphasize importance -> Viz: A prominent, visually distinct call-out box -> Justification: Separates this universally important message from the specific drug details to ensure it gets noticed.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #4f46e5; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block; cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+        .med-card { 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            border-left-width: 4px;
+        }
+        .med-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .med-card .details { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
+        .med-card.open .details { max-height: 1000px; transition: max-height 0.7s ease-in; }
+        .med-card.open .toggle-icon { transform: rotate(45deg); }
+        .toggle-icon { transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">COPD Medications</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-indigo-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-indigo-700 mb-2" data-translate="main_title">Your Guide to COPD Medications</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-translate="main_subtitle">Understanding your medications is a key part of managing your COPD and breathing your best.</p>
+        </header>
+
+        <!-- Bronchodilators -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center" data-translate="class1_title">Bronchodilators: Opening Your Airways</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="class1_desc">These are the cornerstone of COPD treatment. They work by relaxing the muscles around your airways, helping them to open up and making it easier to breathe. They come in short-acting and long-acting forms.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <div class="med-card bg-blue-50 p-4 rounded-lg border-blue-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-blue-800 flex items-center"><span class="text-2xl mr-3">⚡️</span> <span data-translate="med1_title">Short-Acting Beta-Agonists (SABAs)</span></h3>
+                        <span class="text-blue-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                    <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Quickly relaxes airway muscles. Often called "rescue inhalers."</p>
+                        <p><strong data-translate="use">When it's Used:</strong> As needed for sudden shortness of breath. Effects last 4-6 hours.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Albuterol (ProAir, Ventolin), Levalbuterol (Xopenex).</p>
+                        <p><strong data-translate="side_effects">Common Side Effects:</strong> Tremors, fast heartbeat, nervousness.</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> If you need to use your rescue inhaler more than 2-3 times a week, your COPD may not be well-controlled. Tell your doctor.</p>
+                    </div>
+                </div>
+                 <div class="med-card bg-blue-50 p-4 rounded-lg border-blue-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-blue-800 flex items-center"><span class="text-2xl mr-3">💨</span> <span data-translate="med9_title">Short-Acting Muscarinic Antagonists (SAMAs)</span></h3>
+                        <span class="text-blue-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                    <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Prevents airway muscles from tightening. Also a type of "rescue inhaler."</p>
+                        <p><strong data-translate="use">When it's Used:</strong> As needed for sudden breathlessness, sometimes in combination with a SABA.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Ipratropium (Atrovent).</p>
+                        <p><strong data-translate="side_effects">Common Side Effects:</strong> Dry mouth, cough.</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> Can be a good alternative or add-on for people who are sensitive to the side effects of SABAs.</p>
+                    </div>
+                </div>
+                <div class="med-card bg-teal-50 p-4 rounded-lg border-teal-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-teal-800 flex items-center"><span class="text-2xl mr-3">⏳</span> <span data-translate="med2_title">Long-Acting Beta-Agonists (LABAs)</span></h3>
+                        <span class="text-teal-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Relaxes airway muscles for an extended period.</p>
+                        <p><strong data-translate="use">When it's Used:</strong> On a regular daily schedule to control symptoms. Effects last 12-24 hours. These are "maintenance" inhalers.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Salmeterol (Serevent), Formoterol (Perforomist), Indacaterol (Arcapta).</p>
+                        <p><strong data-translate="side_effects">Common Side Effects:</strong> Similar to SABAs, but less common. Can include headache and throat irritation.</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> Not for sudden symptoms. Must be taken every day as prescribed, even if you feel well.</p>
+                    </div>
+                </div>
+                 <div class="med-card bg-purple-50 p-4 rounded-lg border-purple-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-purple-800 flex items-center"><span class="text-2xl mr-3">🛡️</span> <span data-translate="med3_title">Long-Acting Muscarinic Antagonists (LAMAs)</span></h3>
+                        <span class="text-purple-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Prevents airway muscles from tightening. Also helps reduce mucus production.</p>
+                        <p><strong data-translate="use">When it's Used:</strong> On a regular daily schedule for maintenance. Effects last 12-24 hours.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Tiotropium (Spiriva), Umeclidinium (Incruse Ellipta), Aclidinium (Tudorza).</p>
+                        <p><strong data-translate="side_effects">Common Side Effects:</strong> Dry mouth is the most common. Some may experience urinary retention.</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> A very effective class of maintenance medication for COPD. Let your doctor know if you have glaucoma or an enlarged prostate.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anti-Inflammatories -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center" data-translate="class2_title">Anti-Inflammatories: Reducing Swelling</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="class2_desc">These medications reduce the inflammation and swelling in your airways, which can help decrease mucus production and prevent flare-ups.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                 <div class="med-card bg-orange-50 p-4 rounded-lg border-orange-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-orange-800 flex items-center"><span class="text-2xl mr-3">🔥</span> <span data-translate="med4_title">Inhaled Corticosteroids (ICS)</span></h3>
+                        <span class="text-orange-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> A steroid that directly targets the airways to reduce inflammation.</p>
+                        <p><strong data-translate="use">When it's Used:</strong> As a daily maintenance medication, almost always in combination with a LABA. Used for patients with frequent flare-ups.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Fluticasone (Flovent), Budesonide (Pulmicort), Mometasone (Asmanex).</p>
+                        <p><strong data-translate="side_effects">Common Side Effects:</strong> Hoarse voice, sore throat, and oral thrush (a fungal infection in the mouth).</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> It is very important to rinse your mouth with water and spit it out after each use to prevent thrush. ICS may slightly increase the risk of pneumonia in some patients.</p>
+                    </div>
+                </div>
+                 <div class="med-card bg-gray-100 p-4 rounded-lg border-gray-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-gray-800 flex items-center"><span class="text-2xl mr-3">💊</span> <span data-translate="pde4_title_card">PDE4 Inhibitors</span></h3>
+                        <span class="text-gray-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> An oral pill that reduces airway inflammation from the inside out.</p>
+                        <p><strong data-translate="use">When it's Used:</strong> Daily for severe COPD with chronic bronchitis and a history of frequent flare-ups.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Roflumilast (Daliresp).</p>
+                        <p><strong data-translate="side_effects">Common Side Effects:</strong> Diarrhea, nausea, weight loss, and headache, especially when starting.</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> Not a bronchodilator. It can take several weeks to start working effectively.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Combination Inhalers -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center" data-translate="class3_title">Combination Inhalers: The Power of Teamwork</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="class3_desc">Many people with COPD benefit from using more than one type of medication. Combination inhalers deliver two or three different drugs in a single device, making treatment simpler and more effective.</p>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                 <div class="med-card bg-green-50 p-4 rounded-lg border-green-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-green-800 flex items-center"><span class="text-2xl mr-3">🤝</span> <span data-translate="med5_title">LABA + LAMA</span></h3>
+                        <span class="text-green-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Combines two different long-acting bronchodilators to open airways in two different ways.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Umeclidinium/vilanterol (Anoro Ellipta), Tiotropium/olodaterol (Stiolto Respimat).</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> A very common and effective maintenance therapy for many COPD patients.</p>
+                    </div>
+                </div>
+                <div class="med-card bg-red-50 p-4 rounded-lg border-red-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-red-800 flex items-center"><span class="text-2xl mr-3">➕</span> <span data-translate="med6_title">LABA + ICS</span></h3>
+                        <span class="text-red-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Combines a long-acting bronchodilator with an anti-inflammatory steroid.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Fluticasone/salmeterol (Advair), Budesonide/formoterol (Symbicort).</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> Generally for patients who have frequent flare-ups. Remember to rinse your mouth after use.</p>
+                    </div>
+                </div>
+                 <div class="med-card bg-cyan-50 p-4 rounded-lg border-cyan-500 shadow-sm md:col-span-2">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-cyan-800 flex items-center"><span class="text-2xl mr-3">🎯</span> <span data-translate="med7_title">Triple Therapy (LAMA + LABA + ICS)</span></h3>
+                        <span class="text-cyan-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Delivers two types of bronchodilators plus a steroid in one inhaler.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Fluticasone/umeclidinium/vilanterol (Trelegy Ellipta).</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> For patients with more severe COPD and continued flare-ups despite other treatments.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Other Meds -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center" data-translate="class4_title">Other Important Medications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                 <div class="med-card bg-gray-100 p-4 rounded-lg border-gray-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-gray-800 flex items-center"><span class="text-2xl mr-3">💧</span> <span data-translate="mucolytics_title_card">Mucolytics</span></h3>
+                        <span class="text-gray-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="moa">How it Works:</strong> Thins mucus in the airways, making it less thick and sticky, and easier to cough up.</p>
+                        <p><strong data-translate="use">When it's Used:</strong> As a daily oral medication for people with chronic bronchitis and thick mucus.</p>
+                        <p><strong data-translate="brands">Examples:</strong> Carbocisteine, N-acetylcysteine (NAC).</p>
+                        <p><strong data-translate="notes">Special Notes:</strong> Helps reduce the frequency of flare-ups in some patients.</p>
+                    </div>
+                </div>
+                <div class="med-card bg-gray-100 p-4 rounded-lg border-gray-500 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-gray-800 flex items-center"><span class="text-2xl mr-3">🚨</span> <span data-translate="flare_up_title_card">Flare-Up Treatments</span></h3>
+                        <span class="text-gray-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                     <div class="details mt-4 pt-4 border-t text-sm text-gray-700 space-y-3">
+                        <p><strong data-translate="antibiotics_title">Antibiotics:</strong> Not for daily use. Prescribed by your doctor to treat bacterial infections during a flare-up.</p>
+                        <p><strong data-translate="oral_steroids_title">Oral Corticosteroids:</strong> Powerful steroid pills (like Prednisone) used for short periods to control severe flare-ups.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vaccinations -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center" data-translate="vaccine_title">Your Best Defense: Vaccinations</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="vaccine_desc">While not a direct treatment for COPD, staying up-to-date on vaccinations is one of the most important things you can do to stay healthy. Lung infections can cause severe flare-ups, so prevention is key.</p>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                <div class="bg-white p-4 rounded-lg shadow-sm"><p class="font-semibold" data-translate="vaccine1">💉 Flu (Annually)</p></div>
+                <div class="bg-white p-4 rounded-lg shadow-sm"><p class="font-semibold" data-translate="vaccine2">💉 Pneumonia</p></div>
+                <div class="bg-white p-4 rounded-lg shadow-sm"><p class="font-semibold" data-translate="vaccine3">💉 COVID-19</p></div>
+                <div class="bg-white p-4 rounded-lg shadow-sm"><p class="font-semibold" data-translate="vaccine4">💉 RSV (if eligible)</p></div>
+            </div>
+        </section>
+
+        <!-- Inhaler Technique -->
+        <section>
+             <div class="text-center bg-teal-50 p-8 rounded-xl border border-teal-200">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-4" data-translate="technique_title">Technique is Everything!</h2>
+                 <p class="max-w-2xl mx-auto text-gray-700 mb-6" data-translate="technique_desc">The best medication in the world won't work if it doesn't get to your lungs. There are many different types of inhaler devices. Ask your doctor, pharmacist, or respiratory therapist to show you how to use your specific inhaler correctly and to check your technique at every visit.</p>
+             </div>
+        </section>
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="mb-4"><a href="../landing.html" class="text-blue-400 hover:underline" data-translate="footer_back_link">&larr; Back to Main COPD Guide</a></p>
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from the COPD Foundation and the Global Initiative for Chronic Obstructive Lung Disease (GOLD) reports.</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                header_title: "COPD Medications",
+                back_button: "Back",
+                main_title: "Your Guide to COPD Medications",
+                main_subtitle: "Understanding your medications is a key part of managing your COPD and breathing your best.",
+                class1_title: "Bronchodilators: Opening Your Airways",
+                class1_desc: "These are the cornerstone of COPD treatment. They work by relaxing the muscles around your airways, helping them to open up and making it easier to breathe. They come in short-acting and long-acting forms.",
+                med1_title: "Short-Acting Beta-Agonists (SABAs)",
+                med2_title: "Long-Acting Beta-Agonists (LABAs)",
+                med3_title: "Long-Acting Muscarinic Antagonists (LAMAs)",
+                med9_title: "Short-Acting Muscarinic Antagonists (SAMAs)",
+                moa: "How it Works:",
+                use: "When it's Used:",
+                brands: "Examples:",
+                side_effects: "Common Side Effects:",
+                notes: "Special Notes:",
+                class2_title: "Anti-Inflammatories: Reducing Swelling",
+                class2_desc: "These medications reduce the inflammation and swelling in your airways, which can help decrease mucus production and prevent flare-ups.",
+                med4_title: "Inhaled Corticosteroids (ICS)",
+                pde4_title_card: "PDE4 Inhibitors",
+                class3_title: "Combination Inhalers: The Power of Teamwork",
+                class3_desc: "Many people with COPD benefit from using more than one type of medication. Combination inhalers deliver two or three different drugs in a single device, making treatment simpler and more effective.",
+                med5_title: "LABA + LAMA",
+                med6_title: "LABA + ICS",
+                med7_title: "Triple Therapy (LAMA + LABA + ICS)",
+                class4_title: "Other Important Medications",
+                mucolytics_title_card: "Mucolytics",
+                flare_up_title_card: "Flare-Up Treatments",
+                antibiotics_title: "Antibiotics:",
+                oral_steroids_title: "Oral Corticosteroids:",
+                vaccine_title: "Your Best Defense: Vaccinations",
+                vaccine_desc: "While not a direct treatment for COPD, staying up-to-date on vaccinations is one of the most important things you can do to stay healthy. Lung infections can cause severe flare-ups, so prevention is key.",
+                vaccine1: "💉 Flu (Annually)",
+                vaccine2: "💉 Pneumonia",
+                vaccine3: "💉 COVID-19",
+                vaccine4: "💉 RSV (if eligible)",
+                technique_title: "Technique is Everything!",
+                technique_desc: "The best medication in the world won't work if it doesn't get to your lungs. There are many different types of inhaler devices. Ask your doctor, pharmacist, or respiratory therapist to show you how to use your specific inhaler correctly and to check your technique at every visit.",
+                footer_back_link: "&larr; Back to Main COPD Guide",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source: `Source Material: Content adapted from the <a href="https://www.copdfoundation.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">COPD Foundation</a> and the <a href="https://goldcopd.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Global Initiative for Chronic Obstructive Lung Disease (GOLD)</a> reports.`,
+            },
+            es: {
+                header_title: "Medicamentos para la EPOC",
+                back_button: "Volver",
+                main_title: "Su Guía de Medicamentos para la EPOC",
+                main_subtitle: "Entender sus medicamentos es una parte clave para manejar su EPOC y respirar lo mejor posible.",
+                class1_title: "Broncodilatadores: Abriendo sus Vías Respiratorias",
+                class1_desc: "Son la piedra angular del tratamiento de la EPOC. Actúan relajando los músculos alrededor de las vías respiratorias, ayudándolas a abrirse y facilitando la respiración. Vienen en formas de acción corta y de acción prolongada.",
+                med1_title: "Beta-Agonistas de Acción Corta (SABA)",
+                med2_title: "Beta-Agonistas de Acción Prolongada (LABA)",
+                med3_title: "Antagonistas Muscarínicos de Acción Prolongada (LAMA)",
+                med9_title: "Antagonistas Muscarínicos de Acción Corta (SAMA)",
+                moa: "Cómo funciona:",
+                use: "Cuándo se usa:",
+                brands: "Ejemplos:",
+                side_effects: "Efectos Secundarios Comunes:",
+                notes: "Notas Especiales:",
+                class2_title: "Antiinflamatorios: Reduciendo la Hinchazón",
+                class2_desc: "Estos medicamentos reducen la inflamación y la hinchazón en sus vías respiratorias, lo que puede ayudar a disminuir la producción de moco y prevenir las exacerbaciones.",
+                med4_title: "Corticosteroides Inhalados (CI)",
+                pde4_title_card: "Inhibidores de la PDE4",
+                class3_title: "Inhaladores de Combinación: El Poder del Trabajo en Equipo",
+                class3_desc: "Muchas personas con EPOC se benefician del uso de más de un tipo de medicamento. Los inhaladores de combinación administran dos o tres fármacos diferentes en un solo dispositivo, lo que hace que el tratamiento sea más simple y efectivo.",
+                med5_title: "LABA + LAMA",
+                med6_title: "LABA + CI",
+                med7_title: "Terapia Triple (LAMA + LABA + CI)",
+                class4_title: "Otros Medicamentos Importantes",
+                mucolytics_title_card: "Mucolíticos",
+                flare_up_title_card: "Tratamientos para Exacerbaciones",
+                antibiotics_title: "Antibióticos:",
+                oral_steroids_title: "Corticosteroides Orales:",
+                vaccine_title: "Su Mejor Defensa: Las Vacunas",
+                vaccine_desc: "Aunque no es un tratamiento directo para la EPOC, mantenerse al día con las vacunas es una de las cosas más importantes que puede hacer para mantenerse saludable. Las infecciones pulmonares pueden causar exacerbaciones graves, por lo que la prevención es clave.",
+                vaccine1: "💉 Gripe (Anual)",
+                vaccine2: "💉 Neumonía",
+                vaccine3: "💉 COVID-19",
+                vaccine4: "💉 VRS (si es elegible)",
+                technique_title: "¡La Técnica lo es Todo!",
+                technique_desc: "El mejor medicamento del mundo no funcionará si no llega a sus pulmones. Existen muchos tipos diferentes de dispositivos inhaladores. Pida a su médico, farmacéutico o terapeuta respiratorio que le muestre cómo usar su inhalador específico correctamente y que verifique su técnica en cada visita.",
+                footer_back_link: "&larr; Volver a la Guía Principal de EPOC",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source: `Material de Origen: Contenido adaptado de la <a href="https://www.copdfoundation.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Fundación EPOC</a> y los informes de la <a href="https://goldcopd.org/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Iniciativa Global para la Enfermedad Pulmonar Obstructiva Crónica (GOLD)</a>.`,
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        };
+
+        // Med cards
+        document.querySelectorAll('.med-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('open');
+            });
+        });
+
+        // Language toggle
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        changeLanguage('en');
+    });
+    </script>
+</body>
+</html>

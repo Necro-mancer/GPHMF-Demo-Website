@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smoking and COPD: The Critical Link</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Reds & Oranges for Warning, with Neutral Grays -->
+    <!-- Application Structure Plan: A single-page, top-to-bottom narrative structure is used to guide the user through a logical flow: understanding the core message, seeing the biological damage, comprehending the statistical risk, and finally, being presented with a hopeful path forward through quitting. This structure is designed to be impactful and persuasive, moving from problem to solution. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: How smoking damages lungs -> Goal: Explain a process -> Viz: Interactive step-by-step HTML/CSS diagram -> Interaction: Click to reveal next step -> Justification: Breaks down a complex process into simple, digestible, and engaging steps.
+        - Report Info: Statistics on smoking & COPD -> Goal: Show overwhelming correlation -> Viz: Chart.js Bar Chart -> Interaction: Animated bars on scroll, tooltips -> Justification: A bar chart is excellent for direct comparison and making statistical data feel concrete and easy to understand.
+        - Report Info: Benefits of quitting -> Goal: Motivate & provide hope -> Viz: Interactive HTML/CSS timeline -> Interaction: Hover to highlight benefits -> Justification: Visually demonstrates that positive outcomes are achievable and begin quickly, encouraging action.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #dc2626; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block; cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+
+        .timeline-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .timeline-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .damage-step {
+            opacity: 0.3;
+            transition: opacity 0.5s ease;
+        }
+        .damage-step.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">Smoking & COPD</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-red-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-red-700 mb-2" data-translate="main_title">The Unbreakable Link: How Smoking Causes COPD</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-translate="main_subtitle">Understanding this connection is the first step toward protecting your lungs.</p>
+        </header>
+
+        <!-- How Smoking Damages Lungs -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="damage_title">A Step-by-Step Path to Lung Destruction</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="relative p-8 bg-white rounded-lg shadow-lg">
+                    <div id="damage-diagram" class="space-y-4">
+                        <div class="damage-step active" data-step="1">
+                            <h3 class="font-bold text-lg text-green-600" data-translate="damage_step1_title">1. Healthy Lungs</h3>
+                            <p class="text-sm" data-translate="damage_step1_desc">Healthy lungs have clear, open airways and elastic air sacs that efficiently exchange oxygen and carbon dioxide.</p>
+                        </div>
+                        <div class="damage-step" data-step="2">
+                            <h3 class="font-bold text-lg text-yellow-600" data-translate="damage_step2_title">2. Chemical Attack</h3>
+                            <p class="text-sm" data-translate="damage_step2_desc">Tobacco smoke isn't just smoke; it's a toxic cocktail of over 7,000 chemicals, including tar, carbon monoxide, and cyanide. These chemicals directly irritate and inflame the delicate lining of your airways.</p>
+                        </div>
+                        <div class="damage-step" data-step="3">
+                            <h3 class="font-bold text-lg text-orange-600" data-translate="damage_step3_title">3. Defense System Overload</h3>
+                            <p class="text-sm" data-translate="damage_step3_desc">The lungs produce excess mucus to trap the toxins. Simultaneously, the tiny hairs (cilia) that sweep this mucus out are paralyzed and destroyed by the smoke. This leads to a chronic, mucus-producing cough ("smoker's cough").</p>
+                        </div>
+                        <div class="damage-step" data-step="4">
+                            <h3 class="font-bold text-lg text-red-600" data-translate="damage_step4_title">4. Irreversible Destruction (COPD)</h3>
+                            <p class="text-sm" data-translate="damage_step4_desc">Years of this assault cause permanent damage. The inflammation narrows the airways (Chronic Bronchitis) and the chemicals break down the walls of the air sacs (Emphysema), trapping air and making it progressively harder to breathe.</p>
+                        </div>
+                    </div>
+                     <button id="next-step-btn" class="mt-6 w-full bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors" data-translate="damage_next_btn">See Next Step</button>
+                </div>
+                <div class="text-center">
+                    <div class="mx-auto w-48 h-48 md:w-64 md:h-64 rounded-full flex items-center justify-center transition-colors duration-500" id="lung-visual">
+                        <span class="text-5xl" id="lung-emoji">🫁</span>
+                    </div>
+                    <p class="mt-4 font-semibold text-lg" id="lung-status" data-translate="damage_status_healthy">Healthy & Clear</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Two Faces of Damage -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="faces_title">Two Faces of Damage: Emphysema & Chronic Bronchitis</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500">
+                    <h3 class="font-bold text-xl mb-3 text-red-700" data-translate="faces_emphysema_title">Emphysema: The Air Sac Destroyer</h3>
+                    <p class="text-gray-700" data-translate="faces_emphysema_desc">Think of healthy air sacs (alveoli) as tiny, elastic balloons. In emphysema, the toxic chemicals in smoke weaken and break the walls of these sacs. Instead of many small balloons, you get fewer, larger, floppy bags. These damaged sacs can't push old air out effectively, trapping stale air and leaving less room for fresh oxygen.</p>
+                    <p class="mt-4 font-semibold" data-translate="faces_emphysema_result">Result: Severe shortness of breath, especially when exhaling.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
+                    <h3 class="font-bold text-xl mb-3 text-blue-700" data-translate="faces_bronchitis_title">Chronic Bronchitis: The Airway Clogger</h3>
+                    <p class="text-gray-700" data-translate="faces_bronchitis_desc">This condition targets the airways (bronchial tubes). Constant irritation from smoke causes the airway walls to become permanently swollen and inflamed. The glands in the airways go into overdrive, producing a thick, sticky mucus that is difficult to clear. This narrows the passages for air to flow through.</p>
+                    <p class="mt-4 font-semibold" data-translate="faces_bronchitis_result">Result: A persistent, mucus-heavy cough and wheezing.</p>
+                </div>
+            </div>
+             <p class="text-center text-gray-600 mt-8 max-w-3xl mx-auto" data-translate="faces_combo">Most people with COPD have a combination of both emphysema and chronic bronchitis, which is why symptoms can include both coughing and severe breathlessness.</p>
+        </section>
+
+        <!-- The Numbers -->
+        <section class="mb-16 bg-gray-800 text-white p-6 md:p-10 rounded-xl shadow-2xl">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="stats_title">The Numbers Don't Lie</h2>
+            <div class="max-w-4xl mx-auto">
+                 <p class="text-center mb-8 text-gray-300" data-translate="stats_intro">While not everyone who smokes gets COPD, and not everyone with COPD smoked, the connection is overwhelmingly strong. The data clearly shows that smoking is the number one cause of this preventable disease.</p>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <canvas id="statsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quitting Timeline -->
+        <section>
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2" data-translate="quitting_title">It's Never Too Late: Your Body Starts Healing</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="quitting_subtitle">Quitting smoking is the most powerful action you can take to slow down COPD and improve your health. The benefits begin almost immediately. Hover over each milestone to see how your body recovers.</p>
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="hidden md:block absolute left-1/2 h-full w-1 bg-gray-300 -translate-x-1/2"></div>
+                
+                <div class="space-y-8 md:space-y-0">
+                    <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="text-center md:text-right md:pr-8">
+                            <p class="font-bold text-lg text-blue-600" data-translate="quitting_time1">20 Minutes to 12 Hours</p>
+                        </div>
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-l-4 border-blue-500">
+                             <div class="hidden md:block absolute top-1/2 -left-10 w-4 h-4 bg-blue-500 rounded-full -translate-y-1/2"></div>
+                             <p data-translate="quitting_desc1">Your heart rate and blood pressure drop. The carbon monoxide level in your blood returns to normal.</p>
+                        </div>
+                    </div>
+
+                     <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-r-4 md:border-r-0 md:border-l-4 border-green-500 text-left md:text-right order-last md:order-first">
+                             <div class="hidden md:block absolute top-1/2 -right-10 md:-right-auto md:-left-10 w-4 h-4 bg-green-500 rounded-full -translate-y-1/2"></div>
+                             <p data-translate="quitting_desc2">Your circulation improves and your lung function begins to increase.</p>
+                        </div>
+                        <div class="text-center md:text-left md:pl-8 order-first md:order-last">
+                            <p class="font-bold text-lg text-green-600" data-translate="quitting_time2">2 Weeks to 3 Months</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="text-center md:text-right md:pr-8">
+                            <p class="font-bold text-lg text-purple-600" data-translate="quitting_time3">1 to 9 Months</p>
+                        </div>
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-l-4 border-purple-500">
+                            <div class="hidden md:block absolute top-1/2 -left-10 w-4 h-4 bg-purple-500 rounded-full -translate-y-1/2"></div>
+                             <p data-translate="quitting_desc3">Coughing and shortness of breath decrease. The cilia in your lungs start to regain normal function, increasing their ability to handle mucus, clean the lungs, and reduce the risk of infection.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-r-4 md:border-r-0 md:border-l-4 border-red-500 text-left md:text-right order-last md:order-first">
+                             <div class="hidden md:block absolute top-1/2 -right-10 md:-right-auto md:-left-10 w-4 h-4 bg-red-500 rounded-full -translate-y-1/2"></div>
+                             <p data-translate="quitting_desc4">Your risk of heart attack drops dramatically. While quitting can't reverse existing lung damage, it can significantly slow the progression of COPD, helping to preserve the lung function you have left.</p>
+                        </div>
+                         <div class="text-center md:text-left md:pl-8 order-first md:order-last">
+                            <p class="font-bold text-lg text-red-600" data-translate="quitting_time4">1 Year & Beyond</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                 <a href="https://smokefree.gov/" target="_blank" rel="noopener noreferrer" class="inline-block bg-red-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-red-700 transition-colors text-lg" data-translate="quitting_cta">Find Resources to Quit Now</a>
+            </div>
+        </section>
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="mb-4"><a href="../landing.html" class="text-blue-400 hover:underline" data-translate="footer_back_link">&larr; Back to Main COPD Guide</a></p>
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from patient education resources provided by the Centers for Disease Control and Prevention (CDC) and the American Lung Association.</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let statsChart;
+        let currentLanguage = 'en';
+        let currentDamageStep = 1;
+
+        const translations = {
+            en: {
+                header_title: "Smoking & COPD",
+                back_button: "Back",
+                main_title: "The Unbreakable Link: How Smoking Causes COPD",
+                main_subtitle: "Understanding this connection is the first step toward protecting your lungs.",
+                damage_title: "A Step-by-Step Path to Lung Destruction",
+                damage_step1_title: "1. Healthy Lungs",
+                damage_step1_desc: "Healthy lungs have clear, open airways and elastic air sacs that efficiently exchange oxygen and carbon dioxide.",
+                damage_step2_title: "2. Chemical Attack",
+                damage_step2_desc: "Tobacco smoke isn't just smoke; it's a toxic cocktail of over 7,000 chemicals, including tar, carbon monoxide, and cyanide. These chemicals directly irritate and inflame the delicate lining of your airways.",
+                damage_step3_title: "3. Defense System Overload",
+                damage_step3_desc: "The lungs produce excess mucus to trap the toxins. Simultaneously, the tiny hairs (cilia) that sweep this mucus out are paralyzed and destroyed by the smoke. This leads to a chronic, mucus-producing cough (\"smoker's cough\").",
+                damage_step4_title: "4. Irreversible Destruction (COPD)",
+                damage_step4_desc: "Years of this assault cause permanent damage. The inflammation narrows the airways (Chronic Bronchitis) and the chemicals break down the walls of the air sacs (Emphysema), trapping air and making it progressively harder to breathe.",
+                damage_next_btn: "See Next Step of Damage",
+                damage_reset_btn: "Start Over",
+                damage_status_healthy: "Healthy & Clear",
+                damage_status_irritated: "Under Chemical Attack",
+                damage_status_clogged: "Defenses Overloaded",
+                damage_status_copd: "Permanent Damage (COPD)",
+                faces_title: "Two Faces of Damage: Emphysema & Chronic Bronchitis",
+                faces_emphysema_title: "Emphysema: The Air Sac Destroyer",
+                faces_emphysema_desc: "Think of healthy air sacs (alveoli) as tiny, elastic balloons. In emphysema, the toxic chemicals in smoke weaken and break the walls of these sacs. Instead of many small balloons, you get fewer, larger, floppy bags. These damaged sacs can't push old air out effectively, trapping stale air and leaving less room for fresh oxygen.",
+                faces_emphysema_result: "Result: Severe shortness of breath, especially when exhaling.",
+                faces_bronchitis_title: "Chronic Bronchitis: The Airway Clogger",
+                faces_bronchitis_desc: "This condition targets the airways (bronchial tubes). Constant irritation from smoke causes the airway walls to become permanently swollen and inflamed. The glands in the airways go into overdrive, producing a thick, sticky mucus that is difficult to clear. This narrows the passages for air to flow through.",
+                faces_bronchitis_result: "Result: A persistent, mucus-heavy cough and wheezing.",
+                faces_combo: "Most people with COPD have a combination of both emphysema and chronic bronchitis, which is why symptoms can include both coughing and severe breathlessness.",
+                stats_title: "The Numbers Don't Lie",
+                stats_intro: "While not everyone who smokes gets COPD, and not everyone with COPD smoked, the connection is overwhelmingly strong. The data clearly shows that smoking is the number one cause of this preventable disease.",
+                stats_chart_label1: "Smokers who develop COPD",
+                stats_chart_label2: "Non-smokers who develop COPD",
+                stats_chart_label3: "COPD deaths related to smoking",
+                quitting_title: "It's Never Too Late: Your Body Starts Healing",
+                quitting_subtitle: "Quitting smoking is the most powerful action you can take to slow down COPD and improve your health. The benefits begin almost immediately. Hover over each milestone to see how your body recovers.",
+                quitting_time1: "20 Minutes to 12 Hours",
+                quitting_desc1: "Your heart rate and blood pressure drop. The carbon monoxide level in your blood returns to normal.",
+                quitting_time2: "2 Weeks to 3 Months",
+                quitting_desc2: "Your circulation improves and your lung function begins to increase.",
+                quitting_time3: "1 to 9 Months",
+                quitting_desc3: "Coughing and shortness of breath decrease. The cilia in your lungs start to regain normal function, increasing their ability to handle mucus, clean the lungs, and reduce the risk of infection.",
+                quitting_time4: "1 Year & Beyond",
+                quitting_desc4: "Your risk of heart attack drops dramatically. While quitting can't reverse existing lung damage, it can significantly slow the progression of COPD, helping to preserve the lung function you have left.",
+                quitting_cta: "Find Resources to Quit Now",
+                footer_back_link: "&larr; Back to Main COPD Guide",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source: `Source Material: Content adapted from the <a href="https://www.cdc.gov/tobacco/campaign/tips/diseases/copd.html" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">CDC</a> and the <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/what-causes-copd" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">American Lung Association</a>.`,
+            },
+            es: {
+                header_title: "Fumar y EPOC",
+                back_button: "Volver",
+                main_title: "El Vínculo Inquebrantable: Cómo Fumar Causa EPOC",
+                main_subtitle: "Entender esta conexión es el primer paso para proteger sus pulmones.",
+                damage_title: "Un Camino Paso a Paso Hacia la Destrucción Pulmonar",
+                damage_step1_title: "1. Pulmones Sanos",
+                damage_step1_desc: "Los pulmones sanos tienen vías respiratorias despejadas y abiertas y sacos aéreos elásticos que intercambian oxígeno y dióxido de carbono de manera eficiente.",
+                damage_step2_title: "2. Ataque Químico",
+                damage_step2_desc: "El humo del tabaco no es solo humo; es un cóctel tóxico de más de 7,000 químicos, incluyendo alquitrán, monóxido de carbono y cianuro. Estos químicos irritan e inflaman directamente el delicado revestimiento de sus vías respiratorias.",
+                damage_step3_title: "3. Sobrecarga del Sistema de Defensa",
+                damage_step3_desc: "Los pulmones producen un exceso de moco para atrapar las toxinas. Simultáneamente, los pequeños vellos (cilios) que barren este moco hacia afuera se paralizan y destruyen por el humo. Esto lleva a una tos crónica y productora de moco (\"tos de fumador\").",
+                damage_step4_title: "4. Destrucción Irreversible (EPOC)",
+                damage_step4_desc: "Años de este asalto causan daño permanente. La inflamación estrecha las vías respiratorias (Bronquitis Crónica) y los químicos rompen las paredes de los sacos aéreos (Enfisema), atrapando el aire y haciendo que sea progresivamente más difícil respirar.",
+                damage_next_btn: "Ver Siguiente Paso del Daño",
+                damage_reset_btn: "Empezar de Nuevo",
+                damage_status_healthy: "Sano y Despejado",
+                damage_status_irritated: "Bajo Ataque Químico",
+                damage_status_clogged: "Defensas Sobrecargadas",
+                damage_status_copd: "Daño Permanente (EPOC)",
+                faces_title: "Dos Caras del Daño: Enfisema y Bronquitis Crónica",
+                faces_emphysema_title: "Enfisema: El Destructor de Sacos Aéreos",
+                faces_emphysema_desc: "Piense en los sacos aéreos sanos (alvéolos) como pequeños globos elásticos. En el enfisema, los químicos tóxicos del humo debilitan y rompen las paredes de estos sacos. En lugar de muchos globos pequeños, obtiene menos bolsas, más grandes y flácidas. Estos sacos dañados no pueden expulsar el aire viejo eficazmente, atrapando aire viciado y dejando menos espacio para el oxígeno fresco.",
+                faces_emphysema_result: "Resultado: Falta de aire severa, especialmente al exhalar.",
+                faces_bronchitis_title: "Bronquitis Crónica: El Obstructor de Vías Respiratorias",
+                faces_bronchitis_desc: "Esta condición ataca las vías respiratorias (tubos bronquiales). La irritación constante del humo hace que las paredes de las vías respiratorias se hinchen e inflamen permanentemente. Las glándulas en las vías respiratorias se sobrecargan, produciendo un moco espeso y pegajoso que es difícil de eliminar. Esto estrecha los pasajes por donde fluye el aire.",
+                faces_bronchitis_result: "Resultado: Una tos persistente y con mucho moco, y sibilancias.",
+                faces_combo: "La mayoría de las personas con EPOC tienen una combinación de enfisema y bronquitis crónica, por lo que los síntomas pueden incluir tanto tos como una grave falta de aire.",
+                stats_title: "Los Números No Mienten",
+                stats_intro: "Aunque no todos los que fuman desarrollan EPOC, y no todos los que tienen EPOC fumaron, la conexión es abrumadoramente fuerte. Los datos muestran claramente que fumar es la causa número uno de esta enfermedad prevenible.",
+                stats_chart_label1: "Fumadores que desarrollan EPOC",
+                stats_chart_label2: "No fumadores que desarrollan EPOC",
+                stats_chart_label3: "Muertes por EPOC relacionadas con fumar",
+                quitting_title: "Nunca es Tarde: Su Cuerpo Comienza a Sanar",
+                quitting_subtitle: "Dejar de fumar es la acción más poderosa que puede tomar para frenar la EPOC y mejorar su salud. Los beneficios comienzan casi de inmediato. Pase el cursor sobre cada hito para ver cómo se recupera su cuerpo.",
+                quitting_time1: "20 Minutos a 12 Horas",
+                quitting_desc1: "Su ritmo cardíaco y presión arterial bajan. El nivel de monóxido de carbono en su sangre vuelve a la normalidad.",
+                quitting_time2: "2 Semanas a 3 Meses",
+                quitting_desc2: "Mejora su circulación y su función pulmonar comienza a aumentar.",
+                quitting_time3: "1 a 9 Meses",
+                quitting_desc3: "La tos y la falta de aire disminuyen. Los cilios de sus pulmones comienzan a recuperar su función normal, aumentando su capacidad para manejar el moco, limpiar los pulmones y reducir el riesgo de infección.",
+                quitting_time4: "1 Año y Más Allá",
+                quitting_desc4: "Su riesgo de ataque cardíaco disminuye drásticamente. Aunque dejar de fumar no puede revertir el daño pulmonar existente, puede ralentizar significativamente la progresión de la EPOC, ayudando a preservar la función pulmonar que le queda.",
+                quitting_cta: "Encuentre Recursos para Dejar de Fumar Ahora",
+                footer_back_link: "&larr; Volver a la Guía Principal de EPOC",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source: `Material de Origen: Contenido adaptado del <a href="https://www.cdc.gov/tobacco/campaign/tips/diseases/copd.html" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">CDC</a> y la <a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/copd/what-causes-copd" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Asociación Americana del Pulmón</a>.`,
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+            if (statsChart) {
+                updateChartLabels();
+            }
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        };
+
+        const createStatsChart = () => {
+            const ctx = document.getElementById('statsChart');
+            if (!ctx) return;
+            const t = translations[currentLanguage];
+            statsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [t.stats_chart_label1, t.stats_chart_label2, t.stats_chart_label3],
+                    datasets: [{
+                        label: '%',
+                        data: [25, 1, 80],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.6)',
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(249, 115, 22, 0.6)',
+                        ],
+                        borderColor: [
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(249, 115, 22, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { color: 'white' }
+                        },
+                        y: {
+                            ticks: { color: 'white', font: { size: 14 } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+        
+        const updateChartLabels = () => {
+             const t = translations[currentLanguage];
+             statsChart.data.labels = [t.stats_chart_label1, t.stats_chart_label2, t.stats_chart_label3];
+             statsChart.update();
+        };
+
+        // Damage Diagram Logic
+        const nextStepBtn = document.getElementById('next-step-btn');
+        const damageSteps = document.querySelectorAll('.damage-step');
+        const lungVisual = document.getElementById('lung-visual');
+        const lungEmoji = document.getElementById('lung-emoji');
+        const lungStatus = document.getElementById('lung-status');
+        const stepVisuals = [
+            { bg: 'bg-green-200', emoji: '🫁', status: 'damage_status_healthy' },
+            { bg: 'bg-yellow-200', emoji: '🚬', status: 'damage_status_irritated' },
+            { bg: 'bg-orange-200', emoji: '🤢', status: 'damage_status_clogged' },
+            { bg: 'bg-red-300', emoji: '💔', status: 'damage_status_copd' }
+        ];
+
+        nextStepBtn.addEventListener('click', () => {
+            currentDamageStep++;
+            if (currentDamageStep > 4) {
+                currentDamageStep = 1;
+            }
+            
+            if (currentDamageStep === 4) {
+                 nextStepBtn.dataset.translate = "damage_reset_btn";
+            } else {
+                 nextStepBtn.dataset.translate = "damage_next_btn";
+            }
+            
+            damageSteps.forEach(step => {
+                const stepNum = parseInt(step.dataset.step);
+                step.classList.toggle('active', stepNum <= currentDamageStep);
+            });
+
+            const visual = stepVisuals[currentDamageStep - 1];
+            lungVisual.className = `mx-auto w-48 h-48 md:w-64 md:h-64 rounded-full flex items-center justify-center transition-colors duration-500 ${visual.bg}`;
+            lungEmoji.textContent = visual.emoji;
+            lungStatus.dataset.translate = visual.status;
+            renderContent();
+        });
+
+        // Language toggle
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        changeLanguage('en');
+        createStatsChart();
+    });
+    </script>
+</body>
+</html>

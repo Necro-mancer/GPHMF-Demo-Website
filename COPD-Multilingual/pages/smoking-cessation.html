@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smoking Cessation: Your Path to a Healthier Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Greens & Blues for Health, Hope, and Renewal -->
+    <!-- Application Structure Plan: A motivational journey. It starts with a strong, positive "why" (the benefits), moves to the practical "how" (methods and support), and ends with a powerful, actionable "start now" message. The goal is to leave the user feeling capable and inspired. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Health benefits timeline -> Goal: Motivate with immediate rewards -> Viz: Interactive HTML/CSS timeline -> Interaction: Hover to highlight -> Justification: Shows that positive changes happen fast, which is a powerful motivator.
+        - Report Info: Quitting methods -> Goal: Organize and inform -> Viz: Clickable HTML/CSS cards -> Interaction: Click to expand -> Justification: Presents options clearly and allows users to explore what might work for them without feeling overwhelmed.
+        - Report Info: Financial cost of smoking -> Goal: Add a tangible incentive -> Viz: Simple interactive calculator -> Interaction: Input packs/day to see savings -> Justification: The financial benefit is a strong, non-health-related motivator that can be very persuasive.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #059669; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block; cursor: pointer;
+        }
+        .goog-te-gadget-simple span { color: #374151 !important; }
+        .timeline-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .timeline-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .option-card { cursor: pointer; transition: all 0.3s ease; }
+        .option-card .details { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
+        .option-card.open .details { max-height: 500px; transition: max-height 0.5s ease-in; }
+        .option-card.open .toggle-icon { transform: rotate(45deg); }
+        .toggle-icon { transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 flex items-center justify-between py-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800" data-translate="header_title">Quit Smoking Guide</h2>
+             <div id="lang-selector" class="flex items-center pl-2 sm:pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-2 sm:px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <span class="text-gray-600 text-lg">🌐</span>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-green-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-green-700 mb-2" data-translate="main_title">Take Back Your Breath: Your New Life Starts Now</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-translate="main_subtitle">Quitting smoking is the single best thing you can do for your health. You are stronger than your addiction, and you don't have to do it alone.</p>
+        </header>
+
+        <!-- Benefits Timeline -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2" data-translate="benefits_title">Your Body Heals Faster Than You Think</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="benefits_subtitle">The rewards of quitting begin within minutes of your last cigarette. Here’s a timeline of the amazing things that happen when you stop smoking.</p>
+            <div class="relative">
+                <div class="hidden md:block absolute left-1/2 h-full w-1 bg-gray-300 -translate-x-1/2"></div>
+                <div class="space-y-8 md:space-y-0">
+                    <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="text-center md:text-right md:pr-8"><p class="font-bold text-lg text-blue-600" data-translate="time1">20 Minutes</p></div>
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-l-4 border-blue-500"><div class="hidden md:block absolute top-1/2 -left-10 w-4 h-4 bg-blue-500 rounded-full -translate-y-1/2"></div><p data-translate="desc1">Your heart rate and blood pressure drop closer to normal levels.</p></div>
+                    </div>
+                    <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-r-4 md:border-r-0 md:border-l-4 border-cyan-500 text-left md:text-right order-last md:order-first"><div class="hidden md:block absolute top-1/2 -right-10 md:-right-auto md:-left-10 w-4 h-4 bg-cyan-500 rounded-full -translate-y-1/2"></div><p data-translate="desc2">The carbon monoxide level in your blood drops to normal, allowing your blood to carry more oxygen.</p></div>
+                        <div class="text-center md:text-left md:pl-8 order-first md:order-last"><p class="font-bold text-lg text-cyan-600" data-translate="time2">12 Hours</p></div>
+                    </div>
+                    <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="text-center md:text-right md:pr-8"><p class="font-bold text-lg text-teal-600" data-translate="time3">1 to 9 Months</p></div>
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-l-4 border-teal-500"><div class="hidden md:block absolute top-1/2 -left-10 w-4 h-4 bg-teal-500 rounded-full -translate-y-1/2"></div><p data-translate="desc3">Coughing and shortness of breath decrease. Your lungs start to clean themselves, reducing your risk of infection.</p></div>
+                    </div>
+                    <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-r-4 md:border-r-0 md:border-l-4 border-emerald-500 text-left md:text-right order-last md:order-first"><div class="hidden md:block absolute top-1/2 -right-10 md:-right-auto md:-left-10 w-4 h-4 bg-emerald-500 rounded-full -translate-y-1/2"></div><p data-translate="desc4">Your risk of heart attack drops by half. Your risk of stroke is the same as a non-smoker's.</p></div>
+                        <div class="text-center md:text-left md:pl-8 order-first md:order-last"><p class="font-bold text-lg text-emerald-600" data-translate="time4">1 to 5 Years</p></div>
+                    </div>
+                     <div class="timeline-item md:grid md:grid-cols-2 md:gap-8 items-center">
+                        <div class="text-center md:text-right md:pr-8"><p class="font-bold text-lg text-green-600" data-translate="time5">10 to 15 Years</p></div>
+                        <div class="relative p-4 bg-white rounded-lg shadow-md border-l-4 border-green-500"><div class="hidden md:block absolute top-1/2 -left-10 w-4 h-4 bg-green-500 rounded-full -translate-y-1/2"></div><p data-translate="desc5">Your risk of lung cancer is cut in half. Your risk of other cancers (mouth, throat, bladder, etc.) also decreases significantly.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Quit -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="how_title">You Have Options: Finding Your Path to Quit</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="how_subtitle">Everyone's journey is different. Combining different methods often leads to the best results. Explore the options below to see what might work for you.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="option-card bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-blue-800" data-translate="option1_title">⚕️ Medical Support</h3>
+                        <span class="text-blue-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                    <div class="details mt-2 text-sm text-gray-700 space-y-4">
+                        <div>
+                            <h4 class="font-bold" data-translate="option1_nrt_title">Nicotine Replacement Therapy (NRT)</h4>
+                            <p data-translate="option1_nrt_desc">NRT gives you nicotine in controlled doses without the other harmful chemicals in tobacco. This helps manage withdrawal symptoms. It comes in patches, gum, lozenges, inhalers, and nasal sprays. Most are available over-the-counter.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold" data-translate="option1_meds_title">Prescription Medications</h4>
+                            <p data-translate="option1_meds_desc">Drugs like Varenicline (Chantix) and Bupropion (Zyban) are non-nicotine pills that help reduce cravings and withdrawal symptoms. Talk to your doctor to see if these are right for you.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-card bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg text-green-800" data-translate="option2_title">🤝 Social & Behavioral Support</h3>
+                        <span class="text-green-600 font-bold text-xl toggle-icon">+</span>
+                    </div>
+                    <div class="details mt-2 text-sm text-gray-700 space-y-4">
+                        <div>
+                            <h4 class="font-bold" data-translate="option2_counsel_title">Counseling & Coaching</h4>
+                            <p data-translate="option2_counsel_desc">Working with a trained counselor can help you develop coping strategies, identify triggers, and build a solid quit plan. This can be done one-on-one or in a group setting.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold" data-translate="option2_quitlines_title">Quitlines & Apps</h4>
+                            <p data-translate="option2_quitlines_desc">Free telephone quitlines (like 1-800-QUIT-NOW in the US) provide expert coaching. Smartphone apps can offer tracking, motivation, and a community of support right at your fingertips.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold" data-translate="option2_friends_title">Friends & Family</h4>
+                            <p data-translate="option2_friends_desc">Let your loved ones know about your decision to quit. Their encouragement and understanding can be one of your most powerful tools.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Managing Cravings -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-translate="cravings_title">Navigating the Challenge: Tips for Managing Cravings</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto" data-translate="cravings_subtitle">Cravings are a normal part of quitting. They are intense but usually short-lived. Having a plan can help you get through them.</p>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <p class="text-3xl mb-2">🗣️</p>
+                    <p class="font-semibold" data-translate="cravings_tip1_title">Delay & Distract</p>
+                    <p class="text-sm" data-translate="cravings_tip1_desc">Wait 10 minutes. Go for a walk, listen to music, or call a friend.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <p class="text-3xl mb-2">💧</p>
+                    <p class="font-semibold" data-translate="cravings_tip2_title">Drink Water</p>
+                    <p class="text-sm" data-translate="cravings_tip2_desc">Sipping cold water can help satisfy the hand-to-mouth habit and flush out toxins.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <p class="text-3xl mb-2">😮‍💨</p>
+                    <p class="font-semibold" data-translate="cravings_tip3_title">Deep Breathing</p>
+                    <p class="text-sm" data-translate="cravings_tip3_desc">Slowly inhale through your nose and exhale through your mouth. It calms your nerves.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <p class="text-3xl mb-2">🥕</p>
+                    <p class="font-semibold" data-translate="cravings_tip4_title">Have a Healthy Snack</p>
+                    <p class="text-sm" data-translate="cravings_tip4_desc">Crunchy snacks like carrots or nuts can help with oral fixation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financial Savings -->
+        <section class="mb-16">
+            <div class="bg-gray-800 text-white p-6 md:p-10 rounded-xl shadow-2xl text-center">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4" data-translate="savings_title">Watch Your Savings Grow</h2>
+                <p class="max-w-2xl mx-auto text-gray-300 mb-6" data-translate="savings_desc">Quitting isn't just good for your health—it's great for your wallet. See how much you could save.</p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6">
+                    <div>
+                        <label for="packs-per-day" class="font-semibold" data-translate="savings_label_packs">Packs per day:</label>
+                        <input type="number" id="packs-per-day" value="1" min="0.5" step="0.5" class="ml-2 w-20 text-black text-center font-bold p-2 rounded-md">
+                    </div>
+                    <div>
+                        <label for="cost-per-pack" class="font-semibold" data-translate="savings_label_cost">Cost per pack ($):</label>
+                        <input type="number" id="cost-per-pack" value="10" min="1" step="0.5" class="ml-2 w-20 text-black text-center font-bold p-2 rounded-md">
+                    </div>
+                </div>
+                <div class="grid sm:grid-cols-3 gap-4 text-center">
+                    <div class="bg-green-600 p-4 rounded-lg">
+                        <p class="font-bold text-lg" data-translate="savings_monthly">Monthly Savings</p>
+                        <p class="text-3xl font-bold" id="monthly-savings">$300</p>
+                    </div>
+                    <div class="bg-green-700 p-4 rounded-lg">
+                        <p class="font-bold text-lg" data-translate="savings_yearly">Yearly Savings</p>
+                        <p class="text-3xl font-bold" id="yearly-savings">$3,650</p>
+                    </div>
+                    <div class="bg-green-800 p-4 rounded-lg">
+                        <p class="font-bold text-lg" data-translate="savings_10_years">10-Year Savings</p>
+                        <p class="text-3xl font-bold" id="decade-savings">$36,500</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Motivational Section -->
+        <section>
+             <div class="text-center bg-emerald-100 p-8 rounded-xl border border-emerald-200">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-4 text-emerald-800" data-translate="cta_title">Your Future Self Will Thank You</h2>
+                 <p class="max-w-3xl mx-auto text-emerald-700 mb-6" data-translate="cta_desc">Imagine a life with more energy, more money, and more time with loved ones. Imagine climbing stairs without losing your breath, tasting your food fully, and feeling proud of the choice you made. This isn't a dream. This is the reality that awaits you. Every moment you stay smoke-free is a victory. Be patient with yourself, celebrate your progress, and remember why you started. You can do this.</p>
+                 <div>
+                    <a href="https://smokefree.gov/" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors text-lg" data-translate="cta_button">Visit Smokefree.gov to Build Your Quit Plan</a>
+                 </div>
+             </div>
+        </section>
+    </div>
+
+    <footer class="mt-12 bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 md:px-8 text-center">
+            <p class="mb-4"><a href="../landing.html" class="text-blue-400 hover:underline" data-translate="footer_back_link">&larr; Back to Main COPD Guide</a></p>
+            <p class="font-bold" data-translate="footer_disclaimer_title">Disclaimer</p>
+            <p class="text-sm text-gray-300 mt-2 max-w-3xl mx-auto" data-translate="footer_disclaimer_desc">This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            <p class="text-xs text-gray-400 mt-4" data-translate="footer_source">Source Material: Content adapted from Smokefree.gov and the Centers for Disease Control and Prevention (CDC).</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,fa,ro,uk,ur,sw,tl,ms,ha,af,sq,am,hy,az,eu,be,ceb,ny,co,hr,cs,da,eo,et,fi,fy,gl,ka,el,gu,ht,haus,haw,hu,is,ig,ga,jw,kn,kk,km,ku,ky,lo,la,lv,lt,lb,mk,mg,ml,mt,mi,mr,mn,my,ne,no,or,ps,pa,sm,gd,sr,st,sn,sd,si,sk,sl,so,su,tg,ta,tt,te,uz,cy,xh,yi,yo,zu',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                header_title: "Quit Smoking Guide",
+                back_button: "Back",
+                main_title: "Take Back Your Breath: Your New Life Starts Now",
+                main_subtitle: "Quitting smoking is the single best thing you can do for your health. You are stronger than your addiction, and you don't have to do it alone.",
+                benefits_title: "Your Body Heals Faster Than You Think",
+                benefits_subtitle: "The rewards of quitting begin within minutes of your last cigarette. Here’s a timeline of the amazing things that happen when you stop smoking.",
+                time1: "20 Minutes",
+                desc1: "Your heart rate and blood pressure drop closer to normal levels.",
+                time2: "12 Hours",
+                desc2: "The carbon monoxide level in your blood drops to normal, allowing your blood to carry more oxygen.",
+                time3: "1 to 9 Months",
+                desc3: "Coughing and shortness of breath decrease. Your lungs start to clean themselves, reducing your risk of infection.",
+                time4: "1 to 5 Years",
+                desc4: "Your risk of heart attack drops by half. Your risk of stroke is the same as a non-smoker's.",
+                time5: "10 to 15 Years",
+                desc5: "Your risk of lung cancer is cut in half. Your risk of other cancers (mouth, throat, bladder, etc.) also decreases significantly.",
+                how_title: "You Have Options: Finding Your Path to Quit",
+                how_subtitle: "Everyone's journey is different. Combining different methods often leads to the best results. Explore the options below to see what might work for you.",
+                option1_title: "⚕️ Medical Support",
+                option1_nrt_title: "Nicotine Replacement Therapy (NRT)",
+                option1_nrt_desc: "NRT gives you nicotine in controlled doses without the other harmful chemicals in tobacco. This helps manage withdrawal symptoms. It comes in patches, gum, lozenges, inhalers, and nasal sprays. Most are available over-the-counter.",
+                option1_meds_title: "Prescription Medications",
+                option1_meds_desc: "Drugs like Varenicline (Chantix) and Bupropion (Zyban) are non-nicotine pills that help reduce cravings and withdrawal symptoms. Talk to your doctor to see if these are right for you.",
+                option2_title: "🤝 Social & Behavioral Support",
+                option2_counsel_title: "Counseling & Coaching",
+                option2_counsel_desc: "Working with a trained counselor can help you develop coping strategies, identify triggers, and build a solid quit plan. This can be done one-on-one or in a group setting.",
+                option2_quitlines_title: "Quitlines & Apps",
+                option2_quitlines_desc: "Free telephone quitlines (like 1-800-QUIT-NOW in the US) provide expert coaching. Smartphone apps can offer tracking, motivation, and a community of support right at your fingertips.",
+                option2_friends_title: "Friends & Family",
+                option2_friends_desc: "Let your loved ones know about your decision to quit. Their encouragement and understanding can be one of your most powerful tools.",
+                cravings_title: "Navigating the Challenge: Tips for Managing Cravings",
+                cravings_subtitle: "Cravings are a normal part of quitting. They are intense but usually short-lived. Having a plan can help you get through them.",
+                cravings_tip1_title: "Delay & Distract",
+                cravings_tip1_desc: "Wait 10 minutes. Go for a walk, listen to music, or call a friend.",
+                cravings_tip2_title: "Drink Water",
+                cravings_tip2_desc: "Sipping cold water can help satisfy the hand-to-mouth habit and flush out toxins.",
+                cravings_tip3_title: "Deep Breathing",
+                cravings_tip3_desc: "Slowly inhale through your nose and exhale through your mouth. It calms your nerves.",
+                cravings_tip4_title: "Have a Healthy Snack",
+                cravings_tip4_desc: "Crunchy snacks like carrots or nuts can help with oral fixation.",
+                savings_title: "Watch Your Savings Grow",
+                savings_desc: "Quitting isn't just good for your health—it's great for your wallet. See how much you could save.",
+                savings_label_packs: "Packs per day:",
+                savings_label_cost: "Cost per pack ($):",
+                savings_monthly: "Monthly Savings",
+                savings_yearly: "Yearly Savings",
+                savings_10_years: "10-Year Savings",
+                cta_title: "Your Future Self Will Thank You",
+                cta_desc: "Imagine a life with more energy, more money, and more time with loved ones. Imagine climbing stairs without losing your breath, tasting your food fully, and feeling proud of the choice you made. This isn't a dream. This is the reality that awaits you. Every moment you stay smoke-free is a victory. Be patient with yourself, celebrate your progress, and remember why you started. You can do this.",
+                cta_button: "Visit Smokefree.gov to Build Your Quit Plan",
+                footer_back_link: "&larr; Back to Main COPD Guide",
+                footer_disclaimer_title: "Disclaimer",
+                footer_disclaimer_desc: "This interactive guide is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source: `Source Material: Content adapted from <a href="https://smokefree.gov/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Smokefree.gov</a> and the <a href="https://www.cdc.gov/tobacco/about/how-to-quit.html" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Centers for Disease Control and Prevention (CDC)</a>.`,
+            },
+            es: {
+                header_title: "Guía para Dejar de Fumar",
+                back_button: "Volver",
+                main_title: "Recupere su Aliento: Su Nueva Vida Comienza Ahora",
+                main_subtitle: "Dejar de fumar es lo mejor que puede hacer por su salud. Usted es más fuerte que su adicción y no tiene que hacerlo solo.",
+                benefits_title: "Su Cuerpo se Cura Más Rápido de lo que Piensa",
+                benefits_subtitle: "Las recompensas de dejar de fumar comienzan a los pocos minutos de su último cigarrillo. Aquí hay una cronología de las cosas asombrosas que suceden cuando deja de fumar.",
+                time1: "20 Minutos",
+                desc1: "Su ritmo cardíaco y presión arterial bajan a niveles más normales.",
+                time2: "12 Horas",
+                desc2: "El nivel de monóxido de carbono en su sangre vuelve a la normalidad, permitiendo que su sangre transporte más oxígeno.",
+                time3: "1 a 9 Meses",
+                desc3: "La tos y la falta de aire disminuyen. Sus pulmones comienzan a limpiarse, reduciendo el riesgo de infección.",
+                time4: "1 a 5 Años",
+                desc4: "Su riesgo de ataque cardíaco se reduce a la mitad. Su riesgo de accidente cerebrovascular es el mismo que el de un no fumador.",
+                time5: "10 a 15 Años",
+                desc5: "Su riesgo de cáncer de pulmón se reduce a la mitad. Su riesgo de otros cánceres (boca, garganta, vejiga, etc.) también disminuye significativamente.",
+                how_title: "Tiene Opciones: Encuentre su Camino para Dejar de Fumar",
+                how_subtitle: "El viaje de cada persona es diferente. Combinar diferentes métodos a menudo conduce a los mejores resultados. Explore las opciones a continuación para ver qué podría funcionar para usted.",
+                option1_title: "⚕️ Apoyo Médico",
+                option1_nrt_title: "Terapia de Reemplazo de Nicotina (TRN)",
+                option1_nrt_desc: "La TRN le proporciona nicotina en dosis controladas sin los otros químicos dañinos del tabaco. Esto ayuda a controlar los síntomas de abstinencia. Viene en parches, chicles, pastillas, inhaladores y aerosoles nasales. La mayoría están disponibles sin receta.",
+                option1_meds_title: "Medicamentos Recetados",
+                option1_meds_desc: "Medicamentos como la Vareniclina (Chantix) y el Bupropión (Zyban) son píldoras sin nicotina que ayudan a reducir las ansias y los síntomas de abstinencia. Hable con su médico para ver si son adecuados para usted.",
+                option2_title: "🤝 Apoyo Social y Conductual",
+                option2_counsel_title: "Asesoramiento y Coaching",
+                option2_counsel_desc: "Trabajar con un consejero capacitado puede ayudarlo a desarrollar estrategias de afrontamiento, identificar desencadenantes y crear un plan sólido para dejar de fumar. Esto se puede hacer de forma individual o en grupo.",
+                option2_quitlines_title: "Líneas de Ayuda y Aplicaciones",
+                option2_quitlines_desc: "Las líneas telefónicas gratuitas para dejar de fumar (como 1-855-DÉJELO-YA en los EE. UU.) brindan asesoramiento de expertos. Las aplicaciones para teléfonos inteligentes pueden ofrecer seguimiento, motivación y una comunidad de apoyo al alcance de su mano.",
+                option2_friends_title: "Amigos y Familia",
+                option2_friends_desc: "Informe a sus seres queridos sobre su decisión de dejar de fumar. Su aliento y comprensión pueden ser una de sus herramientas más poderosas.",
+                cravings_title: "Navegando el Desafío: Consejos para Manejar las Ansias",
+                cravings_subtitle: "Las ansias son una parte normal de dejar de fumar. Son intensas pero generalmente de corta duración. Tener un plan puede ayudarle a superarlas.",
+                cravings_tip1_title: "Retrasar y Distraer",
+                cravings_tip1_desc: "Espere 10 minutos. Salga a caminar, escuche música o llame a un amigo.",
+                cravings_tip2_title: "Beber Agua",
+                cravings_tip2_desc: "Beber agua fría puede ayudar a satisfacer el hábito de llevarse la mano a la boca y a eliminar toxinas.",
+                cravings_tip3_title: "Respiración Profunda",
+                cravings_tip3_desc: "Inhale lentamente por la nariz y exhale por la boca. Calma los nervios.",
+                cravings_tip4_title: "Coma un Bocadillo Saludable",
+                cravings_tip4_desc: "Bocadillos crujientes como zanahorias o nueces pueden ayudar con la fijación oral.",
+                savings_title: "Vea Crecer sus Ahorros",
+                savings_desc: "Dejar de fumar no solo es bueno para su salud, es excelente para su bolsillo. Vea cuánto podría ahorrar.",
+                savings_label_packs: "Paquetes por día:",
+                savings_label_cost: "Costo por paquete ($):",
+                savings_monthly: "Ahorro Mensual",
+                savings_yearly: "Ahorro Anual",
+                savings_10_years: "Ahorro en 10 Años",
+                cta_title: "Su Futuro Yo se lo Agradecerá",
+                cta_desc: "Imagine una vida con más energía, más dinero y más tiempo con sus seres queridos. Imagine subir escaleras sin perder el aliento, saborear su comida por completo y sentirse orgulloso de la decisión que tomó. Esto no es un sueño. Esta es la realidad que le espera. Cada momento que permanece libre de humo es una victoria. Sea paciente consigo mismo, celebre su progreso y recuerde por qué empezó. Usted puede hacerlo.",
+                cta_button: "Visite Smokefree.gov para Crear su Plan para Dejar de Fumar",
+                footer_back_link: "&larr; Volver a la Guía Principal de EPOC",
+                footer_disclaimer_title: "Descargo de Responsabilidad",
+                footer_disclaimer_desc: "Esta guía interactiva es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source: `Material de Origen: Contenido adaptado de <a href="https://espanol.smokefree.gov/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Smokefree.gov en Español</a> y los <a href="https://www.cdc.gov/tobacco/about/how-to-quit.html" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Centros para el Control y la Prevención de Enfermedades (CDC)</a>.`,
+            }
+        };
+
+        const renderContent = () => {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        };
+
+        // Options cards
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('open');
+            });
+        });
+        
+        // Savings Calculator
+        const packsInput = document.getElementById('packs-per-day');
+        const costInput = document.getElementById('cost-per-pack');
+        const monthlySavingsEl = document.getElementById('monthly-savings');
+        const yearlySavingsEl = document.getElementById('yearly-savings');
+        const decadeSavingsEl = document.getElementById('decade-savings');
+        
+        const calculateSavings = () => {
+            const packs = parseFloat(packsInput.value) || 0;
+            const cost = parseFloat(costInput.value) || 0;
+            const dailyCost = packs * cost;
+            
+            const monthly = dailyCost * 30.44;
+            const yearly = dailyCost * 365.25;
+            const decade = yearly * 10;
+            
+            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            
+            monthlySavingsEl.textContent = formatter.format(monthly);
+            yearlySavingsEl.textContent = formatter.format(yearly);
+            decadeSavingsEl.textContent = formatter.format(decade);
+        };
+        
+        packsInput.addEventListener('input', calculateSavings);
+        costInput.addEventListener('input', calculateSavings);
+
+        // Language toggle
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentLangCode = document.documentElement.lang.split('-')[0];
+            const langToLoad = (currentLangCode === 'es') ? 'es' : 'en';
+            changeLanguage(langToLoad);
+        });
+
+        // Initial Load
+        changeLanguage('en');
+        calculateSavings();
+    });
+    </script>
+</body>
+</html>
