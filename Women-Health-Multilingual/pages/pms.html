@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding PMS and PMDD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .symptom-tab {
+            transition: all 0.3s ease;
+        }
+        .symptom-tab-content {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-amber-900 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="symptom_spectrum_title"></h3>
+            <div class="flex justify-center mb-6 border-b border-gray-200">
+                <button id="tab-pms" class="symptom-tab px-6 py-3 font-semibold border-b-2" data-tab="pms" data-translate="pms_title"></button>
+                <button id="tab-pmdd" class="symptom-tab px-6 py-3 font-semibold border-b-2" data-tab="pmdd" data-translate="pmdd_title"></button>
+            </div>
+            <div id="symptom-content">
+                <!-- PMS Content -->
+                <div id="content-pms" class="symptom-tab-content">
+                    <p class="text-gray-700 mb-6 text-center max-w-2xl mx-auto" data-translate="pms_p1"></p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div id="pms-symptoms-emotional"></div>
+                        <div id="pms-symptoms-physical"></div>
+                    </div>
+                </div>
+                <!-- PMDD Content -->
+                <div id="content-pmdd" class="symptom-tab-content">
+                    <p class="text-gray-700 mb-2 text-center max-w-2xl mx-auto" data-translate="pmdd_p1"></p>
+                    <p class="text-red-700 font-semibold mb-6 text-center max-w-2xl mx-auto" data-translate="pmdd_p2"></p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div id="pmdd-symptoms-mood"></div>
+                        <div id="pmdd-symptoms-other"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+             <div class="bg-teal-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-teal-800" data-translate="causes_title"></h3>
+                <p class="text-teal-700 mb-4" data-translate="causes_p1"></p>
+                <p class="text-teal-700" data-translate="causes_p2"></p>
+            </div>
+            <div class="bg-orange-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-orange-800" data-translate="help_title"></h3>
+                <p class="text-orange-700 mb-4" data-translate="help_p1"></p>
+                 <ul class="list-disc list-inside text-orange-700 space-y-2 text-sm">
+                    <li data-translate="help_li1"></li>
+                    <li data-translate="help_li2"></li>
+                    <li data-translate="help_li3"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diagnosis_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="diagnosis_p1"></p>
+            <div class="text-center bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                <p class="text-yellow-800" data-translate="diagnosis_p2"></p>
+            </div>
+            <div class="mt-6 overflow-x-auto">
+                <h4 class="font-semibold text-lg text-center mb-2" data-translate="sample_diary_title"></h4>
+                <table class="w-full text-sm text-left min-w-[600px]">
+                    <thead class="bg-gray-100 text-gray-600">
+                        <tr>
+                            <th class="p-2" data-translate="diary_day"></th>
+                            <th class="p-2" data-translate="diary_period"></th>
+                            <th class="p-2" data-translate="diary_mood"></th>
+                            <th class="p-2" data-translate="diary_bloating"></th>
+                            <th class="p-2" data-translate="diary_cramps"></th>
+                            <th class="p-2" data-translate="diary_notes"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b"><td class="p-2">Day 22</td><td class="p-2">No</td><td class="p-2">Irritable (3/5)</td><td class="p-2">Mild (2/5)</td><td class="p-2">No</td><td class="p-2" data-translate="diary_sample1"></td></tr>
+                        <tr class="border-b bg-gray-50"><td class="p-2">Day 23</td><td class="p-2">No</td><td class="p-2">Anxious (4/5)</td><td class="p-2">Moderate (3/5)</td><td class="p-2">No</td><td class="p-2" data-translate="diary_sample2"></td></tr>
+                        <tr class="border-b"><td class="p-2">Day 1 (New Cycle)</td><td class="p-2">Light</td><td class="p-2">Relieved (1/5)</td><td class="p-2">Mild (1/5)</td><td class="p-2">Moderate (3/5)</td><td class="p-2" data-translate="diary_sample3"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="management_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="management_p1"></p>
+            <div id="management-container"></div>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "PMS & PMDD",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Navigating Premenstrual Symptoms",
+                    subtitle: "Many women experience symptoms before their period, but the severity can range from mild to debilitating. Understanding the difference between PMS and the more severe PMDD is key to getting the right support.",
+                    
+                    symptom_spectrum_title: "The Symptom Spectrum: PMS vs. PMDD",
+                    pms_title: "Premenstrual Syndrome (PMS)",
+                    pms_p1: "PMS is a very common collection of emotional and physical symptoms that occur in the one to two weeks before a period and go away once the period starts.",
+                    pmdd_title: "Premenstrual Dysphoric Disorder (PMDD)",
+                    pmdd_p1: "PMDD is a severe, often disabling extension of PMS. Its hallmark is the severity of mood symptoms, which can disrupt work, school, and relationships.",
+                    pmdd_p2: "To be diagnosed, at least one of the major mood symptoms below must be present.",
+                    
+                    pms_symptoms_emotional_title: "Emotional & Behavioral",
+                    pms_symptoms_emotional_list: "😔 Mood swings,😠 Irritability,😰 Anxiety,😢 Sadness,🍕 Food cravings,😴 Trouble sleeping",
+                    pms_symptoms_physical_title: "Physical",
+                    pms_symptoms_physical_list: "🎈 Bloating,🍈 Breast tenderness,🤕 Headaches,💪 Muscle aches,😩 Fatigue",
+                    
+                    pmdd_symptoms_mood_title: "Major Mood Symptoms",
+                    pmdd_symptoms_mood_list: "😭 Severe depression or hopelessness,😨 Intense anxiety or tension,🎭 Extreme mood swings,😡 Persistent anger or irritability",
+                    pmdd_symptoms_other_title: "Other Accompanying Symptoms",
+                    pmdd_symptoms_other_list: "Same as PMS, but often more severe and debilitating.",
+
+                    causes_title: "What Causes PMS & PMDD?",
+                    causes_p1: "The exact cause isn't fully understood, but it's not a simple 'hormone imbalance.' Instead, it's believed to be an abnormal sensitivity in the brain to the normal, cyclical fluctuations of estrogen and progesterone.",
+                    causes_p2: "These hormonal shifts can affect levels of brain chemicals called neurotransmitters, especially serotonin, which plays a crucial role in mood regulation. For susceptible women, these changes can trigger the significant mood and physical symptoms of PMS and PMDD.",
+
+                    help_title: "When to Talk to Your Doctor",
+                    help_p1: "You don't have to endure severe symptoms in silence. It's time to seek help if:",
+                    help_li1: "Your symptoms consistently interfere with your ability to function at work, school, or in your relationships.",
+                    help_li2: "Lifestyle changes haven't provided enough relief.",
+                    help_li3: "You experience thoughts of self-harm or hopelessness.",
+
+                    diagnosis_title: "How Are PMS and PMDD Diagnosed?",
+                    diagnosis_p1: "There is no blood test or scan to diagnose PMS or PMDD. The diagnosis is based entirely on the timing of your symptoms. Your doctor will ask you to track your symptoms daily for at least two menstrual cycles.",
+                    diagnosis_p2: "This symptom diary is crucial to confirm that your symptoms consistently appear in the week or two before your period and disappear shortly after it starts.",
+                    sample_diary_title: "Sample Symptom Diary",
+                    diary_day: "Cycle Day",
+                    diary_period: "Period?",
+                    diary_mood: "Mood",
+                    diary_bloating: "Bloating",
+                    diary_cramps: "Cramps",
+                    diary_notes: "Notes",
+                    diary_sample1: "Felt easily annoyed at work.",
+                    diary_sample2: "Worried a lot about small things.",
+                    diary_sample3: "Mood much better, cramps started.",
+
+                    management_title: "Management and Treatment Options",
+                    management_p1: "Treatment is tailored to your symptoms and their severity. A combination of approaches is often most effective.",
+                    mgmt_lifestyle_name: "Lifestyle & Home Remedies",
+                    mgmt_lifestyle_desc: "These are the foundation for managing mild to moderate PMS and can significantly support other treatments.",
+                    mgmt_lifestyle_items: "<strong>Diet:</strong> Limit salt, sugar, caffeine, and alcohol. Eat complex carbohydrates like whole grains. <br><strong>Exercise:</strong> Aim for at least 30 minutes of aerobic activity most days. <br><strong>Stress Reduction:</strong> Try yoga, meditation, or deep breathing. Ensure you get enough sleep.",
+                    mgmt_supplements_name: "Vitamins & Supplements",
+                    mgmt_supplements_desc: "Some supplements may help, but it is essential to talk to your doctor before starting any new regimen.",
+                    mgmt_supplements_items: "<strong>Calcium:</strong> 1,200 mg daily may reduce symptoms. <br><strong>Vitamin B6:</strong> Can help with mood symptoms. <br><strong>Magnesium:</strong> May help reduce fluid retention and breast tenderness.",
+                    mgmt_medication_name: "Medications",
+                    mgmt_medication_desc: "For moderate to severe PMS and especially for PMDD, medications are often necessary for relief.",
+                    mgmt_medication_items: "<strong>Antidepressants (SSRIs):</strong> The most effective treatment for PMDD. Can be taken daily or just during the luteal phase. <br><strong>Hormonal Contraceptives:</strong> Birth control pills can stabilize hormone fluctuations and reduce symptoms. <br><strong>Pain Relievers (NSAIDs):</strong> Ibuprofen or naproxen can help with physical pain like cramps and headaches.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.acog.org/womens-health/faqs/premenstrual-syndrome' target='_blank' class='underline hover:text-amber-800'>American College of Obstetricians and Gynecologists (ACOG)</a> and the <a href='https://www.nimh.nih.gov/health/publications/premenstrual-dysphoric-disorder-pmdd' target='_blank' class='underline hover:text-amber-800'>National Institute of Mental Health (NIMH)</a>."
+                },
+                es: {
+                    app_title: "SPM y TDPM",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Navegando los Síntomas Premenstruales",
+                    subtitle: "Muchas mujeres experimentan síntomas antes de su período, pero la gravedad puede variar de leve a debilitante. Comprender la diferencia entre el SPM y el más severo TDPM es clave para obtener el apoyo adecuado.",
+
+                    symptom_spectrum_title: "El Espectro de Síntomas: SPM vs. TDPM",
+                    pms_title: "Síndrome Premenstrual (SPM)",
+                    pms_p1: "El SPM es un conjunto muy común de síntomas emocionales y físicos que ocurren en una o dos semanas antes de un período y desaparecen una vez que comienza el período.",
+                    pmdd_title: "Trastorno Disfórico Premenstrual (TDPM)",
+                    pmdd_p1: "El TDPM es una extensión severa y a menudo incapacitante del SPM. Su sello distintivo es la gravedad de los síntomas del estado de ánimo, que pueden perturbar el trabajo, la escuela y las relaciones.",
+                    pmdd_p2: "Para ser diagnosticada, al menos uno de los principales síntomas del estado de ánimo a continuación debe estar presente.",
+
+                    pms_symptoms_emotional_title: "Emocionales y de Comportamiento",
+                    pms_symptoms_emotional_list: "😔 Cambios de humor,😠 Irritabilidad,😰 Ansiedad,😢 Tristeza,🍕 Antojos de comida,😴 Problemas para dormir",
+                    pms_symptoms_physical_title: "Físicos",
+                    pms_symptoms_physical_list: "🎈 Hinchazón,🍈 Sensibilidad en los senos,🤕 Dolores de cabeza,💪 Dolores musculares,😩 Fatiga",
+                    
+                    pmdd_symptoms_mood_title: "Síntomas Mayores del Estado de Ánimo",
+                    pmdd_symptoms_mood_list: "😭 Depresión severa o desesperanza,😨 Ansiedad o tensión intensa,🎭 Cambios de humor extremos,😡 Ira o irritabilidad persistente",
+                    pmdd_symptoms_other_title: "Otros Síntomas Acompañantes",
+                    pmdd_symptoms_other_list: "Iguales que el SPM, pero a menudo más severos e incapacitantes.",
+                    
+                    causes_title: "¿Qué Causa el SPM y el TDPM?",
+                    causes_p1: "La causa exacta no se comprende completamente, pero no es un simple 'desequilibrio hormonal'. En cambio, se cree que es una sensibilidad anormal en el cerebro a las fluctuaciones cíclicas normales del estrógeno y la progesterona.",
+                    causes_p2: "Estos cambios hormonales pueden afectar los niveles de sustancias químicas cerebrales llamadas neurotransmisores, especialmente la serotonina, que juega un papel crucial en la regulación del estado de ánimo. Para las mujeres susceptibles, estos cambios pueden desencadenar los significativos síntomas anímicos y físicos del SPM y el TDPM.",
+
+                    help_title: "Cuándo Hablar con su Médico",
+                    help_p1: "No tiene que soportar síntomas severos en silencio. Es hora de buscar ayuda si:",
+                    help_li1: "Sus síntomas interfieren constantemente con su capacidad para funcionar en el trabajo, la escuela o en sus relaciones.",
+                    help_li2: "Los cambios en el estilo de vida no le han proporcionado suficiente alivio.",
+                    help_li3: "Experimenta pensamientos de autolesión o desesperanza.",
+
+                    diagnosis_title: "¿Cómo se Diagnostican el SPM y el TDPM?",
+                    diagnosis_p1: "No existe un análisis de sangre o una exploración para diagnosticar el SPM o el TDPM. El diagnóstico se basa completamente en el momento en que aparecen sus síntomas. Su médico le pedirá que registre sus síntomas diariamente durante al menos dos ciclos menstruales.",
+                    diagnosis_p2: "Este diario de síntomas es crucial para confirmar que sus síntomas aparecen consistentemente en la semana o dos antes de su período y desaparecen poco después de que comience.",
+                    sample_diary_title: "Ejemplo de Diario de Síntomas",
+                    diary_day: "Día del Ciclo",
+                    diary_period: "¿Período?",
+                    diary_mood: "Estado de Ánimo",
+                    diary_bloating: "Hinchazón",
+                    diary_cramps: "Cólicos",
+                    diary_notes: "Notas",
+                    diary_sample1: "Me sentí fácilmente molesta en el trabajo.",
+                    diary_sample2: "Me preocupé mucho por cosas pequeñas.",
+                    diary_sample3: "Mucho mejor de ánimo, comenzaron los cólicos.",
+
+                    management_title: "Opciones de Manejo y Tratamiento",
+                    management_p1: "El tratamiento se adapta a sus síntomas y su gravedad. Una combinación de enfoques suele ser más efectiva.",
+                    mgmt_lifestyle_name: "Estilo de Vida y Remedios Caseros",
+                    mgmt_lifestyle_desc: "Son la base para manejar el SPM de leve a moderado y pueden apoyar significativamente otros tratamientos.",
+                    mgmt_lifestyle_items: "<strong>Dieta:</strong> Limite la sal, el azúcar, la cafeína y el alcohol. Coma carbohidratos complejos como los cereales integrales. <br><strong>Ejercicio:</strong> Intente hacer al menos 30 minutos de actividad aeróbica la mayoría de los días. <br><strong>Reducción del Estrés:</strong> Pruebe el yoga, la meditación o la respiración profunda. Asegúrese de dormir lo suficiente.",
+                    mgmt_supplements_name: "Vitaminas y Suplementos",
+                    mgmt_supplements_desc: "Algunos suplementos pueden ayudar, pero es esencial hablar primero con su médico antes de comenzar cualquier nuevo régimen.",
+                    mgmt_supplements_items: "<strong>Calcio:</strong> 1,200 mg diarios pueden reducir los síntomas. <br><strong>Vitamina B6:</strong> Puede ayudar con los síntomas del estado de ánimo. <br><strong>Magnesio:</strong> Puede ayudar a reducir la retención de líquidos y la sensibilidad en los senos.",
+                    mgmt_medication_name: "Medicamentos",
+                    mgmt_medication_desc: "Para el SPM de moderado a severo y especialmente para el TDPM, los medicamentos a menudo son necesarios para el alivio.",
+                    mgmt_medication_items: "<strong>Antidepresivos (ISRS):</strong> El tratamiento más efectivo para el TDPM. Se pueden tomar a diario o solo durante la fase lútea. <br><strong>Anticonceptivos Hormonales:</strong> Las píldoras anticonceptivas pueden estabilizar las fluctuaciones hormonales y reducir los síntomas. <br><strong>Analgésicos (AINEs):</strong> El ibuprofeno o el naproxeno pueden ayudar con el dolor físico como los cólicos y los dolores de cabeza.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como el <a href='https://www.acog.org/womens-health/faqs/premenstrual-syndrome' target='_blank' class='underline hover:text-amber-800'>Colegio Americano de Obstetras y Ginecólogos (ACOG)</a> y el <a href='https://www.nimh.nih.gov/health/publications/premenstrual-dysphoric-disorder-pmdd' target='_blank' class='underline hover:text-amber-800'>Instituto Nacional de Salud Mental (NIMH)</a>."
+                }
+            };
+
+            const managementData = [
+                { id: 'lifestyle', color: 'green', icon: '🏃‍♀️' },
+                { id: 'supplements', color: 'purple', icon: '💊' },
+                { id: 'medication', color: 'blue', icon: '⚕️' }
+            ];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderSymptoms();
+                renderManagement();
+            };
+
+            const renderSymptoms = () => {
+                const t = translations[currentLanguage];
+                const pmsEmoContainer = document.getElementById('pms-symptoms-emotional');
+                const pmsPhyContainer = document.getElementById('pms-symptoms-physical');
+                const pmddMoodContainer = document.getElementById('pmdd-symptoms-mood');
+                const pmddOtherContainer = document.getElementById('pmdd-symptoms-other');
+
+                pmsEmoContainer.innerHTML = `
+                    <h5 class="font-semibold text-lg mb-2 text-blue-700" data-translate="pms_symptoms_emotional_title"></h5>
+                    <ul class="space-y-1 text-sm text-blue-600">${t.pms_symptoms_emotional_list.split(',').map(s => `<li>${s.trim()}</li>`).join('')}</ul>
+                `;
+                pmsPhyContainer.innerHTML = `
+                    <h5 class="font-semibold text-lg mb-2 text-blue-700" data-translate="pms_symptoms_physical_title"></h5>
+                    <ul class="space-y-1 text-sm text-blue-600">${t.pms_symptoms_physical_list.split(',').map(s => `<li>${s.trim()}</li>`).join('')}</ul>
+                `;
+                pmddMoodContainer.innerHTML = `
+                    <h5 class="font-semibold text-lg mb-2 text-red-700" data-translate="pmdd_symptoms_mood_title"></h5>
+                    <ul class="space-y-1 text-sm text-red-600">${t.pmdd_symptoms_mood_list.split(',').map(s => `<li>${s.trim()}</li>`).join('')}</ul>
+                `;
+                pmddOtherContainer.innerHTML = `
+                    <h5 class="font-semibold text-lg mb-2 text-red-700" data-translate="pmdd_symptoms_other_title"></h5>
+                    <p class="text-sm text-red-600">${t.pmdd_symptoms_other_list}</p>
+                `;
+            };
+
+            const renderManagement = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('management-container');
+                container.innerHTML = managementData.map(item => `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+                        <button class="accordion-button flex justify-between items-center w-full p-5 text-left font-semibold text-xl text-${item.color}-800 bg-${item.color}-50 hover:bg-${item.color}-100 transition">
+                            <div class="flex items-center">
+                                <span class="text-3xl mr-4">${item.icon}</span>
+                                <span>${t[`mgmt_${item.id}_name`]}</span>
+                            </div>
+                            <svg class="w-6 h-6 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-5 border-t border-${item.color}-200">
+                                <p class="italic text-gray-600 mb-4">${t[`mgmt_${item.id}_desc`]}</p>
+                                <div class="text-sm space-y-2 text-gray-700">${t[`mgmt_${item.id}_items`]}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            };
+
+            const symptomTabs = document.querySelectorAll('.symptom-tab');
+            const tabContents = document.querySelectorAll('.symptom-tab-content');
+
+            const switchTab = (tabId) => {
+                symptomTabs.forEach(tab => {
+                    const isPms = tab.id === 'tab-pms';
+                    const isActive = tab.dataset.tab === tabId;
+                    tab.classList.toggle('border-blue-500', isPms && isActive);
+                    tab.classList.toggle('text-blue-600', isPms && isActive);
+                    tab.classList.toggle('border-red-500', !isPms && isActive);
+                    tab.classList.toggle('text-red-600', !isPms && isActive);
+                    tab.classList.toggle('border-transparent', !isActive);
+                    tab.classList.toggle('text-gray-500', !isActive);
+                    tab.classList.toggle('hover:border-gray-300', !isActive);
+                });
+                tabContents.forEach(content => {
+                    content.style.display = content.id === `content-${tabId}` ? 'block' : 'none';
+                });
+            };
+
+            symptomTabs.forEach(tab => {
+                tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+            });
+
+            document.body.addEventListener('click', (e) => {
+                if (e.target.matches('.accordion-button, .accordion-button *')) {
+                    const button = e.target.closest('.accordion-button');
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('svg');
+                    
+                    if (content && content.classList.contains('accordion-content')) {
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+            switchTab('pms'); // Set initial tab
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Postpartum Mood Disorders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .condition-card {
+            transition: all 0.3s ease;
+        }
+        .condition-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .condition-content {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-blue-800 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg shadow-md mb-8">
+            <h3 class="text-2xl font-bold text-blue-800 mb-2" data-translate="not_alone_title"></h3>
+            <p class="text-blue-700" data-translate="not_alone_p1"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-6 text-center text-amber-800" data-translate="comparison_title"></h3>
+            <div id="conditions-tabs" class="grid md:grid-cols-3 gap-4 mb-6">
+                <!-- Condition tabs will be inserted here -->
+            </div>
+            <div id="conditions-content" class="p-4 bg-gray-50 rounded-lg min-h-[250px]">
+                <!-- Condition details will be inserted here -->
+            </div>
+        </div>
+        
+        <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg shadow-md mb-8">
+            <h3 class="text-2xl font-bold text-red-800 mb-2" data-translate="psychosis_warning_title"></h3>
+            <p class="text-red-700" data-translate="psychosis_warning_p1"></p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="causes_title"></h3>
+                <p class="text-gray-600 mb-4" data-translate="causes_p1"></p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="causes_li1"></li>
+                    <li data-translate="causes_li2"></li>
+                    <li data-translate="causes_li3"></li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="risk_factors_title"></h3>
+                <p class="text-gray-600 mb-4" data-translate="risk_factors_p1"></p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="risk_factors_li1"></li>
+                    <li data-translate="risk_factors_li2"></li>
+                    <li data-translate="risk_factors_li3"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treatment_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="treatment_p1"></p>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-green-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-green-800" data-translate="treatment_therapy_title"></h4><p class="text-sm text-green-700" data-translate="treatment_therapy_desc"></p></div>
+                <div class="bg-purple-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-purple-800" data-translate="treatment_meds_title"></h4><p class="text-sm text-purple-700" data-translate="treatment_meds_desc"></p></div>
+                <div class="bg-orange-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-orange-800" data-translate="treatment_support_title"></h4><p class="text-sm text-orange-700" data-translate="treatment_support_desc"></p></div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="help_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-green-800" data-translate="help_for_moms_title"></h4>
+                    <ul class="list-disc list-inside text-green-700 space-y-2 text-sm">
+                        <li data-translate="help_for_moms_li1"></li>
+                        <li data-translate="help_for_moms_li2"></li>
+                        <li data-translate="help_for_moms_li3"></li>
+                    </ul>
+                </div>
+                <div class="bg-purple-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-purple-800" data-translate="help_for_partners_title"></h4>
+                    <ul class="list-disc list-inside text-purple-700 space-y-2 text-sm">
+                        <li data-translate="help_for_partners_li1"></li>
+                        <li data-translate="help_for_partners_li2"></li>
+                        <li data-translate="help_for_partners_li3"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Postpartum Mood Disorders",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Postpartum Mood Disorders",
+                    subtitle: "The time after childbirth is one of immense change. While joyful, it can also bring unexpected emotional challenges. Understanding the spectrum of postpartum mood disorders is the first step toward getting the right support.",
+                    
+                    not_alone_title: "You Are Not Alone, and You Are Not to Blame",
+                    not_alone_p1: "Perinatal mood and anxiety disorders are the most common complication of childbirth. They are medical conditions, not a sign of weakness or a character flaw. With help, you can and will get better.",
+
+                    comparison_title: "Comparing Postpartum Mood Disorders",
+                    
+                    baby_blues_name: "The 'Baby Blues'",
+                    baby_blues_what: "A common and temporary period of mood swings, tearfulness, and feeling overwhelmed.",
+                    baby_blues_symptoms: "Crying spells, anxiety, sadness, irritability, feeling overwhelmed.",
+                    baby_blues_timing: "Starts 2-3 days after delivery and resolves on its own within 2 weeks.",
+                    baby_blues_action: "Rest, accept help from friends and family, and connect with other new moms.",
+
+                    ppd_name: "Postpartum Depression (PPD)",
+                    ppd_what: "A more severe, longer-lasting clinical depression that interferes with your ability to care for yourself and your baby.",
+                    ppd_symptoms: "Severe mood swings, intense sadness, loss of pleasure, difficulty bonding with the baby, feelings of worthlessness, thoughts of harming self or baby.",
+                    ppd_timing: "Can begin anytime in the first year after delivery.",
+                    ppd_action: "This is a medical condition that requires treatment. Talk to your doctor immediately.",
+
+                    ppp_name: "Postpartum Psychosis (PPP)",
+                    ppp_what: "A rare but very serious mental illness that requires immediate medical attention.",
+                    ppp_symptoms: "Confusion, disorientation, hallucinations (seeing or hearing things that aren't there), paranoia, attempts to harm self or baby.",
+                    ppp_timing: "Usually begins suddenly, often within the first 2 weeks after delivery.",
+                    ppp_action: "This is a medical emergency. Call 911 or go to the nearest emergency room immediately.",
+
+                    what_is_it: "What is it?",
+                    symptoms: "Signs & Symptoms",
+                    timing: "When does it occur?",
+                    what_to_do: "What to do?",
+
+                    psychosis_warning_title: "Postpartum Psychosis is a Medical Emergency",
+                    psychosis_warning_p1: "If you or someone you know is experiencing symptoms of postpartum psychosis, do not leave them alone. This is a life-threatening emergency that requires immediate help. Call 911 or go to the nearest emergency room.",
+
+                    causes_title: "Why Does This Happen? Causes",
+                    causes_p1: "The exact cause is complex, but it's believed to be a combination of factors:",
+                    causes_li1: "<strong>Hormonal Shifts:</strong> The dramatic drop in estrogen and progesterone after childbirth can trigger mood changes.",
+                    causes_li2: "<strong>Physical Factors:</strong> Sleep deprivation, physical recovery from birth, and thyroid imbalances can contribute.",
+                    causes_li3: "<strong>Emotional Stressors:</strong> The overwhelming responsibility of caring for a newborn, social isolation, and changes in identity can play a major role.",
+
+                    risk_factors_title: "Who is Most at Risk?",
+                    risk_factors_p1: "While any new mother can develop a postpartum mood disorder, some factors increase the risk:",
+                    risk_factors_li1: "A personal or family history of depression, anxiety, or bipolar disorder.",
+                    risk_factors_li2: "A difficult pregnancy or traumatic birth experience.",
+                    risk_factors_li3: "Lack of social support, relationship stress, or financial difficulties.",
+
+                    treatment_title: "Treatment and Recovery",
+                    treatment_p1: "Treatment is highly effective and is tailored to the specific condition and its severity. The goal is to help you feel like yourself again.",
+                    treatment_therapy_title: "Therapy (Psychotherapy)",
+                    treatment_therapy_desc: "Talking with a mental health professional is a cornerstone of treatment. Cognitive Behavioral Therapy (CBT) and Interpersonal Therapy (IPT) are proven to be effective.",
+                    treatment_meds_title: "Medication",
+                    treatment_meds_desc: "Antidepressants are often prescribed for PPD and are safe to use while breastfeeding. The benefits of treating depression usually far outweigh any risks.",
+                    treatment_support_title: "Support & Self-Care",
+                    treatment_support_desc: "Joining a support group, prioritizing sleep, gentle exercise, and good nutrition are essential parts of the recovery process.",
+
+                    help_title: "How to Get Help",
+                    help_for_moms_title: "For Moms: Taking the First Step",
+                    help_for_moms_li1: "<strong>Talk to someone you trust.</strong> Tell your partner, a friend, or a family member how you are feeling.",
+                    help_for_moms_li2: "<strong>Call your OB/GYN or primary care provider.</strong> They are trained to help and can connect you with resources.",
+                    help_for_moms_li3: "<strong>Contact a support line.</strong> The National Maternal Mental Health Hotline is free, confidential, and available 24/7 at 1-833-852-6262.",
+                    
+                    help_for_partners_title: "For Partners & Family",
+                    help_for_partners_li1: "<strong>Listen without judgment.</strong> Reassure her that it's not her fault and that she will get better with help.",
+                    help_for_partners_li2: "<strong>Offer practical help.</strong> Take care of the baby and household chores so she can rest.",
+                    help_for_partners_li3: "<strong>Help her get professional help.</strong> Offer to make the appointment and go with her.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including <a href='https://www.postpartum.net/' target='_blank' class='underline hover:text-amber-800'>Postpartum Support International (PSI)</a> and <a href='https://www.acog.org/womens-health/faqs/postpartum-depression' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                },
+                es: {
+                    app_title: "Trastornos del Ánimo Posparto",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo los Trastornos del Ánimo Posparto",
+                    subtitle: "El tiempo después del parto es de un cambio inmenso. Aunque es alegre, también puede traer desafíos emocionales inesperados. Comprender el espectro de los trastornos del ánimo posparto es el primer paso para obtener el apoyo adecuado.",
+                    
+                    not_alone_title: "No Está Sola y No Es su Culpa",
+                    not_alone_p1: "Los trastornos perinatales del estado de ánimo y de ansiedad son la complicación más común del parto. Son condiciones médicas, no una señal de debilidad o un defecto de carácter. Con ayuda, puede y mejorará.",
+
+                    comparison_title: "Comparando los Trastornos del Ánimo Posparto",
+                    
+                    baby_blues_name: "La Tristeza Posparto ('Baby Blues')",
+                    baby_blues_what: "Un período común y temporal de cambios de humor, llanto y sensación de agobio.",
+                    baby_blues_symptoms: "Episodios de llanto, ansiedad, tristeza, irritabilidad, sentirse abrumada.",
+                    baby_blues_timing: "Comienza 2-3 días después del parto y se resuelve por sí solo en 2 semanas.",
+                    baby_blues_action: "Descanse, acepte ayuda de amigos y familiares y conéctese con otras mamás primerizas.",
+
+                    ppd_name: "Depresión Posparto (DPP)",
+                    ppd_what: "Una depresión clínica más severa y duradera que interfiere con su capacidad para cuidarse a sí misma y a su bebé.",
+                    ppd_symptoms: "Cambios de humor severos, tristeza intensa, pérdida de placer, dificultad para vincularse con el bebé, sentimientos de inutilidad, pensamientos de hacerse daño a sí misma o al bebé.",
+                    ppd_timing: "Puede comenzar en cualquier momento durante el primer año después del parto.",
+                    ppd_action: "Esta es una condición médica que requiere tratamiento. Hable con su médico de inmediato.",
+
+                    ppp_name: "Psicosis Posparto (PPP)",
+                    ppp_what: "Una enfermedad mental muy grave pero rara que requiere atención médica inmediata.",
+                    ppp_symptoms: "Confusión, desorientación, alucinaciones (ver u oír cosas que no existen), paranoia, intentos de hacerse daño a sí misma o al bebé.",
+                    ppp_timing: "Generalmente comienza de repente, a menudo dentro de las primeras 2 semanas después del parto.",
+                    ppp_action: "Esta es una emergencia médica. Llame al 911 o vaya a la sala de emergencias más cercana de inmediato.",
+
+                    what_is_it: "¿Qué es?",
+                    symptoms: "Signos y Síntomas",
+                    timing: "¿Cuándo ocurre?",
+                    what_to_do: "¿Qué hacer?",
+
+                    psychosis_warning_title: "La Psicosis Posparto es una Emergencia Médica",
+                    psychosis_warning_p1: "Si usted o alguien que conoce está experimentando síntomas de psicosis posparto, no la deje sola. Esta es una emergencia que amenaza la vida y requiere ayuda inmediata. Llame al 911 o vaya a la sala de emergencias más cercana.",
+
+                    causes_title: "¿Por Qué Sucede Esto? Causas",
+                    causes_p1: "La causa exacta es compleja, pero se cree que es una combinación de factores:",
+                    causes_li1: "<strong>Cambios Hormonales:</strong> La drástica caída de estrógeno y progesterona después del parto puede desencadenar cambios de humor.",
+                    causes_li2: "<strong>Factores Físicos:</strong> La falta de sueño, la recuperación física del parto y los desequilibrios tiroideos pueden contribuir.",
+                    causes_li3: "<strong>Estresores Emocionales:</strong> La abrumadora responsabilidad de cuidar a un recién nacido, el aislamiento social y los cambios en la identidad pueden jugar un papel importante.",
+
+                    risk_factors_title: "¿Quién tiene Mayor Riesgo?",
+                    risk_factors_p1: "Aunque cualquier madre primeriza puede desarrollar un trastorno del estado de ánimo posparto, algunos factores aumentan el riesgo:",
+                    risk_factors_li1: "Un historial personal o familiar de depresión, ansiedad o trastorno bipolar.",
+                    risk_factors_li2: "Un embarazo difícil o una experiencia de parto traumática.",
+                    risk_factors_li3: "Falta de apoyo social, estrés en la relación o dificultades financieras.",
+
+                    treatment_title: "Tratamiento y Recuperación",
+                    treatment_p1: "El tratamiento es muy eficaz y se adapta a la condición específica y su gravedad. El objetivo es ayudarla a sentirse como usted misma de nuevo.",
+                    treatment_therapy_title: "Terapia (Psicoterapia)",
+                    treatment_therapy_desc: "Hablar con un profesional de la salud mental es una piedra angular del tratamiento. La Terapia Cognitivo-Conductual (TCC) y la Terapia Interpersonal (TIP) han demostrado ser eficaces.",
+                    treatment_meds_title: "Medicamentos",
+                    treatment_meds_desc: "A menudo se recetan antidepresivos para la DPP y son seguros de usar durante la lactancia. Los beneficios de tratar la depresión generalmente superan con creces cualquier riesgo.",
+                    treatment_support_title: "Apoyo y Autocuidado",
+                    treatment_support_desc: "Unirse a un grupo de apoyo, priorizar el sueño, el ejercicio suave y una buena nutrición son partes esenciales del proceso de recuperación.",
+
+                    help_title: "Cómo Obtener Ayuda",
+                    help_for_moms_title: "Para las Mamás: Dando el Primer Paso",
+                    help_for_moms_li1: "<strong>Hable con alguien de confianza.</strong> Dígale a su pareja, un amigo o un familiar cómo se siente.",
+                    help_for_moms_li2: "<strong>Llame a su ginecólogo/a o médico de atención primaria.</strong> Están capacitados para ayudar y pueden conectarla con recursos.",
+                    help_for_moms_li3: "<strong>Contacte una línea de apoyo.</strong> La Línea Nacional de Ayuda de Salud Mental Materna es gratuita, confidencial y está disponible 24/7 al 1-833-852-6262.",
+                    
+                    help_for_partners_title: "Para Parejas y Familiares",
+                    help_for_partners_li1: "<strong>Escuche sin juzgar.</strong> Asegúrele que no es su culpa y que mejorará con ayuda.",
+                    help_for_partners_li2: "<strong>Ofrezca ayuda práctica.</strong> Cuide al bebé y las tareas del hogar para que ella pueda descansar.",
+                    help_for_partners_li3: "<strong>Ayúdela a obtener ayuda profesional.</strong> Ofrézcase a hacer la cita e ir con ella.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como <a href='https://www.postpartum.net/' target='_blank' class='underline hover:text-amber-800'>Postpartum Support International (PSI)</a> y <a href='https://www.acog.org/womens-health/faqs/postpartum-depression' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                }
+            };
+
+            const conditionData = [
+                { id: 'baby_blues', color: 'blue', icon: '😢' },
+                { id: 'ppd', color: 'purple', icon: '💔' },
+                { id: 'ppp', color: 'red', icon: '🚨' }
+            ];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderConditionTabs();
+                switchTab('baby_blues');
+            };
+
+            const renderConditionTabs = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('conditions-tabs');
+                container.innerHTML = conditionData.map(item => `
+                    <div id="tab-${item.id}" class="condition-card p-4 bg-${item.color}-50 rounded-lg shadow-sm cursor-pointer border-2 border-transparent hover:border-${item.color}-300 flex flex-col items-center text-center" data-condition="${item.id}">
+                        <span class="text-4xl mb-2">${item.icon}</span>
+                        <h4 class="font-bold text-lg text-${item.color}-800">${t[`${item.id}_name`]}</h4>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.condition-card').forEach(card => {
+                    card.addEventListener('click', () => switchTab(card.dataset.condition));
+                });
+            };
+
+            const switchTab = (conditionId) => {
+                const t = translations[currentLanguage];
+                const contentContainer = document.getElementById('conditions-content');
+                const allCards = document.querySelectorAll('.condition-card');
+                allCards.forEach(c => c.classList.remove('active'));
+                document.getElementById(`tab-${conditionId}`).classList.add('active');
+
+                const data = conditionData.find(c => c.id === conditionId);
+                contentContainer.innerHTML = `
+                    <div class="space-y-4 text-sm">
+                        <div><strong class="text-${data.color}-800">${t.what_is_it}</strong><p class="text-gray-600">${t[`${data.id}_what`]}</p></div>
+                        <div><strong class="text-${data.color}-800">${t.symptoms}</strong><p class="text-gray-600">${t[`${data.id}_symptoms`]}</p></div>
+                        <div><strong class="text-${data.color}-800">${t.timing}</strong><p class="text-gray-600">${t[`${data.id}_timing`]}</p></div>
+                        <div><strong class="text-${data.color}-800">${t.what_to_do}</strong><p class="text-gray-600">${t[`${data.id}_action`]}</p></div>
+                    </div>
+                `;
+            };
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Breast Cancer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .timeline-segment {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .timeline-segment.active {
+            background-color: #EC4899;
+            color: white;
+        }
+        .symptom-card {
+            transition: all 0.3s ease;
+        }
+        .symptom-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #F472B6;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-pink-800 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="awareness_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="awareness_p1"></p>
+            <div id="symptoms-container" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Symptom cards will be inserted here -->
+            </div>
+            <div id="symptom-details" class="mt-6 p-4 bg-gray-50 rounded-lg min-h-[80px]">
+                <p class="text-gray-500" data-translate="symptom_select"></p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="risk_factors_title"></h3>
+                <div id="risk-factors-container"></div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="diagnosis_title"></h3>
+                 <p class="text-gray-600 mb-4" data-translate="diagnosis_p1"></p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="diagnosis_li1"></li>
+                    <li data-translate="diagnosis_li2"></li>
+                    <li data-translate="diagnosis_li3"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="timeline_title"></h3>
+            <div class="flex flex-col md:flex-row justify-center items-center border-b-4 border-gray-200 mb-4">
+                <div class="timeline-segment flex-1 text-center p-4" data-age="40-49"><strong data-translate="timeline_age1"></strong></div>
+                <div class="timeline-segment flex-1 text-center p-4" data-age="50-74"><strong data-translate="timeline_age2"></strong></div>
+                <div class="timeline-segment flex-1 text-center p-4" data-age="75+"><strong data-translate="timeline_age3"></strong></div>
+            </div>
+            <div id="timeline-details" class="p-4 bg-gray-50 rounded-lg min-h-[100px]"></div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diagnosis_details_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-blue-800" data-translate="types_title"></h4>
+                    <p class="text-blue-700" data-translate="types_p1"></p>
+                </div>
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-green-800" data-translate="staging_title"></h4>
+                    <p class="text-green-700" data-translate="staging_p1"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treatment_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="treatment_p1"></p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-purple-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-purple-800" data-translate="treatment_surgery_title"></h4><p class="text-sm text-purple-700" data-translate="treatment_surgery_desc"></p></div>
+                <div class="bg-rose-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-rose-800" data-translate="treatment_radiation_title"></h4><p class="text-sm text-rose-700" data-translate="treatment_radiation_desc"></p></div>
+                <div class="bg-orange-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-orange-800" data-translate="treatment_chemo_title"></h4><p class="text-sm text-orange-700" data-translate="treatment_chemo_desc"></p></div>
+                <div class="bg-green-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-green-800" data-translate="treatment_systemic_title"></h4><p class="text-sm text-green-700" data-translate="treatment_systemic_desc"></p></div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="survivorship_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="survivorship_p1"></p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-cyan-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-cyan-800" data-translate="follow_up_title"></h4><p class="text-sm text-cyan-700" data-translate="follow_up_desc"></p></div>
+                <div class="bg-pink-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-pink-800" data-translate="emotional_title"></h4><p class="text-sm text-pink-700" data-translate="emotional_desc"></p></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Breast Cancer",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Breast Cancer",
+                    subtitle: "Breast cancer is the most common cancer in women, but it's important to know that advances in early detection and treatment have led to excellent survival rates, especially when found early.",
+                    
+                    awareness_title: "Breast Self-Awareness: Know Your Normal",
+                    awareness_p1: "Knowing how your breasts normally look and feel is a key part of your health. The most important thing is to report any new or unusual changes to your doctor right away. Click on a sign below to learn more.",
+                    symptom_select: "Select a sign above to learn more.",
+                    symptom_lump_name: "New Lump", symptom_lump_desc: "The most common sign is a new, often painless, lump or mass in the breast or armpit.",
+                    symptom_swelling_name: "Swelling", symptom_swelling_desc: "Swelling of all or part of the breast, even if no distinct lump is felt.",
+                    symptom_skin_name: "Skin Changes", symptom_skin_desc: "This can include dimpling (like an orange peel), irritation, redness, or thickening.",
+                    symptom_nipple_pain_name: "Nipple Pain/Retraction", symptom_nipple_pain_desc: "Pain in the nipple area or a nipple that turns inward.",
+                    symptom_discharge_name: "Nipple Discharge", symptom_discharge_desc: "Any discharge (other than breast milk), especially if it's bloody or clear.",
+                    symptom_lymph_nodes_name: "Swollen Lymph Nodes", symptom_lymph_nodes_desc: "Swelling or a lump around the collarbone or under the arm.",
+
+                    risk_factors_title: "Understanding Your Risk",
+                    risk_non_mod_title: "Non-Modifiable Risks",
+                    risk_non_mod_list: "Being female, getting older, and having a personal or family history of breast cancer are the most significant risk factors. Inherited gene mutations like BRCA1 and BRCA2 also greatly increase risk.",
+                    risk_lifestyle_title: "Lifestyle-Related Risks",
+                    risk_lifestyle_list: "Factors that can increase risk include being overweight (especially after menopause), lack of physical activity, and drinking alcohol.",
+
+                    diagnosis_title: "After an Abnormal Finding",
+                    diagnosis_p1: "If a change is found, your doctor will begin a diagnostic workup:",
+                    diagnosis_li1: "<strong>Diagnostic Mammogram & Ultrasound:</strong> These imaging tests provide more detailed pictures of the specific area of concern.",
+                    diagnosis_li2: "<strong>MRI:</strong> May be used in certain situations, especially for women with dense breast tissue or at high risk.",
+                    diagnosis_li3: "<strong>Biopsy:</strong> This is the only way to make a definitive diagnosis. A small sample of tissue is removed from the suspicious area and examined by a pathologist.",
+
+                    diagnosis_details_title: "Understanding Your Diagnosis",
+                    types_title: "Types of Breast Cancer",
+                    types_p1: "Your biopsy report will identify the type of cancer. Most are carcinomas that begin in the cells lining the milk ducts or lobules. It will also note if the cancer is hormone receptor-positive (ER/PR+) or HER2-positive, which guides treatment.",
+                    staging_title: "Breast Cancer Staging",
+                    staging_p1: "Staging (from Stage 0 to Stage IV) describes the extent of the cancer. It considers the tumor size, whether lymph nodes are involved, and if the cancer has spread to distant parts of the body. The stage is crucial for determining the best treatment plan.",
+
+                    timeline_title: "Your Screening Mammogram Timeline (Average Risk)",
+                    timeline_age1: "Ages 40-49",
+                    timeline_age2: "Ages 50-74",
+                    timeline_age3: "Ages 75+",
+                    timeline_details_40_49: "<strong>Recommendation:</strong> The decision to start screening is an individual one. Women in this age group should have a conversation with their doctor about the benefits and risks to decide when to begin annual mammograms.",
+                    timeline_details_50_74: "<strong>Recommendation:</strong> Mammogram every 1 to 2 years. Regular screening in this age group has been clearly shown to reduce mortality from breast cancer.",
+                    timeline_details_75_plus: "<strong>Recommendation:</strong> The decision to continue screening should be based on your overall health and life expectancy. Discuss with your doctor whether to continue.",
+                    
+                    treatment_title: "How is Breast Cancer Treated?",
+                    treatment_p1: "Treatment is highly personalized and depends on the type and stage of the cancer. It often involves a combination of therapies.",
+                    treatment_surgery_title: "Surgery",
+                    treatment_surgery_desc: "The primary treatment to remove the cancer. Options include lumpectomy (removing the tumor) or mastectomy (removing the breast).",
+                    treatment_radiation_title: "Radiation Therapy",
+                    treatment_radiation_desc: "Uses high-energy rays to kill any remaining cancer cells in the breast or nearby lymph nodes after surgery.",
+                    treatment_chemo_title: "Chemotherapy",
+                    treatment_chemo_desc: "Uses drugs to kill cancer cells. It can be given before surgery to shrink a tumor or after surgery to reduce the risk of recurrence.",
+                    treatment_systemic_title: "Systemic Therapies",
+                    treatment_systemic_desc: "These include hormone therapy (for hormone-receptor-positive cancers) and targeted therapies that attack specific features of cancer cells.",
+
+                    survivorship_title: "Life After Treatment: Survivorship",
+                    survivorship_p1: "Completing active treatment is a major milestone, but care continues for years to come.",
+                    follow_up_title: "Follow-Up Care",
+                    follow_up_desc: "After treatment, you will have regular follow-up appointments with your oncology team. This includes physical exams, mammograms, and monitoring for any long-term side effects of treatment.",
+                    emotional_title: "Emotional Well-Being",
+                    emotional_desc: "Adjusting to life after cancer can bring a range of emotions. Connecting with support groups, talking to a counselor, and focusing on wellness can help you navigate this new chapter.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.cancer.gov/types/breast' target='_blank' class='underline hover:text-amber-800'>National Cancer Institute (NCI)</a> and the <a href='https://www.cancer.org/cancer/types/breast-cancer.html' target='_blank' class='underline hover:text-amber-800'>American Cancer Society</a>."
+                },
+                es: {
+                    app_title: "Cáncer de Mama",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo el Cáncer de Mama",
+                    subtitle: "El cáncer de mama es el cáncer más común en las mujeres, pero es importante saber que los avances en la detección temprana y el tratamiento han llevado a excelentes tasas de supervivencia, especialmente cuando se detecta a tiempo.",
+                    
+                    awareness_title: "Autoconciencia de los Senos: Conozca su Normalidad",
+                    awareness_p1: "Saber cómo se ven y se sienten normally sus senos es una parte clave de su salud. Lo más importante es informar a su médico de inmediato sobre cualquier cambio nuevo o inusual. Haga clic en un signo a continuación para obtener más información.",
+                    symptom_select: "Seleccione un signo arriba para obtener más información.",
+                    symptom_lump_name: "Nuevo Bulto", symptom_lump_desc: "El signo más común es un bulto o masa nueva, a menudo indolora, en el seno o la axila.",
+                    symptom_swelling_name: "Hinchazón", symptom_swelling_desc: "Hinchazón de todo o parte del seno, incluso si no se palpa un bulto definido.",
+                    symptom_skin_name: "Cambios en la Piel", symptom_skin_desc: "Esto puede incluir hoyuelos (como la piel de una naranja), irritación, enrojecimiento o engrosamiento.",
+                    symptom_nipple_pain_name: "Dolor/Retracción del Pezón", symptom_nipple_pain_desc: "Dolor en el área del pezón o un pezón que se invierte.",
+                    symptom_discharge_name: "Secreción del Pezón", symptom_discharge_desc: "Cualquier secreción (que no sea leche materna), especialmente si es sanguinolenta o transparente.",
+                    symptom_lymph_nodes_name: "Ganglios Linfáticos Hinchados", symptom_lymph_nodes_desc: "Hinchazón o un bulto alrededor de la clavícula o debajo del brazo.",
+
+                    risk_factors_title: "Comprendiendo su Riesgo",
+                    risk_non_mod_title: "Riesgos No Modificables",
+                    risk_non_mod_list: "Ser mujer, envejecer y tener antecedentes personales o familiares de cáncer de mama son los factores de riesgo más significativos. Las mutaciones genéticas hereditarias como BRCA1 y BRCA2 también aumentan considerablemente el riesgo.",
+                    risk_lifestyle_title: "Riesgos Relacionados con el Estilo de Vida",
+                    risk_lifestyle_list: "Los factores que pueden aumentar el riesgo incluyen el sobrepeso (especialmente después de la menopausia), la falta de actividad física y el consumo de alcohol.",
+
+                    diagnosis_title: "Después de un Hallazgo Anormal",
+                    diagnosis_p1: "Si se encuentra un cambio, su médico iniciará un estudio diagnóstico:",
+                    diagnosis_li1: "<strong>Mamografía Diagnóstica y Ecografía:</strong> Estas pruebas de imagen proporcionan imágenes más detalladas del área específica de preocupación.",
+                    diagnosis_li2: "<strong>Resonancia Magnética (RM):</strong> Puede usarse en ciertas situaciones, especialmente en mujeres con tejido mamario denso o con alto riesgo.",
+                    diagnosis_li3: "<strong>Biopsia:</strong> Esta es la única forma de hacer un diagnóstico definitivo. Se extrae una pequeña muestra de tejido del área sospechosa y un patólogo la examina.",
+
+                    diagnosis_details_title: "Entendiendo su Diagnóstico",
+                    types_title: "Tipos de Cáncer de Mama",
+                    types_p1: "Su informe de biopsia identificará el tipo de cáncer. La mayoría son carcinomas que comienzan en las células que recubren los conductos o lóbulos de la leche. También indicará si el cáncer es receptor hormonal positivo (ER/PR+) o HER2-positivo, lo que guía el tratamiento.",
+                    staging_title: "Estadificación del Cáncer de Mama",
+                    staging_p1: "La estadificación (del Estadio 0 al Estadio IV) describe la extensión del cáncer. Considera el tamaño del tumor, si los ganglios linfáticos están involucrados y si el cáncer se ha diseminado a partes distantes del cuerpo. El estadio es crucial para determinar el mejor plan de tratamiento.",
+
+                    timeline_title: "Su Cronograma de Mamografías de Detección (Riesgo Promedio)",
+                    timeline_age1: "40-49 Años",
+                    timeline_age2: "50-74 Años",
+                    timeline_age3: "Más de 75 Años",
+                    timeline_details_40_49: "<strong>Recomendación:</strong> La decisión de iniciar la detección es individual. Las mujeres en este grupo de edad deben conversar con su médico sobre los beneficios y riesgos para decidir cuándo comenzar las mamografías anuales.",
+                    timeline_details_50_74: "<strong>Recomendación:</strong> Mamografía cada 1 o 2 años. Se ha demostrado claramente que la detección regular en este grupo de edad reduce la mortalidad por cáncer de mama.",
+                    timeline_details_75_plus: "<strong>Recomendación:</strong> La decisión de continuar con la detección debe basarse en su salud general y su esperanza de vida. Hable con su médico sobre si debe continuar.",
+                    
+                    treatment_title: "¿Cómo se Trata el Cáncer de Mama?",
+                    treatment_p1: "El tratamiento es altamente personalizado y depende del tipo y estadio del cáncer. A menudo implica una combinación de terapias.",
+                    treatment_surgery_title: "Cirugía",
+                    treatment_surgery_desc: "El tratamiento principal para extirpar el cáncer. Las opciones incluyen la lumpectomía (extirpar el tumor) o la mastectomía (extirpar el seno).",
+                    treatment_radiation_title: "Radioterapia",
+                    treatment_radiation_desc: "Usa rayos de alta energía para destruir cualquier célula cancerosa restante en el seno o los ganglios linfáticos cercanos después de la cirugía.",
+                    treatment_chemo_title: "Quimioterapia",
+                    treatment_chemo_desc: "Usa medicamentos para destruir las células cancerosas. Se puede administrar antes de la cirugía para reducir un tumor o después de la cirugía para reducir el riesgo de recurrencia.",
+                    treatment_systemic_title: "Terapias Sistémicas",
+                    treatment_systemic_desc: "Estas incluyen terapia hormonal (para cánceres con receptores hormonales positivos) y terapias dirigidas que atacan características específicas de las células cancerosas.",
+
+                    survivorship_title: "La Vida Después del Tratamiento: Supervivencia",
+                    survivorship_p1: "Completar el tratamiento activo es un hito importante, pero el cuidado continúa durante los años venideros.",
+                    follow_up_title: "Atención de Seguimiento",
+                    follow_up_desc: "Después del tratamiento, tendrá citas de seguimiento regulares con su equipo de oncología. Esto incluye exámenes físicos, mamografías y monitoreo de cualquier efecto secundario a largo plazo del tratamiento.",
+                    emotional_title: "Bienestar Emocional",
+                    emotional_desc: "Adaptarse a la vida después del cáncer puede traer una variedad de emociones. Conectarse con grupos de apoyo, hablar con un consejero y centrarse en el bienestar puede ayudarla a navegar este nuevo capítulo.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como el <a href='https://www.cancer.gov/espanol/tipos/seno' target='_blank' class='underline hover:text-amber-800'>Instituto Nacional del Cáncer (NCI)</a> y la <a href='https://www.cancer.org/es/cancer/tipos/cancer-de-seno.html' target='_blank' class='underline hover:text-amber-800'>Sociedad Americana contra el Cáncer</a>."
+                }
+            };
+
+            const symptomData = [
+                { id: 'lump', icon: '👆' }, { id: 'swelling', icon: '🎈' },
+                { id: 'skin', icon: '🍊' }, { id: 'nipple_pain', icon: '👇' },
+                { id: 'discharge', icon: '💧' }, { id: 'lymph_nodes', icon: '🟣' }
+            ];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderSymptoms();
+                renderRiskFactors();
+                updateTimelineDetails('40-49');
+            };
+
+            const renderSymptoms = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('symptoms-container');
+                container.innerHTML = symptomData.map(symptom => `
+                    <div class="symptom-card p-4 bg-pink-50 rounded-lg shadow-sm cursor-pointer border-2 border-transparent hover:border-pink-300 flex flex-col items-center text-center" data-symptom="${symptom.id}">
+                        <span class="text-4xl mb-2">${symptom.icon}</span>
+                        <h5 class="font-bold text-md text-pink-800">${t[`symptom_${symptom.id}_name`]}</h5>
+                    </div>
+                `).join('');
+
+                const symptomCards = document.querySelectorAll('.symptom-card');
+                const detailsContainer = document.getElementById('symptom-details');
+                symptomCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const symptomId = card.dataset.symptom;
+                        symptomCards.forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                        detailsContainer.innerHTML = `<p class="text-sm text-gray-700">${t[`symptom_${symptomId}_desc`]}</p>`;
+                    });
+                });
+                if(symptomCards.length > 0) {
+                    symptomCards[0].click();
+                }
+            };
+
+            const renderRiskFactors = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('risk-factors-container');
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-gray-800" data-translate="risk_non_mod_title">${t.risk_non_mod_title}</h4>
+                            <p class="text-sm text-gray-600" data-translate="risk_non_mod_list">${t.risk_non_mod_list}</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-gray-800" data-translate="risk_lifestyle_title">${t.risk_lifestyle_title}</h4>
+                            <p class="text-sm text-gray-600" data-translate="risk_lifestyle_list">${t.risk_lifestyle_list}</p>
+                        </div>
+                    </div>
+                `;
+            };
+
+            const timelineSegments = document.querySelectorAll('.timeline-segment');
+            const timelineDetails = document.getElementById('timeline-details');
+
+            const updateTimelineDetails = (ageGroup) => {
+                const t = translations[currentLanguage];
+                timelineSegments.forEach(seg => {
+                    seg.classList.toggle('active', seg.dataset.age === ageGroup);
+                });
+                timelineDetails.innerHTML = t[`timeline_details_${ageGroup.replace('-', '_').replace('+', '_plus')}`];
+            };
+
+            timelineSegments.forEach(segment => {
+                segment.addEventListener('click', () => updateTimelineDetails(segment.dataset.age));
+            });
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

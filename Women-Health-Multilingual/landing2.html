@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Women's Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Soft Accents -->
+    <!-- Application Structure Plan: The application is designed as a single-page dashboard with a fixed top navigation bar for easy access to the main health topics: Menstrual Cycle, Common Conditions, Menopause, and Cancer Awareness. This non-linear, topic-based structure was chosen over a simple document scroll because it empowers users to directly access the information most relevant to their immediate concerns, enhancing usability. Each section uses interactive cards, tabs, and accordions to present detailed information on demand, preventing cognitive overload. This layered approach allows for both a high-level overview and deep dives into specific conditions, symptoms, and treatments, facilitating a more personalized and effective learning journey. -->
+    <!-- Visualization & Content Choices: 
+        - Menstrual Cycle: Report info on the four phases is visualized as an interactive circular diagram (HTML/CSS/JS). Goal: Simplify a complex process. Interaction: Clicking a phase reveals details. Justification: Visual representation is more intuitive than text alone.
+        - PMS vs. PMDD: Report data on prevalence is shown in a comparison table. Goal: Compare and highlight severity differences. Justification: A table allows for direct comparison of multiple features (symptoms, severity, impact).
+        - AUB Causes (PALM-COEIN): Report's acronym is turned into an interactive grid (HTML/JS). Goal: Organize complex causes. Interaction: Clicking a tile reveals its definition. Justification: Breaks down a dense acronym into manageable, explorable pieces.
+        - Cancer Screening: Report guidelines are visualized as an interactive timeline (HTML/CSS/JS). Goal: Clarify age-based recommendations. Interaction: Clicking an age group shows relevant advice. Justification: Timelines are excellent for showing chronological information.
+        - All other data is presented in structured text within interactive accordions or tabs to organize content logically (symptoms, treatment, etc.), allowing users to control the information flow. This supports the overall goal of user-led exploration.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .nav-active {
+            color: #D97706;
+            border-bottom-color: #D97706;
+        }
+        .nav-link {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #D97706;
+            border-bottom-color: #D97706;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .phase-active {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
+        }
+        .cycle-graphic {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: auto;
+        }
+        .phase-item {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+        }
+        .cycle-arrow {
+            position: absolute;
+            font-size: 2rem;
+            color: #FBBF24;
+            transform-origin: center;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+
+        .tab-active {
+            background-color: #FBBF24;
+            color: #422006;
+        }
+        .tab-inactive {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="hidden md:flex items-center">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_home"></a>
+                        <a href="#menstrual-cycle" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_menstrual"></a>
+                        <a href="#conditions" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_conditions"></a>
+                        <a href="#menopause" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_menopause"></a>
+                        <a href="#cancer" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_cancer"></a>
+                        <a href="#mental-health" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_mental"></a>
+                    </div>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-amber-800 hover:text-amber-600 focus:outline-none">
+                        <span class="sr-only" data-translate="sr_open_menu"></span>
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#intro" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_home"></a>
+                <a href="#menstrual-cycle" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_menstrual"></a>
+                <a href="#conditions" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_conditions"></a>
+                <a href="#menopause" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_menopause"></a>
+                <a href="#cancer" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_cancer"></a>
+                <a href="#mental-health" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_mental"></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <section id="intro" class="content-section active">
+            <div class="text-center bg-amber-50 p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-amber-900 mb-4" data-translate="intro_title"></h2>
+                <p class="text-lg text-amber-800 max-w-3xl mx-auto" data-translate="intro_p1"></p>
+                <p class="mt-4 text-sm text-amber-700 max-w-3xl mx-auto" data-translate="intro_p2"></p>
+            </div>
+        </section>
+
+        <section id="menstrual-cycle" class="content-section">
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="mc_title"></h2>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_phases_title"></h3>
+                    <p class="mb-6 text-gray-600" data-translate="mc_phases_p1"></p>
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-1/2 flex justify-center items-center">
+                            <div class="cycle-graphic">
+                                <div id="phase-menstrual" class="phase-item bg-rose-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="text-3xl">💧</span>
+                                    <span class="text-xs font-semibold text-rose-800" data-translate="mc_phase_menstrual"></span>
+                                </div>
+                                <div id="phase-follicular" class="phase-item bg-emerald-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 50%; right: 0; transform: translateY(-50%);">
+                                    <span class="text-3xl">🌱</span>
+                                    <span class="text-xs font-semibold text-emerald-800" data-translate="mc_phase_follicular"></span>
+                                </div>
+                                <div id="phase-ovulation" class="phase-item bg-yellow-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="bottom: 0; left: 50%; transform: translateX(-50%);">
+                                     <span class="text-3xl">☀️</span>
+                                    <span class="text-xs font-semibold text-yellow-800" data-translate="mc_phase_ovulation"></span>
+                                </div>
+                                <div id="phase-luteal" class="phase-item bg-indigo-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 50%; left: 0; transform: translateY(-50%);">
+                                    <span class="text-3xl">🌙</span>
+                                    <span class="text-xs font-semibold text-indigo-800" data-translate="mc_phase_luteal"></span>
+                                </div>
+                                <div class="cycle-arrow" style="top: 25%; right: 25%; transform: rotate(45deg);">⤵</div>
+                                <div class="cycle-arrow" style="bottom: 25%; right: 25%; transform: rotate(135deg);">⤵</div>
+                                <div class="cycle-arrow" style="bottom: 25%; left: 25%; transform: rotate(225deg);">⤵</div>
+                                <div class="cycle-arrow" style="top: 25%; left: 25%; transform: rotate(315deg);">⤵</div>
+                            </div>
+                        </div>
+                        <div id="phase-details" class="w-full md:w-1/2 p-4 bg-gray-50 rounded-lg min-h-[200px]">
+                            <p class="text-gray-500" data-translate="mc_phase_select"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_pms_title"></h3>
+                        <p class="mb-4 text-gray-600" data-translate="mc_pms_p1"></p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-amber-800 uppercase bg-amber-100">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3" data-translate="mc_pms_table_feature"></th>
+                                        <th scope="col" class="px-4 py-3">PMS</th>
+                                        <th scope="col" class="px-4 py-3">PMDD</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pms-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_aub_title"></h3>
+                        <p class="mb-4 text-gray-600" data-translate="mc_aub_p1"></p>
+                        <div id="palm-coein-grid" class="grid grid-cols-3 gap-2 text-center font-semibold">
+                        </div>
+                        <div id="palm-coein-details" class="mt-4 p-3 bg-gray-50 rounded-md min-h-[50px] text-sm text-gray-700"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conditions" class="content-section">
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="cond_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="cond_p1"></p>
+                <div id="conditions-container" class="grid md:grid-cols-2 gap-8"></div>
+            </div>
+        </section>
+
+        <section id="menopause" class="content-section">
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="meno_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="meno_p1"></p>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="meno_stages_title"></h3>
+                    <div id="menopause-tabs" class="flex justify-center items-center space-x-2 md:space-x-4 mb-4 w-full md:w-auto mx-auto">
+                    </div>
+                    <div id="menopause-content" class="p-4 bg-amber-50 rounded-lg"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="meno_symptoms_title"></h3>
+                        <p class="mb-4 text-gray-600" data-translate="meno_symptoms_p1"></p>
+                        <div id="symptoms-accordion"></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                         <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="meno_health_title"></h3>
+                         <p class="mb-4 text-gray-600" data-translate="meno_health_p1"></p>
+                         <div class="space-y-4">
+                            <div class="p-4 border-l-4 border-rose-400 bg-rose-50 rounded-r-lg">
+                                <h4 class="font-bold text-rose-800" data-translate="meno_ost_title"></h4>
+                                <p class="text-sm text-rose-700" data-translate="meno_ost_p1"></p>
+                            </div>
+                            <div class="p-4 border-l-4 border-sky-400 bg-sky-50 rounded-r-lg">
+                                <h4 class="font-bold text-sky-800" data-translate="meno_cvd_title"></h4>
+                                <p class="text-sm text-sky-700" data-translate="meno_cvd_p1"></p>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cancer" class="content-section">
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="cancer_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="cancer_p1"></p>
+                <div id="cancer-container" class="grid md:grid-cols-2 gap-8"></div>
+            </div>
+        </section>
+
+        <section id="mental-health" class="content-section">
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="mh_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="mh_p1"></p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-green-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-green-800" data-translate="mh_connection_title"></h3>
+                        <p class="text-green-700 mb-4" data-translate="mh_connection_p1"></p>
+                        <p class="text-green-700" data-translate="mh_connection_p2"></p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-800" data-translate="mh_pregnancy_title"></h3>
+                        <p class="text-blue-700 mb-4" data-translate="mh_pregnancy_p1"></p>
+                        <div class="p-4 bg-blue-100 border-l-4 border-blue-400 rounded-r-lg">
+                            <h4 class="font-bold text-blue-900" data-translate="mh_ppd_title"></h4>
+                            <p class="text-sm text-blue-800 mb-2" data-translate="mh_ppd_p1"></p>
+                            <p class="text-sm text-blue-800 font-semibold" data-translate="mh_ppd_p2"></p>
+                        </div>
+                    </div>
+                    <div class="bg-purple-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-purple-800" data-translate="mh_menopause_title"></h3>
+                        <p class="text-purple-700 mb-4" data-translate="mh_menopause_p1"></p>
+                        <p class="text-purple-700" data-translate="mh_menopause_p2"></p>
+                    </div>
+                    <div class="bg-yellow-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-yellow-800" data-translate="mh_seeking_help_title"></h3>
+                        <p class="text-yellow-700 mb-4" data-translate="mh_seeking_help_p1"></p>
+                        <ul class="list-disc list-inside text-yellow-700 space-y-1 text-sm">
+                            <li data-translate="mh_seeking_help_li1"></li>
+                            <li data-translate="mh_seeking_help_li2"></li>
+                            <li data-translate="mh_seeking_help_li3"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('nav a');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const contentSections = document.querySelectorAll('.content-section');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            let currentLanguage = 'en';
+
+            const translations = {
+                en: {
+                    app_title: "Women's Health Guide",
+                    nav_home: "Home",
+                    nav_menstrual: "Menstrual Cycle",
+                    nav_conditions: "Common Conditions",
+                    nav_menopause: "Menopause",
+                    nav_cancer: "Cancer Awareness",
+                    nav_mental: "Mental Health",
+                    back_button: "Back",
+                    sr_open_menu: "Open main menu",
+                    
+                    intro_title: "An Empowered Approach to Your Health",
+                    intro_p1: "Navigating the complexities of health can feel overwhelming, but understanding your own body is the most crucial step toward empowerment. This guide is designed to demystify common women's health conditions, providing the clarity you need to understand your symptoms, know when to seek care, and partner with your healthcare provider to make the best decisions for your well-being.",
+                    intro_p2: "This guide is an educational tool, not a substitute for professional medical advice. Use the navigation above to explore different topics.",
+
+                    mc_title: "The Rhythm of Your Life: Understanding the Menstrual Cycle",
+                    mc_phases_title: "The Four Phases of Your Cycle",
+                    mc_phases_p1: "The menstrual cycle is a complex series of monthly changes your body goes through to prepare for a possible pregnancy, orchestrated by hormones. Click on each phase below to learn what's happening in your body. The cycle is counted from the first day of one period to the first day of the next.",
+                    mc_phase_menstrual: "Menstrual",
+                    mc_phase_follicular: "Follicular",
+                    mc_phase_ovulation: "Ovulation",
+                    mc_phase_luteal: "Luteal",
+                    mc_phase_select: "Select a phase to see details.",
+                    phase_menstrual_title: "Menstrual Phase",
+                    phase_menstrual_desc: "This is the start of the cycle, when you get your period. If pregnancy hasn't occurred, hormone levels drop, causing the uterine lining to shed. This bleeding typically lasts 4 to 7 days.",
+                    phase_follicular_title: "Follicular Phase",
+                    phase_follicular_desc: "Beginning on day one, the brain releases FSH, stimulating the ovaries to produce follicles, each containing an egg. One follicle becomes dominant and produces estrogen, which thickens the uterine lining.",
+                    phase_ovulation_title: "Ovulation",
+                    phase_ovulation_desc: "A rise in estrogen triggers a surge of LH, causing the dominant follicle to rupture and release its mature egg from the ovary. This typically happens around the middle of the cycle.",
+                    phase_luteal_title: "Luteal Phase",
+                    phase_luteal_desc: "After ovulation, the ruptured follicle becomes the corpus luteum, producing progesterone. This further prepares the uterine lining for a potential pregnancy. If no pregnancy occurs, it breaks down, and the cycle restarts.",
+
+                    mc_pms_title: "Navigating PMS and PMDD",
+                    mc_pms_p1: "Premenstrual symptoms are common but exist on a spectrum. It's crucial to know the difference between Premenstrual Syndrome (PMS) and the more severe Premenstrual Dysphoric Disorder (PMDD) to seek appropriate care.",
+                    mc_pms_table_feature: "Feature",
+                    mc_pms_table_prevalence: "Prevalence",
+                    mc_pms_table_prevalence_pms: "Very common (up to 75%)",
+                    mc_pms_table_prevalence_pmdd: "Less common (3-8%)",
+                    mc_pms_table_symptoms: "Key Symptoms",
+                    mc_pms_table_symptoms_pms: "Mix of mild to moderate mood and physical symptoms (bloating, irritability).",
+                    mc_pms_table_symptoms_pmdd: "Severe mood symptoms are required for diagnosis (depression, anxiety, anger).",
+                    mc_pms_table_impact: "Impact on Life",
+                    mc_pms_table_impact_pms: "Noticeable, but generally manageable. Does not typically disrupt daily life.",
+                    mc_pms_table_impact_pmdd: "Causes significant distress and interferes with work, school, or relationships.",
+                    mc_pms_table_diagnosis: "Diagnosis",
+                    mc_pms_table_diagnosis_pms: "Based on symptoms.",
+                    mc_pms_table_diagnosis_pmdd: "Requires tracking symptoms for at least two cycles to confirm a strict pattern.",
+
+                    mc_aub_title: "When Bleeding is a Concern (AUB)",
+                    mc_aub_p1: "Abnormal Uterine Bleeding (AUB) is bleeding that's irregular in timing, duration, or volume. Causes are categorized by the PALM-COEIN system. Click a tile to learn more.",
+                    aub_p_title: "Polyps", aub_p_desc: "Small, non-cancerous growths on the uterine lining or cervix.",
+                    aub_a_title: "Adenomyosis", aub_a_desc: "Uterine lining tissue grows into the muscular wall of the uterus.",
+                    aub_l_title: "Leiomyoma (Fibroids)", aub_l_desc: "Common non-cancerous tumors in the uterine muscle.",
+                    aub_m_title: "Malignancy/Hyperplasia", aub_m_desc: "Precancerous changes or cancer of the uterus or cervix.",
+                    aub_c_title: "Coagulopathy", aub_c_desc: "Bleeding disorders that affect blood clotting.",
+                    aub_o_title: "Ovulatory Dysfunction", aub_o_desc: "Irregular ovulation disrupts the hormonal cycle, a very common cause.",
+                    aub_e_title: "Endometrial", aub_e_desc: "Issues within the uterine lining itself affecting bleeding control.",
+                    aub_i_title: "Iatrogenic", aub_i_desc: "Caused by medical treatments, like an IUD or medications.",
+                    aub_n_title: "Not Classified", aub_n_desc: "Rare causes or conditions that are not well understood.",
+
+                    cond_title: "Common Gynecological Conditions",
+                    cond_p1: "Beyond the menstrual cycle, several common conditions affect the female reproductive organs. Understanding their symptoms and treatments is vital for your health. Select a condition below to explore more.",
+                    cond_endo_name: "Endometriosis",
+                    cond_endo_summary: "A chronic condition where tissue similar to the uterine lining grows outside the uterus, causing pain and potential infertility.",
+                    cond_endo_symptoms: "Severe period pain, chronic pelvic pain, pain during intercourse, pain with bowel movements/urination, and infertility.",
+                    cond_endo_risk: "Having a close relative with the condition, starting periods early, and never giving birth.",
+                    cond_endo_diagnosis: "The only definitive diagnosis is via a minimally invasive surgery called laparoscopy to visualize and biopsy implants.",
+                    cond_endo_treatment: "Pain medication (NSAIDs), hormone therapy (birth control, GnRH agonists) to suppress the cycle, and surgery to remove implants.",
+                    cond_fib_name: "Uterine Fibroids",
+                    cond_fib_summary: "The most common non-cancerous tumors in women of childbearing age, growing in the wall of the uterus.",
+                    cond_fib_symptoms: "Often none. If present: heavy bleeding, pelvic pressure, frequent urination, constipation, and backache.",
+                    cond_fib_risk: "Race (more common in Black women), heredity, starting periods early, and obesity.",
+                    cond_fib_diagnosis: "Often found during a pelvic exam and confirmed with a pelvic ultrasound.",
+                    cond_fib_treatment: "Ranges from watchful waiting to medications (hormonal contraceptives), minimally invasive procedures (UAE, RFA), and surgery (myomectomy to remove fibroids, or hysterectomy).",
+                    cond_pcos_name: "Polycystic Ovary Syndrome (PCOS)",
+                    cond_pcos_summary: "A common hormonal and metabolic disorder characterized by irregular periods, excess androgens, and cysts on the ovaries.",
+                    cond_pcos_symptoms: "Irregular periods, excess hair growth (hirsutism), severe acne, thinning hair, and numerous small follicles on ovaries seen on ultrasound.",
+                    cond_pcos_longterm: "PCOS is a lifelong metabolic condition increasing risk for Type 2 Diabetes, heart disease, and endometrial cancer. Over 50% of women with PCOS develop diabetes by age 40.",
+                    cond_pcos_diagnosis: "Based on having at least two of the three key features (irregular periods, high androgens, polycystic ovaries) after ruling out other conditions.",
+                    cond_pcos_treatment: "Lifestyle modification (diet, exercise) is first-line. Hormonal birth control regulates cycles. Medications can help with infertility, hair growth, and insulin resistance.",
+                    cond_pid_name: "Pelvic Inflammatory Disease (PID)",
+                    cond_pid_summary: "A serious infection of the female reproductive organs, often caused by STIs like chlamydia or gonorrhea.",
+                    cond_pid_symptoms: "Can be subtle. May include lower abdominal pain, unusual vaginal discharge, abnormal bleeding, pain during sex, and fever. URGENT medical care is needed for severe symptoms.",
+                    cond_pid_complications: "Delayed treatment can cause irreversible scarring, leading to infertility, life-threatening ectopic (tubal) pregnancies, and chronic pelvic pain.",
+                    cond_pid_diagnosis: "Based on symptoms and a pelvic exam. Samples are tested for bacteria.",
+                    cond_pid_treatment: "Prompt treatment with antibiotics is essential to cure the infection. This CANNOT reverse existing scarring, which is why early treatment is critical.",
+                    cond_symptoms_label: "Symptoms",
+                    cond_risk_label: "Risk Factors",
+                    cond_longterm_label: "Long-Term Risks",
+                    cond_diagnosis_label: "Diagnosis",
+                    cond_treatment_label: "Treatment",
+                    cond_complications_label: "Complications",
+
+                    meno_title: "Navigating the Menopause Transition",
+                    meno_p1: "Menopause is a natural life stage marking the end of your reproductive years. This transition is a critical time to focus on long-term health, particularly protecting your bones and heart.",
+                    meno_stages_title: "The Stages of Menopause",
+                    meno_tab_peri: "Perimenopause",
+                    meno_tab_meno: "Menopause",
+                    meno_tab_post: "Postmenopause",
+                    meno_stage_peri_desc: "This is the transition \"around menopause,\" often starting in the 40s. Estrogen production becomes erratic, causing the first signs like irregular periods, hot flashes, and sleep issues.",
+                    meno_stage_meno_desc: "This is not a period of time, but a single event diagnosed after 12 consecutive months without a period. The average age is 51. It marks the permanent end of menstruation and fertility.",
+                    meno_stage_post_desc: "This stage includes all the years after menopause has occurred. Estrogen levels remain low, and the long-term health risks (osteoporosis, heart disease) become the primary focus.",
+                    meno_symptoms_title: "Managing Symptoms",
+                    meno_symptoms_p1: "The experience of menopause is unique to each woman. Common symptoms are related to declining estrogen. Click a symptom to see management strategies.",
+                    meno_symptom_hotflash_title: "Hot Flashes",
+                    meno_symptom_hotflash_desc: "Sudden, intense feelings of heat. Management: Dress in layers, avoid triggers (spicy food, caffeine), keep cool, and manage weight.",
+                    meno_symptom_sleep_title: "Sleep Disturbances",
+                    meno_symptom_sleep_desc: "Often caused by night sweats or anxiety. Management: Practice good sleep hygiene with a regular schedule and a cool, dark, quiet environment.",
+                    meno_symptom_vaginal_title: "Vaginal & Urinary Changes",
+                    meno_symptom_vaginal_desc: "Tissues become thinner and drier. Management: Use over-the-counter vaginal moisturizers (regularly) and lubricants (for sexual activity).",
+                    meno_symptom_mood_title: "Mood Changes",
+                    meno_symptom_mood_desc: "Irritability, anxiety, and mood swings are common. Management: Regular exercise and stress-reduction techniques like yoga or meditation can help.",
+                    meno_health_title: "Health After Menopause",
+                    meno_health_p1: "The loss of estrogen's protective effects increases the risk for certain health conditions. Proactive prevention is key.",
+                    meno_ost_title: "Osteoporosis (Bone Health)",
+                    meno_ost_p1: "Estrogen loss accelerates bone density decline. Prevention includes adequate Calcium & Vitamin D, weight-bearing exercise, and avoiding smoking.",
+                    meno_cvd_title: "Cardiovascular Disease (Heart Health)",
+                    meno_cvd_p1: "A woman's risk for heart disease rises significantly after menopause. Prevention includes a healthy diet, regular exercise, maintaining a healthy weight, and not smoking.",
+
+                    cancer_title: "Cancer Awareness & Prevention",
+                    cancer_p1: "Knowledge is your most powerful tool for prevention and early detection of gynecologic and breast cancers. When found early, many of these cancers are highly treatable. Explore the sections below to learn about risks, symptoms, and screening.",
+                    cancer_breast_name: "Breast Cancer",
+                    cancer_breast_summary: "The most common cancer in American women (after skin cancer). Early detection is key.",
+                    cancer_breast_symptoms: "A new, painless lump is most common. Other signs: swelling, skin dimpling, nipple retraction or discharge, or redness/scaliness of the breast or nipple skin.",
+                    cancer_breast_risk: "Being female, aging, genetics (BRCA1/2), family history, dense breasts, alcohol use, and obesity after menopause.",
+                    cancer_breast_screening: "Mammography is the key tool. Women 45-54 should get one annually. Breast self-awareness is also vital to report any changes promptly.",
+                    cancer_cervical_name: "Cervical Cancer",
+                    cancer_cervical_summary: "An almost entirely preventable disease caused by persistent infection with high-risk Human Papillomavirus (HPV).",
+                    cancer_cervical_prevention: "A two-pronged approach: 1) HPV Vaccination (ideally at age 11-12) to prevent infection, and 2) Regular Screening (Pap and/or HPV tests) to find and remove precancerous cells.",
+                    cancer_cervical_screening: "Ages 21-29: Pap test every 3 years. Ages 30-65: Pap test every 3 years, HPV test every 5 years, or both every 5 years.",
+                    cancer_cervical_symptoms: "Early stages often have no symptoms, which is why screening is vital. Later symptoms can include abnormal bleeding (especially after sex).",
+                    cancer_ovarian_name: "Ovarian Cancer",
+                    cancer_ovarian_summary: "Often called a \"silent\" disease with vague symptoms, leading to diagnosis at later stages. There is NO effective routine screening test for average-risk women.",
+                    cancer_ovarian_symptoms: "The key is that symptoms are NEW, PERSISTENT, and occur almost DAILY. They include: abdominal bloating, feeling full quickly, pelvic discomfort, and changes in bowel/urinary habits.",
+                    cancer_ovarian_risk: "Older age, endometriosis, and never having been pregnant. The most significant risk is a hereditary predisposition (e.g., BRCA1/2 gene mutations).",
+                    cancer_ovarian_diagnosis: "Focus is on symptom awareness and knowing your family history. If suspected, diagnosis is confirmed with surgery to remove and examine a mass.",
+                    cancer_uterine_name: "Uterine (Endometrial) Cancer",
+                    cancer_uterine_summary: "The most common cancer of the female reproductive organs. It has a clear, early warning sign, making it highly curable when found early.",
+                    cancer_uterine_keysymptom: "The primary symptom is abnormal uterine bleeding. ANY bleeding or spotting after menopause should be evaluated immediately.",
+                    cancer_uterine_risk: "Conditions with high estrogen levels, such as obesity, PCOS, and taking estrogen-only hormone therapy after menopause (without progestin).",
+                    cancer_uterine_diagnosis: "Based on evaluating abnormal bleeding. A transvaginal ultrasound and/or an endometrial biopsy (tissue sample) are used to diagnose.",
+                    cancer_symptoms_label: "Symptoms",
+                    cancer_risk_label: "Risk Factors",
+                    cancer_screening_label: "Screening",
+                    cancer_prevention_label: "Prevention",
+                    cancer_diagnosis_label: "Diagnosis",
+                    cancer_keysymptom_label: "Key Symptom",
+
+                    mh_title: "Your Emotional & Mental Well-being",
+                    mh_p1: "Your physical and mental health are deeply connected. Hormonal shifts throughout life can impact mood. It's essential to recognize these connections and prioritize your mental health just as you do your physical health.",
+                    mh_connection_title: "The Mind-Body Connection",
+                    mh_connection_p1: "Many gynecological conditions are associated with mental health challenges. For example, PCOS is linked to a higher risk of depression and anxiety, and the emotional toll of endometriosis or infertility is significant.",
+                    mh_connection_p2: "Recognizing that these feelings are a real and valid part of a medical condition is the first step. Always discuss mood symptoms with your doctor.",
+                    mh_pregnancy_title: "Mental Health During & After Pregnancy",
+                    mh_pregnancy_p1: "The time around pregnancy (perinatal period) is one of immense change, making women vulnerable to mental health conditions. These are treatable medical complications, not personal failures.",
+                    mh_ppd_title: "Postpartum Depression (PPD) vs. \"Baby Blues\"",
+                    mh_ppd_p1: "The \"baby blues\" are mild, temporary mood swings affecting up to 80% of new mothers. PPD is a more severe, lasting depression that requires treatment.",
+                    mh_ppd_p2: "If you need support, call the National Maternal Mental Health Hotline: <a href=\"tel:1-833-852-6262\" class=\"underline\">1-833-852-6262</a>.",
+                    mh_menopause_title: "Menopause and Mood",
+                    mh_menopause_p1: "The menopause transition is a key time of vulnerability for mood changes. Fluctuating hormones, combined with sleep disruption and life stressors, can increase the risk for anxiety and depression.",
+                    mh_menopause_p2: "It's important to know that you are not alone in this experience. Many effective strategies, from lifestyle changes to therapy and medication, can help manage these symptoms.",
+                    mh_seeking_help_title: "How to Seek Support",
+                    mh_seeking_help_p1: "Taking the first step to get help is a sign of strength. Here are some ways to start:",
+                    mh_seeking_help_li1: "Talk to your OB/GYN or primary care provider. They are a great first point of contact and can screen you for mental health conditions.",
+                    mh_seeking_help_li2: "Ask for a referral to a mental health professional, such as a therapist or psychiatrist.",
+                    mh_seeking_help_li3: "Connect with support groups, either online or in your community, to share experiences with others.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from sources like the Centers for Disease Control and Prevention (CDC), National Institutes of Health (NIH), National Cancer Institute (NCI), and Mayo Clinic."
+                },
+                es: {
+                    app_title: "Guía de Salud Femenina",
+                    nav_home: "Inicio",
+                    nav_menstrual: "Ciclo Menstrual",
+                    nav_conditions: "Condiciones Comunes",
+                    nav_menopause: "Menopausia",
+                    nav_cancer: "Conciencia del Cáncer",
+                    nav_mental: "Salud Mental",
+                    back_button: "Volver",
+                    sr_open_menu: "Abrir menú principal",
+
+                    intro_title: "Un Enfoque Empoderado para su Salud",
+                    intro_p1: "Navegar por las complejidades de la salud puede ser abrumador, pero comprender su propio cuerpo es el paso más crucial hacia el empoderamiento. Esta guía está diseñada para desmitificar las condiciones de salud comunes de las mujeres, brindando la claridad que necesita para comprender sus síntomas, saber cuándo buscar atención y asociarse con su proveedor de atención médica para tomar las mejores decisiones para su bienestar.",
+                    intro_p2: "Esta guía es una herramienta educativa, no un sustituto del consejo médico profesional. Utilice la navegación de arriba para explorar diferentes temas.",
+
+                    mc_title: "El Ritmo de su Vida: Entendiendo el Ciclo Menstrual",
+                    mc_phases_title: "Las Cuatro Fases de su Ciclo",
+                    mc_phases_p1: "El ciclo menstrual es una compleja serie de cambios mensuales que su cuerpo atraviesa para prepararse para un posible embarazo, orquestado por hormonas. Haga clic en cada fase a continuación para saber qué está sucediendo en su cuerpo. El ciclo se cuenta desde el primer día de un período hasta el primer día del siguiente.",
+                    mc_phase_menstrual: "Menstrual",
+                    mc_phase_follicular: "Folicular",
+                    mc_phase_ovulation: "Ovulación",
+                    mc_phase_luteal: "Lútea",
+                    mc_phase_select: "Seleccione una fase para ver los detalles.",
+                    phase_menstrual_title: "Fase Menstrual",
+                    phase_menstrual_desc: "Este es el comienzo del ciclo, cuando tiene su período. Si no ha ocurrido un embarazo, los niveles hormonales bajan, lo que hace que el revestimiento uterino se desprenda. Este sangrado suele durar de 4 a 7 días.",
+                    phase_follicular_title: "Fase Folicular",
+                    phase_follicular_desc: "Comenzando el primer día, el cerebro libera FSH, estimulando a los ovarios a producir folículos, cada uno con un óvulo. Un folículo se vuelve dominante y produce estrógeno, que engrosa el revestimiento uterino.",
+                    phase_ovulation_title: "Ovulación",
+                    phase_ovulation_desc: "Un aumento de estrógeno desencadena un pico de LH, lo que hace que el folículo dominante se rompa y libere su óvulo maduro del ovario. Esto suele ocurrir a mitad del ciclo.",
+                    phase_luteal_title: "Fase Lútea",
+                    phase_luteal_desc: "Después de la ovulación, el folículo roto se convierte en el cuerpo lúteo, que produce progesterona. Esto prepara aún más el revestimiento uterino para un posible embarazo. Si no hay embarazo, se descompone y el ciclo se reinicia.",
+
+                    mc_pms_title: "Navegando el SPM y el TDPM",
+                    mc_pms_p1: "Los síntomas premenstruales son comunes pero existen en un espectro. Es crucial conocer la diferencia entre el Síndrome Premenstrual (SPM) y el más severo Trastorno Disfórico Premenstrual (TDPM) para buscar la atención adecuada.",
+                    mc_pms_table_feature: "Característica",
+                    mc_pms_table_prevalence: "Prevalencia",
+                    mc_pms_table_prevalence_pms: "Muy común (hasta 75%)",
+                    mc_pms_table_prevalence_pmdd: "Menos común (3-8%)",
+                    mc_pms_table_symptoms: "Síntomas Clave",
+                    mc_pms_table_symptoms_pms: "Mezcla de síntomas anímicos y físicos de leves a moderados (hinchazón, irritabilidad).",
+                    mc_pms_table_symptoms_pmdd: "Se requieren síntomas anímicos severos para el diagnóstico (depresión, ansiedad, ira).",
+                    mc_pms_table_impact: "Impacto en la Vida",
+                    mc_pms_table_impact_pms: "Perceptible, pero generalmente manejable. No suele interrumpir la vida diaria.",
+                    mc_pms_table_impact_pmdd: "Causa angustia significativa e interfiere con el trabajo, la escuela o las relaciones.",
+                    mc_pms_table_diagnosis: "Diagnóstico",
+                    mc_pms_table_diagnosis_pms: "Basado en los síntomas.",
+                    mc_pms_table_diagnosis_pmdd: "Requiere seguimiento de los síntomas durante al menos dos ciclos para confirmar un patrón estricto.",
+
+                    mc_aub_title: "Cuándo el Sangrado es una Preocupación (SUA)",
+                    mc_aub_p1: "El Sangrado Uterino Anormal (SUA) es un sangrado irregular en tiempo, duración o volumen. Las causas se categorizan con el sistema PALM-COEIN. Haga clic en una casilla para saber más.",
+                    aub_p_title: "Pólipos", aub_p_desc: "Pequeños crecimientos no cancerosos en el revestimiento del útero o el cérvix.",
+                    aub_a_title: "Adenomiosis", aub_a_desc: "El tejido del revestimiento uterino crece en la pared muscular del útero.",
+                    aub_l_title: "Leiomioma (Fibromas)", aub_l_desc: "Tumores no cancerosos comunes en el músculo uterino.",
+                    aub_m_title: "Malignidad/Hiperplasia", aub_m_desc: "Cambios precancerosos o cáncer del útero o cérvix.",
+                    aub_c_title: "Coagulopatía", aub_c_desc: "Trastornos de la sangre que afectan la coagulación.",
+                    aub_o_title: "Disfunción Ovulatoria", aub_o_desc: "La ovulación irregular altera el ciclo hormonal, una causa muy común.",
+                    aub_e_title: "Endometrial", aub_e_desc: "Problemas en el propio revestimiento uterino que afectan el control del sangrado.",
+                    aub_i_title: "Iatrogénico", aub_i_desc: "Causado por tratamientos médicos, como un DIU o medicamentos.",
+                    aub_n_title: "No Clasificado", aub_n_desc: "Causas raras o condiciones poco conocidas.",
+
+                    cond_title: "Condiciones Ginecológicas Comunes",
+                    cond_p1: "Más allá del ciclo menstrual, varias condiciones comunes afectan los órganos reproductores femeninos. Comprender sus síntomas y tratamientos es vital para su salud. Seleccione una condición a continuación para explorar más.",
+                    cond_endo_name: "Endometriosis",
+                    cond_endo_summary: "Una condición crónica donde un tejido similar al revestimiento uterino crece fuera del útero, causando dolor y posible infertilidad.",
+                    cond_endo_symptoms: "Dolor menstrual severo, dolor pélvico crónico, dolor durante las relaciones sexuales, dolor al defecar/orinar e infertilidad.",
+                    cond_endo_risk: "Tener un pariente cercano con la condición, comenzar los períodos temprano y nunca haber dado a luz.",
+                    cond_endo_diagnosis: "El único diagnóstico definitivo es mediante una cirugía mínimamente invasiva llamada laparoscopia para visualizar y tomar biopsias de los implantes.",
+                    cond_endo_treatment: "Analgésicos (AINEs), terapia hormonal (anticonceptivos, agonistas de GnRH) para suprimir el ciclo y cirugía para remover los implantes.",
+                    cond_fib_name: "Fibromas Uterinos",
+                    cond_fib_summary: "Los tumores no cancerosos más comunes en mujeres en edad fértil, que crecen en la pared del útero.",
+                    cond_fib_symptoms: "A menudo ninguno. Si están presentes: sangrado abundante, presión pélvica, micción frecuente, estreñimiento y dolor de espalda.",
+                    cond_fib_risk: "Raza (más común en mujeres de raza negra), herencia, inicio temprano de los períodos y obesidad.",
+                    cond_fib_diagnosis: "A menudo se encuentran durante un examen pélvico y se confirman con una ecografía pélvica.",
+                    cond_fib_treatment: "Varía desde la espera vigilante hasta medicamentos (anticonceptivos hormonales), procedimientos mínimamente invasivos (EAU, RFA) y cirugía (miomectomía para quitar fibromas o histerectomía).",
+                    cond_pcos_name: "Síndrome de Ovario Poliquístico (SOP)",
+                    cond_pcos_summary: "Un trastorno hormonal y metabólico común caracterizado por períodos irregulares, exceso de andrógenos y quistes en los ovarios.",
+                    cond_pcos_symptoms: "Períodos irregulares, crecimiento excesivo de vello (hirsutismo), acné severo, adelgazamiento del cabello y numerosos folículos pequeños en los ovarios vistos en ecografía.",
+                    cond_pcos_longterm: "El SOP es una condición metabólica de por vida que aumenta el riesgo de Diabetes Tipo 2, enfermedades cardíacas y cáncer de endometrio. Más del 50% de las mujeres con SOP desarrollan diabetes a los 40 años.",
+                    cond_pcos_diagnosis: "Se basa en tener al menos dos de las tres características clave (períodos irregulares, andrógenos altos, ovarios poliquísticos) después de descartar otras condiciones.",
+                    cond_pcos_treatment: "La modificación del estilo de vida (dieta, ejercicio) es la primera línea. Los anticonceptivos hormonales regulan los ciclos. Los medicamentos pueden ayudar con la infertilidad, el crecimiento del vello y la resistencia a la insulina.",
+                    cond_pid_name: "Enfermedad Inflamatoria Pélvica (EIP)",
+                    cond_pid_summary: "Una infección grave de los órganos reproductores femeninos, a menudo causada por ITS como clamidia o gonorrea.",
+                    cond_pid_symptoms: "Puede ser sutil. Puede incluir dolor en la parte baja del abdomen, flujo vaginal inusual, sangrado anormal, dolor durante las relaciones sexuales y fiebre. Se necesita atención médica URGENTE para síntomas graves.",
+                    cond_pid_complications: "El tratamiento tardío puede causar cicatrices irreversibles, lo que lleva a infertilidad, embarazos ectópicos (tubáricos) que amenazan la vida y dolor pélvico crónico.",
+                    cond_pid_diagnosis: "Se basa en los síntomas y un examen pélvico. Se toman muestras para detectar bacterias.",
+                    cond_pid_treatment: "El tratamiento rápido con antibióticos es esencial para curar la infección. Esto NO PUEDE revertir las cicatrices existentes, por lo que el tratamiento temprano es fundamental.",
+                    cond_symptoms_label: "Síntomas",
+                    cond_risk_label: "Factores de Riesgo",
+                    cond_longterm_label: "Riesgos a Largo Plazo",
+                    cond_diagnosis_label: "Diagnóstico",
+                    cond_treatment_label: "Tratamiento",
+                    cond_complications_label: "Complicaciones",
+
+                    meno_title: "Navegando la Transición de la Menopausia",
+                    meno_p1: "La menopausia es una etapa natural de la vida que marca el final de sus años reproductivos. Esta transición es un momento crítico para centrarse en la salud a largo plazo, protegiendo especialmente sus huesos y corazón.",
+                    meno_stages_title: "Las Etapas de la Menopausia",
+                    meno_tab_peri: "Perimenopausia",
+                    meno_tab_meno: "Menopausia",
+                    meno_tab_post: "Postmenopausia",
+                    meno_stage_peri_desc: "Esta es la transición \"alrededor de la menopausia\", que a menudo comienza en los 40. La producción de estrógeno se vuelve errática, causando los primeros signos como períodos irregulares, sofocos y problemas de sueño.",
+                    meno_stage_meno_desc: "No es un período de tiempo, sino un evento único que se diagnostica después de 12 meses consecutivos sin período. La edad promedio es 51. Marca el fin permanente de la menstruación y la fertilidad.",
+                    meno_stage_post_desc: "Esta etapa incluye todos los años posteriores a la menopausia. Los niveles de estrógeno se mantienen bajos y los riesgos para la salud a largo plazo (osteoporosis, enfermedades cardíacas) se convierten en el foco principal.",
+                    meno_symptoms_title: "Manejo de Síntomas",
+                    meno_symptoms_p1: "La experiencia de la menopausia es única para cada mujer. Los síntomas comunes están relacionados con la disminución de estrógeno. Haga clic en un síntoma para ver estrategias de manejo.",
+                    meno_symptom_hotflash_title: "Sofocos",
+                    meno_symptom_hotflash_desc: "Sensaciones súbitas e intensas de calor. Manejo: Vístase en capas, evite desencadenantes (comida picante, cafeína), manténgase fresca y controle el peso.",
+                    meno_symptom_sleep_title: "Trastornos del Sueño",
+                    meno_symptom_sleep_desc: "A menudo causados por sudores nocturnos o ansiedad. Manejo: Practique una buena higiene del sueño con un horario regular y un ambiente fresco, oscuro y silencioso.",
+                    meno_symptom_vaginal_title: "Cambios Vaginales y Urinarios",
+                    meno_symptom_vaginal_desc: "Los tejidos se vuelven más delgados y secos. Manejo: Use humectantes vaginales de venta libre (regularmente) y lubricantes (para la actividad sexual).",
+                    meno_symptom_mood_title: "Cambios de Humor",
+                    meno_symptom_mood_desc: "La irritabilidad, la ansiedad y los cambios de humor son comunes. Manejo: El ejercicio regular y las técnicas de reducción de estrés como el yoga o la meditación pueden ayudar.",
+                    meno_health_title: "Salud Después de la Menopausia",
+                    meno_health_p1: "La pérdida de los efectos protectores del estrógeno aumenta el riesgo de ciertas condiciones de salud. La prevención proactiva es clave.",
+                    meno_ost_title: "Osteoporosis (Salud Ósea)",
+                    meno_ost_p1: "La pérdida de estrógeno acelera la disminución de la densidad ósea. La prevención incluye calcio y vitamina D adecuados, ejercicio con pesas y evitar fumar.",
+                    meno_cvd_title: "Enfermedad Cardiovascular (Salud Cardíaca)",
+                    meno_cvd_p1: "El riesgo de una mujer de sufrir una enfermedad cardíaca aumenta significativamente después de la menopausia. La prevención incluye una dieta saludable, ejercicio regular, mantener un peso saludable y no fumar.",
+
+                    cancer_title: "Conciencia y Prevención del Cáncer",
+                    cancer_p1: "El conocimiento es su herramienta más poderosa para la prevención y detección temprana de los cánceres ginecológicos y de mama. Cuando se detectan a tiempo, muchos de estos cánceres son altamente tratables. Explore las secciones a continuación para conocer los riesgos, síntomas y detección.",
+                    cancer_breast_name: "Cáncer de Mama",
+                    cancer_breast_summary: "El cáncer más común en las mujeres estadounidenses (después del cáncer de piel). La detección temprana es clave.",
+                    cancer_breast_symptoms: "Un bulto nuevo e indoloro es lo más común. Otros signos: hinchazón, hoyuelos en la piel, retracción o secreción del pezón, o enrojecimiento/descamación de la piel del seno o pezón.",
+                    cancer_breast_risk: "Ser mujer, envejecer, genética (BRCA1/2), antecedentes familiares, mamas densas, consumo de alcohol y obesidad después de la menopausia.",
+                    cancer_breast_screening: "La mamografía es la herramienta clave. Las mujeres de 45 a 54 años deben hacerse una anualmente. La autoconciencia de los senos también es vital para informar cualquier cambio de inmediato.",
+                    cancer_cervical_name: "Cáncer de Cuello Uterino",
+                    cancer_cervical_summary: "Una enfermedad casi totalmente prevenible causada por una infección persistente con el Virus del Papiloma Humano (VPH) de alto riesgo.",
+                    cancer_cervical_prevention: "Un enfoque doble: 1) Vacunación contra el VPH (idealmente a los 11-12 años) para prevenir la infección, y 2) Detección regular (pruebas de Papanicolaou y/o VPH) para encontrar y eliminar células precancerosas.",
+                    cancer_cervical_screening: "Edades 21-29: Prueba de Papanicolaou cada 3 años. Edades 30-65: Prueba de Papanicolaou cada 3 años, prueba de VPH cada 5 años, o ambas cada 5 años.",
+                    cancer_cervical_symptoms: "Las etapas tempranas a menudo no tienen síntomas, por lo que la detección es vital. Los síntomas posteriores pueden incluir sangrado anormal (especialmente después de las relaciones sexuales).",
+                    cancer_ovarian_name: "Cáncer de Ovario",
+                    cancer_ovarian_summary: "A menudo llamada una enfermedad \"silenciosa\" con síntomas vagos, lo que lleva a un diagnóstico en etapas posteriores. NO existe una prueba de detección de rutina eficaz para mujeres de riesgo promedio.",
+                    cancer_ovarian_symptoms: "La clave es que los síntomas son NUEVOS, PERSISTENTES y ocurren casi DIARIAMENTE. Incluyen: hinchazón abdominal, sentirse lleno rápidamente, molestias pélvicas y cambios en los hábitos intestinales/urinarios.",
+                    cancer_ovarian_risk: "Edad avanzada, endometriosis y nunca haber estado embarazada. El riesgo más significativo es una predisposición hereditaria (p. ej., mutaciones del gen BRCA1/2).",
+                    cancer_ovarian_diagnosis: "El enfoque está en la conciencia de los síntomas y en conocer su historial familiar. Si se sospecha, el diagnóstico se confirma con cirugía para extirpar y examinar una masa.",
+                    cancer_uterine_name: "Cáncer de Útero (Endometrial)",
+                    cancer_uterine_summary: "El cáncer más común de los órganos reproductores femeninos. Tiene una señal de advertencia temprana y clara, lo que lo hace altamente curable cuando se detecta a tiempo.",
+                    cancer_uterine_keysymptom: "El síntoma principal es el sangrado uterino anormal. CUALQUIER sangrado o manchado después de la menopausia debe evaluarse de inmediato.",
+                    cancer_uterine_risk: "Condiciones con altos niveles de estrógeno, como obesidad, SOP y tomar terapia hormonal solo con estrógeno después de la menopausia (sin progestina).",
+                    cancer_uterine_diagnosis: "Se basa en la evaluación del sangrado anormal. Se utiliza una ecografía transvaginal y/o una biopsia de endometrio (muestra de tejido) para diagnosticar.",
+                    cancer_symptoms_label: "Síntomas",
+                    cancer_risk_label: "Factores de Riesgo",
+                    cancer_screening_label: "Detección",
+                    cancer_prevention_label: "Prevención",
+                    cancer_diagnosis_label: "Diagnóstico",
+                    cancer_keysymptom_label: "Síntoma Clave",
+
+                    mh_title: "Su Bienestar Emocional y Mental",
+                    mh_p1: "Su salud física y mental están profundamente conectadas. Los cambios hormonales a lo largo de la vida pueden afectar el estado de ánimo. Es esencial reconocer estas conexiones y priorizar su salud mental tanto como su salud física.",
+                    mh_connection_title: "La Conexión Mente-Cuerpo",
+                    mh_connection_p1: "Muchas condiciones ginecológicas están asociadas con desafíos de salud mental. Por ejemplo, el SOP está relacionado con un mayor riesgo de depresión y ansiedad, y el costo emocional de la endometriosis o la infertilidad es significativo.",
+                    mh_connection_p2: "Reconocer que estos sentimientos son una parte real y válida de una condición médica es el primer paso. Siempre discuta los síntomas del estado de ánimo con su médico.",
+                    mh_pregnancy_title: "Salud Mental Durante y Después del Embarazo",
+                    mh_pregnancy_p1: "El tiempo alrededor del embarazo (período perinatal) es de inmenso cambio, lo que hace que las mujeres sean vulnerables a las condiciones de salud mental. Estas son complicaciones médicas tratables, no fracasos personales.",
+                    mh_ppd_title: "Depresión Posparto (DPP) vs. \"Tristeza Posparto\"",
+                    mh_ppd_p1: "La \"tristeza posparto\" son cambios de humor leves y temporales que afectan hasta al 80% de las nuevas madres. La DPP es una depresión más severa y duradera que requiere tratamiento.",
+                    mh_ppd_p2: "Si necesita apoyo, llame a la Línea Nacional de Ayuda de Salud Mental Materna: <a href=\"tel:1-833-852-6262\" class=\"underline\">1-833-852-6262</a>.",
+                    mh_menopause_title: "Menopausia y Estado de Ánimo",
+                    mh_menopause_p1: "La transición de la menopausia es un momento clave de vulnerabilidad para los cambios de humor. Las hormonas fluctuantes, combinadas con la interrupción del sueño y los factores estresantes de la vida, pueden aumentar el riesgo de ansiedad y depresión.",
+                    mh_menopause_p2: "Es importante saber que no está sola en esta experiencia. Muchas estrategias efectivas, desde cambios en el estilo de vida hasta terapia y medicamentos, pueden ayudar a controlar estos síntomas.",
+                    mh_seeking_help_title: "Cómo Buscar Apoyo",
+                    mh_seeking_help_p1: "Dar el primer paso para obtener ayuda es una señal de fortaleza. Aquí hay algunas formas de comenzar:",
+                    mh_seeking_help_li1: "Hable con su ginecólogo/a o médico de atención primaria. Son un excelente primer punto de contacto y pueden detectarle condiciones de salud mental.",
+                    mh_seeking_help_li2: "Pida una remisión a un profesional de la salud mental, como un terapeuta o psiquiatra.",
+                    mh_seeking_help_li3: "Conéctese con grupos de apoyo, ya sea en línea o en su comunidad, para compartir experiencias con otras personas.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes como los Centros para el Control y la Prevención de Enfermedades (CDC), los Institutos Nacionales de Salud (NIH), el Instituto Nacional del Cáncer (NCI) y la Clínica Mayo."
+                }
+            };
+
+            const appData = {
+                menstrualCycle: {
+                    phases: ['menstrual', 'follicular', 'ovulation', 'luteal'],
+                    aub: ['P', 'A', 'L', 'M', 'C', 'O', 'E', 'I', 'N']
+                },
+                conditions: [
+                    { id: 'endo', details: ['symptoms', 'risk', 'diagnosis', 'treatment'], color: 'purple', icon: '🌸' },
+                    { id: 'fib', details: ['symptoms', 'risk', 'diagnosis', 'treatment'], color: 'teal', icon: '🍇' },
+                    { id: 'pcos', details: ['symptoms', 'longterm', 'diagnosis', 'treatment'], color: 'orange', icon: '⚕️' },
+                    { id: 'pid', details: ['symptoms', 'complications', 'diagnosis', 'treatment'], color: 'red', icon: '🔥' }
+                ],
+                menopause: {
+                    stages: ['peri', 'meno', 'post'],
+                    symptoms: ['hotflash', 'sleep', 'vaginal', 'mood']
+                },
+                cancer: [
+                    { id: 'breast', details: ['symptoms', 'risk', 'screening'], color: 'pink', icon: '🎀' },
+                    { id: 'cervical', details: ['prevention', 'screening', 'symptoms'], color: 'cyan', icon: '♀️' },
+                    { id: 'ovarian', details: ['symptoms', 'risk', 'diagnosis'], color: 'violet', icon: '🥚' },
+                    { id: 'uterine', details: ['keysymptom', 'risk', 'diagnosis'], color: 'rose', icon: '🌷' }
+                ]
+            };
+
+            const navigate = (hash) => {
+                if (!hash || hash === '#') hash = '#intro';
+                contentSections.forEach(section => {
+                    section.classList.toggle('active', '#' + section.id === hash);
+                });
+                navLinks.forEach(link => {
+                    link.classList.toggle('nav-active', link.getAttribute('href') === hash);
+                });
+                mobileMenu.classList.add('hidden');
+                window.scrollTo(0, 0);
+            };
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                initMenstrualCycle();
+                initConditions();
+                initMenopause();
+                initCancer();
+            };
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            
+            window.addEventListener('hashchange', () => navigate(window.location.hash));
+            
+            const initMenstrualCycle = () => {
+                const t = translations[currentLanguage];
+                const phaseItems = document.querySelectorAll('.phase-item');
+                const detailsContainer = document.getElementById('phase-details');
+                
+                phaseItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const phaseId = item.id.split('-')[1];
+                        phaseItems.forEach(p => p.classList.remove('phase-active'));
+                        item.classList.add('phase-active');
+                        detailsContainer.innerHTML = `
+                            <h4 class="font-bold text-lg mb-2 text-${phaseId === 'menstrual' ? 'rose' : phaseId === 'follicular' ? 'emerald' : phaseId === 'ovulation' ? 'yellow' : 'indigo'}-800">${t[`phase_${phaseId}_title`]}</h4>
+                            <p class="text-sm text-gray-700">${t[`phase_${phaseId}_desc`]}</p>`;
+                    });
+                });
+                if(document.querySelector('.content-section.active').id === 'menstrual-cycle') {
+                    document.getElementById('phase-menstrual').click();
+                }
+
+                const pmsTableBody = document.getElementById('pms-table-body');
+                pmsTableBody.innerHTML = `
+                    <tr class="bg-white border-b"><th scope="row" class="px-4 py-4 font-medium text-gray-900">${t.mc_pms_table_prevalence}</th><td class="px-4 py-4">${t.mc_pms_table_prevalence_pms}</td><td class="px-4 py-4">${t.mc_pms_table_prevalence_pmdd}</td></tr>
+                    <tr class="bg-amber-50 border-b"><th scope="row" class="px-4 py-4 font-medium text-gray-900">${t.mc_pms_table_symptoms}</th><td class="px-4 py-4">${t.mc_pms_table_symptoms_pms}</td><td class="px-4 py-4">${t.mc_pms_table_symptoms_pmdd}</td></tr>
+                    <tr class="bg-white border-b"><th scope="row" class="px-4 py-4 font-medium text-gray-900">${t.mc_pms_table_impact}</th><td class="px-4 py-4">${t.mc_pms_table_impact_pms}</td><td class="px-4 py-4">${t.mc_pms_table_impact_pmdd}</td></tr>
+                    <tr class="bg-amber-50"><th scope="row" class="px-4 py-4 font-medium text-gray-900">${t.mc_pms_table_diagnosis}</th><td class="px-4 py-4">${t.mc_pms_table_diagnosis_pms}</td><td class="px-4 py-4">${t.mc_pms_table_diagnosis_pmdd}</td></tr>
+                `;
+
+                const aubGrid = document.getElementById('palm-coein-grid');
+                const aubDetails = document.getElementById('palm-coein-details');
+                aubGrid.innerHTML = '';
+                appData.menstrualCycle.aub.forEach(key => {
+                    const tile = document.createElement('div');
+                    tile.className = 'p-3 bg-amber-100 text-amber-800 rounded-lg cursor-pointer hover:bg-amber-200 transition';
+                    tile.textContent = key;
+                    tile.dataset.key = key;
+                    aubGrid.appendChild(tile);
+                });
+                
+                aubGrid.addEventListener('click', (e) => {
+                    if (e.target.dataset.key) {
+                        const key = e.target.dataset.key.toLowerCase();
+                        aubDetails.innerHTML = `<span class="font-bold">${t[`aub_${key}_title`]}:</span> ${t[`aub_${key}_desc`]}`;
+                        Array.from(aubGrid.children).forEach(child => child.classList.remove('bg-amber-300'));
+                        e.target.classList.add('bg-amber-300');
+                    }
+                });
+                aubGrid.children[0].click();
+            };
+
+            const createAccordionItem = (title, content) => {
+                return `
+                    <div class="border-b border-gray-200">
+                        <button type="button" class="accordion-button flex items-center justify-between w-full p-4 font-semibold text-left text-gray-700 bg-gray-50 hover:bg-gray-100 transition">
+                            <span>${title}</span>
+                            <svg class="w-4 h-4 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-4 text-sm text-gray-600">
+                                ${content}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+            
+            const initConditions = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('conditions-container');
+                container.innerHTML = appData.conditions.map(item => {
+                    const detailsHtml = item.details.map(key => 
+                        `<p class="mb-2"><strong class="text-${item.color}-800">${t[`cond_${key}_label`]}:</strong> ${t[`cond_${item.id}_${key}`]}</p>`
+                    ).join('');
+
+                    return `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <button class="accordion-button flex justify-between items-center w-full p-5 text-left font-semibold text-xl text-${item.color}-800 bg-${item.color}-50 hover:bg-${item.color}-100 transition">
+                                <div class="flex items-center">
+                                    <span class="text-3xl mr-4">${item.icon}</span>
+                                    <span>${t[`cond_${item.id}_name`]}</span>
+                                </div>
+                                <svg class="w-6 h-6 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-5 border-t border-${item.color}-200">
+                                    <p class="italic text-gray-600 mb-4">${t[`cond_${item.id}_summary`]}</p>
+                                    <div class="text-sm space-y-2">${detailsHtml}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            };
+
+            const initMenopause = () => {
+                const t = translations[currentLanguage];
+                const tabsContainer = document.getElementById('menopause-tabs');
+                const contentDiv = document.getElementById('menopause-content');
+                const accordionContainer = document.getElementById('symptoms-accordion');
+
+                tabsContainer.innerHTML = appData.menopause.stages.map(stage => 
+                    `<button class="menopause-tab-btn flex-1 md:flex-none px-4 py-2 rounded-full text-sm font-semibold transition" data-tab="${stage}">${t[`meno_tab_${stage}`]}</button>`
+                ).join('');
+
+                const tabButtons = tabsContainer.querySelectorAll('.menopause-tab-btn');
+
+                const updateContent = (tabId) => {
+                    contentDiv.innerHTML = `<p>${t[`meno_stage_${tabId}_desc`]}</p>`;
+                    tabButtons.forEach(btn => {
+                        btn.classList.toggle('tab-active', btn.dataset.tab === tabId);
+                        btn.classList.toggle('tab-inactive', btn.dataset.tab !== tabId);
+                    });
+                };
+
+                tabButtons.forEach(btn => {
+                    btn.addEventListener('click', () => updateContent(btn.dataset.tab));
+                });
+                
+                accordionContainer.innerHTML = appData.menopause.symptoms.map(symptom => 
+                    createAccordionItem(t[`meno_symptom_${symptom}_title`], t[`meno_symptom_${symptom}_desc`])
+                ).join('');
+
+                updateContent('peri');
+            };
+            
+            const initCancer = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('cancer-container');
+                container.innerHTML = appData.cancer.map(item => {
+                    const detailsHtml = item.details.map(key => 
+                        `<p class="mb-2"><strong class="text-${item.color}-800">${t[`cancer_${key}_label`]}:</strong> ${t[`cancer_${item.id}_${key}`]}</p>`
+                    ).join('');
+
+                    return `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <button class="accordion-button flex justify-between items-center w-full p-5 text-left font-semibold text-xl text-${item.color}-800 bg-${item.color}-50 hover:bg-${item.color}-100 transition">
+                                <div class="flex items-center">
+                                    <span class="text-3xl mr-4">${item.icon}</span>
+                                    <span>${t[`cancer_${item.id}_name`]}</span>
+                                </div>
+                                <svg class="w-6 h-6 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-5 border-t border-${item.color}-200">
+                                    <p class="italic text-gray-600 mb-4">${t[`cancer_${item.id}_summary`]}</p>
+                                    <div class="text-sm space-y-2">${detailsHtml}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            };
+
+            document.body.addEventListener('click', (e) => {
+                if (e.target.matches('.accordion-button, .accordion-button *')) {
+                    const button = e.target.closest('.accordion-button');
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('svg');
+                    
+                    if (content && content.classList.contains('accordion-content')) {
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+            navigate(window.location.hash);
+        });
+    </script>
+</body>
+</html>

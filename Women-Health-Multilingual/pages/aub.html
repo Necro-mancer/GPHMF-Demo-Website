@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Abnormal Uterine Bleeding (AUB)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .palm-coein-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-color: #FBBF24;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-amber-900 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-2 text-center text-amber-800" data-translate="palm_coein_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="palm_coein_p1"></p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold text-center text-teal-700 mb-4" data-translate="palm_title"></h4>
+                    <div id="palm-container" class="space-y-4"></div>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-center text-purple-700 mb-4" data-translate="coein_title"></h4>
+                    <div id="coein-container" class="space-y-4"></div>
+                </div>
+            </div>
+            <div id="palm-coein-details" class="mt-8 p-4 bg-gray-50 rounded-lg min-h-[60px]">
+                <p class="text-gray-500" data-translate="palm_coein_select"></p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="age_diff_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-blue-800" data-translate="premeno_title"></h4>
+                    <p class="text-blue-700 mb-4" data-translate="premeno_p1"></p>
+                    <ul class="list-disc list-inside text-blue-700 space-y-2 text-sm">
+                        <li data-translate="premeno_li1"></li>
+                        <li data-translate="premeno_li2"></li>
+                        <li data-translate="premeno_li3"></li>
+                    </ul>
+                </div>
+                <div class="bg-red-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-red-800" data-translate="postmeno_title"></h4>
+                    <p class="text-red-700 mb-4" data-translate="postmeno_p1"></p>
+                    <p class="text-red-700 font-semibold" data-translate="postmeno_p2"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diag_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="diag_p1"></p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                <div class="bg-gray-100 p-4 rounded-lg"><h5 class="font-semibold" data-translate="diag_step1"></h5></div>
+                <div class="bg-gray-100 p-4 rounded-lg"><h5 class="font-semibold" data-translate="diag_step2"></h5></div>
+                <div class="bg-gray-100 p-4 rounded-lg"><h5 class="font-semibold" data-translate="diag_step3"></h5></div>
+                <div class="bg-gray-100 p-4 rounded-lg"><h5 class="font-semibold" data-translate="diag_step4"></h5></div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treat_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="treat_p1"></p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-green-800" data-translate="treat_med_title"></h4>
+                    <ul class="list-disc list-inside text-green-700 space-y-2 text-sm">
+                        <li data-translate="treat_med_li1"></li>
+                        <li data-translate="treat_med_li2"></li>
+                    </ul>
+                </div>
+                <div class="bg-indigo-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-indigo-800" data-translate="treat_proc_title"></h4>
+                    <ul class="list-disc list-inside text-indigo-700 space-y-2 text-sm">
+                        <li data-translate="treat_proc_li1"></li>
+                        <li data-translate="treat_proc_li2"></li>
+                        <li data-translate="treat_proc_li3"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Abnormal Uterine Bleeding",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Abnormal Uterine Bleeding (AUB)",
+                    subtitle: "AUB is any bleeding from the uterus that is irregular in its timing, volume, or duration. It's a common issue, but it's important to understand its causes to ensure you get the right care.",
+                    
+                    palm_coein_title: "Finding the Cause: The PALM-COEIN System",
+                    palm_coein_p1: "To diagnose the cause of AUB, doctors use a system called PALM-COEIN. It separates causes into structural issues that can be seen (PALM) and non-structural issues (COEIN). Click on a cause to learn more.",
+                    palm_coein_select: "Select a cause above to see its description.",
+                    palm_title: "Structural Causes (PALM)",
+                    coein_title: "Non-Structural Causes (COEIN)",
+
+                    palm_p_name: "Polyps", palm_p_desc: "These are typically benign (non-cancerous) growths that arise from the uterine lining (endometrium). They can cause spotting between periods or heavy menstrual bleeding. They are often diagnosed with a saline-infusion ultrasound and can be surgically removed via hysteroscopy.",
+                    palm_a_name: "Adenomyosis", palm_a_desc: "A condition where the endometrial tissue grows into the muscular wall of the uterus. This can cause the uterus to become enlarged and tender, leading to very heavy, painful periods. It is often diagnosed based on ultrasound or MRI findings.",
+                    palm_l_name: "Leiomyoma (Fibroids)", palm_l_desc: "Benign tumors of the uterine muscle. Submucosal fibroids, which bulge into the uterine cavity, are the most likely type to cause heavy bleeding. Diagnosis is confirmed with ultrasound.",
+                    palm_m_name: "Malignancy/Hyperplasia", palm_m_desc: "This refers to precancerous thickening of the uterine lining (hyperplasia) or uterine cancer itself. It is the most serious cause of AUB and must be ruled out, especially in postmenopausal women. Diagnosis is made with an endometrial biopsy.",
+                    
+                    coein_c_name: "Coagulopathy", coein_c_desc: "An underlying bleeding or clotting disorder, such as von Willebrand disease. This cause is often suspected in adolescents who have had very heavy periods since their first cycle. Diagnosis involves specific blood tests.",
+                    coein_o_name: "Ovulatory Dysfunction", coein_o_desc: "When ovulation doesn't occur regularly, the hormonal balance is disrupted, leading to unpredictable bleeding. This is a very common cause in women with PCOS, those under high stress, or those in the perimenopausal transition.",
+                    coein_e_name: "Endometrial", coein_e_desc: "This is a diagnosis of exclusion, meaning it's considered when other causes are ruled out. It suggests a primary issue with the uterine lining's ability to regulate its own bleeding, possibly due to local inflammation or issues with blood clotting factors.",
+                    coein_i_name: "Iatrogenic", coein_i_desc: "Bleeding caused by medical treatment. This includes breakthrough bleeding common with hormonal contraceptives (pills, IUDs) or bleeding as a side effect of medications like anticoagulants or certain antidepressants.",
+                    coein_n_name: "Not Classified", coein_n_desc: "This category is for rare causes of AUB that don't fit into the other categories, such as an arteriovenous malformation (an abnormal tangle of blood vessels) in the uterus.",
+
+                    age_diff_title: "AUB Across the Lifespan",
+                    premeno_title: "In Premenopausal Women",
+                    premeno_p1: "Before menopause, AUB is often related to hormonal imbalances or structural issues. The most common causes include:",
+                    premeno_li1: "<strong>Ovulatory Dysfunction:</strong> Irregular cycles due to conditions like PCOS or stress are a primary cause.",
+                    premeno_li2: "<strong>Fibroids and Polyps:</strong> These benign growths are very common and frequently cause heavy or irregular bleeding.",
+                    premeno_li3: "<strong>Contraception:</strong> IUDs and birth control pills can sometimes cause spotting or changes in bleeding patterns.",
+                    
+                    postmeno_title: "In Postmenopausal Women",
+                    postmeno_p1: "After menopause, the approach to AUB is very different. While most causes are benign, the top priority is always to rule out cancer.",
+                    postmeno_p2: "<strong>CRITICAL: Any bleeding or spotting after menopause must be evaluated by a doctor immediately.</strong> The most common cause is thinning of the uterine lining (atrophy), but it can be the first sign of endometrial (uterine) cancer.",
+
+                    diag_title: "How AUB is Diagnosed",
+                    diag_p1: "Your doctor will use a step-by-step approach to find the cause of your bleeding. This usually involves:",
+                    diag_step1: "Medical History & Pelvic Exam",
+                    diag_step2: "Blood Tests (Anemia, Thyroid)",
+                    diag_step3: "Pelvic Ultrasound",
+                    diag_step4: "Endometrial Biopsy (if needed)",
+
+                    treat_title: "Common Treatment Options",
+                    treat_p1: "Treatment depends on the cause, the severity of bleeding, and your future pregnancy plans.",
+                    treat_med_title: "Medical Management",
+                    treat_med_li1: "<strong>Hormonal Options:</strong> Birth control pills or a hormonal IUD (like Mirena) can regulate cycles and significantly reduce bleeding.",
+                    treat_med_li2: "<strong>Non-Hormonal Options:</strong> Medications like NSAIDs (ibuprofen) can reduce flow, while others like tranexamic acid can help blood clot better.",
+                    treat_proc_title: "Procedures & Surgery",
+                    treat_proc_li1: "<strong>Endometrial Ablation:</strong> A procedure that destroys the uterine lining to reduce or stop bleeding. It is for women who do not desire future pregnancy.",
+                    treat_proc_li2: "<strong>Myomectomy:</strong> Surgical removal of fibroids while preserving the uterus.",
+                    treat_proc_li3: "<strong>Hysterectomy:</strong> Surgical removal of the uterus, which provides a definitive cure.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.acog.org/womens-health/faqs/abnormal-uterine-bleeding' target='_blank' class='underline hover:text-amber-800'>American College of Obstetricians and Gynecologists (ACOG)</a>."
+                },
+                es: {
+                    app_title: "Sangrado Uterino Anormal",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo el Sangrado Uterino Anormal (SUA)",
+                    subtitle: "El SUA es cualquier sangrado del útero que es irregular en su momento, volumen o duración. Es un problema común, pero es importante entender sus causas para asegurar que reciba la atención adecuada.",
+                    
+                    palm_coein_title: "Encontrando la Causa: El Sistema PALM-COEIN",
+                    palm_coein_p1: "Para diagnosticar la causa del SUA, los médicos usan un sistema llamado PALM-COEIN. Separa las causas en problemas estructurales que se pueden ver (PALM) y problemas no estructurales (COEIN). Haga clic en una causa para saber más.",
+                    palm_coein_select: "Seleccione una causa arriba para ver su descripción.",
+                    palm_title: "Causas Estructurales (PALM)",
+                    coein_title: "Causas No Estructurales (COEIN)",
+
+                    palm_p_name: "Pólipos", palm_p_desc: "Son crecimientos típicamente benignos (no cancerosos) que surgen del revestimiento uterino (endometrio). Pueden causar manchado entre períodos o sangrado menstrual abundante. A menudo se diagnostican con una ecografía con infusión de solución salina y se pueden extirpar quirúrgicamente mediante histeroscopia.",
+                    palm_a_name: "Adenomiosis", palm_a_desc: "Una condición en la que el tejido endometrial crece en la pared muscular del útero. Esto puede hacer que el útero se agrande y sea sensible, lo que lleva a períodos muy abundantes y dolorosos. A menudo se diagnostica basándose en los hallazgos de una ecografía o resonancia magnética.",
+                    palm_l_name: "Leiomioma (Fibromas)", palm_l_desc: "Tumores benignos del músculo uterino. Los fibromas submucosos, que protruyen hacia la cavidad uterina, son el tipo más propenso a causar sangrado abundante. El diagnóstico se confirma con una ecografía.",
+                    palm_m_name: "Malignidad/Hiperplasia", palm_m_desc: "Se refiere al engrosamiento precanceroso del revestimiento uterino (hiperplasia) o al cáncer de útero en sí. Es la causa más grave de SUA y debe descartarse, especialmente en mujeres posmenopáusicas. El diagnóstico se realiza con una biopsia de endometrio.",
+                    
+                    coein_c_name: "Coagulopatía", coein_c_desc: "Un trastorno de la coagulación o sangrado subyacente, como la enfermedad de von Willebrand. A menudo se sospecha de esta causa en adolescentes que han tenido períodos muy abundantes desde su primer ciclo. El diagnóstico implica análisis de sangre específicos.",
+                    coein_o_name: "Disfunción Ovulatoria", coein_o_desc: "Cuando la ovulación no ocurre regularmente, el equilibrio hormonal se altera, lo que lleva a un sangrado impredecible. Esta es una causa muy común en mujeres con SOP, aquellas bajo mucho estrés o las que están en la transición perimenopáusica.",
+                    coein_e_name: "Endometrial", coein_e_desc: "Este es un diagnóstico de exclusión, lo que significa que se considera cuando se descartan otras causas. Sugiere un problema primario con la capacidad del revestimiento uterino para regular su propio sangrado, posiblemente debido a una inflamación local o problemas con los factores de coagulación locales.",
+                    coein_i_name: "Iatrogénico", coein_i_desc: "Sangrado causado por un tratamiento médico. Esto incluye el sangrado intermenstrual común con los anticonceptivos hormonales (píldoras, DIU) o el sangrado como efecto secundario de medicamentos como los anticoagulantes o ciertos antidepresivos.",
+                    coein_n_name: "No Clasificado", coein_n_desc: "Esta categoría es para causas raras de SUA que no encajan en las otras categorías, como una malformación arteriovenosa (una maraña anormal de vasos sanguíneos) en el útero.",
+
+                    age_diff_title: "El SUA a lo Largo de la Vida",
+                    premeno_title: "En Mujeres Premenopáusicas",
+                    premeno_p1: "Antes de la menopausia, el SUA a menudo se relaciona con desequilibrios hormonales o problemas estructurales. Las causas más comunes incluyen:",
+                    premeno_li1: "<strong>Disfunción Ovulatoria:</strong> Los ciclos irregulares debido a condiciones como el SOP o el estrés son una causa principal.",
+                    premeno_li2: "<strong>Fibromas y Pólipos:</strong> Estos crecimientos benignos son muy comunes y frecuentemente causan sangrado abundante o irregular.",
+                    premeno_li3: "<strong>Anticoncepción:</strong> Los DIU y las píldoras anticonceptivas a veces pueden causar manchado o cambios en los patrones de sangrado.",
+                    
+                    postmeno_title: "En Mujeres Postmenopáusicas",
+                    postmeno_p1: "Después de la menopausia, el enfoque del SUA es muy diferente. Aunque la mayoría de las causas son benignas, la principal prioridad es siempre descartar el cáncer.",
+                    postmeno_p2: "<strong>CRÍTICO: Cualquier sangrado o manchado después de la menopausia debe ser evaluado por un médico de inmediato.</strong> La causa más común es el adelgazamiento del revestimiento uterino (atrofia), pero puede ser el primer signo de cáncer de endometrio (uterino).",
+                    
+                    diag_title: "Cómo se Diagnostica el SUA",
+                    diag_p1: "Su médico utilizará un enfoque paso a paso para encontrar la causa de su sangrado. Esto generalmente incluye:",
+                    diag_step1: "Historial Médico y Examen Pélvico",
+                    diag_step2: "Análisis de Sangre (Anemia, Tiroides)",
+                    diag_step3: "Ecografía Pélvica",
+                    diag_step4: "Biopsia de Endometrio (si es necesario)",
+
+                    treat_title: "Opciones de Tratamiento Comunes",
+                    treat_p1: "El tratamiento depende de la causa, la gravedad del sangrado y sus planes de embarazo futuros.",
+                    treat_med_title: "Manejo Médico",
+                    treat_med_li1: "<strong>Opciones Hormonales:</strong> Las píldoras anticonceptivas o un DIU hormonal (como Mirena) pueden regular los ciclos y reducir significativamente el sangrado.",
+                    treat_med_li2: "<strong>Opciones No Hormonales:</strong> Medicamentos como los AINEs (ibuprofeno) pueden reducir el flujo, mientras que otros como el ácido tranexámico pueden ayudar a que la sangre coagule mejor.",
+                    treat_proc_title: "Procedimientos y Cirugía",
+                    treat_proc_li1: "<strong>Ablación Endometrial:</strong> Un procedimiento que destruye el revestimiento uterino para reducir o detener el sangrado. Es para mujeres que no desean futuros embarazos.",
+                    treat_proc_li2: "<strong>Miomectomía:</strong> Extirpación quirúrgica de fibromas conservando el útero.",
+                    treat_proc_li3: "<strong>Histerectomía:</strong> Extirpación quirúrgica del útero, que proporciona una cura definitiva.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como el <a href='https://www.acog.org/womens-health/faqs/abnormal-uterine-bleeding' target='_blank' class='underline hover:text-amber-800'>Colegio Americano de Obstetras y Ginecólogos (ACOG)</a>."
+                }
+            };
+
+            const palmCoeinData = {
+                P: { color: 'teal' }, A: { color: 'teal' }, L: { color: 'teal' }, M: { color: 'teal' },
+                C: { color: 'purple' }, O: { color: 'purple' }, E: { color: 'purple' }, I: { color: 'purple' }, N: { color: 'purple' }
+            };
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderPalmCoein();
+            };
+
+            const renderPalmCoein = () => {
+                const t = translations[currentLanguage];
+                const palmContainer = document.getElementById('palm-container');
+                const coeinContainer = document.getElementById('coein-container');
+                const detailsContainer = document.getElementById('palm-coein-details');
+                palmContainer.innerHTML = '';
+                coeinContainer.innerHTML = '';
+
+                Object.keys(palmCoeinData).forEach(key => {
+                    const data = palmCoeinData[key];
+                    const card = document.createElement('div');
+                    card.className = `palm-coein-card p-4 bg-${data.color}-50 rounded-lg shadow-sm cursor-pointer border-2 border-transparent hover:border-${data.color}-300 transition`;
+                    card.dataset.key = key;
+                    card.innerHTML = `<h5 class="font-bold text-lg text-${data.color}-800">${key} - <span data-translate="palm_${key.toLowerCase()}_name">${t[`palm_${key.toLowerCase()}_name`] || t[`coein_${key.toLowerCase()}_name`]}</span></h5>`;
+                    
+                    if ('PALM'.includes(key)) {
+                        palmContainer.appendChild(card);
+                    } else {
+                        coeinContainer.appendChild(card);
+                    }
+
+                    card.addEventListener('click', () => {
+                        document.querySelectorAll('.palm-coein-card').forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                        const lowerKey = key.toLowerCase();
+                        detailsContainer.innerHTML = `<p class="font-semibold text-gray-800">${t[`palm_${lowerKey}_name`] || t[`coein_${lowerKey}_name`]}:</p><p class="text-gray-600">${t[`palm_${lowerKey}_desc`] || t[`coein_${lowerKey}_desc`]}</p>`;
+                    });
+                });
+            };
+
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

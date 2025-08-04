@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Ovarian Cancer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .symptom-card {
+            transition: all 0.3s ease;
+        }
+        .symptom-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #5B21B6;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-violet-800 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg shadow-md mb-8">
+            <h3 class="text-2xl font-bold text-red-800 mb-2" data-translate="key_message_title"></h3>
+            <p class="text-red-700" data-translate="key_message_p1"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="symptoms_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="symptoms_p1"></p>
+            <div id="symptoms-container" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Symptom cards will be inserted here -->
+            </div>
+            <div id="symptom-details" class="mt-6 p-4 bg-gray-50 rounded-lg min-h-[80px]">
+                <p class="text-gray-500" data-translate="symptom_select"></p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="risk_factors_title"></h3>
+                <div id="risk-factors-container"></div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="diagnosis_title"></h3>
+                 <p class="text-gray-600 mb-4" data-translate="diagnosis_p1"></p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="diagnosis_li1"></li>
+                    <li data-translate="diagnosis_li2"></li>
+                    <li data-translate="diagnosis_li3"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diagnosis_details_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-blue-800" data-translate="types_title"></h4>
+                    <p class="text-blue-700" data-translate="types_p1"></p>
+                </div>
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-green-800" data-translate="staging_title"></h4>
+                    <p class="text-green-700" data-translate="staging_p1"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treatment_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="treatment_p1"></p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-purple-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-purple-800" data-translate="treatment_surgery_title"></h4><p class="text-sm text-purple-700" data-translate="treatment_surgery_desc"></p></div>
+                <div class="bg-rose-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-rose-800" data-translate="treatment_chemo_title"></h4><p class="text-sm text-rose-700" data-translate="treatment_chemo_desc"></p></div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="survivorship_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="survivorship_p1"></p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-cyan-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-cyan-800" data-translate="follow_up_title"></h4><p class="text-sm text-cyan-700" data-translate="follow_up_desc"></p></div>
+                <div class="bg-pink-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-pink-800" data-translate="emotional_title"></h4><p class="text-sm text-pink-700" data-translate="emotional_desc"></p></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Ovarian Cancer",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Ovarian Cancer",
+                    subtitle: "Ovarian cancer is often called a 'silent' disease, but it's more accurate to say it whispers. Learning to recognize its subtle but persistent symptoms is the most powerful tool for early detection.",
+                    
+                    key_message_title: "Key Message: Listen to Your Body",
+                    key_message_p1: "There is currently **no reliable screening test** for ovarian cancer in the general population. This makes it critical to pay attention to your body and report persistent, unusual symptoms to your doctor.",
+
+                    symptoms_title: "Symptoms to Watch For: The BEAT Acronym",
+                    symptoms_p1: "The key is that these symptoms are new, occur almost daily, and persist for more than a few weeks. Click on a symptom to learn more.",
+                    symptom_select: "Select a symptom above for more details.",
+                    symptom_bloating_name: "Bloating", symptom_bloating_desc: "Persistent bloating that doesn't go away is a key sign.",
+                    symptom_eating_name: "Eating difficulty", symptom_eating_desc: "Feeling full quickly or having trouble eating.",
+                    symptom_abdominal_name: "Abdominal/Pelvic Pain", symptom_abdominal_desc: "Pain or discomfort in the abdomen or pelvic area.",
+                    symptom_trouble_urinary_name: "Trouble with urination", symptom_trouble_urinary_desc: "Urinary symptoms like urgency or frequency.",
+
+                    risk_factors_title: "Understanding Your Risk",
+                    risk_age_title: "Age", risk_age_desc: "Risk increases with age, with most cases diagnosed after menopause.",
+                    risk_family_title: "Family History", risk_family_desc: "A personal or family history of ovarian, breast, or colorectal cancer increases risk.",
+                    risk_genetic_title: "Genetic Mutations", risk_genetic_desc: "Mutations in genes like BRCA1 and BRCA2 significantly increase risk.",
+                    risk_other_title: "Other Factors", risk_other_desc: "Includes endometriosis, never having been pregnant, and obesity.",
+
+                    diagnosis_title: "How Ovarian Cancer Is Diagnosed",
+                    diagnosis_p1: "If you have persistent symptoms, your doctor will start an evaluation:",
+                    diagnosis_li1: "<strong>Pelvic Exam:</strong> The doctor will feel the ovaries for any masses or changes.",
+                    diagnosis_li2: "<strong>Transvaginal Ultrasound:</strong> This imaging test can create a picture of the ovaries to identify any suspicious masses.",
+                    diagnosis_li3: "<strong>CA-125 Blood Test:</strong> This test measures a protein that can be elevated in ovarian cancer, but it is not a perfect screening tool and can be raised by other conditions.",
+
+                    diagnosis_details_title: "Understanding Your Diagnosis",
+                    types_title: "Types of Ovarian Cancer",
+                    types_p1: "Most ovarian cancers are 'epithelial,' meaning they start in the cells covering the ovary's surface. Your pathology report after surgery will identify the specific subtype and grade, which helps guide treatment.",
+                    staging_title: "Cancer Staging",
+                    staging_p1: "Staging (from Stage I to Stage IV) describes how far the cancer has spread. Stage I is confined to the ovaries, while Stage IV means it has spread to distant organs. The stage is crucial for determining treatment and prognosis.",
+
+                    treatment_title: "How is Ovarian Cancer Treated?",
+                    treatment_p1: "Treatment depends on the type and stage of the cancer but typically involves a combination of surgery and chemotherapy.",
+                    treatment_surgery_title: "Surgery",
+                    treatment_surgery_desc: "The goal is to remove as much of the cancer as possible (debulking). This usually includes removing the ovaries, fallopian tubes, and uterus.",
+                    treatment_chemo_title: "Chemotherapy",
+                    treatment_chemo_desc: "Uses powerful drugs to kill any cancer cells that remain after surgery or have spread to other parts of the body.",
+
+                    survivorship_title: "Life After Treatment",
+                    survivorship_p1: "After completing initial treatment, your care will focus on monitoring for recurrence and managing your health long-term.",
+                    follow_up_title: "Follow-Up Care",
+                    follow_up_desc: "You will have regular follow-up appointments, including pelvic exams and sometimes blood tests or imaging, to monitor for any signs of the cancer returning.",
+                    emotional_title: "Emotional & Mental Support",
+                    emotional_desc: "A cancer diagnosis is a life-changing event. Connecting with support groups, counselors, or other survivors can be an essential part of your recovery and long-term well-being.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://ocrahope.org/' target='_blank' class='underline hover:text-amber-800'>Ovarian Cancer Research Alliance (OCRA)</a> and the <a href='https://www.cancer.org/cancer/types/ovarian-cancer.html' target='_blank' class='underline hover:text-amber-800'>American Cancer Society</a>."
+                },
+                es: {
+                    app_title: "Cáncer de Ovario",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo el Cáncer de Ovario",
+                    subtitle: "Al cáncer de ovario a menudo se le llama una enfermedad 'silenciosa', pero es más exacto decir que susurra. Aprender a reconocer sus síntomas sutiles pero persistentes es la herramienta más poderosa para la detección temprana.",
+                    
+                    key_message_title: "Mensaje Clave: Escuche a su Cuerpo",
+                    key_message_p1: "Actualmente **no existe una prueba de detección fiable** para el cáncer de ovario en la población general. Esto hace que sea fundamental prestar atención a su cuerpo e informar a su médico sobre síntomas persistentes e inusuales.",
+
+                    symptoms_title: "Síntomas a los que Prestar Atención",
+                    symptoms_p1: "La clave es que estos síntomas son nuevos, ocurren casi a diario y persisten durante más de unas pocas semanas. Haga clic en un síntoma para obtener más información.",
+                    symptom_select: "Seleccione un síntoma arriba para más detalles.",
+                    symptom_bloating_name: "Hinchazón", symptom_bloating_desc: "La hinchazón persistente que no desaparece es un signo clave.",
+                    symptom_eating_name: "Dificultad para comer", symptom_eating_desc: "Sentirse lleno rápidamente o tener problemas para comer.",
+                    symptom_abdominal_name: "Dolor Abdominal/Pélvico", symptom_abdominal_desc: "Dolor o malestar en el abdomen o el área pélvica.",
+                    symptom_trouble_urinary_name: "Problemas urinarios", symptom_trouble_urinary_desc: "Síntomas urinarios como urgencia o frecuencia.",
+
+                    risk_factors_title: "Comprendiendo su Riesgo",
+                    risk_age_title: "Edad", risk_age_desc: "El riesgo aumenta con la edad, y la mayoría de los casos se diagnostican después de la menopausia.",
+                    risk_family_title: "Historial Familiar", risk_family_desc: "Un historial personal o familiar de cáncer de ovario, mama o colorrectal aumenta el riesgo.",
+                    risk_genetic_title: "Mutaciones Genéticas", risk_genetic_desc: "Las mutaciones en genes como BRCA1 y BRCA2 aumentan significativamente el riesgo.",
+                    risk_other_title: "Otros Factores", risk_other_desc: "Incluye endometriosis, no haber estado nunca embarazada y la obesidad.",
+
+                    diagnosis_title: "Cómo se Diagnostica el Cáncer de Ovario",
+                    diagnosis_p1: "Si tiene síntomas persistentes, su médico iniciará una evaluación:",
+                    diagnosis_li1: "<strong>Examen Pélvico:</strong> El médico palpará los ovarios para detectar masas o cambios.",
+                    diagnosis_li2: "<strong>Ecografía Transvaginal:</strong> Esta prueba de imagen puede crear una imagen de los ovarios para identificar cualquier masa sospechosa.",
+                    diagnosis_li3: "<strong>Análisis de Sangre CA-125:</strong> Esta prueba mide una proteína que puede estar elevada en el cáncer de ovario, pero no es una herramienta de detección perfecta y puede estar elevada por otras condiciones.",
+
+                    diagnosis_details_title: "Entendiendo su Diagnóstico",
+                    types_title: "Tipos de Cáncer de Ovario",
+                    types_p1: "Su informe de biopsia identificará el tipo de cáncer. La mayoría de los cánceres de ovario son 'epiteliales', lo que significa que comienzan en las células que cubren la superficie del ovario. Su informe de patología después de la cirugía identificará el subtipo y grado específicos, lo que ayuda a guiar el tratamiento.",
+                    staging_title: "Estadificación del Cáncer",
+                    staging_p1: "La estadificación (del Estadio I al Estadio IV) describe qué tan lejos se ha propagado el cáncer. El Estadio I está confinado a los ovarios, mientras que el Estadio IV significa que se ha diseminado a órganos distantes. El estadio es crucial para determinar el tratamiento y el pronóstico.",
+
+                    treatment_title: "¿Cómo se Trata el Cáncer de Ovario?",
+                    treatment_p1: "El tratamiento depende del tipo y estadio del cáncer, pero generalmente implica una combinación de cirugía y quimioterapia.",
+                    treatment_surgery_title: "Cirugía",
+                    treatment_surgery_desc: "El objetivo es extirpar la mayor cantidad posible de cáncer (citorreducción). Esto generalmente incluye la extirpación de los ovarios, las trompas de Falopio y el útero.",
+                    treatment_chemo_title: "Quimioterapia",
+                    treatment_chemo_desc: "Usa medicamentos potentes para destruir cualquier célula cancerosa que quede después de la cirugía o que se haya diseminado a otras partes del cuerpo.",
+
+                    survivorship_title: "La Vida Después del Tratamiento",
+                    survivorship_p1: "Después de completar el tratamiento inicial, su cuidado se centrará en monitorear la recurrencia y manejar su salud a largo plazo.",
+                    follow_up_title: "Atención de Seguimiento",
+                    follow_up_desc: "Tendrá citas de seguimiento regulares, que incluyen exámenes pélvicos y, a veces, análisis de sangre o imágenes, para monitorear cualquier signo de que el cáncer regrese.",
+                    emotional_title: "Apoyo Emocional y Mental",
+                    emotional_desc: "Un diagnóstico de cáncer es un evento que cambia la vida. Conectarse con grupos de apoyo, consejeros u otros sobrevivientes puede ser una parte esencial de su recuperación y bienestar a largo plazo.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como la <a href='https://ocrahope.org/' target='_blank' class='underline hover:text-amber-800'>Alianza de Investigación del Cáncer de Ovario (OCRA)</a> y la <a href='https://www.cancer.org/es/cancer/tipos/cancer-de-ovario.html' target='_blank' class='underline hover:text-amber-800'>Sociedad Americana contra el Cáncer</a>."
+                }
+            };
+
+            const symptomData = [
+                { id: 'bloating', icon: '🎈' }, { id: 'eating', icon: '🍽️' },
+                { id: 'abdominal', icon: '😖' }, { id: 'trouble_urinary', icon: '🚽' }
+            ];
+
+            const riskFactorData = [
+                { id: 'age', icon: '👵', color: 'blue' },
+                { id: 'family', icon: '👨‍👩‍👧‍👦', color: 'green' },
+                { id: 'genetic', icon: '🧬', color: 'purple' },
+                { id: 'other', icon: '➕', color: 'orange' }
+            ];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderSymptoms();
+                renderRiskFactors();
+            };
+
+            const renderSymptoms = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('symptoms-container');
+                container.innerHTML = symptomData.map(symptom => `
+                    <div class="symptom-card p-4 bg-violet-50 rounded-lg shadow-sm cursor-pointer border-2 border-transparent hover:border-violet-300 flex flex-col items-center text-center" data-symptom="${symptom.id}">
+                        <span class="text-4xl mb-2">${symptom.icon}</span>
+                        <h5 class="font-bold text-md text-violet-800">${t[`symptom_${symptom.id}_name`]}</h5>
+                    </div>
+                `).join('');
+
+                const symptomCards = document.querySelectorAll('.symptom-card');
+                const detailsContainer = document.getElementById('symptom-details');
+                symptomCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const symptomId = card.dataset.symptom;
+                        symptomCards.forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                        detailsContainer.innerHTML = `<p class="text-sm text-gray-700">${t[`symptom_${symptomId}_desc`]}</p>`;
+                    });
+                });
+                if(symptomCards.length > 0) {
+                    symptomCards[0].click();
+                }
+            };
+
+            const renderRiskFactors = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('risk-factors-container');
+                container.innerHTML = riskFactorData.map(risk => `
+                    <div class="bg-gray-50 p-4 rounded-lg flex items-start space-x-4 mb-4">
+                        <span class="text-3xl">${risk.icon}</span>
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-800">${t[`risk_${risk.id}_title`]}</h4>
+                            <p class="text-sm text-gray-600">${t[`risk_${risk.id}_desc`]}</p>
+                        </div>
+                    </div>
+                `).join('');
+            };
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

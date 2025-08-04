@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Uterine Fibroids</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .fibroid-type-card {
+            transition: all 0.3s ease;
+        }
+        .fibroid-type-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #FBBF24;
+        }
+        .treatment-tab {
+            transition: all 0.3s ease;
+        }
+        .treatment-tab-content {
+            display: none;
+        }
+        .flip-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-amber-900 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="types_title"></h3>
+            <div id="fibroid-type-cards" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Fibroid type cards will be inserted here -->
+            </div>
+            <div id="fibroid-type-details" class="mt-6 p-4 bg-gray-50 rounded-lg min-h-[100px]">
+                <p class="text-gray-500" data-translate="types_select"></p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-6 text-center text-amber-800" data-translate="symptoms_title"></h3>
+            <div id="symptoms-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diagnosis_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="diagnosis_p1"></p>
+            <div id="diagnosis-container" class="grid md:grid-cols-3 gap-6 text-center">
+                <!-- Flippable cards will be inserted here -->
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-rose-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-rose-800" data-translate="fertility_title"></h3>
+                <p class="text-rose-700 mb-4" data-translate="fertility_p1"></p>
+                <p class="text-rose-700" data-translate="fertility_p2"></p>
+            </div>
+            <div class="bg-cyan-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-cyan-800" data-translate="help_title"></h3>
+                <p class="text-cyan-700 mb-4" data-translate="help_p1"></p>
+                 <ul class="list-disc list-inside text-cyan-700 space-y-2 text-sm">
+                    <li data-translate="help_li1"></li>
+                    <li data-translate="help_li2"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treatment_title"></h3>
+            <div class="flex flex-wrap justify-center mb-6 border-b border-gray-200">
+                <button class="treatment-tab px-4 py-3 font-semibold border-b-2" data-tab="watchful"></button>
+                <button class="treatment-tab px-4 py-3 font-semibold border-b-2" data-tab="meds"></button>
+                <button class="treatment-tab px-4 py-3 font-semibold border-b-2" data-tab="procedures"></button>
+                <button class="treatment-tab px-4 py-3 font-semibold border-b-2" data-tab="surgery"></button>
+            </div>
+            <div id="treatment-content"></div>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Uterine Fibroids",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Uterine Fibroids",
+                    subtitle: "Fibroids are very common, non-cancerous growths in the uterus. While most cause no problems, they can lead to significant symptoms for some. This guide covers the types, symptoms, and many treatment options available.",
+                    
+                    types_title: "Types of Fibroids by Location",
+                    types_select: "Click on a card to learn about each type.",
+                    type_submucosal_name: "Submucosal", type_submucosal_desc: "These fibroids grow just underneath the uterine lining and bulge into the uterine cavity. They are the most likely type to cause heavy, prolonged menstrual bleeding and can sometimes interfere with pregnancy.",
+                    type_intramural_name: "Intramural", type_intramural_desc: "These are the most common type of fibroids. They grow within the muscular wall of the uterus. If they become large, they can distort the shape of the uterus and cause symptoms of pressure or heavy bleeding.",
+                    type_subserosal_name: "Subserosal", type_subserosal_desc: "These fibroids grow on the outside of the uterus. They typically do not affect menstrual flow but can cause pelvic pain or pressure on nearby organs like the bladder or bowel as they grow larger.",
+
+                    symptoms_title: "Common Signs and Symptoms",
+                    symptom_heavy_bleeding_name: "Heavy Bleeding", symptom_heavy_bleeding_desc: "Prolonged, heavy periods are the most common symptom.",
+                    symptom_pelvic_pressure_name: "Pelvic Pressure & Pain", symptom_pelvic_pressure_desc: "A feeling of fullness or discomfort in the lower abdomen.",
+                    symptom_urinary_issues_name: "Frequent Urination", symptom_urinary_issues_desc: "Large fibroids can press on the bladder, causing a frequent need to urinate.",
+                    symptom_constipation_name: "Constipation", symptom_constipation_desc: "Fibroids on the back of the uterus can press on the rectum.",
+                    symptom_backache_name: "Backache or Leg Pains", symptom_backache_desc: "Can occur if a fibroid presses on nerves.",
+                    symptom_infertility_name: "Infertility", symptom_infertility_desc: "Submucosal fibroids can sometimes interfere with implantation.",
+                    
+                    diagnosis_title: "How Fibroids Are Diagnosed",
+                    diagnosis_p1: "The diagnostic process is straightforward and typically starts with a discussion of your symptoms.",
+                    diag_step1: "Pelvic Exam",
+                    diag_step2: "Ultrasound",
+                    diag_step3: "Other Imaging (MRI)",
+                    diag_flip_prompt: "(Click to flip for details)",
+                    diag_step1_back: "Your doctor feels your uterus to check for changes in its size or shape. Many larger fibroids can be detected this way, providing the first clue.",
+                    diag_step2_back: "This is the most common imaging test. A transvaginal ultrasound uses sound waves to create a clear picture of your uterus, confirming the presence, size, and location of fibroids.",
+                    diag_step3_back: "An MRI is used less often but provides a highly detailed map of the fibroids. It's particularly helpful for planning complex surgeries like a myomectomy.",
+
+                    fertility_title: "Fibroids, Fertility, and Pregnancy",
+                    fertility_p1: "Most women with fibroids will not experience infertility. However, submucosal fibroids that distort the uterine cavity can sometimes interfere with the implantation of a fertilized egg or increase the risk of miscarriage.",
+                    fertility_p2: "During pregnancy, fibroids can sometimes grow due to increased hormone levels and may increase the risk of complications such as preterm birth or the need for a cesarean section. Your doctor will monitor any fibroids closely during your pregnancy.",
+                    
+                    help_title: "When to See a Doctor",
+                    help_p1: "You should consult your doctor if you experience any persistent symptoms that concern you, such as:",
+                    help_li1: "Very heavy or painful periods that disrupt your daily life.",
+                    help_li2: "Pelvic pain or pressure that doesn't go away.",
+
+                    treatment_title: "Personalized Treatment Options",
+                    treatment_tab_watchful: "Watchful Waiting",
+                    treatment_tab_meds: "Medications",
+                    treatment_tab_procedures: "Procedures",
+                    treatment_tab_surgery: "Surgery",
+                    treatment_watchful_p1: "If you have no or only mild symptoms, no treatment may be needed. Your doctor may recommend monitoring the fibroids over time, especially as they often shrink after menopause.",
+                    treatment_meds_p1: "Medications primarily manage symptoms like heavy bleeding and are not a cure for fibroids.",
+                    treatment_meds_list: [
+                        "<strong>Hormonal Contraceptives:</strong> Birth control pills or a hormonal IUD can help control heavy bleeding.",
+                        "<strong>GnRH Agonists:</strong> These medications temporarily shrink fibroids by inducing a menopause-like state. They are often used short-term before surgery."
+                    ],
+                    treatment_procedures_p1: "These options destroy fibroid tissue without surgically removing them, preserving the uterus.",
+                    treatment_procedures_list: [
+                        "<strong>Uterine Artery Embolization (UAE):</strong> Blocks the blood supply to the fibroids, causing them to shrink.",
+                        "<strong>Radiofrequency Ablation (RFA):</strong> Uses heat to destroy fibroid tissue.",
+                        "<strong>MRI-guided Focused Ultrasound (FUS):</strong> A non-invasive procedure using sound waves to destroy fibroids."
+                    ],
+                    treatment_surgery_p1: "Surgery is an option for significant symptoms or when other treatments are not appropriate.",
+                    treatment_surgery_list: [
+                        "<strong>Myomectomy:</strong> The surgical removal of fibroids while leaving the uterus intact. This is the preferred option for women who wish to become pregnant in the future.",
+                        "<strong>Hysterectomy:</strong> The surgical removal of the uterus. This is the only permanent cure for fibroids and is for women who have completed childbearing."
+                    ],
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.acog.org/womens-health/faqs/uterine-fibroids' target='_blank' class='underline hover:text-amber-800'>American College of Obstetricians and Gynecologists (ACOG)</a> and the <a href='https://www.mayoclinic.org/diseases-conditions/uterine-fibroids/symptoms-causes/syc-20354288' target='_blank' class='underline hover:text-amber-800'>Mayo Clinic</a>."
+                },
+                es: {
+                    app_title: "Fibromas Uterinos",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo los Fibromas Uterinos",
+                    subtitle: "Los fibromas son crecimientos no cancerosos muy comunes en el útero. Aunque la mayoría no causa problemas, para algunas personas pueden provocar síntomas significativos. Esta guía cubre los tipos, síntomas y las muchas opciones de tratamiento disponibles.",
+                    
+                    types_title: "Tipos de Fibromas por Ubicación",
+                    types_select: "Haga clic en una tarjeta para aprender sobre cada tipo.",
+                    type_submucosal_name: "Submucoso", type_submucosal_desc: "Estos fibromas crecen justo debajo del revestimiento uterino y protruyen hacia la cavidad uterina. Son el tipo más propenso a causar sangrado menstrual abundante y prolongado y a veces pueden interferir con el embarazo.",
+                    type_intramural_name: "Intramural", type_intramural_desc: "Este es el tipo más común de fibroma. Crecen dentro de la pared muscular del útero. Si se hacen grandes, pueden distorsionar la forma del útero y causar síntomas de presión o sangrado abundante.",
+                    type_subserosal_name: "Subseroso", type_subserosal_desc: "Estos fibromas crecen en el exterior del útero. Típicamente no afectan el flujo menstrual pero pueden causar dolor pélvico o presión sobre órganos cercanos como la vejiga o el intestino a medida que crecen.",
+
+                    symptoms_title: "Signos y Síntomas Comunes",
+                    symptom_heavy_bleeding_name: "Sangrado Abundante", symptom_heavy_bleeding_desc: "Períodos prolongados y abundantes son el síntoma más común.",
+                    symptom_pelvic_pressure_name: "Presión y Dolor Pélvico", symptom_pelvic_pressure_desc: "Una sensación de llenura o malestar en la parte baja del abdomen.",
+                    symptom_urinary_issues_name: "Micción Frecuente", symptom_urinary_issues_desc: "Los fibromas grandes pueden presionar la vejiga, causando una necesidad frecuente de orinar.",
+                    symptom_constipation_name: "Estreñimiento", symptom_constipation_desc: "Los fibromas en la parte posterior del útero pueden presionar el recto.",
+                    symptom_backache_name: "Dolor de Espalda o Piernas", symptom_backache_desc: "Puede ocurrir si un fibroma presiona los nervios.",
+                    symptom_infertility_name: "Infertilidad", symptom_infertility_desc: "Los fibromas submucosos a veces pueden interferir con la implantación.",
+                    
+                    diagnosis_title: "Cómo se Diagnostican los Fibromas",
+                    diagnosis_p1: "El proceso de diagnóstico es sencillo y generalmente comienza con una discusión de sus síntomas.",
+                    diag_step1: "Examen Pélvico",
+                    diag_step2: "Ecografía",
+                    diag_step3: "Otras Imágenes (RMN)",
+                    diag_flip_prompt: "(Haga clic para voltear)",
+                    diag_step1_back: "Su médico palpa su útero para verificar cambios en su tamaño o forma. Muchos fibromas grandes se pueden detectar de esta manera, proporcionando la primera pista.",
+                    diag_step2_back: "Esta es la prueba de imagen más común. Una ecografía transvaginal utiliza ondas de sonido para crear una imagen clara de su útero, confirmando la presencia, el tamaño y la ubicación de los fibromas.",
+                    diag_step3_back: "Una RMN se usa con menos frecuencia pero proporciona un mapa muy detallado de los fibromas. Es particularmente útil para planificar cirugías complejas como una miomectomía.",
+
+                    fertility_title: "Fibromas, Fertilidad y Embarazo",
+                    fertility_p1: "La mayoría de las mujeres con fibromas no experimentarán infertilidad. Sin embargo, los fibromas submucosos que distorsionan la cavidad uterina a veces pueden interferir con la implantación de un óvulo fertilizado o aumentar el riesgo de aborto espontáneo.",
+                    fertility_p2: "Durante el embarazo, los fibromas a veces pueden crecer debido al aumento de los niveles hormonales y pueden aumentar el riesgo de complicaciones como el parto prematuro o la necesidad de una cesárea. Su médico monitoreará de cerca cualquier fibroma durante su embarazo.",
+
+                    help_title: "Cuándo Consultar a un Médico",
+                    help_p1: "Debe consultar a su médico si experimenta algún síntoma persistente que le preocupe, como:",
+                    help_li1: "Períodos muy abundantes o dolorosos que interrumpen su vida diaria.",
+                    help_li2: "Dolor o presión pélvica que no desaparece.",
+
+                    treatment_title: "Opciones de Tratamiento Personalizadas",
+                    treatment_tab_watchful: "Espera Vigilante",
+                    treatment_tab_meds: "Medicamentos",
+                    treatment_tab_procedures: "Procedimientos",
+                    treatment_tab_surgery: "Cirugía",
+                    treatment_watchful_p1: "Si no tiene síntomas o son leves, es posible que no se necesite tratamiento. Su médico puede recomendar monitorear los fibromas con el tiempo, especialmente porque a menudo se encogen después de la menopausia.",
+                    treatment_meds_p1: "Los medicamentos principalmente manejan síntomas como el sangrado abundante y no son una cura para los fibromas.",
+                    treatment_meds_list: [
+                        "<strong>Anticonceptivos Hormonales:</strong> Las píldoras anticonceptivas o un DIU hormonal pueden ayudar a controlar el sangrado abundante.",
+                        "<strong>Agonistas de la GnRH:</strong> Estos medicamentos encogen temporalmente los fibromas al inducir un estado similar a la menopausia. A menudo se usan a corto plazo antes de la cirugía."
+                    ],
+                    treatment_procedures_p1: "Estas opciones destruyen el tejido de los fibromas sin extirparlos quirúrgicamente, preservando el útero.",
+                    treatment_procedures_list: [
+                        "<strong>Embolización de la Arteria Uterina (EAU):</strong> Bloquea el suministro de sangre a los fibromas, haciendo que se encojan.",
+                        "<strong>Ablación por Radiofrecuencia (ARF):</strong> Usa calor para destruir el tejido de los fibromas.",
+                        "<strong>Ultrasonido Focalizado Guiado por RMN (FUS):</strong> Un procedimiento no invasivo que usa ondas de sonido para destruir los fibromas."
+                    ],
+                    treatment_surgery_p1: "La cirugía es una opción para síntomas significativos o cuando otros tratamientos no son apropiados.",
+                    treatment_surgery_list: [
+                        "<strong>Miomectomía:</strong> La extirpación quirúrgica de los fibromas dejando el útero intacto. Esta es la opción preferida para las mujeres que desean quedar embarazadas en el futuro.",
+                        "<strong>Histerectomía:</strong> La extirpación quirúrgica del útero. Esta es la única cura permanente para los fibromas y es para mujeres que han completado su maternidad."
+                    ],
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como el <a href='https://www.acog.org/womens-health/faqs/uterine-fibroids' target='_blank' class='underline hover:text-amber-800'>Colegio Americano de Obstetras y Ginecólogos (ACOG)</a> y la <a href='https://www.mayoclinic.org/es/diseases-conditions/uterine-fibroids/symptoms-causes/syc-20354288' target='_blank' class='underline hover:text-amber-800'>Clínica Mayo</a>."
+                }
+            };
+
+            const symptomData = [
+                { id: 'heavy_bleeding', icon: '🩸' }, { id: 'pelvic_pressure', icon: '😖' },
+                { id: 'urinary_issues', icon: '🚽' }, { id: 'constipation', icon: '🌀' },
+                { id: 'backache', icon: '💪' }, { id: 'infertility', icon: '👶' }
+            ];
+
+            const fibroidTypeData = [
+                { id: 'submucosal', icon: '📥', color: 'orange' },
+                { id: 'intramural', icon: '🧱', color: 'green' },
+                { id: 'subserosal', icon: '📤', color: 'purple' }
+            ];
+            const treatmentData = ['watchful', 'meds', 'procedures', 'surgery'];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderSymptoms();
+                renderFibroidTypes();
+                renderDiagnosis();
+                renderTreatments();
+                switchTab('watchful');
+            };
+
+            const renderSymptoms = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('symptoms-container');
+                container.innerHTML = symptomData.map(symptom => `
+                    <div class="bg-gray-50 p-4 rounded-lg flex items-start space-x-4">
+                        <span class="text-3xl">${symptom.icon}</span>
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-800">${t[`symptom_${symptom.id}_name`]}</h4>
+                            <p class="text-sm text-gray-600">${t[`symptom_${symptom.id}_desc`]}</p>
+                        </div>
+                    </div>
+                `).join('');
+            };
+
+            const renderFibroidTypes = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('fibroid-type-cards');
+                container.innerHTML = fibroidTypeData.map(type => `
+                    <div class="fibroid-type-card p-4 bg-${type.color}-50 rounded-lg shadow-sm cursor-pointer border-2 border-transparent hover:border-${type.color}-300 flex items-center space-x-4" data-type="${type.id}">
+                        <span class="text-4xl">${type.icon}</span>
+                        <h5 class="font-bold text-md text-${type.color}-800">${t[`type_${type.id}_name`]}</h5>
+                    </div>
+                `).join('');
+
+                const typeCards = document.querySelectorAll('.fibroid-type-card');
+                const typeDetails = document.getElementById('fibroid-type-details');
+                
+                typeCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const typeId = card.dataset.type;
+                        typeCards.forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                        
+                        typeDetails.innerHTML = `
+                            <h4 class="font-bold text-lg mb-2 text-amber-800">${t[`type_${typeId}_name`]}</h4>
+                            <p class="text-sm text-gray-700">${t[`type_${typeId}_desc`]}</p>
+                        `;
+                    });
+                });
+                if(typeCards.length > 0) {
+                    typeCards[0].click();
+                }
+            };
+
+            const renderDiagnosis = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('diagnosis-container');
+                const steps = [
+                    { id: 'step1', color: 'blue', icon: '👩‍⚕️' },
+                    { id: 'step2', color: 'green', icon: '🖥️' },
+                    { id: 'step3', color: 'purple', icon: '🔬' }
+                ];
+                container.innerHTML = steps.map(step => `
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-${step.color}-50">
+                                <div class="text-4xl mb-2">${step.icon}</div>
+                                <h5 class="font-semibold text-lg text-${step.color}-800">${t[`diag_${step.id}`]}</h5>
+                                <p class="text-xs text-gray-500 mt-2">${t.diag_flip_prompt}</p>
+                            </div>
+                            <div class="flip-card-back bg-${step.color}-100">
+                                <p class="text-sm text-${step.color}-800">${t[`diag_${step.id}_back`]}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.flip-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        card.classList.toggle('is-flipped');
+                    });
+                });
+            };
+
+            const renderTreatments = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('treatment-content');
+                let contentHtml = '';
+                treatmentData.forEach(tab => {
+                    let listItems = '';
+                    if (t[`treatment_${tab}_list`]) {
+                         listItems = t[`treatment_${tab}_list`].map(item => `<li>${item}</li>`).join('');
+                    }
+                    contentHtml += `
+                        <div id="content-${tab}" class="treatment-tab-content p-4">
+                            <p class="mb-4">${t[`treatment_${tab}_p1`]}</p>
+                            ${listItems ? `<ul class="list-disc list-inside space-y-2">${listItems}</ul>` : ''}
+                        </div>
+                    `;
+                });
+                container.innerHTML = contentHtml;
+            };
+
+            const treatmentTabs = document.querySelectorAll('.treatment-tab');
+            const switchTab = (tabId) => {
+                const t = translations[currentLanguage];
+                const tabContents = document.querySelectorAll('.treatment-tab-content');
+                treatmentTabs.forEach(tab => {
+                    const isActive = tab.dataset.tab === tabId;
+                    tab.textContent = t[`treatment_tab_${tab.dataset.tab}`];
+                    tab.classList.toggle('border-amber-500', isActive);
+                    tab.classList.toggle('text-amber-600', isActive);
+                    tab.classList.toggle('border-transparent', !isActive);
+                    tab.classList.toggle('text-gray-500', !isActive);
+                });
+                tabContents.forEach(content => {
+                    content.style.display = content.id === `content-${tabId}` ? 'block' : 'none';
+                });
+            };
+            treatmentTabs.forEach(tab => {
+                tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+            });
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

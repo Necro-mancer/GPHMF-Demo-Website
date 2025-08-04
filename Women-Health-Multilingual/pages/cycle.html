@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Four Phases of the Menstrual Cycle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-amber-900 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="hormone_chart_title"></h3>
+            <div class="chart-container">
+                <canvas id="hormoneChart"></canvas>
+            </div>
+        </div>
+
+        <div id="phases-container" class="space-y-6">
+            <!-- Phases will be dynamically inserted here -->
+        </div>
+
+        <div class="mt-8 grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="tracking_title"></h3>
+                <p class="text-gray-600 mb-4" data-translate="tracking_p1"></p>
+                <h4 class="font-bold text-lg mb-2 text-amber-700" data-translate="tracking_how_title"></h4>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="tracking_li1"></li>
+                    <li data-translate="tracking_li2"></li>
+                    <li data-translate="tracking_li3"></li>
+                </ul>
+            </div>
+            <div class="bg-rose-50 p-6 rounded-lg shadow-md border-l-4 border-rose-400">
+                <h3 class="text-2xl font-semibold mb-4 text-rose-800" data-translate="doctor_title"></h3>
+                <p class="text-rose-700 mb-4" data-translate="doctor_p1"></p>
+                <ul class="list-disc list-inside text-rose-700 space-y-2 text-sm">
+                    <li data-translate="doctor_li1"></li>
+                    <li data-translate="doctor_li2"></li>
+                    <li data-translate="doctor_li3"></li>
+                    <li data-translate="doctor_li4"></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            let hormoneChart = null;
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Menstrual Cycle Details",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "A Deeper Look at the Menstrual Cycle",
+                    subtitle: "The menstrual cycle is more than just your period. It's a complex and powerful process orchestrated by hormones. Understanding each phase can help you recognize your body's patterns and overall health.",
+                    hormone_chart_title: "Hormone Fluctuations Throughout the Cycle",
+                    chart_label_estrogen: "Estrogen",
+                    chart_label_progesterone: "Progesterone",
+                    chart_label_lh: "LH (Luteinizing Hormone)",
+                    chart_label_fsh: "FSH (Follicle-Stimulating Hormone)",
+                    chart_x_axis_label: "Day of Cycle",
+                    
+                    phase_menstrual_name: "Menstrual Phase",
+                    phase_menstrual_duration: "Typically Day 1-5",
+                    phase_menstrual_what_happens: "This phase begins on the first day of your period and is the body's way of resetting. Because pregnancy did not occur in the previous cycle, levels of the hormones estrogen and progesterone drop sharply. This hormonal decline signals the uterus to shed its thickened inner lining (the endometrium), resulting in menstrual bleeding.",
+                    phase_menstrual_hormones: "Estrogen and progesterone are at their lowest levels. The pituitary gland begins to release Follicle-Stimulating Hormone (FSH) to start preparing for the next cycle.",
+                    phase_menstrual_symptoms: "Common symptoms include cramps (as the uterus contracts to shed its lining), bloating, breast tenderness, and mood changes. Fatigue is also common due to hormonal shifts and blood loss.",
+
+                    phase_follicular_name: "Follicular Phase",
+                    phase_follicular_duration: "Typically Day 1-13",
+                    phase_follicular_what_happens: "This phase starts on the first day of your period (overlapping with the menstrual phase) and ends with ovulation. Guided by FSH, your ovaries begin to mature several small sacs called follicles, each containing an egg. One of these follicles will become dominant and continue to grow. This dominant follicle produces estrogen, which causes the uterine lining to thicken and enrich with blood and nutrients in preparation for a potential pregnancy.",
+                    phase_follicular_hormones: "FSH levels are initially high to stimulate follicle growth, then decrease. Estrogen levels rise steadily as the dominant follicle grows, becoming the main hormone of this phase.",
+                    phase_follicular_symptoms: "As estrogen levels rise, many women report feeling an increase in energy and mood. You may notice an increase in clear, slippery vaginal discharge as ovulation approaches.",
+
+                    phase_ovulation_name: "Ovulation",
+                    phase_ovulation_duration: "Around Day 14 (in a 28-day cycle)",
+                    phase_ovulation_what_happens: "This is the main event of the cycle. The high level of estrogen from the follicular phase triggers a rapid surge of Luteinizing Hormone (LH) from the pituitary gland. This LH surge acts like a signal, causing the dominant follicle to rupture and release its mature egg into the fallopian tube. The egg is viable for about 12-24 hours, awaiting fertilization.",
+                    phase_ovulation_hormones: "Estrogen peaks, triggering a dramatic surge in LH. FSH also has a smaller surge.",
+                    phase_ovulation_symptoms: "Some women experience mild, one-sided pelvic pain (mittelschmerz). Basal body temperature may show a slight dip followed by a sharp rise after ovulation. Cervical mucus becomes very thin, stretchy, and clear, resembling raw egg whites.",
+
+                    phase_luteal_name: "Luteal Phase",
+                    phase_luteal_duration: "Typically Day 15-28",
+                    phase_luteal_what_happens: "After releasing its egg, the ruptured follicle transforms into a structure called the corpus luteum. The corpus luteum's main job is to produce the hormone progesterone, which makes the uterine lining even thicker and more receptive to a fertilized egg. If the egg is fertilized and implants, the body starts producing hCG (the pregnancy hormone), which maintains the corpus luteum. If pregnancy does not occur, the corpus luteum shrinks and dissolves, causing hormone levels to drop and signaling the start of a new period.",
+                    phase_luteal_hormones: "Progesterone is the dominant hormone in this phase, produced by the corpus luteum. Estrogen levels are also elevated but lower than their peak. If pregnancy doesn't occur, both progesterone and estrogen levels fall sharply at the end of this phase.",
+                    phase_luteal_symptoms: "The rise in progesterone can cause premenstrual symptoms (PMS) such as bloating, breast tenderness, mood swings, anxiety, and food cravings. Basal body temperature remains elevated during this phase.",
+                    
+                    what_happens_title: "What's Happening in Your Body?",
+                    hormones_title: "Key Hormonal Changes",
+                    symptoms_title: "Common Symptoms & Signs",
+
+                    tracking_title: "Tracking Your Cycle: Why It Matters",
+                    tracking_p1: "Keeping track of your menstrual cycle is a powerful tool for understanding your body. It helps you establish what's 'normal' for you, making it easier to spot irregularities that might signal a health issue. It's also essential for family planning, whether you are trying to conceive or avoid pregnancy.",
+                    tracking_how_title: "How to Track",
+                    tracking_li1: "<strong>Calendar Method:</strong> Simply mark the first day of your period on a calendar each month. After a few months, you can calculate your average cycle length.",
+                    tracking_li2: "<strong>Symptom Tracking:</strong> Pay attention to physical and emotional changes like mood, energy levels, and cervical mucus. This provides a richer picture of your cycle.",
+                    tracking_li3: "<strong>Mobile Apps:</strong> Numerous apps are available to help you log your periods and symptoms, often providing predictions for ovulation and your next period.",
+
+                    doctor_title: "When to See a Doctor",
+                    doctor_p1: "While some variation is normal, certain changes in your cycle warrant a conversation with your healthcare provider:",
+                    doctor_li1: "Your periods suddenly stop for more than 90 days (and you are not pregnant).",
+                    doctor_li2: "Your periods become very irregular after having been regular.",
+                    doctor_li3: "You bleed for more than 7 days, or bleed so heavily you soak through a pad or tampon every 1-2 hours.",
+                    doctor_li4: "You experience severe pain, bleeding between periods, or bleeding after menopause.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.womenshealth.gov/menstrual-cycle' target='_blank' class='underline hover:text-amber-800'>Office on Women's Health</a> and <a href='https://www.acog.org/womens-health/infographics/the-menstrual-cycle' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                },
+                es: {
+                    app_title: "Detalles del Ciclo Menstrual",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Una Mirada Profunda al Ciclo Menstrual",
+                    subtitle: "El ciclo menstrual es más que solo su período. Es un proceso complejo y poderoso orquestado por hormonas. Comprender cada fase puede ayudarla a reconocer los patrones de su cuerpo y su salud en general.",
+                    hormone_chart_title: "Fluctuaciones Hormonales a lo Largo del Ciclo",
+                    chart_label_estrogen: "Estrógeno",
+                    chart_label_progesterone: "Progesterona",
+                    chart_label_lh: "LH (Hormona Luteinizante)",
+                    chart_label_fsh: "FSH (Hormona Folículo-Estimulante)",
+                    chart_x_axis_label: "Día del Ciclo",
+
+                    phase_menstrual_name: "Fase Menstrual",
+                    phase_menstrual_duration: "Típicamente Días 1-5",
+                    phase_menstrual_what_happens: "Esta fase comienza el primer día de su período y es la forma en que el cuerpo se reinicia. Como no ocurrió un embarazo en el ciclo anterior, los niveles de las hormonas estrógeno y progesterona caen bruscamente. Esta disminución hormonal le indica al útero que desprenda su revestimiento interno engrosado (el endometrio), lo que resulta en el sangrado menstrual.",
+                    phase_menstrual_hormones: "El estrógeno y la progesterona están en sus niveles más bajos. La glándula pituitaria comienza a liberar la Hormona Folículo-Estimulante (FSH) para comenzar a prepararse para el próximo ciclo.",
+                    phase_menstrual_symptoms: "Los síntomas comunes incluyen cólicos (mientras el útero se contrae para desprender su revestimiento), hinchazón, sensibilidad en los senos y cambios de humor. La fatiga también es común debido a los cambios hormonales y la pérdida de sangre.",
+
+                    phase_follicular_name: "Fase Folicular",
+                    phase_follicular_duration: "Típicamente Días 1-13",
+                    phase_follicular_what_happens: "Esta fase comienza el primer día de su período (superponiéndose con la fase menstrual) y termina con la ovulación. Guiada por la FSH, sus ovarios comienzan a madurar varios sacos pequeños llamados folículos, cada uno con un óvulo. Uno de estos folículos se volverá dominante y continuará creciendo. Este folículo dominante produce estrógeno, lo que hace que el revestimiento uterino se engrose y se enriquezca con sangre y nutrientes en preparación para un posible embarazo.",
+                    phase_follicular_hormones: "Los niveles de FSH son inicialmente altos para estimular el crecimiento de los folículos, luego disminuyen. Los niveles de estrógeno aumentan constantemente a medida que crece el folículo dominante, convirtiéndose en la hormona principal de esta fase.",
+                    phase_follicular_symptoms: "A medida que aumentan los niveles de estrógeno, muchas mujeres reportan un aumento de energía y buen humor. Puede notar un aumento en el flujo vaginal claro y resbaladizo a medida que se acerca la ovulación.",
+
+                    phase_ovulation_name: "Ovulación",
+                    phase_ovulation_duration: "Alrededor del Día 14 (en un ciclo de 28 días)",
+                    phase_ovulation_what_happens: "Este es el evento principal del ciclo. El alto nivel de estrógeno de la fase folicular desencadena un rápido aumento de la Hormona Luteinizante (LH) desde la glándula pituitaria. Este pico de LH actúa como una señal, haciendo que el folículo dominante se rompa y libere su óvulo maduro en la trompa de Falopio. El óvulo es viable durante unas 12-24 horas, esperando la fertilización.",
+                    phase_ovulation_hormones: "El estrógeno alcanza su punto máximo, lo que desencadena un aumento drástico de la LH. La FSH también tiene un pico más pequeño.",
+                    phase_ovulation_symptoms: "Algunas mujeres experimentan un dolor pélvico leve y unilateral (mittelschmerz). La temperatura corporal basal puede mostrar una ligera caída seguida de un aumento brusco después de la ovulación. El moco cervical se vuelve muy fino, elástico y transparente, parecido a la clara de huevo cruda.",
+
+                    phase_luteal_name: "Fase Lútea",
+                    phase_luteal_duration: "Típicamente Días 15-28",
+                    phase_luteal_what_happens: "Después de liberar su óvulo, el folículo roto se transforma en una estructura llamada cuerpo lúteo. El trabajo principal del cuerpo lúteo es producir la hormona progesterona, que hace que el revestimiento uterino sea aún más grueso y receptivo a un óvulo fertilizado. Si el óvulo es fertilizado e implantado, el cuerpo comienza a producir hCG (la hormona del embarazo), que mantiene el cuerpo lúteo. Si no ocurre el embarazo, el cuerpo lúteo se encoge y se disuelve, lo que provoca la caída de los niveles hormonales y señala el inicio de un nuevo período.",
+                    phase_luteal_hormones: "La progesterona es la hormona dominante en esta fase, producida por el cuerpo lúteo. Los niveles de estrógeno también están elevados pero más bajos que su pico. Si no ocurre el embarazo, tanto los niveles de progesterona como de estrógeno caen bruscamente al final de esta fase.",
+                    phase_luteal_symptoms: "El aumento de la progesterona puede causar síntomas premenstruales (SPM) como hinchazón, sensibilidad en los senos, cambios de humor, ansiedad y antojos de comida. La temperatura corporal basal permanece elevada durante esta fase.",
+
+                    what_happens_title: "¿Qué Sucede en su Cuerpo?",
+                    hormones_title: "Cambios Hormonales Clave",
+                    symptoms_title: "Síntomas y Signos Comunes",
+
+                    tracking_title: "Seguimiento de su Ciclo: Por Qué Importa",
+                    tracking_p1: "Llevar un registro de su ciclo menstrual es una herramienta poderosa para comprender su cuerpo. Le ayuda a establecer lo que es 'normal' para usted, facilitando la detección de irregularidades que podrían indicar un problema de salud. También es esencial para la planificación familiar, ya sea que esté tratando de concebir o de evitar un embarazo.",
+                    tracking_how_title: "Cómo Hacer el Seguimiento",
+                    tracking_li1: "<strong>Método del Calendario:</strong> Simplemente marque el primer día de su período en un calendario cada mes. Después de unos meses, puede calcular la duración promedio de su ciclo.",
+                    tracking_li2: "<strong>Seguimiento de Síntomas:</strong> Preste atención a los cambios físicos y emocionales como el estado de ánimo, los niveles de energía y el moco cervical. Esto proporciona una imagen más rica de su ciclo.",
+                    tracking_li3: "<strong>Aplicaciones Móviles:</strong> Existen numerosas aplicaciones para ayudarla a registrar sus períodos y síntomas, que a menudo ofrecen predicciones sobre la ovulación y su próximo período.",
+
+                    doctor_title: "Cuándo Consultar a un Médico",
+                    doctor_p1: "Aunque cierta variación es normal, ciertos cambios en su ciclo justifican una conversación con su proveedor de atención médica:",
+                    doctor_li1: "Sus períodos se detienen repentinamente por más de 90 días (y no está embarazada).",
+                    doctor_li2: "Sus períodos se vuelven muy irregulares después de haber sido regulares.",
+                    doctor_li3: "Sangra durante más de 7 días, o sangra tan abundantemente que empapa una toalla sanitaria o tampón cada 1-2 horas.",
+                    doctor_li4: "Experimenta dolor severo, sangrado entre períodos o sangrado después de la menopausia.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como la <a href='https://espanol.womenshealth.gov/menstrual-cycle' target='_blank' class='underline hover:text-amber-800'>Oficina para la Salud de la Mujer</a> y <a href='https://www.acog.org/womens-health/infographics/the-menstrual-cycle' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                }
+            };
+            
+            const phaseData = [
+                { id: 'menstrual', color: 'rose', icon: '💧' },
+                { id: 'follicular', color: 'emerald', icon: '🌱' },
+                { id: 'ovulation', color: 'yellow', icon: '☀️' },
+                { id: 'luteal', color: 'indigo', icon: '🌙' }
+            ];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderPhases();
+                renderHormoneChart();
+            };
+
+            const renderPhases = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('phases-container');
+                container.innerHTML = phaseData.map(phase => `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <button class="accordion-button flex justify-between items-center w-full p-5 text-left font-semibold text-xl text-${phase.color}-800 bg-${phase.color}-50 hover:bg-${phase.color}-100 transition">
+                            <div class="flex items-center">
+                                <span class="text-3xl mr-4">${phase.icon}</span>
+                                <div>
+                                    <span data-translate="phase_${phase.id}_name"></span>
+                                    <span class="block text-sm font-normal text-${phase.color}-600" data-translate="phase_${phase.id}_duration"></span>
+                                </div>
+                            </div>
+                            <svg class="w-6 h-6 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-5 border-t border-${phase.color}-200 grid md:grid-cols-3 gap-6">
+                                <div class="md:col-span-1">
+                                    <h4 class="font-bold text-lg mb-2 text-${phase.color}-700" data-translate="what_happens_title"></h4>
+                                    <p class="text-sm text-gray-600" data-translate="phase_${phase.id}_what_happens"></p>
+                                </div>
+                                <div class="md:col-span-1">
+                                    <h4 class="font-bold text-lg mb-2 text-${phase.color}-700" data-translate="hormones_title"></h4>
+                                    <p class="text-sm text-gray-600" data-translate="phase_${phase.id}_hormones"></p>
+                                </div>
+                                <div class="md:col-span-1">
+                                    <h4 class="font-bold text-lg mb-2 text-${phase.color}-700" data-translate="symptoms_title"></h4>
+                                    <p class="text-sm text-gray-600" data-translate="phase_${phase.id}_symptoms"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                // Re-translate the newly created elements
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+            };
+
+            const renderHormoneChart = () => {
+                const t = translations[currentLanguage];
+                const ctx = document.getElementById('hormoneChart').getContext('2d');
+                const labels = Array.from({ length: 28 }, (_, i) => i + 1);
+                
+                if (hormoneChart) {
+                    hormoneChart.destroy();
+                }
+
+                hormoneChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: t.chart_label_estrogen,
+                                data: [2, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 10, 4, 5, 6, 6, 7, 7, 8, 8, 7, 6, 5, 4, 3, 2, 2],
+                                borderColor: 'rgba(219, 39, 119, 1)',
+                                backgroundColor: 'rgba(219, 39, 119, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                            },
+                            {
+                                label: t.chart_label_progesterone,
+                                data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 4, 6, 8, 10, 11, 12, 11, 10, 8, 6, 4, 2, 1, 1],
+                                borderColor: 'rgba(124, 58, 237, 1)',
+                                backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                            },
+                            {
+                                label: t.chart_label_lh,
+                                data: [3, 3, 3, 3, 3, 3, 3, 4, 4, 5, 6, 8, 20, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+                                borderColor: 'rgba(2, 132, 199, 1)',
+                                backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                            },
+                            {
+                                label: t.chart_label_fsh,
+                                data: [6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 6, 7, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 6],
+                                borderColor: 'rgba(5, 150, 105, 1)',
+                                backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: { display: true, text: t.chart_x_axis_label }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Relative Hormone Levels' }
+                            }
+                        },
+                        plugins: {
+                            tooltip: { mode: 'index', intersect: false },
+                        }
+                    }
+                });
+            };
+
+            document.body.addEventListener('click', (e) => {
+                if (e.target.matches('.accordion-button, .accordion-button *')) {
+                    const button = e.target.closest('.accordion-button');
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('svg');
+                    
+                    if (content && content.classList.contains('accordion-content')) {
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

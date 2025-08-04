@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF--8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Endometriosis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .location-card {
+            transition: all 0.3s ease;
+        }
+        .location-card.active {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #FBBF24;
+        }
+        .treatment-tab {
+            transition: all 0.3s ease;
+        }
+        .treatment-tab-content {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-amber-900 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="what_is_title"></h3>
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div id="location-cards" class="w-full md:w-1/2 grid grid-cols-2 gap-4">
+                    <!-- Location cards will be inserted here -->
+                </div>
+                <div id="location-details" class="w-full md:w-1/2 p-4 bg-gray-50 rounded-lg min-h-[200px]">
+                    <p class="text-gray-500" data-translate="location_select"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-6 text-center text-amber-800" data-translate="symptoms_title"></h3>
+            <div id="symptoms-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diag_staging_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-blue-800" data-translate="diag_title"></h4>
+                    <p class="text-blue-700 mb-4" data-translate="diag_p1"></p>
+                    <ul class="list-disc list-inside text-blue-700 space-y-2 text-sm">
+                        <li data-translate="diag_li1"></li>
+                        <li data-translate="diag_li2"></li>
+                    </ul>
+                </div>
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-green-800" data-translate="staging_title"></h4>
+                    <p class="text-green-700 mb-4" data-translate="staging_p1"></p>
+                     <ul class="list-disc list-inside text-green-700 space-y-2 text-sm">
+                        <li data-translate="staging_li1"></li>
+                        <li data-translate="staging_li2"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treatment_title"></h3>
+            <div class="flex justify-center mb-6 border-b border-gray-200">
+                <button class="treatment-tab px-6 py-3 font-semibold border-b-2" data-tab="pain"></button>
+                <button class="treatment-tab px-6 py-3 font-semibold border-b-2" data-tab="hormone"></button>
+                <button class="treatment-tab px-6 py-3 font-semibold border-b-2" data-tab="surgery"></button>
+            </div>
+            <div id="treatment-content"></div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="fertility_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-rose-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-rose-800" data-translate="fertility_how_title"></h4>
+                    <p class="text-rose-700" data-translate="fertility_how_p1"></p>
+                </div>
+                <div class="bg-cyan-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-cyan-800" data-translate="fertility_options_title"></h4>
+                    <p class="text-cyan-700" data-translate="fertility_options_p1"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-purple-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-purple-800" data-translate="living_title"></h3>
+                <p class="text-purple-700 mb-4" data-translate="living_p1"></p>
+                <ul class="list-disc list-inside text-purple-700 space-y-2 text-sm">
+                    <li data-translate="living_li1"></li>
+                    <li data-translate="living_li2"></li>
+                    <li data-translate="living_li3"></li>
+                </ul>
+            </div>
+            <div class="bg-yellow-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-yellow-800" data-translate="pain_valid_title"></h3>
+                <p class="text-yellow-700" data-translate="pain_valid_p1"></p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Endometriosis",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Endometriosis",
+                    subtitle: "Endometriosis is a chronic and often painful condition where tissue similar to the lining of the uterus grows outside of it. This guide explains what it is, its symptoms, and how it's managed.",
+                    
+                    what_is_title: "What is Endometriosis & Where is it Found?",
+                    location_select: "Click on a card to learn about common locations for endometriosis.",
+                    loc_ovaries_name: "Ovaries", loc_ovaries_desc: "Endometrial tissue can form cysts on the ovaries called endometriomas.",
+                    loc_tubes_name: "Fallopian Tubes", loc_tubes_desc: "Implants can block the fallopian tubes, which can lead to infertility.",
+                    loc_uterus_name: "Outer Surface of Uterus", loc_uterus_desc: "Tissue can grow on the back of the uterus and in the space behind it.",
+                    loc_bowel_name: "Bowel and Bladder", loc_bowel_desc: "Endometriosis can grow on the surface of the bowel or bladder, causing pain with urination or bowel movements.",
+                    loc_peritoneum_name: "Peritoneum", loc_peritoneum_desc: "This is the most common location, affecting the thin membrane that lines the pelvic cavity.",
+
+                    symptoms_title: "Common Signs and Symptoms",
+                    symptom_painful_periods_name: "Painful Periods", symptom_painful_periods_desc: "Pain far more severe than typical menstrual cramps.",
+                    symptom_chronic_pain_name: "Chronic Pelvic Pain", symptom_chronic_pain_desc: "Persistent pain in the lower back and pelvis, even when not menstruating.",
+                    symptom_intercourse_pain_name: "Pain with Intercourse", symptom_intercourse_pain_desc: "A common and distressing symptom known as dyspareunia.",
+                    symptom_bowel_pain_name: "Bowel & Bladder Pain", symptom_bowel_pain_desc: "Pain with bowel movements or urination, especially during a period.",
+                    symptom_heavy_bleeding_name: "Heavy Bleeding", symptom_heavy_bleeding_desc: "Excessive menstrual bleeding (menorrhagia) or bleeding between periods.",
+                    symptom_infertility_name: "Infertility", symptom_infertility_desc: "Difficulty conceiving is the first sign for some women.",
+
+                    diag_staging_title: "Diagnosis and Staging",
+                    diag_title: "The Diagnostic Journey",
+                    diag_p1: "Diagnosing endometriosis involves several steps, starting with a discussion of your symptoms and a pelvic exam. While imaging can help, the only definitive diagnosis is surgical.",
+                    diag_li1: "<strong>Imaging:</strong> A transvaginal ultrasound is often the first step to look for ovarian cysts (endometriomas). An MRI may provide more detail.",
+                    diag_li2: "<strong>Laparoscopy:</strong> This minimally invasive surgery is the 'gold standard.' A surgeon looks inside the pelvis with a camera to directly see and biopsy the implants.",
+                    staging_title: "The 4 Stages",
+                    staging_p1: "During surgery, endometriosis is staged from I (minimal) to IV (severe) based on the location, amount, and depth of the implants. Stage does not always correlate with pain levels.",
+                    staging_li1: "<strong>Stage I-II (Minimal/Mild):</strong> Small, superficial implants and minimal scar tissue.",
+                    staging_li2: "<strong>Stage III-IV (Moderate/Severe):</strong> More widespread, deep implants, large endometriomas, and significant scar tissue (adhesions).",
+
+                    treatment_title: "How is Endometriosis Treated?",
+                    treatment_tab_pain: "Pain Management",
+                    treatment_tab_hormone: "Hormone Therapy",
+                    treatment_tab_surgery: "Surgery",
+                    treatment_pain_p1: "For mild symptoms, over-the-counter nonsteroidal anti-inflammatory drugs (NSAIDs) like ibuprofen or naproxen can be effective at reducing pain and cramping.",
+                    treatment_hormone_p1: "This is the cornerstone of medical management. The goal is to suppress the hormonal cycle, which prevents the implants from growing and bleeding. Options include:",
+                    treatment_hormone_list: [
+                        "<strong>Hormonal Contraceptives:</strong> Birth control pills, patches, and rings can make periods lighter and less painful.",
+                        "<strong>Progestin-Only Therapies:</strong> These can be delivered via an IUD, implant, injection, or pill, and often stop periods altogether.",
+                        "<strong>GnRH Agonists:</strong> These powerful medications induce a temporary 'medical menopause' to shrink implants."
+                    ],
+                    treatment_surgery_p1: "When pain is severe or infertility is a concern, surgery is often recommended.",
+                    treatment_surgery_list: [
+                        "<strong>Laparoscopy:</strong> A minimally invasive surgery to remove or destroy endometriosis implants. This is the gold standard for both diagnosis and treatment.",
+                        "<strong>Hysterectomy:</strong> Removal of the uterus (and sometimes ovaries) may be considered a definitive treatment for women with severe disease who have completed childbearing."
+                    ],
+
+                    fertility_title: "Endometriosis and Fertility",
+                    fertility_how_title: "How It Affects Fertility",
+                    fertility_how_p1: "Endometriosis can impact fertility by causing inflammation, distorting pelvic anatomy with scar tissue, blocking fallopian tubes, or affecting egg quality and implantation.",
+                    fertility_options_title: "Treatment Options",
+                    fertility_options_p1: "For women trying to conceive, laparoscopic surgery to remove implants can improve chances of pregnancy. If that is not successful, fertility treatments like In Vitro Fertilization (IVF) are often very effective.",
+
+                    living_title: "Living with Endometriosis",
+                    living_p1: "Managing a chronic condition like endometriosis often involves a holistic approach.",
+                    living_li1: "<strong>Diet & Exercise:</strong> Some women find relief by reducing inflammatory foods. Gentle exercise like yoga or swimming can help manage pain.",
+                    living_li2: "<strong>Pelvic Floor Physical Therapy:</strong> A specialized therapist can help relax and strengthen pelvic muscles to alleviate chronic pain.",
+                    living_li3: "<strong>Support Groups:</strong> Connecting with others who understand the condition can provide invaluable emotional support.",
+                    
+                    pain_valid_title: "Your Pain is Real",
+                    pain_valid_p1: "A challenging aspect of this disease is that the severity of your symptoms does not always match the extent of the disease found during surgery. It is important to feel validated in your experience of pain, regardless of the findings. If you are in pain, you deserve to be heard and treated.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.endofound.org/endometriosis' target='_blank' class='underline hover:text-amber-800'>Endometriosis Foundation of America</a> and <a href='https://www.acog.org/womens-health/faqs/endometriosis' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                },
+                es: {
+                    app_title: "Endometriosis",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo la Endometriosis",
+                    subtitle: "La endometriosis es una condición crónica y a menudo dolorosa en la que un tejido similar al revestimiento del útero crece fuera de él. Esta guía explica qué es, sus síntomas y cómo se maneja.",
+                    
+                    what_is_title: "¿Qué es la Endometriosis y Dónde se Encuentra?",
+                    location_select: "Haga clic en una tarjeta para aprender sobre las ubicaciones comunes de la endometriosis.",
+                    loc_ovaries_name: "Ovarios", loc_ovaries_desc: "El tejido endometrial puede formar quistes en los ovarios llamados endometriomas.",
+                    loc_tubes_name: "Trompas de Falopio", loc_tubes_desc: "Los implantes pueden bloquear las trompas de Falopio, lo que puede conducir a la infertilidad.",
+                    loc_uterus_name: "Superficie Externa del Útero", loc_uterus_desc: "El tejido puede crecer en la parte posterior del útero y en el espacio detrás de él.",
+                    loc_bowel_name: "Intestino y Vejiga", loc_bowel_desc: "La endometriosis puede crecer en la superficie del intestino o la vejiga, causando dolor al orinar o al defecar.",
+                    loc_peritoneum_name: "Peritoneo", loc_peritoneum_desc: "Esta es la ubicación más común, afectando la delgada membrana que recubre la cavidad pélvica.",
+
+                    symptoms_title: "Signos y Síntomas Comunes",
+                    symptom_painful_periods_name: "Períodos Dolorosos", symptom_painful_periods_desc: "Dolor mucho más severo que los cólicos menstruales típicos.",
+                    symptom_chronic_pain_name: "Dolor Pélvico Crónico", symptom_chronic_pain_desc: "Dolor persistente en la parte baja de la espalda y la pelvis, incluso sin menstruación.",
+                    symptom_intercourse_pain_name: "Dolor durante las Relaciones Sexuales", symptom_intercourse_pain_desc: "Un síntoma común y angustiante conocido como dispareunia.",
+                    symptom_bowel_pain_name: "Dolor Intestinal y Vesical", symptom_bowel_pain_desc: "Dolor al defecar u orinar, especialmente durante el período.",
+                    symptom_heavy_bleeding_name: "Sangrado Abundante", symptom_heavy_bleeding_desc: "Sangrado menstrual excesivo (menorragia) o sangrado entre períodos.",
+                    symptom_infertility_name: "Infertilidad", symptom_infertility_desc: "La dificultad para concebir es el primer signo para algunas mujeres.",
+
+                    diag_staging_title: "Diagnóstico y Estadios",
+                    diag_title: "El Proceso Diagnóstico",
+                    diag_p1: "El diagnóstico de la endometriosis implica varios pasos, comenzando con una discusión de sus síntomas y un examen pélvico. Aunque las imágenes pueden ayudar, el único diagnóstico definitivo es quirúrgico.",
+                    diag_li1: "<strong>Imágenes:</strong> Una ecografía transvaginal suele ser el primer paso para buscar quistes ováricos (endometriomas). Una resonancia magnética puede proporcionar más detalles.",
+                    diag_li2: "<strong>Laparoscopia:</strong> Esta cirugía mínimamente invasiva es el 'estándar de oro'. Un cirujano mira dentro de la pelvis con una cámara para ver directamente y tomar una biopsia de los implantes.",
+                    staging_title: "Los 4 Estadios",
+                    staging_p1: "Durante la cirugía, la endometriosis se clasifica del I (mínimo) al IV (severo) según la ubicación, cantidad y profundidad de los implantes. El estadio no siempre se correlaciona con los niveles de dolor.",
+                    staging_li1: "<strong>Estadio I-II (Mínimo/Leve):</strong> Implantes pequeños y superficiales y tejido cicatricial mínimo.",
+                    staging_li2: "<strong>Estadio III-IV (Moderado/Severo):</strong> Implantes más extendidos y profundos, endometriomas grandes y tejido cicatricial significativo (adherencias).",
+
+                    treatment_title: "¿Cómo se Trata la Endometriosis?",
+                    treatment_tab_pain: "Manejo del Dolor",
+                    treatment_tab_hormone: "Terapia Hormonal",
+                    treatment_tab_surgery: "Cirugía",
+                    treatment_pain_p1: "Para síntomas leves, los antiinflamatorios no esteroideos (AINEs) de venta libre como el ibuprofeno o el naproxeno pueden ser efectivos para reducir el dolor y los cólicos.",
+                    treatment_hormone_p1: "Es la piedra angular del manejo médico. El objetivo es suprimir el ciclo hormonal, lo que evita que los implantes crezcan y sangren. Las opciones incluyen:",
+                    treatment_hormone_list: [
+                        "<strong>Anticonceptivos Hormonales:</strong> Las píldoras anticonceptivas, los parches y los anillos vaginales pueden hacer que los períodos sean más ligeros y menos dolorosos.",
+                        "<strong>Terapias solo con Progestina:</strong> Se pueden administrar a través de un DIU, implante, inyección o píldora, y a menudo detienen los períodos por completo.",
+                        "<strong>Agonistas de la GnRH:</strong> Estos potentes medicamentos inducen una 'menopausia médica' temporal para reducir los implantes."
+                    ],
+                    treatment_surgery_p1: "Cuando el dolor es severo o la infertilidad es una preocupación, a menudo se recomienda la cirugía.",
+                    treatment_surgery_list: [
+                        "<strong>Laparoscopia:</strong> Una cirugía mínimamente invasiva para extirpar o destruir los implantes de endometriosis. Es el estándar de oro tanto para el diagnóstico como para el tratamiento.",
+                        "<strong>Histerectomía:</strong> La extirpación del útero (y a veces los ovarios) puede considerarse un tratamiento definitivo para mujeres con enfermedad grave que han completado la maternidad."
+                    ],
+
+                    fertility_title: "Endometriosis y Fertilidad",
+                    fertility_how_title: "Cómo Afecta la Fertilidad",
+                    fertility_how_p1: "La endometriosis puede afectar la fertilidad al causar inflamación, distorsionar la anatomía pélvica con tejido cicatricial, bloquear las trompas de Falopio o afectar la calidad del óvulo y la implantación.",
+                    fertility_options_title: "Opciones de Tratamiento",
+                    fertility_options_p1: "Para las mujeres que intentan concebir, la cirugía laparoscópica para eliminar los implantes puede mejorar las posibilidades de embarazo. Si eso no tiene éxito, los tratamientos de fertilidad como la Fecundación In Vitro (FIV) suelen ser muy efectivos.",
+
+                    living_title: "Vivir con Endometriosis",
+                    living_p1: "Manejar una condición crónica como la endometriosis a menudo implica un enfoque holístico.",
+                    living_li1: "<strong>Dieta y Ejercicio:</strong> Algunas mujeres encuentran alivio al reducir los alimentos inflamatorios. El ejercicio suave como el yoga o la natación puede ayudar a manejar el dolor.",
+                    living_li2: "<strong>Fisioterapia del Suelo Pélvico:</strong> Un terapeuta especializado puede ayudar a relajar y fortalecer los músculos pélvicos para aliviar el dolor crónico.",
+                    living_li3: "<strong>Grupos de Apoyo:</strong> Conectar con otras personas que entienden la condición puede proporcionar un apoyo emocional invaluable.",
+                    
+                    pain_valid_title: "Su Dolor es Real",
+                    pain_valid_p1: "Un aspecto desafiante de esta enfermedad es que la gravedad de sus síntomas no siempre coincide con la extensión de la enfermedad encontrada durante la cirugía. Es importante que se sienta validada en su experiencia de dolor, independientemente de los hallazgos. Si tiene dolor, merece ser escuchada y tratada.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como la <a href='https://www.endofound.org/endometriosis' target='_blank' class='underline hover:text-amber-800'>Fundación de Endometriosis de América</a> y <a href='https://www.acog.org/womens-health/faqs/endometriosis' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                }
+            };
+
+            const symptomData = [
+                { id: 'painful_periods', icon: '🩸' }, { id: 'chronic_pain', icon: '😖' },
+                { id: 'intercourse_pain', icon: '💔' }, { id: 'bowel_pain', icon: '🚽' },
+                { id: 'heavy_bleeding', icon: '🌊' }, { id: 'infertility', icon: '👶' }
+            ];
+
+            const locationData = [
+                { id: 'ovaries', icon: '🥚', color: 'pink' },
+                { id: 'tubes', icon: '🧬', color: 'purple' },
+                { id: 'uterus', icon: '🌷', color: 'red' },
+                { id: 'bowel', icon: '🌀', color: 'orange' },
+                { id: 'peritoneum', icon: '✨', color: 'teal' }
+            ];
+            const treatmentData = ['pain', 'hormone', 'surgery'];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderSymptoms();
+                renderLocationCards();
+                renderTreatments();
+                switchTab('pain');
+            };
+
+            const renderSymptoms = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('symptoms-container');
+                container.innerHTML = symptomData.map(symptom => `
+                    <div class="bg-gray-50 p-4 rounded-lg flex items-start space-x-4">
+                        <span class="text-3xl">${symptom.icon}</span>
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-800">${t[`symptom_${symptom.id}_name`]}</h4>
+                            <p class="text-sm text-gray-600">${t[`symptom_${symptom.id}_desc`]}</p>
+                        </div>
+                    </div>
+                `).join('');
+            };
+
+            const renderLocationCards = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('location-cards');
+                container.innerHTML = locationData.map(loc => `
+                    <div class="location-card p-4 bg-${loc.color}-50 rounded-lg shadow-sm cursor-pointer border-2 border-transparent hover:border-${loc.color}-300 flex flex-col items-center text-center" data-loc="${loc.id}">
+                        <span class="text-4xl mb-2">${loc.icon}</span>
+                        <h5 class="font-bold text-md text-${loc.color}-800">${t[`loc_${loc.id}_name`]}</h5>
+                    </div>
+                `).join('');
+
+                const locationCards = document.querySelectorAll('.location-card');
+                const locationDetails = document.getElementById('location-details');
+                locationCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const locId = card.dataset.loc;
+                        locationCards.forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                        locationDetails.innerHTML = `
+                            <h4 class="font-bold text-lg mb-2 text-amber-800">${t[`loc_${locId}_name`]}</h4>
+                            <p class="text-sm text-gray-700">${t[`loc_${locId}_desc`]}</p>
+                        `;
+                    });
+                });
+                if(locationCards.length > 0) {
+                    locationCards[0].click();
+                }
+            };
+
+            const renderTreatments = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('treatment-content');
+                let contentHtml = '';
+                treatmentData.forEach(tab => {
+                    let listItems = '';
+                    if (t[`treatment_${tab}_list`]) {
+                         listItems = t[`treatment_${tab}_list`].map(item => `<li>${item}</li>`).join('');
+                    }
+                    contentHtml += `
+                        <div id="content-${tab}" class="treatment-tab-content p-4">
+                            <p class="mb-4" data-translate="treatment_${tab}_p1">${t[`treatment_${tab}_p1`]}</p>
+                            ${listItems ? `<ul class="list-disc list-inside space-y-2">${listItems}</ul>` : ''}
+                        </div>
+                    `;
+                });
+                container.innerHTML = contentHtml;
+            };
+
+            const treatmentTabs = document.querySelectorAll('.treatment-tab');
+            const switchTab = (tabId) => {
+                const t = translations[currentLanguage];
+                const tabContents = document.querySelectorAll('.treatment-tab-content');
+                treatmentTabs.forEach(tab => {
+                    const isActive = tab.dataset.tab === tabId;
+                    tab.textContent = t[`treatment_tab_${tab.dataset.tab}`];
+                    tab.classList.toggle('border-amber-500', isActive);
+                    tab.classList.toggle('text-amber-600', isActive);
+                    tab.classList.toggle('border-transparent', !isActive);
+                    tab.classList.toggle('text-gray-500', !isActive);
+                });
+                tabContents.forEach(content => {
+                    content.style.display = content.id === `content-${tabId}` ? 'block' : 'none';
+                });
+            };
+            treatmentTabs.forEach(tab => {
+                tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+            });
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

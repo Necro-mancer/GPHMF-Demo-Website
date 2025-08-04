@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Endometrial Cancer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .flip-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-rose-800 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-rose-50 border-l-4 border-rose-500 p-6 rounded-r-lg shadow-md mb-8">
+            <h3 class="text-2xl font-bold text-rose-800 mb-2" data-translate="key_symptom_title"></h3>
+            <p class="text-rose-700" data-translate="key_symptom_p1"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="risk_factors_title"></h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-orange-50 p-4 rounded-lg"><div class="text-3xl mb-2">📈</div><h4 class="font-bold text-lg text-orange-800" data-translate="risk_hormonal_title"></h4><p class="text-sm text-orange-700" data-translate="risk_hormonal_desc"></p></div>
+                <div class="bg-teal-50 p-4 rounded-lg"><div class="text-3xl mb-2">⚖️</div><h4 class="font-bold text-lg text-teal-800" data-translate="risk_lifestyle_title"></h4><p class="text-sm text-teal-700" data-translate="risk_lifestyle_desc"></p></div>
+                <div class="bg-purple-50 p-4 rounded-lg"><div class="text-3xl mb-2">🧬</div><h4 class="font-bold text-lg text-purple-800" data-translate="risk_other_title"></h4><p class="text-sm text-purple-700" data-translate="risk_other_desc"></p></div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diagnosis_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="diagnosis_p1"></p>
+            <div id="diagnosis-container" class="grid md:grid-cols-3 gap-6 text-center">
+                <!-- Flippable cards will be inserted here -->
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="diagnosis_details_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-blue-800" data-translate="types_title"></h4>
+                    <p class="text-blue-700" data-translate="types_p1"></p>
+                </div>
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-green-800" data-translate="staging_title"></h4>
+                    <p class="text-green-700" data-translate="staging_p1"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treatment_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="treatment_p1"></p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-purple-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-purple-800" data-translate="treatment_surgery_title"></h4><p class="text-sm text-purple-700" data-translate="treatment_surgery_desc"></p></div>
+                <div class="bg-rose-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-rose-800" data-translate="treatment_radiation_title"></h4><p class="text-sm text-rose-700" data-translate="treatment_radiation_desc"></p></div>
+                <div class="bg-orange-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-orange-800" data-translate="treatment_chemo_title"></h4><p class="text-sm text-orange-700" data-translate="treatment_chemo_desc"></p></div>
+                <div class="bg-green-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-green-800" data-translate="treatment_hormone_title"></h4><p class="text-sm text-green-700" data-translate="treatment_hormone_desc"></p></div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="survivorship_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="survivorship_p1"></p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-cyan-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-cyan-800" data-translate="follow_up_title"></h4><p class="text-sm text-cyan-700" data-translate="follow_up_desc"></p></div>
+                <div class="bg-pink-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-pink-800" data-translate="emotional_title"></h4><p class="text-sm text-pink-700" data-translate="emotional_desc"></p></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Endometrial Cancer",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Endometrial Cancer",
+                    subtitle: "Endometrial cancer is the most common cancer of the female reproductive organs. The good news is that it's often found early because it produces a clear warning sign, making it highly treatable.",
+                    
+                    key_symptom_title: "The Most Important Sign to Know",
+                    key_symptom_p1: "<strong>Any bleeding or spotting after menopause is not normal and must be evaluated by a doctor immediately.</strong> This is the most common symptom of endometrial cancer and acting on it quickly is the key to early diagnosis and successful treatment.",
+
+                    risk_factors_title: "What Increases Your Risk?",
+                    risk_hormonal_title: "Hormone Balance",
+                    risk_hormonal_desc: "Conditions that increase estrogen levels without enough progesterone to balance it, such as obesity, PCOS, and taking estrogen-only therapy after menopause.",
+                    risk_lifestyle_title: "Lifestyle Factors",
+                    risk_lifestyle_desc: "Obesity is a major risk factor as fat cells produce extra estrogen. A diet high in fatty foods can also contribute.",
+                    risk_other_title: "Other Factors",
+                    risk_other_desc: "Risk increases with age. A family history of uterine or colon cancer (like Lynch syndrome) also increases risk.",
+
+                    diagnosis_title: "How is Endometrial Cancer Diagnosed?",
+                    diagnosis_p1: "If you have abnormal bleeding, your doctor will perform a series of tests to find the cause.",
+                    diag_step1: "Pelvic Exam & Ultrasound",
+                    diag_step2: "Endometrial Biopsy",
+                    diag_step3: "D&C and Hysteroscopy",
+                    diag_flip_prompt: "(Click to flip for details)",
+                    diag_step1_back: "The first step is a pelvic exam. A transvaginal ultrasound is then used to look at the uterus and measure the thickness of the endometrium (lining).",
+                    diag_step2_back: "This is the most common test to diagnose endometrial cancer. A thin, flexible tube is inserted into the uterus to collect a small sample of the lining for analysis.",
+                    diag_step3_back: "If a biopsy isn't clear, a D&C (Dilation and Curettage) may be done to get a larger sample. It's often performed with a hysteroscopy, which uses a tiny camera to look inside the uterus.",
+
+                    diagnosis_details_title: "Understanding Your Diagnosis",
+                    types_title: "Types of Endometrial Cancer",
+                    types_p1: "Your biopsy will determine the type of cancer. Most are endometrioid adenocarcinomas, which are linked to excess estrogen and tend to have a good prognosis. Other, less common types can be more aggressive.",
+                    staging_title: "Cancer Staging",
+                    staging_p1: "Staging (from Stage 0 to Stage IV) describes how far the cancer has spread. It considers the tumor size, whether lymph nodes are involved, and if the cancer has spread to distant organs. The stage is the most important factor in determining your treatment plan and prognosis.",
+
+                    treatment_title: "How is Endometrial Cancer Treated?",
+                    treatment_p1: "Treatment depends on the type and stage of the cancer. The primary treatment is almost always surgery.",
+                    treatment_surgery_title: "Surgery",
+                    treatment_surgery_desc: "A hysterectomy (removal of the uterus and cervix) is the main treatment. The fallopian tubes and ovaries are also typically removed.",
+                    treatment_radiation_title: "Radiation Therapy",
+                    treatment_radiation_desc: "Uses high-energy rays to kill cancer cells. It may be used after surgery to reduce the risk of the cancer coming back.",
+                    treatment_chemo_title: "Chemotherapy",
+                    treatment_chemo_desc: "Uses powerful drugs to kill cancer cells. It is typically used for more advanced cancers that have spread.",
+                    treatment_hormone_title: "Hormone Therapy",
+                    treatment_hormone_desc: "Uses progestins or other drugs to treat advanced endometrial cancer by targeting the hormones that help it grow.",
+
+                    survivorship_title: "Life After Treatment",
+                    survivorship_p1: "After completing treatment, your care will focus on monitoring for recurrence and managing any long-term side effects.",
+                    follow_up_title: "Follow-Up Care",
+                    follow_up_desc: "You will have regular check-ups with your doctor, including pelvic exams. These appointments are a chance to discuss any new symptoms and manage your recovery.",
+                    emotional_title: "Emotional Well-Being",
+                    emotional_desc: "A cancer diagnosis can be emotionally challenging. Connecting with support groups, counselors, or other survivors can be an invaluable part of your recovery journey.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.cancer.org/cancer/types/endometrial-cancer.html' target='_blank' class='underline hover:text-amber-800'>American Cancer Society</a> and <a href='https://www.acog.org/womens-health/faqs/endometrial-cancer' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                },
+                es: {
+                    app_title: "Cáncer de Endometrio",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo el Cáncer de Endometrio",
+                    subtitle: "El cáncer de endometrio es el cáncer más común de los órganos reproductores femeninos. La buena noticia es que a menudo se detecta temprano porque produce una señal de advertencia clara, lo que lo hace altamente tratable.",
+                    
+                    key_symptom_title: "El Signo Más Importante que Debe Conocer",
+                    key_symptom_p1: "<strong>Cualquier sangrado o manchado después de la menopausia no es normal y debe ser evaluado por un médico de inmediato.</strong> Este es el síntoma más común del cáncer de endometrio y actuar rápidamente es la clave para un diagnóstico temprano y un tratamiento exitoso.",
+
+                    risk_factors_title: "¿Qué Aumenta su Riesgo?",
+                    risk_hormonal_title: "Balance Hormonal",
+                    risk_hormonal_desc: "Condiciones que aumentan los niveles de estrógeno sin suficiente progesterona para equilibrarlo, como la obesidad, el SOP y tomar terapia de estrógeno solo después de la menopausia.",
+                    risk_lifestyle_title: "Factores de Estilo de Vida",
+                    risk_lifestyle_desc: "La obesidad es un factor de riesgo importante ya que las células grasas producen estrógeno adicional. Una dieta alta en alimentos grasos también puede contribuir.",
+                    risk_other_title: "Otros Factores",
+                    risk_other_desc: "El riesgo aumenta con la edad. Un historial familiar de cáncer de útero o de colon (como el síndrome de Lynch) también aumenta el riesgo.",
+
+                    diagnosis_title: "¿Cómo se Diagnostica el Cáncer de Endometrio?",
+                    diagnosis_p1: "Si tiene sangrado anormal, su médico realizará una serie de pruebas para encontrar la causa.",
+                    diag_step1: "Examen Pélvico y Ecografía",
+                    diag_step2: "Biopsia de Endometrio",
+                    diag_step3: "D y C e Histeroscopia",
+                    diag_flip_prompt: "(Haga clic para voltear)",
+                    diag_step1_back: "El primer paso es un examen pélvico. Luego se utiliza una ecografía transvaginal para observar el útero y medir el grosor del endometrio (revestimiento).",
+                    diag_step2_back: "Esta es la prueba más común para diagnosticar el cáncer de endometrio. Se inserta un tubo delgado y flexible en el útero para recolectar una pequeña muestra del revestimiento para su análisis.",
+                    diag_step3_back: "Si una biopsia no es clara, se puede realizar un D y C (Dilatación y Curetaje) para obtener una muestra más grande. A menudo se realiza con una histeroscopia, que utiliza una pequeña cámara para mirar dentro del útero.",
+
+                    diagnosis_details_title: "Entendiendo su Diagnóstico",
+                    types_title: "Tipos de Cáncer de Endometrio",
+                    types_p1: "Su biopsia determinará el tipo de cáncer. La mayoría son adenocarcinomas endometrioides, que están relacionados con el exceso de estrógeno y tienden a tener un buen pronóstico. Otros tipos menos comunes pueden ser más agresivos.",
+                    staging_title: "Estadificación del Cáncer",
+                    staging_p1: "La estadificación (del Estadio 0 al Estadio IV) describe qué tan lejos se ha propagado el cáncer. Considera el tamaño del tumor, si los ganglios linfáticos están involucrados y si el cáncer se ha diseminado a órganos distantes del cuerpo. El estadio es el factor más importante para determinar su plan de tratamiento y pronóstico.",
+
+                    treatment_title: "¿Cómo se Trata el Cáncer de Endometrio?",
+                    treatment_p1: "El tratamiento depende del tipo y estadio del cáncer. El tratamiento principal es casi siempre la cirugía.",
+                    treatment_surgery_title: "Cirugía",
+                    treatment_surgery_desc: "Una histerectomía (extirpación del útero y el cuello uterino) es el tratamiento principal. También se suelen extirpar las trompas de Falopio y los ovarios.",
+                    treatment_radiation_title: "Radioterapia",
+                    treatment_radiation_desc: "Usa rayos de alta energía para destruir las células cancerosas. Se puede usar después de la cirugía para reducir el riesgo de que el cáncer regrese.",
+                    treatment_chemo_title: "Quimioterapia",
+                    treatment_chemo_desc: "Usa medicamentos potentes para destruir las células cancerosas. Se utiliza típicamente para cánceres más avanzados que se han diseminado.",
+                    treatment_hormone_title: "Terapia Hormonal",
+                    treatment_hormone_desc: "Usa progestinas u otros medicamentos para tratar el cáncer de endometrio avanzado, atacando las hormonas que lo ayudan a crecer.",
+
+                    survivorship_title: "La Vida Después del Tratamiento",
+                    survivorship_p1: "Después de completar el tratamiento, su cuidado se centrará en monitorear la recurrencia y manejar cualquier efecto secundario a largo plazo.",
+                    follow_up_title: "Atención de Seguimiento",
+                    follow_up_desc: "Tendrá chequeos regulares con su médico, incluyendo exámenes pélvicos. Estas citas son una oportunidad para discutir cualquier síntoma nuevo y manejar su recuperación.",
+                    emotional_title: "Bienestar Emocional",
+                    emotional_desc: "Un diagnóstico de cáncer puede ser un desafío emocional. Conectarse con grupos de apoyo, consejeros u otros sobrevivientes puede ser una parte invaluable de su viaje de recuperación.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como la <a href='https://www.cancer.org/es/cancer/tipos/cancer-de-endometrio.html' target='_blank' class='underline hover:text-amber-800'>Sociedad Americana contra el Cáncer</a> y <a href='https://www.acog.org/womens-health/faqs/endometrial-cancer' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                }
+            };
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderDiagnosisCards();
+            };
+
+            const renderDiagnosisCards = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('diagnosis-container');
+                const steps = [
+                    { id: 'step1', color: 'blue', icon: '👩‍⚕️' },
+                    { id: 'step2', color: 'green', icon: '🔬' },
+                    { id: 'step3', color: 'purple', icon: '⚕️' }
+                ];
+                container.innerHTML = steps.map(step => `
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-${step.color}-50">
+                                <div class="text-4xl mb-2">${step.icon}</div>
+                                <h5 class="font-semibold text-lg text-${step.color}-800">${t[`diag_${step.id}`]}</h5>
+                                <p class="text-xs text-gray-500 mt-2">${t.diag_flip_prompt}</p>
+                            </div>
+                            <div class="flip-card-back bg-${step.color}-100">
+                                <p class="text-sm text-${step.color}-800">${t[`diag_${step.id}_back`]}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.flip-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        card.classList.toggle('is-flipped');
+                    });
+                });
+            };
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

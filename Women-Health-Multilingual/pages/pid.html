@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Pelvic Inflammatory Disease (PID)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-amber-900 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg shadow-md mb-8">
+            <h3 class="text-2xl font-bold text-red-800 mb-2" data-translate="urgent_title"></h3>
+            <p class="text-red-700" data-translate="urgent_p1"></p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="causes_title"></h3>
+                <p class="text-gray-600 mb-4" data-translate="causes_p1"></p>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3"><div class="text-2xl">🦠</div><div><strong data-translate="causes_li1_title"></strong><p class="text-sm" data-translate="causes_li1_desc"></p></div></div>
+                    <div class="flex items-start space-x-3"><div class="text-2xl">🚿</div><div><strong data-translate="causes_li2_title"></strong><p class="text-sm" data-translate="causes_li2_desc"></p></div></div>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="symptoms_title"></h3>
+                <p class="text-gray-600 mb-4" data-translate="symptoms_p1"></p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="symptoms_li1"></li>
+                    <li data-translate="symptoms_li2"></li>
+                    <li data-translate="symptoms_li3"></li>
+                    <li data-translate="symptoms_li4"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-6 text-center text-red-800" data-translate="complications_title"></h3>
+            <div id="complications-container" class="grid md:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-blue-800" data-translate="diagnosis_title"></h3>
+                <p class="text-blue-700 mb-4" data-translate="diagnosis_p1"></p>
+                <ul class="list-disc list-inside text-blue-700 space-y-2 text-sm">
+                    <li data-translate="diagnosis_li1"></li>
+                    <li data-translate="diagnosis_li2"></li>
+                    <li data-translate="diagnosis_li3"></li>
+                </ul>
+            </div>
+            <div class="bg-green-50 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-green-800" data-translate="treatment_title"></h3>
+                <p class="text-green-700 mb-4" data-translate="treatment_p1"></p>
+                <p class="text-green-700 font-semibold" data-translate="treatment_p2"></p>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="prevention_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="prevention_p1"></p>
+            <div class="grid md:grid-cols-2 gap-8">
+                 <div class="bg-purple-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-purple-800" data-translate="prevention_safe_sex_title"></h4>
+                    <ul class="list-disc list-inside text-purple-700 space-y-2 text-sm">
+                        <li data-translate="prevention_li1"></li>
+                        <li data-translate="prevention_li2"></li>
+                    </ul>
+                </div>
+                <div class="bg-orange-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-orange-800" data-translate="prevention_avoid_douching_title"></h4>
+                    <p class="text-sm text-orange-700" data-translate="prevention_avoid_douching_p1"></p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Pelvic Inflammatory Disease (PID)",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Understanding Pelvic Inflammatory Disease (PID)",
+                    subtitle: "PID is a serious infection of the female reproductive organs. The most important thing to know is that prompt treatment is critical to prevent permanent, long-term damage.",
+                    
+                    urgent_title: "An Urgent Health Warning",
+                    urgent_p1: "The danger of PID lies in its potential for silent damage. If left untreated, it can cause irreversible scarring of the fallopian tubes, leading to infertility, ectopic pregnancy, and chronic pain. If you have any symptoms, see a doctor right away.",
+
+                    causes_title: "What Causes PID?",
+                    causes_p1: "PID occurs when bacteria travel from the vagina up into the uterus, fallopian tubes, or ovaries.",
+                    causes_li1_title: "Sexually Transmitted Infections (STIs)",
+                    causes_li1_desc: "The most common cause. Up to 90% of PID cases are caused by untreated chlamydia and gonorrhea.",
+                    causes_li2_title: "Other Bacteria",
+                    causes_li2_desc: "Less commonly, normal vaginal bacteria can be pushed up into the reproductive organs, sometimes after douching.",
+
+                    symptoms_title: "Signs and Symptoms",
+                    symptoms_p1: "Symptoms can be mild and go unnoticed, which is dangerous. When they do occur, they can include:",
+                    symptoms_li1: "Pain in the lower abdomen (most common symptom)",
+                    symptoms_li2: "Fever, unusual vaginal discharge with a bad odor",
+                    symptoms_li3: "Pain or bleeding during sex",
+                    symptoms_li4: "Bleeding between periods",
+
+                    complications_title: "The Dangers of Delay: Long-Term Complications",
+                    comp_infertility_name: "Infertility", comp_infertility_desc: "Scarring can block the fallopian tubes, preventing pregnancy. The risk increases with each infection.",
+                    comp_ectopic_name: "Ectopic Pregnancy", comp_ectopic_desc: "A fertilized egg can get stuck in a damaged tube. This is a life-threatening emergency.",
+                    comp_chronic_pain_name: "Chronic Pelvic Pain", comp_chronic_pain_desc: "Scar tissue and adhesions can cause persistent pain that lasts for months or years.",
+                    
+                    diagnosis_title: "Diagnosis: What to Expect at Your Visit",
+                    diagnosis_p1: "Because of the serious complications, doctors have a low threshold for diagnosing and treating PID. The process typically involves:",
+                    diagnosis_li1: "<strong>Medical & Sexual History:</strong> Your doctor will ask about your symptoms, sexual partners, and contraceptive use.",
+                    diagnosis_li2: "<strong>Pelvic Exam:</strong> The doctor will check for tenderness of your cervix, uterus, and ovaries, which is a key sign of PID.",
+                    diagnosis_li3: "<strong>Lab Tests:</strong> Swabs from your vagina and cervix are taken to test for chlamydia, gonorrhea, and other bacteria. Blood and urine tests may also be done.",
+
+                    treatment_title: "Treatment: Acting Fast is Key",
+                    treatment_p1: "PID is treated with a combination of at least two broad-spectrum antibiotics to cover all likely bacteria. Treatment is often started immediately, even before test results are back.",
+                    treatment_p2: "It is crucial that you take all of your medication as prescribed and that your sexual partners from the last 60 days are also treated to prevent you from getting reinfected.",
+
+                    prevention_title: "Prevention is the Best Medicine",
+                    prevention_p1: "Since PID is most often caused by STIs, prevention focuses on safe sexual practices:",
+                    prevention_safe_sex_title: "Practice Safe Sex",
+                    prevention_li1: "<strong>Use Condoms:</strong> Consistently and correctly using condoms helps prevent the spread of STIs.",
+                    prevention_li2: "<strong>Get Tested:</strong> Regular STI testing for you and your partner is essential, as many STIs have no symptoms.",
+                    prevention_avoid_douching_title: "Avoid Douching",
+                    prevention_avoid_douching_p1: "Douching can upset the natural balance of healthy bacteria in the vagina and may increase the risk of pushing infections upward into the uterus.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.cdc.gov/pid/about/index.html' target='_blank' class='underline hover:text-amber-800'>Centers for Disease Control and Prevention (CDC)</a> and <a href='https://www.acog.org/womens-health/faqs/pelvic-inflammatory-disease' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                },
+                es: {
+                    app_title: "Enfermedad Inflamatoria Pélvica (EIP)",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Entendiendo la Enfermedad Inflamatoria Pélvica (EIP)",
+                    subtitle: "La EIP es una infección grave de los órganos reproductores femeninos. Lo más importante que debe saber es que el tratamiento rápido es fundamental para prevenir daños permanentes a largo plazo.",
+                    
+                    urgent_title: "Una Advertencia de Salud Urgente",
+                    urgent_p1: "El peligro de la EIP radica en su potencial de daño silencioso. Si no se trata, puede causar cicatrices irreversibles en las trompas de Falopio, lo que lleva a la infertilidad, el embarazo ectópico y el dolor crónico. Si tiene algún síntoma, consulte a un médico de inmediato.",
+
+                    causes_title: "¿Qué Causa la EIP?",
+                    causes_p1: "La EIP ocurre cuando las bacterias viajan desde la vagina hasta el útero, las trompas de Falopio o los ovarios.",
+                    causes_li1_title: "Infecciones de Transmisión Sexual (ITS)",
+                    causes_li1_desc: "La causa más común. Hasta el 90% de los casos de EIP son causados por clamidia y gonorrea no tratadas.",
+                    causes_li2_title: "Otras Bacterias",
+                    causes_li2_desc: "Menos comúnmente, las bacterias vaginales normales pueden ser empujadas hacia los órganos reproductores, a veces después de duchas vaginales.",
+
+                    symptoms_title: "Signos y Síntomas",
+                    symptoms_p1: "Los síntomas pueden ser leves y pasar desapercibidos, lo cual es peligroso. Cuando ocurren, pueden incluir:",
+                    symptoms_li1: "Dolor en la parte baja del abdomen (síntoma más común)",
+                    symptoms_li2: "Fiebre, flujo vaginal inusual con mal olor",
+                    symptoms_li3: "Dolor o sangrado durante las relaciones sexuales",
+                    symptoms_li4: "Sangrado entre períodos",
+
+                    complications_title: "Los Peligros de la Demora: Complicaciones a Largo Plazo",
+                    comp_infertility_name: "Infertilidad", comp_infertility_desc: "Las cicatrices pueden bloquear las trompas de Falopio, impidiendo el embarazo. El riesgo aumenta con cada infección.",
+                    comp_ectopic_name: "Embarazo Ectópico", comp_ectopic_desc: "Un óvulo fertilizado puede atascarse en una trompa dañada. Esta es una emergencia potencialmente mortal.",
+                    comp_chronic_pain_name: "Dolor Pélvico Crónico", comp_chronic_pain_desc: "El tejido cicatricial y las adherencias pueden causar un dolor persistente que dura meses o años.",
+                    
+                    diagnosis_title: "Diagnóstico: Qué Esperar en su Visita",
+                    diagnosis_p1: "Debido a las graves complicaciones, los médicos tienen un umbral bajo para diagnosticar y tratar la EIP. El proceso generalmente incluye:",
+                    diagnosis_li1: "<strong>Historial Médico y Sexual:</strong> Su médico le preguntará sobre sus síntomas, parejas sexuales y uso de anticonceptivos.",
+                    diagnosis_li2: "<strong>Examen Pélvico:</strong> El médico verificará si hay sensibilidad en el cuello uterino, el útero y los ovarios, que es un signo clave de EIP.",
+                    diagnosis_li3: "<strong>Pruebas de Laboratorio:</strong> Se toman muestras de su vagina y cuello uterino para detectar clamidia, gonorrea y otras bacterias. También se pueden realizar análisis de sangre y orina.",
+
+                    treatment_title: "Tratamiento: Actuar Rápido es Clave",
+                    treatment_p1: "La EIP se trata con una combinación de al menos dos antibióticos de amplio espectro para cubrir todas las bacterias probables. El tratamiento a menudo se inicia de inmediato, incluso antes de que los resultados de las pruebas estén listos.",
+                    treatment_p2: "Es crucial que tome todos sus medicamentos según lo prescrito y que sus parejas sexuales de los últimos 60 días también sean tratadas para evitar que se reinfecte.",
+
+                    prevention_title: "La Prevención es la Mejor Medicina",
+                    prevention_p1: "Dado que la EIP es causada con mayor frecuencia por ITS, la prevención se centra en prácticas sexuales seguras:",
+                    prevention_safe_sex_title: "Practique Sexo Seguro",
+                    prevention_li1: "<strong>Use Condones:</strong> El uso constante y correcto de condones ayuda a prevenir la propagación de ITS.",
+                    prevention_li2: "<strong>Hágase la Prueba:</strong> Las pruebas regulares de ITS para usted y su pareja son esenciales, ya que muchas ITS no presentan síntomas.",
+                    prevention_avoid_douching_title: "Evite las Duchas Vaginales",
+                    prevention_avoid_douching_p1: "Las duchas vaginales pueden alterar el equilibrio natural de las bacterias saludables en la vagina y pueden aumentar el riesgo de empujar las infecciones hacia el útero.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como los <a href='https://www.cdc.gov/pid/about/index.html' target='_blank' class='underline hover:text-amber-800'>Centros para el Control y la Prevención de Enfermedades (CDC)</a> y <a href='https://www.acog.org/womens-health/faqs/pelvic-inflammatory-disease' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                }
+            };
+
+            const complicationData = [
+                { id: 'infertility', icon: '🚫👶' },
+                { id: 'ectopic', icon: '🚨' },
+                { id: 'chronic_pain', icon: '😖' }
+            ];
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                renderComplications();
+            };
+
+            const renderComplications = () => {
+                const t = translations[currentLanguage];
+                const container = document.getElementById('complications-container');
+                container.innerHTML = complicationData.map(item => `
+                    <div class="bg-red-50 p-4 rounded-lg flex items-start space-x-4 border border-red-200">
+                        <span class="text-3xl">${item.icon}</span>
+                        <div>
+                            <h4 class="font-bold text-lg text-red-800">${t[`comp_${item.id}_name`]}</h4>
+                            <p class="text-sm text-red-700">${t[`comp_${item.id}_desc`]}</p>
+                        </div>
+                    </div>
+                `).join('');
+            };
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

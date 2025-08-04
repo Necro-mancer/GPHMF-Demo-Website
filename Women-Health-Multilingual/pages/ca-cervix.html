@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Cervical Cancer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #D97706; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #FBBF24 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #92400E !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .timeline-segment {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .timeline-segment.active {
+            background-color: #0891B2;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
+                </div>
+                <div class="flex items-center">
+                     <a href="../landing.html" class="text-sm font-medium text-amber-600 hover:text-amber-800" data-translate="back_to_main"></a>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-amber-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-cyan-800 mb-2" data-translate="main_title"></h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="subtitle"></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="prevention_title"></h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-green-800 flex items-center"><span class="text-3xl mr-3">💉</span><span data-translate="prevention_vaccine_title"></span></h4>
+                    <p class="text-green-700" data-translate="prevention_vaccine_p1"></p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="font-bold text-xl mb-3 text-blue-800 flex items-center"><span class="text-3xl mr-3">🔬</span><span data-translate="prevention_screening_title"></span></h4>
+                    <p class="text-blue-700" data-translate="prevention_screening_p1"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="cause_title"></h3>
+                <p class="text-gray-600" data-translate="cause_p1"></p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="risk_factors_title"></h3>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3"><div class="text-2xl">🚬</div><div><strong data-translate="risk_smoking_title"></strong><p class="text-sm" data-translate="risk_smoking_desc"></p></div></div>
+                    <div class="flex items-start space-x-3"><div class="text-2xl">🛡️</div><div><strong data-translate="risk_immune_title"></strong><p class="text-sm" data-translate="risk_immune_desc"></p></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="timeline_title"></h3>
+            <div class="flex flex-col md:flex-row justify-center items-center border-b-4 border-gray-200 mb-4">
+                <div class="timeline-segment flex-1 text-center p-4" data-age="21-29"><strong data-translate="timeline_age1"></strong></div>
+                <div class="timeline-segment flex-1 text-center p-4" data-age="30-65"><strong data-translate="timeline_age2"></strong></div>
+                <div class="timeline-segment flex-1 text-center p-4" data-age="65+"><strong data-translate="timeline_age3"></strong></div>
+            </div>
+            <div id="timeline-details" class="p-4 bg-gray-50 rounded-lg min-h-[100px]"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="symptoms_title"></h3>
+                <p class="text-gray-600 mb-4" data-translate="symptoms_p1"></p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="symptoms_li1"></li>
+                    <li data-translate="symptoms_li2"></li>
+                    <li data-translate="symptoms_li3"></li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="diagnosis_title"></h3>
+                <p class="text-gray-600 mb-4" data-translate="diagnosis_p1"></p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                    <li data-translate="diagnosis_li1"></li>
+                    <li data-translate="diagnosis_li2"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="treatment_title"></h3>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto" data-translate="treatment_p1"></p>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-purple-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-purple-800" data-translate="treatment_surgery_title"></h4><p class="text-sm text-purple-700" data-translate="treatment_surgery_desc"></p></div>
+                <div class="bg-rose-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-rose-800" data-translate="treatment_radiation_title"></h4><p class="text-sm text-rose-700" data-translate="treatment_radiation_desc"></p></div>
+                <div class="bg-orange-50 p-6 rounded-lg"><h4 class="font-bold text-xl mb-3 text-orange-800" data-translate="treatment_chemo_title"></h4><p class="text-sm text-orange-700" data-translate="treatment_chemo_desc"></p></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 py-8 bg-amber-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-amber-700">
+            <p class="font-bold mb-2" data-translate="footer_disclaimer_title"></p>
+            <p data-translate="footer_disclaimer_p1"></p>
+            <p class="mt-2" data-translate="footer_disclaimer_p2"></p>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLanguage = 'en';
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+
+            const translations = {
+                en: {
+                    app_title: "Cervical Cancer",
+                    back_to_main: "← Back to Main Guide",
+                    back_button: "Back",
+                    main_title: "Cervical Cancer: A Preventable Disease",
+                    subtitle: "Cervical cancer is one of the most preventable types of cancer, thanks to highly effective vaccination and screening tools. Understanding these tools is the key to protecting your health.",
+                    
+                    prevention_title: "The Two Keys to Prevention",
+                    prevention_vaccine_title: "HPV Vaccination",
+                    prevention_vaccine_p1: "The HPV vaccine prevents infection from the high-risk HPV types that cause most cervical cancers. It is most effective when given before sexual activity begins, ideally at ages 11-12.",
+                    prevention_screening_title: "Regular Screening",
+                    prevention_screening_p1: "Screening tests (Pap and/or HPV tests) are used to find precancerous cell changes on the cervix so they can be removed long before they ever have the chance to become cancer.",
+
+                    cause_title: "What Causes Cervical Cancer?",
+                    cause_p1: "Nearly all cervical cancers are caused by a persistent infection with high-risk types of the Human Papillomavirus (HPV). HPV is a very common virus, and most infections clear on their own. However, when a high-risk infection lasts for many years, it can cause cell changes that may progress to cancer if not found and treated.",
+                    
+                    risk_factors_title: "Who is Most at Risk?",
+                    risk_smoking_title: "Smoking",
+                    risk_smoking_desc: "Tobacco by-products damage the DNA of cervix cells and may make the immune system less effective in fighting HPV infections.",
+                    risk_immune_title: "Weakened Immune System",
+                    risk_immune_desc: "Women with weakened immune systems (e.g., from HIV or immunosuppressant drugs) are less able to fight off persistent HPV infections.",
+
+                    timeline_title: "Your Screening Timeline",
+                    timeline_age1: "Ages 21-29",
+                    timeline_age2: "Ages 30-65",
+                    timeline_age3: "Ages 65+",
+                    timeline_details_21_29: "<strong>Recommendation:</strong> Pap test every 3 years. The HPV test is not typically recommended for this age group.",
+                    timeline_details_30_65: "<strong>Recommendation:</strong> You have three choices. Your doctor can help you decide which is best for you. <ul class='list-disc list-inside mt-2'><li>Pap test and HPV test together (co-testing) every 5 years.</li><li>HPV test alone every 5 years.</li><li>Pap test alone every 3 years.</li></ul>",
+                    timeline_details_65_plus: "<strong>Recommendation:</strong> You can stop screening if you have had adequate prior screening with normal results and are not otherwise at high risk for cervical cancer. Discuss with your doctor.",
+
+                    symptoms_title: "Signs and Symptoms",
+                    symptoms_p1: "Early cervical cancer and precancerous changes often have no symptoms, which is why screening is so important. When symptoms do occur, they can include:",
+                    symptoms_li1: "Abnormal vaginal bleeding (after sex, between periods, or after menopause)",
+                    symptoms_li2: "Unusual vaginal discharge",
+                    symptoms_li3: "Pelvic pain or pain during sex",
+
+                    diagnosis_title: "After an Abnormal Test",
+                    diagnosis_p1: "An abnormal screening result is very common and usually does not mean you have cancer. It means further evaluation is needed:",
+                    diagnosis_li1: "<strong>Colposcopy:</strong> Your doctor uses a special magnifying scope to look closely at your cervix.",
+                    diagnosis_li2: "<strong>Biopsy:</strong> A small sample of cervical tissue is taken during the colposcopy to be examined under a microscope. This confirms if precancerous or cancerous cells are present.",
+
+                    treatment_title: "Treatment for Invasive Cervical Cancer",
+                    treatment_p1: "If cancer is diagnosed, treatment depends on the stage of the cancer and other health factors. The main treatments are:",
+                    treatment_surgery_title: "Surgery",
+                    treatment_surgery_desc: "For early-stage cancers, surgery to remove the cancerous tissue is common. This may involve a cone biopsy, or a hysterectomy (removal of the uterus and cervix).",
+                    treatment_radiation_title: "Radiation Therapy",
+                    treatment_radiation_desc: "Uses high-energy rays to kill cancer cells. It can be used as a primary treatment, often combined with chemotherapy, or after surgery to eliminate any remaining cancer cells.",
+                    treatment_chemo_title: "Chemotherapy",
+                    treatment_chemo_desc: "Uses powerful drugs to kill cancer cells throughout the body. It is often given in combination with radiation for more advanced cervical cancers.",
+
+                    footer_disclaimer_title: "Disclaimer",
+                    footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    footer_disclaimer_p2: "Source Material: Content is adapted from reputable sources including the <a href='https://www.cancer.gov/types/cervical' target='_blank' class='underline hover:text-amber-800'>National Cancer Institute (NCI)</a> and <a href='https://www.acog.org/womens-health/faqs/cervical-cancer-screening' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                },
+                es: {
+                    app_title: "Cáncer de Cuello Uterino",
+                    back_to_main: "← Volver a la Guía Principal",
+                    back_button: "Volver",
+                    main_title: "Cáncer de Cuello Uterino: Una Enfermedad Prevenible",
+                    subtitle: "El cáncer de cuello uterino es uno de los tipos de cáncer más prevenibles, gracias a herramientas de vacunación y detección muy eficaces. Comprender estas herramientas es la clave para proteger su salud.",
+                    
+                    prevention_title: "Las Dos Claves de la Prevención",
+                    prevention_vaccine_title: "Vacunación contra el VPH",
+                    prevention_vaccine_p1: "La vacuna contra el VPH previene la infección por los tipos de VPH de alto riesgo que causan la mayoría de los cánceres de cuello uterino. Es más eficaz cuando se administra antes del inicio de la actividad sexual, idealmente a los 11-12 años.",
+                    prevention_screening_title: "Detección Regular",
+                    prevention_screening_p1: "Las pruebas de detección (Papanicolaou y/o VPH) se utilizan para encontrar cambios celulares precancerosos en el cuello uterino para que puedan ser eliminados mucho antes de que tengan la oportunidad de convertirse en cáncer.",
+
+                    cause_title: "¿Qué Causa el Cáncer de Cuello Uterino?",
+                    cause_p1: "Casi todos los cánceres de cuello uterino son causados por una infección persistente con tipos de alto riesgo del Virus del Papiloma Humano (VPH). El VPH es un virus muy común y la mayoría de las infecciones desaparecen por sí solas. Sin embargo, cuando una infección de alto riesgo dura muchos años, puede causar cambios celulares que pueden progresar a cáncer si no se encuentran y tratan.",
+                    
+                    risk_factors_title: "¿Quién tiene Mayor Riesgo?",
+                    risk_smoking_title: "Fumar",
+                    risk_smoking_desc: "Los subproductos del tabaco dañan el ADN de las células del cuello uterino y pueden hacer que el sistema inmunitario sea menos eficaz para combatir las infecciones por VPH.",
+                    risk_immune_title: "Sistema Inmunitario Debilitado",
+                    risk_immune_desc: "Las mujeres con sistemas inmunitarios debilitados (p. ej., por VIH o medicamentos inmunosupresores) tienen menos capacidad para combatir las infecciones persistentes por VPH.",
+
+                    timeline_title: "Su Cronograma de Detección",
+                    timeline_age1: "21-29 Años",
+                    timeline_age2: "30-65 Años",
+                    timeline_age3: "Más de 65 Años",
+                    timeline_details_21_29: "<strong>Recomendación:</strong> Prueba de Papanicolaou cada 3 años. La prueba de VPH no se recomienda típicamente para este grupo de edad.",
+                    timeline_details_30_65: "<strong>Recomendación:</strong> Tiene tres opciones. Su médico puede ayudarla a decidir cuál es la mejor para usted. <ul class='list-disc list-inside mt-2'><li>Prueba de Papanicolaou y prueba de VPH juntas (co-testing) cada 5 años.</li><li>Prueba de VPH sola cada 5 años.</li><li>Prueba de Papanicolaou sola cada 3 años.</li></ul>",
+                    timeline_details_65_plus: "<strong>Recomendación:</strong> Puede dejar de hacerse pruebas de detección si ha tenido un cribado previo adecuado con resultados normales y no tiene un alto riesgo de cáncer de cuello uterino. Hable con su médico.",
+
+                    symptoms_title: "Signos y Síntomas",
+                    symptoms_p1: "El cáncer de cuello uterino en etapa temprana y los cambios precancerosos a menudo no presentan síntomas, por lo que la detección es tan importante. Cuando los síntomas aparecen, pueden incluir:",
+                    symptoms_li1: "Sangrado vaginal anormal (después de las relaciones sexuales, entre períodos o después de la menopausia)",
+                    symptoms_li2: "Flujo vaginal inusual",
+                    symptoms_li3: "Dolor pélvico o dolor durante las relaciones sexuales",
+
+                    diagnosis_title: "Después de una Prueba Anormal",
+                    diagnosis_p1: "Un resultado de detección anormal es muy común y generalmente no significa que tenga cáncer. Significa que se necesita una evaluación adicional:",
+                    diagnosis_li1: "<strong>Colposcopia:</strong> Su médico utiliza un microscopio especial para observar de cerca su cuello uterino.",
+                    diagnosis_li2: "<strong>Biopsia:</strong> Se toma una pequeña muestra de tejido cervical durante la colposcopia para ser examinada bajo un microscopio. Esto confirma si hay células precancerosas o cancerosas presentes.",
+
+                    treatment_title: "Tratamiento para el Cáncer de Cuello Uterino Invasivo",
+                    treatment_p1: "Si se diagnostica cáncer, el tratamiento depende del estadio del cáncer y otros factores de salud. Los principales tratamientos son:",
+                    treatment_surgery_title: "Cirugía",
+                    treatment_surgery_desc: "Para los cánceres en etapa temprana, la cirugía para extirpar el tejido canceroso es común. Esto puede implicar una biopsia de cono o una histerectomía (extirpación del útero y el cuello uterino).",
+                    treatment_radiation_title: "Radioterapia",
+                    treatment_radiation_desc: "Utiliza rayos de alta energía para destruir las células cancerosas. Se puede usar como tratamiento principal, a menudo combinado con quimioterapia, o después de la cirugía para eliminar cualquier célula cancerosa restante.",
+                    treatment_chemo_title: "Quimioterapia",
+                    treatment_chemo_desc: "Utiliza medicamentos potentes para destruir las células cancerosas en todo el cuerpo. A menudo se administra en combinación con radiación para los cánceres de cuello uterino más avanzados.",
+
+                    footer_disclaimer_title: "Descargo de Responsabilidad",
+                    footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes acreditadas como el <a href='https://www.cancer.gov/espanol/tipos/cuello-uterino' target='_blank' class='underline hover:text-amber-800'>Instituto Nacional del Cáncer (NCI)</a> y <a href='https://www.acog.org/womens-health/faqs/cervical-cancer-screening' target='_blank' class='underline hover:text-amber-800'>ACOG</a>."
+                }
+            };
+
+            const changeLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            };
+
+            const renderContent = () => {
+                const t = translations[currentLanguage];
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+                updateTimelineDetails('21-29');
+            };
+
+            const timelineSegments = document.querySelectorAll('.timeline-segment');
+            const timelineDetails = document.getElementById('timeline-details');
+
+            const updateTimelineDetails = (ageGroup) => {
+                const t = translations[currentLanguage];
+                timelineSegments.forEach(seg => {
+                    seg.classList.toggle('active', seg.dataset.age === ageGroup);
+                });
+                timelineDetails.innerHTML = t[`timeline_details_${ageGroup.replace('-', '_').replace('+', '_plus')}`];
+            };
+
+            timelineSegments.forEach(segment => {
+                segment.addEventListener('click', () => updateTimelineDetails(segment.dataset.age));
+            });
+            
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+            
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const currentGoogleLang = document.querySelector('.goog-te-gadget-simple .goog-te-menu-value span').innerText.toLowerCase();
+                if (currentGoogleLang !== 'english') {
+                    const langSelect = document.querySelector('.goog-te-gadget-simple');
+                    langSelect.value = 'en';
+                    langSelect.dispatchEvent(new Event('change'));
+                }
+                changeLanguage(currentLanguage);
+            });
+
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>
